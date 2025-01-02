@@ -1,0 +1,113 @@
+<style>
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin-top: 30px !important;
+        padding: clamp(17px, 5%, 40px) clamp(17px, 7%, 50px) !important;
+        max-width: none !important;
+        border-radius: 6px !important;
+        background-color: transparent !important; /* Set background to transparent */
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview,
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview * {
+        box-sizing: border-box !important;
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview .preview-heading {
+        width: 100% !important;
+    }
+
+    /* Adjust the font size to match the box height */
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview .preview-heading h5 {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        font-size: clamp(14px, 3vw, 24px) !important; /* Dynamically adjust font size */
+        line-height: 1.2em !important; /* Adjust line height */
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview .preview-input-field {
+        margin-top: 20px !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important; /* Center input field */
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview .preview-input-field input {
+        width: 50% !important; /* Set a smaller width for the input field */
+        height: 40px !important;
+        border-radius: 6px !important;
+        border: 2px solid #e9e8e8 !important;
+        background-color: #ffffff !important;
+        text-align: center !important;
+        outline: none !important;
+        color: #000000 !important; /* Set input text color to black */
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview .preview-input-field input::placeholder {
+        color: #888888 !important; /* Placeholder text color */
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview .preview-submit-button {
+        margin-top: 10px !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important; /* Center button */
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .form-preview .preview-submit-button button {
+        width: 50% !important; /* Set a smaller width for the button */
+        height: 40px !important;
+        border: 0 !important;
+        border-radius: 6px !important;
+        background-color: #4CAF50 !important; /* Change the button color */
+        color: white !important; /* Change the button text color */
+        font-family: Arial, sans-serif !important;
+        font-size: 16px !important;
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .powered-by-line {
+        color: #231f20 !important;
+        font-family: "Montserrat" !important;
+        font-size: 13px !important;
+        font-weight: 400 !important;
+        line-height: 25px !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        display: flex !important;
+        width: 100% !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-top: 10px !important;
+    }
+
+    .followit--follow-form-container[attr-a][attr-b][attr-c][attr-d][attr-e][attr-f] .powered-by-line img {
+        margin-left: 10px !important;
+        height: 1.13em !important;
+        max-height: 1.13em !important;
+    }
+</style>
+
+<div class="followit--follow-form-container" attr-a attr-b attr-c attr-d attr-e attr-f>
+    <!-- Replace the action attribute with the correct Follow.it form URL -->
+    <form data-v-62cf1fb8="" action="https://api.follow.it/subscription-form/ZHMrQlZsWVovbG8vTFE5VlZqa3M3UnpobnRqeUs3YldjcW9RYVN6d2JxeDhlaFpJbWJ2NTNGNlFqMmd0RGJJaGczSExqTTFHTjJBcjVrVG1ia0VTeE5vV1B5b1R2blc3L3ZXTS9teHcvQVI2NG9CUlpGWnF0cklBN2E3eW9QWmp8MEh5eFlHVkRTbHlaUFE3SUx4RWVjNU00QkRCTmRINlhIWlR4eXFBZlp4bz0=/8" method="post">
+        <div data-v-62cf1fb8="" class="form-preview">
+            <div data-v-62cf1fb8="" class="preview-heading">
+                <h5 data-v-62cf1fb8="">
+                    Get notified when a new blog arrives!
+                </h5>
+            </div>
+            <div data-v-62cf1fb8="" class="preview-input-field">
+                <input data-v-62cf1fb8="" type="email" name="email" required="" placeholder="Enter your email" spellcheck="false">
+            </div>
+            <div data-v-62cf1fb8="" class="preview-submit-button">
+                <button data-v-62cf1fb8="" type="submit">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

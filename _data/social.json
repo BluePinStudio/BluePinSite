@@ -1,42 +1,47 @@
 [
   {
-    "title": "Twitter",
-    "fa_icon": "fab fa-twitter",
-    "url": "https://www.zerostatic.io"
-  },
-  {
-    "title": "Github",
-    "fa_icon": "fab fa-github",
-    "url": "https://www.zerostatic.io"
+    "title": "Steam",
+    "fa_icon": "fab fa-steam",
+    "url": "https://store.steampowered.com/developer/BluePinStudio/"
   },
   {
     "title": "Discord",
     "fa_icon": "fab fa-discord",
-    "url": "https://www.zerostatic.io"
+    "url": "https://discord.gg/GtcKH3V6GZ"
   },
   {
-    "title": "Tiktok",
-    "fa_icon": "fab fa-tiktok",
-    "url": "https://www.zerostatic.io"
+    "title": "Etsy",
+    "fa_icon": "fab fa-etsy",
+    "url": "https://bluepinstudio.etsy.com/"
   },
   {
-    "title": "Facebook",
-    "fa_icon": "fab fa-facebook-square",
-    "url": "https://www.zerostatic.io"
+    "title": "YouTube",
+    "fa_icon": "fab fa-youtube",
+    "url": "https://www.youtube.com/channel/UC30OItehENMbrOSIFo1UfMQ/"
+  },
+  {
+    "title": "Blue Sky",
+    "fa_icon": "fab fa-bluesky",
+    "url": "https://bsky.app/profile/bluepinstudio.com/"
+  },
+  {
+    "title": "Itch.io",
+    "fa_icon": "fab fa-itch-io",
+    "url": "https://bluepinstudio.itch.io/"
   },
   {
     "title": "Instagram",
-    "fa_icon": "fab fa-instagram-square",
-    "url": "https://www.zerostatic.io"
+    "fa_icon": "fab fa-instagram",
+    "url": "https://www.instagram.com/bluepin.studio/"
   },
   {
-    "title": "Linkedin",
-    "fa_icon": "fab fa-linkedin",
-    "url": "https://www.zerostatic.io"
+    "title": "TikTok",
+    "fa_icon": "fab fa-tiktok",
+    "url": "https://www.tiktok.com/@bluepinstudio/"
   },
   {
-    "title": "RSS",
-    "fa_icon": "fas fa-feed",
-    "url": "https://jekyll-origin.netlify.app/feed.xml"
+    "title": "Twitter",
+    "fa_icon": "fab fa-twitter",
+    "url": "https://twitter.com/BluePinStudio1/"
   }
 ]

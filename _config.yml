@@ -59,7 +59,7 @@ exclude:
 # -------------------
 # Theme Config
 # --------------------
-title: "Jekyll Origin"
+title: "Blue Pin Studio"
 category_dir: 'category'
 
 colors:
@@ -99,7 +99,7 @@ fonts:
   logo: "Schibsted Grotesk"
 
 logo:
-  logo_text: "Jekyll Origin"
+  logo_text: "Blue Pin Studio"
   logo_image: assets/images/logo/logo.svg
   logo_image_mobile: assets/images/logo/logo-mobile.svg
   logo_image_invert: assets/images/logo/logo-invert.svg
@@ -110,7 +110,7 @@ logo:
   logo_image_mobile_width: "28px"
   show_logo_image_on_mobile: true
   show_logo_image_on_desktop: true
-  show_logo_text_on_mobile: false
+  show_logo_text_on_mobile: true
   show_logo_text_on_desktop: true
 
 header: 
@@ -124,13 +124,13 @@ open_graph:
 
 darkmode:
   enable_dark_mode: true
-  show_dark_mode_toggle_in_header: false 
+  show_dark_mode_toggle_in_header: true 
   show_dark_mode_toggle_in_bottom: true # displays the dark mode toggle switch in the footer and allows the user to manually change the mode
   show_dark_mode_toggle_in_mobile_menu: false # displays the dark mode toggle switch in the footer and allows the user to manually change the mode
 
 cookie_banner:
-  enabled: true
-  show_manage_cookies_at_bottom: true
+  enabled: false
+  show_manage_cookies_at_bottom: false
 
 analytics:
   google_analytics_id: "G-SL5FWY00S6" # G-XXXXXXXXXX
@@ -141,20 +141,9 @@ analytics:
 
 comments:
   commento:
-    enabled: true # you must have a commento account and be on the correct domain. does not work locally.
+    enabled: false # you must have a commento account and be on the correct domain. does not work locally.
   disqus:
     shortname: "" # Your disqus shortcode for example "zerostatic". leave this blank ie "" to disable.
-
-newsletter:
-  mailchimp:
-    form_action_url: "https://zerostatic.us21.list-manage.com/subscribe/post?u=798e19886b83aaab346734382&amp;id=f1c526a772&amp;f_id=0027e3e6f0"
-    form_title: "Stay Up Signup"
-
-contact_form: 
-  use_netlify_form: true
-  use_formspree_form: false
-  formspree_endpoint: https://formspree.io/f/moqyklqv
-  netlify_form_name: "contact"
 
 menu: 
   show_dropdown_items_in_mobile_menu: false
@@ -175,5 +164,5 @@ footer:
 bottom:
   enable_bottom: true # show/hide the entire bottom (below the footer)
   enable_bottom_menu: true # if enabled, the bottom menu can be edited in `_data/menu.yml`
-  copyright_text: "© 2023 Zerostatic Themes"
+  copyright_text: "© 2025 Blue Pin Studio"
   show_rss_icon: true
