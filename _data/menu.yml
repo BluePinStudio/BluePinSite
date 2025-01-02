@@ -6,26 +6,26 @@ main:
     url: /games/
     weight: 2
     child:
-      - name: "Explory Story (2025)"
+      - name: "Explory Story"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1514469-000000.svg"
         icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1514469-FFFFFF.svg"
-        description: "Default layout"
-        url: /game-1/
-      - name: "Charles the Bee (2024)"
+        description: "2025"
+        url: /explory-story/
+      - name: "Charles the Bee"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1521481-000000.svg"
         icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1521481-FFFFFF.svg"
-        description: "Row layout"
-        url: /game-1/
-      - name: "Pixel Fixel (2024)"
+        description: "2024"
+        url: /explory-story/
+      - name: "Pixel Fixel"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1568316-000000.svg"
         icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1568316-FFFFFF.svg"
-        description: "Large card layout"
-        url: /game-1/
-      - name: "Eggnog Incorporated (2025)"
+        description: "2024"
+        url: /explory-story/
+      - name: "Eggnog Incorporated"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1540282-000000.svg"
         icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1540282-FFFFFF.svg"
-        description: "Default layout"
-        url: /game-1/
+        description: "2020"
+        url: /explory-story/
   - name: Game Jams
     url: /game-jams/
     weight: 3  
