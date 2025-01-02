@@ -1,0 +1,67 @@
+main:
+  - name: Home
+    url: /
+    weight: 1
+  - name: Blog
+    url: /blog/
+    weight: 2
+    child:
+      - name: "Blog Layout 1"
+        icon: "/assets/images/icons/menu/black/noun-wireframe-1514469-000000.svg"
+        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1514469-FFFFFF.svg"
+        description: "Default layout"
+        url: /blog/
+      - name: "Blog Layout 2"
+        icon: "/assets/images/icons/menu/black/noun-wireframe-1521481-000000.svg"
+        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1521481-FFFFFF.svg"
+        description: "Row layout"
+        url: /blog-2/
+      - name: "Blog Layout 3"
+        icon: "/assets/images/icons/menu/black/noun-wireframe-1568316-000000.svg"
+        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1568316-FFFFFF.svg"
+        description: "Large card layout"
+        url: /blog-3/
+      - name: "Post Layout 1"
+        icon: "/assets/images/icons/menu/black/noun-wireframe-1540282-000000.svg"
+        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1540282-FFFFFF.svg"
+        description: "Default layout"
+        url: /blog/2022-02-13-improving-page-speed/
+      - name: "Post Layout 2"
+        icon: "/assets/images/icons/menu/black/noun-wireframe-1501408-000000.svg"
+        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1540282-FFFFFF.svg"
+        description: "Hero image layout"
+        url: /blog/2021-07-26-design-systems-that-scale/
+      - name: "Post Layout 3"
+        icon: "/assets/images/icons/menu/black/noun-browser-custom-1-000000.svg"
+        icon_darkmode: "/assets/images/icons/menu/white/noun-browser-custom-1-FFFFFF.svg"
+        description: "Small image layout"
+        url: /blog/2021-07-26-design-systems-that-scale/
+  - name: About
+    url: /about/
+    weight: 3
+  - name: Contact
+    url: /contact/
+    weight: 4
+  - name: Buy Theme
+    url: http://localhost:1313/theme/jekyll-origin/
+    weight: 5
+footer_primary:
+  - name: Blog
+    url: /posts/
+    weight: 1
+  - name: About
+    url: /about/
+    weight: 2
+  - name: Contact
+    url: /contact/
+    weight: 3
+  - name: Buy Now
+    url: http://localhost:1313/theme/jekyll-origin/
+    weight: 4
+bottom:
+  - name: Terms and Conditions
+    url: /terms-and-conditions/
+    weight: 1
+  - name: Privacy Policy
+    url: /privacy-policy/
+    weight: 2
