@@ -35,13 +35,18 @@
     "url": "https://www.instagram.com/bluepin.studio/"
   },
   {
-    "title": "TikTok",
-    "fa_icon": "fab fa-tiktok",
-    "url": "https://www.tiktok.com/@bluepinstudio/"
-  },
-  {
     "title": "Twitter",
     "fa_icon": "fab fa-twitter",
     "url": "https://twitter.com/BluePinStudio1/"
+  },
+  {
+    "title": "Google Play",
+    "fa_icon": "fab fa-google-play",
+    "url": "https://play.google.com/store/apps/developer?id=Blue+Pin+Studio"
+  },
+  {
+    "title": "Apple",
+    "fa_icon": "fab fa-apple",
+    "url": "https://apps.apple.com/ca/developer/viktor-zimine/id1754533599"
   }
 ]
