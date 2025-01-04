@@ -1,0 +1,41 @@
+---
+layout: basic
+title: "Eggnog Incorporated"
+date: 2018-11-28T15:15:34+10:00
+permalink: "/eggnog-inc/"
+description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
+image: /assets/images/games/eggnog1.jpg
+---
+## <ins>The Gist</ins>
+
+- **Release Date:** December 28 2020
+- **Retail Price:** $4.99 USD
+- **Platforms:** Desktop Windows , Desktop Linux
+
+Eggnog Incorporated was our first steam game. It was made using the Construct 3 game engine over the course of a few months. Development started in October 2020 and wrapped up in January 2021.
+In this game, you play as an eggnog inspector. You are tasked with finding inconsistencies and errors with the packaging, ingredients, color, and many other elements. All the while, a whacky, and perhaps, unethical CEO gives you increasingly suspicious requests after work hours. Your actions affect your work environment, and can even cause you to find a different job or doom the world.
+There are many endings and many different office layouts to explore.
+
+## <ins>The Team</ins>
+
+| **Name**         | **Role**                            | **Links**                                     |
+|------------------|-------------------------------------|-----------------------------------------------|
+| Viktor           | Programming & Game Design          | -                                              |
+| Will             | Writing & Environment Art          | -                                              |
+| Initial Position | Music                              | [Website](https://initialposition.net/)        |
+| Levar Allen      | Eggnog Credits Rap                 | [YouTube](https://www.youtube.com/levarallen)  |
+{: .table .table-bordered }
+
+## <ins>Links</ins>
+
+<div class="row justify-content-start">
+  {% for link in site.data.eggnog_links %}
+    <div class="col-auto">
+      <a href="{{ link.url }}" target="_blank" class="btn btn-light" title="{{ link.title }}">
+        <i class="{{ link.fa_icon }} fa-2x" aria-hidden="true"></i>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+![Eggnog Incorporated Screenshot](/assets/images/games/eggnog2.jpg)

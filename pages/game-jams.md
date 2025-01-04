@@ -1,46 +1,34 @@
 ---
 layout: basic
-title: "About Us"
+title: "Game Jam Submissions"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/game-jams/"
-description: "Business plan hackathon handshake responsive web design."
-image: "/assets/images/gen/content/content-5.webp"
+description: "Each game jam has a different theme that helps inspire and inform game design. In addition to meeting lots of fantastic developers and artists, we get to experiment with new concepts and genres which is instrumental for creating unique games."
+image: /assets/images/games/jams.jpg
 ---
 
-# Creating Modern Websites
+Outside of our main projects, we also enjoy participating in game jams. Specifically, the [Ludum Dare](https://en.wikipedia.org/wiki/Ludum_Dare) game jam where indie developers from all around the world spend a weekend making a new game from scratch. Each game jam has a different theme that helps inspire and inform game design. In addition to meeting lots of fantastic developers and artists, we get to experiment with new concepts and genres which is instrumental for creating unique games.
 
-Web design encompasses many different skills and disciplines in the production and maintenance of websites.
+We have a Google Sheet that contains an exhaustive (and opinionated) list of game genres that we will eventually complete one day. If that sounds interesting, you can check it out here : [List of Games Sheet](https://docs.google.com/spreadsheets/d/1kBWtAepI7p08q5Mmt4tAY3hPu_s1zj33nycVjqrwA_w/edit?) 
 
-Often many individuals will work in teams covering different aspects of the design process, although some designers will cover them all. Web design partially overlaps web engineering in the broader scope of web development.
+### List of Submissions
 
-## What is Web Design?
-
-User experience is about how a user interacts with, and experiences, a particular product, system or service. As a UX designer, you should consider the Why, What and How of product use.
-
-{% include framework/shortcodes/figure.html src="/assets/images/gen/content/content-1.webp" title="Steve Francia" caption="Designing in Figma" alt="Photo of designing a website in Figma" link="https://figma.com" target="_blank" %}
-
-## Front-end Development
-
-The What addresses the things people can do with a product—its functionality. Finally, the How relates to the design of functionality in an accessible and aesthetically pleasant way. UX designers start with the Why before determining the What and then, finally, the How in order to create products that users can form meaningful experiences with. In software designs, you will need to ensure the product’s “substance” comes through an existing device and offers a seamless, fluid experience.
-
-> As a UX designer, you should consider the Why, What and How of product use.
-
-Web designers are expected to have an awareness of usability and if their role involves creating markup then they are also expected to be up to date with web accessibility guidelines.
-
-## Design Systems
-
-A Design System is a set of interconnected patterns and shared practices coherently organized to aid in digital product design and development of products such as apps or websites.
-
-{% include framework/shortcodes/youtube.html id='2M6dJ2Uynhg' %}
-
-## Process
-
-There are two primary jobs involved in creating a website: the web designer and web developer, who often work closely together on a website. The web designers are responsible for the visual aspect, which includes the layout, coloring and typography of a web page.
-
-- User experience research
-- Visual design and illustration
-- Programming and coding
-
-![Design In Figma](/assets/images/gen/content/content-2.webp)
-
-Web designers will also have a working knowledge of markup languages such as HTML and CSS, although the extent of their knowledge will differ from one web designer to another.
+| **Date**    | **Jam**|   **Placement**   | **Title**    | **Genre**    |
+|MAR 2020| Below the Stone Jam      |Top 33%|[Toaster Treasure](https://bluepinstudio.itch.io/toaster-treasure)                |Metroidvania          |
+|APR 2020| Ludum Dare 46            |Top 35%|[Keep Dano Alive](https://bluepinstudio.itch.io/keep-dano-alive)                  |Farming Simulator     |
+|OCT 2020| Ludum Dare 47            |Top 28%|[Imperial Eggnog Inc](https://bluepinstudio.itch.io/imperial-eggnog-incorporated) |Desk Simulator        |
+|APR 2021| Ludum Dare 48            |Top 2% |[Explory Story](https://bluepinstudio.itch.io/explory-story-jam)                  |Walking Simulator     |
+|OCT 2021| Ludum Dare 49            |Top 13%|[U49 Meltdown](https://bluepinstudio.itch.io/u-49-meltdown/)                      |Platformer            |
+|APR 2022| Ludum Dare 50            |Top 27%|[Quadratorum](https://bluepinstudio.itch.io/quadratorum/)                         |Top-Down Shooter      |
+|AUG 2022| Wanna x Yam Game Jam     |Top 28%|[Blend Defend](https://bluepinstudio.itch.io/blend-defend/)                       |Tower Defense         |
+|OCT 2022| Ludum Dare 51            |Top 17%|[Panopticon](https://bluepinstudio.itch.io/panopticon/)                           |Top-Down Shooter      |
+|JAN 2023| Ludum Dare 52            |Top 14%|[Charles the Bee](https://bluepinstudio.itch.io/charles/)                        |Rhythm                |
+|MAY 2023| Ludum Dare 53            |Top 13%|[Devilivery](https://bluepinstudio.itch.io/devilivery/)                           |Sidescroller / Shooter|
+|OCT 2023| Ludum Dare 54            |Top 25%|[RAMpage](https://bluepinstudio.itch.io/rampage/)                                 |Auto Battler          |
+|DEC 2023| Secret Santa Jam         |N/A    |[Seth's Mysterious Portal](https://bluepinstudio.itch.io/seth-mystery-portal/)    |Quiz                  |
+|APR 2024| Ludum Dare 55            |Top 3% |[Sinful Scoops](https://bluepinstudio.itch.io/sinful-scoops/)                     |Puzzle                |
+|AUG 2024| Do you WANNA Jam?!       |Top 13%|[Insock Out](https://bluepinstudio.itch.io/insock-out/)                           |Action                |
+|OCT 2024| Ludum Dare 56            |Top 29%|[Save Nebuville](https://bluepinstudio.itch.io/save-nebuville/)                   |Arcade Shooter        |
+|DEC 2024| Yogscast Jingle Jam 2024 |Winner!|[Trash Force](https://bluepinstudio.itch.io/trashforce)                           |Arcade Shooter        |
+|DEC 2024| Secret Santa Jam         |N/A    |TBD                                                                               |TBD                   |
+{: .table .table-bordered }

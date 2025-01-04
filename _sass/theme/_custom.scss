@@ -133,10 +133,10 @@
           }
           .dropdown-item-icon {
             display: block;
-            margin-right: 8px;
+            margin-right: 16px;
             img {
-              width: 32px;
-              height: 32px;
+              width: 92px;
+              height: 43px;
             }
             html[data-bs-theme="dark"] & {
               display: none;
@@ -582,4 +582,5 @@
       padding: 0;
     }
   }
+  
 }

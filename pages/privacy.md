@@ -6,109 +6,52 @@ permalink: "/privacy-policy/"
 ---
 
 
-We have done our best to create a simple, transparent privacy policy. **Our aim is to collect and store no data, or as little as possible.** We only use cookies that are essential to run this website.
+**Privacy Policy**
 
-This site is statically generated and served as HTML. Fundamentally this means there is very little surface area for this site to be hacked or compromised. It does not require a database or backend server to process and render documents. Technically there is still a webserver, but it serves pre-rendered documents generated at build time.
+This privacy policy applies to the Pixel Fixel app, Explory Story app, Charles the Bee app and Pixel Fixel app (hereafter referred to as "Application") for mobile and desktop devices that was created by Blue Pin Studio (hereafter referred to as "Service Provider") as a service. This service is intended for use "AS IS." 
 
----
+**Information Collection and Use**
 
-## Services We Use
+The Application collects only anonymous, aggregated data to improve gameplay and track activity within the Application. This data contains no information that can be used to identify, track, or profile individual users. The collected data includes:
 
-### Analytics
+Anonymous in-game actions and events that help improve gameplay balance and design.
+The Application does not collect personally identifiable information, play time, device operating system information, or precise location data. All data collected is completely anonymous.
 
-This site uses Plausible Analytics, a privacy focused GDPR compliant analytics alternative to Google Analytics. By using Plausible Analytics, all the site measurement is carried out absolutely anonymously. Cookies are not set and no personal data is collected. All data is in aggregate only. [Learn More](https://plausible.io/privacy-focused-web-analytics)
+**Purpose of Data Collection**
 
-### Advertising & Marketing 
+The Service Provider collects this anonymous data strictly for the following purpose:
 
-This site does not include any 3rd party advertising or marketing tracking code.
+Gameplay Enhancements: Anonymous data collected allows the Service Provider to optimize gameplay experience and balance based on overall activity patterns without identifying individual users.
+Third-Party Access
 
-### Fonts
+Only aggregated, anonymized data may be periodically transmitted to external services to assist the Service Provider in improving the Application. These services only process anonymous data and cannot access any personal or identifiable information.
 
-This website does not use Google fonts from the Google CDN. It uses a self-hosted version of fonts which are free of tracking.
+**User Age and Identity**
 
-### Youtube
+The Application does not collect any data that would allow the Service Provider to determine the age, identity, or any personal information of users. The data collection is entirely anonymous, and there is no method by which the Service Provider can track or identify individual users.
 
-If and where Youtube videos are embedded in this site, we use the Youtube privacy-enhanced embed mode. [Learn More](https://support.google.com/youtube/answer/171780?hl=en#zippy=%2Cturn-on-privacy-enhanced-mode)
+**Opt-Out Rights**
 
-**Contact Form**
+You can stop all collection of anonymous data by the Application by uninstalling it. You may use the standard uninstall processes available on your mobile device or via the mobile application marketplace.
 
-We may request your personal information via our contact form. Personally identifiable information may include, but is not limited to:
+**Children**
 
-- Email address
-- First name and last name
-- Address
-- Phone number
+Since the Application does not collect any personal information, the Service Provider has no way of knowing if any data is from children under the age of 13. If you believe your child has used the Application and provided personal information through any other means, please contact the Service Provider at info.bluepinstudio@gmail.com, and appropriate action will be taken.
 
-Any data you submit in this form may be shared with 3rd party service providers. These providers include, but are not limited to:
+**Security**
 
-- [Formspree](https://formspree.io/legal/privacy-policy/)
-- [Netlify](https://www.netlify.com/privacy/)
+The Service Provider takes reasonable steps to safeguard the anonymous data collected within the Application.
 
-Our contact page includes an email link where you may email us directly instead of using the contact form.
+**Changes**
 
-**Newsletter Subscription**
+This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.
 
-We may request your personal information via our newseltter subscription form. Personally identifiable information may include, but is not limited to:
+This privacy policy is effective as of 2024-10-18.
 
-- Email address
-- First name and last name
+**Your Consent**
 
-Any data you submit in this form may be shared with 3rd party service providers. These providers include, but are not limited to:
+By using the Application, you consent to the collection of anonymous data as described in this Privacy Policy, now and as amended by us.
 
-- [Mailchimp](https://mailchimp.com/legal/)
+**Contact Us**
 
-**Comments**
-
-When posting comments on this site, your data may be shared with a 3rd party service. These providers include, but are not limited to:
-
-- [Disqus](https://disqus.com/privacy-policy/)
-
-
----
-
-## Information We Collect
-
-We may collect the following types of personal data:
-
-- **Contact Information**: Name, email address, mailing address, phone number.
-- **Log Data**: Information that your browser sends whenever you visit our Site.
-- **Cookies**: Data files placed on your device or computer which often include an anonymous unique identifier.
-
-## How We Use Your Information
-
-We may use the information we collect for various purposes, including:
-
-- **To Provide and Maintain the Site**: We use your personal data to provide you with access to our Site and to monitor and improve its performance.
-- **To Send You Updates and Marketing Communications**: We may send you newsletters or marketing communications about our services.
-- **To Comply With Legal Obligations**: We may use your information to comply with legal obligations, such as to respond to a subpoena or other legal request.
-
-## Data Sharing and Disclosure
-
-We may share your personal data with third parties in the following situations:
-
-- **With Service Providers**: We may share your information with third-party service providers who perform services on our behalf.
-- **For Legal Purposes**: We may share your information when we believe in good faith that disclosure is necessary to protect our rights, protect your safety or the safety of others, investigate fraud, or respond to a government request.
-
-## Your Rights
-
-You have the right to:
-
-- **Access**: Request access to your personal data.
-- **Correction**: Request correction of your personal data.
-- **Deletion**: Request deletion of your personal data.
-- **Data Portability**: Request the transfer of your personal data to another party.
-- **Withdraw Consent**: Withdraw your consent at any time where we rely on your consent to process your personal data.
-
-## Security
-
-We take reasonable measures to help protect your personal data from loss, theft, misuse, and unauthorized access, disclosure, alteration, and destruction.
-
-## Changes to This Privacy Policy
-
-We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
-
----
-
-## Contact Us
-
-If you have any questions about this Privacy Policy, You can contact us: [support@example.com](mailto:support@example.com)
+If you have any questions regarding privacy while using the Application, or have questions about this Privacy Policy, please contact the Service Provider via email at info.bluepinstudio@gmail.com.

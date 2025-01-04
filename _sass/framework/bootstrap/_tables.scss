@@ -21,6 +21,7 @@
   --#{$prefix}table-hover-bg: #{$table-hover-bg};
 
   width: 100%;
+  text-align: center;
   margin-bottom: $spacer;
   vertical-align: $table-cell-vertical-align;
   border-color: var(--#{$prefix}table-border-color);

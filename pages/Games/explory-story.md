@@ -1,46 +1,45 @@
 ---
 layout: basic
-title: "About Us"
+title: "Explory Story"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/explory-story/"
-description: "Business plan hackathon handshake responsive web design."
-image: "/assets/images/gen/content/content-5.webp"
+description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
+image: /assets/images/games/explory1.jpg
 ---
+## <ins>The Gist</ins>
 
-# Creating Modern Websites
+- **Release Date:** Q1 2025
+- **Retail Price:** To be deteredmined...
+- **Platforms:** Desktop Windows, Desktop Linux
 
-Web design encompasses many different skills and disciplines in the production and maintenance of websites.
+Explory Story is our second steam game. It is being made using the Construct 3 game engine. This game was originally made for the Ludum Dare Game Jam in April 2021. Set to be fully released in early 2023.
 
-Often many individuals will work in teams covering different aspects of the design process, although some designers will cover them all. Web design partially overlaps web engineering in the broader scope of web development.
+In this game, you enter a mysterious world resembling a book. In this book world, the words you step on come to life! Explore a wide variety of fictional universes, battle their inhabitants and solve puzzles.
 
-## What is Web Design?
+Watch your step while you try to figure out a way out. This game can be played single-player or two-player online co-op.
 
-User experience is about how a user interacts with, and experiences, a particular product, system or service. As a UX designer, you should consider the Why, What and How of product use.
+## <ins>The Team</ins>
 
-{% include framework/shortcodes/figure.html src="/assets/images/gen/content/content-1.webp" title="Steve Francia" caption="Designing in Figma" alt="Photo of designing a website in Figma" link="https://figma.com" target="_blank" %}
+| **Name**         | **Role**                             | **Links**                                                                 |
+|------------------|--------------------------------------|---------------------------------------------------------------------------|
+| Viktor           | Programming & Game Design            | -                                                                         |
+| Bizmaster Studio | Character & Environment Art          | [Twitter](https://mobile.twitter.com/bizmasterstudio)                    |
+| Holly Rhiannon  | Writing                               | [LinkTree](https://linktr.ee/hollyrhiannon)                              |
+| Matias Correa    | Sound Effects                        | [Twitter](https://twitter.com/matiaspcorrea)                             |
+| Nick Wolfe       | Trailer Music, Act 1 & Act 2 Music   | [YouTube](https://www.youtube.com/channel/UC9BjINWkzNE40zhmrUkytSA)      |
+| Ragchomp         | Act 3 & Act 4 Music                  | [YouTube](https://www.youtube.com/channel/UCTljefNUAIUavdRcGFfrQZg)      |
+{: .table .table-bordered }
 
-## Front-end Development
+## <ins>Links</ins>
 
-The What addresses the things people can do with a product—its functionality. Finally, the How relates to the design of functionality in an accessible and aesthetically pleasant way. UX designers start with the Why before determining the What and then, finally, the How in order to create products that users can form meaningful experiences with. In software designs, you will need to ensure the product’s “substance” comes through an existing device and offers a seamless, fluid experience.
+<div class="row justify-content-start">
+  {% for link in site.data.explory_links %}
+    <div class="col-auto">
+      <a href="{{ link.url }}" target="_blank" class="btn btn-light" title="{{ link.title }}">
+        <i class="{{ link.fa_icon }} fa-2x" aria-hidden="true"></i>
+      </a>
+    </div>
+  {% endfor %}
+</div>
 
-> As a UX designer, you should consider the Why, What and How of product use.
-
-Web designers are expected to have an awareness of usability and if their role involves creating markup then they are also expected to be up to date with web accessibility guidelines.
-
-## Design Systems
-
-A Design System is a set of interconnected patterns and shared practices coherently organized to aid in digital product design and development of products such as apps or websites.
-
-{% include framework/shortcodes/youtube.html id='2M6dJ2Uynhg' %}
-
-## Process
-
-There are two primary jobs involved in creating a website: the web designer and web developer, who often work closely together on a website. The web designers are responsible for the visual aspect, which includes the layout, coloring and typography of a web page.
-
-- User experience research
-- Visual design and illustration
-- Programming and coding
-
-![Design In Figma](/assets/images/gen/content/content-2.webp)
-
-Web designers will also have a working knowledge of markup languages such as HTML and CSS, although the extent of their knowledge will differ from one web designer to another.
+![Explory Story Screenshot](/assets/images/games/explory2.jpg)

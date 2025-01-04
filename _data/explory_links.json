@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Steam",
+    "fa_icon": "fab fa-steam",
+    "url": "https://store.steampowered.com/app/1626280/Explory_Story/"
+  },
+  {
+    "title": "YouTube Videos",
+    "fa_icon": "fab fa-youtube",
+    "url": "https://www.youtube.com/channel/UCpK_cRlRHvIRgIq5LxLQiDA/home/"
+  },
+  {
+    "title": "Jam Version",
+    "fa_icon": "fab fa-itch-io",
+    "url": "https://bluepinstudio.itch.io/explory-story/"
+  }
+]

@@ -8,33 +8,30 @@ main:
     child:
       - name: "Explory Story"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1514469-000000.svg"
-        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1514469-FFFFFF.svg"
+        icon_darkmode: "/assets/images/games/exploryheader.jpg"
         description: "2025"
         url: /explory-story/
       - name: "Charles the Bee"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1521481-000000.svg"
-        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1521481-FFFFFF.svg"
+        icon_darkmode: "/assets/images/games/charlesheader.jpg"
         description: "2024"
-        url: /explory-story/
+        url: /charles-the-bee/
       - name: "Pixel Fixel"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1568316-000000.svg"
-        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1568316-FFFFFF.svg"
+        icon_darkmode: "/assets/images/games/pixelheader.jpg"
         description: "2024"
-        url: /explory-story/
+        url: /pixel-fixel/
       - name: "Eggnog Incorporated"
         icon: "/assets/images/icons/menu/black/noun-wireframe-1540282-000000.svg"
-        icon_darkmode: "/assets/images/icons/menu/white/noun-wireframe-1540282-FFFFFF.svg"
+        icon_darkmode: "/assets/images/games/eggnogheader.jpg"
         description: "2020"
-        url: /explory-story/
+        url: /eggnog-inc/
   - name: Game Jams
     url: /game-jams/
     weight: 3  
   - name: Blog
     url: /blog/
     weight: 4    
-  - name: About
-    url: /about/
-    weight: 5
 footer_primary:
   - name: Blog
     url: /posts/
@@ -46,9 +43,6 @@ footer_primary:
     url: /contact/
     weight: 3
 bottom:
-  - name: Terms and Conditions
-    url: /terms-and-conditions/
-    weight: 1
   - name: Privacy Policy
     url: /privacy-policy/
-    weight: 2
+    weight: 1

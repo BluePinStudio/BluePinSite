@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Steam",
+    "fa_icon": "fab fa-steam",
+    "url": "https://store.steampowered.com/app/1578290/Pixel_Fixel//"
+  },
+  {
+    "title": "iOS",
+    "fa_icon": "fab fa-apple",
+    "url": "https://apps.apple.com/ca/app/pixel-fixel/id6504993028"
+  },
+  {
+    "title": "Google Play App Store",
+    "fa_icon": "fab fa-google-play",
+    "url": "https://play.google.com/store/apps/details?id=com.bluepinstudio.pixelfixel/"
+  },
+  {
+    "title": "Newgrounds",
+    "fa_icon": "fab fa-gamepad",
+    "url": "https://www.newgrounds.com/portal/view/915203/"
+  },
+  {
+    "title": "Itch",
+    "fa_icon": "fab fa-itch-io",
+    "url": "https://bluepinstudio.itch.io/pixelfixel/"
+  },
+  {
+    "title": "Coolmath Games",
+    "fa_icon": "fab fa-gamepad",
+    "url": "https://www.coolmathgames.com/0-pixel-fixel/"
+  },
+  {
+    "title": "Game Jolt",
+    "fa_icon": "fab fa-gamepad",
+    "url": "https://gamejolt.com/games/pixelfixel/944539/"
+  }
+]

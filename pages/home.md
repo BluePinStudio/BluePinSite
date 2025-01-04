@@ -2,11 +2,11 @@
 layout: home
 permalink: "/"
 title: "Blue Pin Studio"
-description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae elit in leo ullamcorper pulvinar viverra a nunc. Nulla placerat molestie dignissim. Quisque in lorem eget libero mattis vestibulum. Phasellus ut dui id nisl feugiat placerat. Integer non accumsan dolor, at commodo arcu. Morbi mauris est, eleifend id tellus ac, dictum ullamcorper purus. Pellentesque varius sodales ligula, vel feugiat nisl condimentum vitae. Nulla facilisi."
+description: "Blue Pin Studio is a Toronto, Canada based indie developer specializing in 2D games. They collaborate with global talent to produce titles including Explory Story, Charles, the Bee, Pixel Fixel, and Eggnog Incorporated. Their dedication to innovation, community events, and active game jam participation sets them apart in the indie scene."
 image: "/assets/images/vinny.gif"
 show_social_media_in_title: true
 meta_title: Blue Pin Studio
-meta_description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae elit in leo ullamcorper pulvinar viverra a nunc. Nulla placerat molestie dignissim. Quisque in lorem eget libero mattis vestibulum. Phasellus ut dui id nisl feugiat placerat. Integer non accumsan dolor, at commodo arcu. Morbi mauris est, eleifend id tellus ac, dictum ullamcorper purus. Pellentesque varius sodales ligula, vel feugiat nisl condimentum vitae. Nulla facilisi."
+meta_description: "Blue Pin Studio is a Toronto, Canada based indie developer specializing in 2D games. They collaborate with global talent to produce titles including Explory Story, Charles, the Bee, Pixel Fixel, and Eggnog Incorporated. Their dedication to innovation, community events, and active game jam participation sets them apart in the indie scene."
 
 
 posts:

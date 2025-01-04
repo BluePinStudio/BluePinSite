@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Steam",
+    "fa_icon": "fab fa-steam",
+    "url": "https://store.steampowered.com/app/1461360/Eggnog_Incorporated/"
+  },
+  {
+    "title": "YouTube Videos",
+    "fa_icon": "fab fa-youtube",
+    "url": "https://www.youtube.com/channel/UCYERUWNFU67Csqj7oL0KzsA/home/"
+  },
+  {
+    "title": "Jam Version",
+    "fa_icon": "fab fa-itch-io",
+    "url": "https://bluepinstudio.itch.io/imperial-eggnog-incorporated/"
+  }
+]

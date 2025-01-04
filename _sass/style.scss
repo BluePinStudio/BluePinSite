@@ -1,2 +1,42 @@
 @import 'framework';
 @import 'theme';
+
+/* Force the actual <input> to be visually hidden, but still present in the DOM */
+.task-list-item-checkbox {
+  /* Let’s see it in the layout so we can place our icon */
+  display: inline-block;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.4em;
+  margin-top: 0.2em;
+
+  /* Remove the default OS checkbox style */
+  -webkit-appearance: none;
+  appearance: none;
+
+  /* Add a fallback border if needed (some browsers ignore hidden checkboxes entirely) */
+  border: 1px solid #ccc;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+/* The "unchecked" icon */
+.task-list-item-checkbox::before {
+  /* Use a Font Awesome glyph for an empty square or circle, e.g. \f096 = fa-square (solid) */
+  content: "\f096";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;  /* solid icons weight */
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%); /* center the icon in the box */
+  color: #666;                     /* "unchecked" color */
+  font-size: 1.25em;               /* adjust size to your liking */
+}
+
+/* The "checked" icon */
+.task-list-item-checkbox:checked::before {
+  /* e.g. \f14a = fa-square-check (solid), or \f058 = fa-check-circle */
+  content: "\f14a";
+  color: #0084ff;
+}
