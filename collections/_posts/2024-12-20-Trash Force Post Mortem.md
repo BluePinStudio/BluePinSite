@@ -5,8 +5,8 @@ description: Post Mortem for "Trash Force"
 date: 2024-12-20 01:00:00 -0400
 categories: [Jam Post Mortem]
 tags: [trash force, post mortem, game jam]
-thumbnail: https://blog.bluepinstudio.com/images/trashforce.png
-image: https://blog.bluepinstudio.com/images/trashforce.png
+thumbnail: /assets/images/posts/trashforce.png
+image: /assets/images/posts/trashforce.png
 published : true
 ---
 
