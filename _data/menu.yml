@@ -7,22 +7,22 @@ main:
     weight: 2
     child:
       - name: "Explory Story"
-        icon: "/assets/images/icons/menu/black/noun-wireframe-1514469-000000.svg"
+        icon: "/assets/images/games/exploryheader.jpg"
         icon_darkmode: "/assets/images/games/exploryheader.jpg"
         description: "2025"
         url: /explory-story/
       - name: "Charles the Bee"
-        icon: "/assets/images/icons/menu/black/noun-wireframe-1521481-000000.svg"
+        icon: "/assets/images/games/charlesheader.jpg"
         icon_darkmode: "/assets/images/games/charlesheader.jpg"
         description: "2024"
         url: /charles-the-bee/
       - name: "Pixel Fixel"
-        icon: "/assets/images/icons/menu/black/noun-wireframe-1568316-000000.svg"
+        icon: "/assets/images/games/pixelheader.jpg"
         icon_darkmode: "/assets/images/games/pixelheader.jpg"
         description: "2024"
         url: /pixel-fixel/
       - name: "Eggnog Incorporated"
-        icon: "/assets/images/icons/menu/black/noun-wireframe-1540282-000000.svg"
+        icon: "/assets/images/games/eggnogheader.jpg"
         icon_darkmode: "/assets/images/games/eggnogheader.jpg"
         description: "2020"
         url: /eggnog-inc/
