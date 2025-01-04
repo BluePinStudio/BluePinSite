@@ -5,8 +5,8 @@ description: Post Mortem for my 11th Ludum Dare game, "Save Nebuville"
 date: 2024-10-27 15:00:00 -0400
 categories: [Jam Post Mortem]
 tags: [save nebuville, post mortem, game jam]
-thumbnail: https://blog.bluepinstudio.com/images/nebuville.png
-image: https://blog.bluepinstudio.com/images/nebuville.png
+thumbnail: /assets/images/posts/nebuville.png
+image: /assets/images/posts/nebuville.png
 published : true
 ---
 
@@ -26,7 +26,7 @@ Leading up to the beginning of the game jam, we were brainstorming potential ide
 - **Day 1 (Friday):** 
 The jam has begun! The theme was announced (Tiny Creatures), which definitely wasn't my favorite out of the possible themes. We agreed that the first 24hrs would be spent trying to nail down a concept. Some of the concepts we came up with is a ferrous fluid simulation of lots of individual pixels moving around, a plinko game, something similar to Loco Roco. 
 
-![Nebuville Prototype Mockup](https://blog.bluepinstudio.com/images/nebuville1.png){: width="972" height="589" }
+![Nebuville Prototype Mockup](/assets/images/posts/nebuville1.png){: width="972" height="589" }
 _Nebuville Prototype Mockup by Bonejacq_
 
 - **Day 2 (Saturday):** In the morning we settled on the idea of a giant slime ball coming towards the city and I began working on prototypes for it. Pijinguy sent over some prototypes of the environments and assets and I implemented those. Most of the day I actually spent working at my day job fixing watches and sleeping though.
@@ -64,7 +64,7 @@ I think my favorite part of the entire process was seeing a final product that w
 
 ## Reception
 
-![Nebuville Prototype Mockup](https://blog.bluepinstudio.com/images/nebuville.gif){: width="972" height="589" }
+![Nebuville Prototype Mockup](/assets/images/posts/nebuville.gif){: width="972" height="589" }
 _Game in action!_
 
 **Final Game**: After a week of people playing the game we got our scores! We had 41 people leave ratings, and lots of comments as well. Here's a link to the scores and feedback! <https://ldjam.com/events/ludum-dare/56/save-nebuville>

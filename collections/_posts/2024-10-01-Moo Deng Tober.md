@@ -5,8 +5,8 @@ description: Monthly Check-in October 1st 2024
 date: 2024-10-08 07:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, explory story, marketing]
-thumbnail: https://blog.bluepinstudio.com/images/moodeng.png
-image: https://blog.bluepinstudio.com/images/moodeng.png
+thumbnail: /assets/images/posts/moodeng.png
+image: /assets/images/posts/moodeng.png
 ---
 
 ## Welcome!
@@ -29,7 +29,7 @@ As I  mentioned, not a lot accomplished out of the planned tasks (oops)! But I d
 
 That's right! [Explory Story](https://explorystory.com/) is back on the menu! We're entering the series of sprints to complete the project after it being on the backburner for so long. Most news to come!
 
-![Explory Story Game Logo](https://blog.bluepinstudio.com/images/explory.jpg){: width="972" height="589" }
+![Explory Story Game Logo](/assets/images/posts/explory.jpg){: width="972" height="589" }
 _Explory Story Steam Logo_
 
 ## Goals for October 2024

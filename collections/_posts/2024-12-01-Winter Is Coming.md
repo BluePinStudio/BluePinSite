@@ -5,8 +5,8 @@ description: Monthly Check-in December 1st 2024
 date: 2024-12-01 07:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, marketing, project jig]
-thumbnail: https://blog.bluepinstudio.com/images/pixelocean.png
-image: https://blog.bluepinstudio.com/images/pixelocean.png
+thumbnail: /assets/images/posts/pixelocean.png
+image: /assets/images/posts/pixelocean.png
 published : true
 ---
 
@@ -27,12 +27,12 @@ Not bad at all! Finally got the stuff storted with Apple. When people told me th
 
 Despite that, eventually everything was sorted out and the game has been deployed. The game is already getting good traction on apple and android! Partially, I hope, due to my sticker strategy. The other part of the goal related to releasing Pixel Fixel on ios was finally being able to try out a new marketing strategy: putting stickers all over town.
 
-![Stickers all over town gif](https://blog.bluepinstudio.com/images/stickering.gif){: width="350" height="350" }
+![Stickers all over town gif](/assets/images/posts/stickering.gif){: width="350" height="350" }
 _Stickers being put up all over town. Small picture sample._
 
 At the time of writing this, 40 people have scanned the stickers and have been redirected to google play store or apple app store based on their operating system. Hopefully next month I will be able to report an even higher number, but who knows, it gets cold out here in December.
 
-![Stickers all over town gif](https://blog.bluepinstudio.com/images/pixelstats.png){: width="700" height="700" }
+![Stickers all over town gif](/assets/images/posts/pixelstats.png){: width="700" height="700" }
 _Chart showing how many people played Pixel Fixel for the first time in October versus November 2024._
 
 ## Bonus Tasks Completed in November 2024

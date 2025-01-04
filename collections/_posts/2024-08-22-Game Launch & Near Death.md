@@ -5,8 +5,8 @@ description: Game Launch & Near Death
 date: 2024-08-22 19:00:00 -0400
 categories: [Game Launch]
 tags: [charles the bee, game jam, marketing, irl]
-thumbnail: https://blog.bluepinstudio.com/images/timhortons.png
-image: https://blog.bluepinstudio.com/images/timhortons.png
+thumbnail: /assets/images/posts/timhortons.png
+image: /assets/images/posts/timhortons.png
 published : true
 ---
 
@@ -37,7 +37,7 @@ I knew I was launching the game in a rough state, but was prepared for some nega
 
 Over the last few days I've spent long nights after work patching the game and ironing out all the bugs. I will continue to improve it and we'll see how it went in the August 2024 recap and September 2024 recap!
  
-![Unique Playercount for Charles the Bee](https://blog.bluepinstudio.com/images/CharlesChart.PNG){: width="972" height="589" }
+![Unique Playercount for Charles the Bee](/assets/images/posts/CharlesChart.PNG){: width="972" height="589" }
 _Charles the Bee unique playercount since launch_
 
 

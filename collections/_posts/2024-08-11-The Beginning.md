@@ -5,8 +5,8 @@ description: First Monthly check in! August 2024
 date: 2024-08-11 08:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, game jam, marketing]
-thumbnail: https://blog.bluepinstudio.com/images/timbo.PNG
-image: https://blog.bluepinstudio.com/images/timbo.PNG
+thumbnail: /assets/images/posts/timbo.PNG
+image: /assets/images/posts/timbo.PNG
 published : true
 ---
 
@@ -25,7 +25,7 @@ Let's pretend today is **August 1st**, I'll write down some goals and we'll see 
   - [ ] Put stickers up all over town promoting Pixel Fixel
   - [ ] Promote the heck out Charles, achieving 50 reviews by the end of the month.
  
-![Charles the Bee Screenshot](https://blog.bluepinstudio.com/images/charlesscreenshot.jpg){: width="972" height="589" }
+![Charles the Bee Screenshot](/assets/images/posts/charlesscreenshot.jpg){: width="972" height="589" }
 _Charles the Bee Battling Pip tha God!_
 
 It's quite an ambitious month, but I have the utmost confidence all of these tasks will be done and dusted! I have a fantastic team for the game jam, I have a fantastic team for Charles, and the stickers are already in my hands!

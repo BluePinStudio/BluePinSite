@@ -5,8 +5,8 @@ description: Monthly Check-in September 1st 2024
 date: 2024-09-01 20:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, insock out, game jam, marketing]
-thumbnail: https://blog.bluepinstudio.com/images/charlescapsule.png
-image: https://blog.bluepinstudio.com/images/charlescapsule.png
+thumbnail: /assets/images/posts/charlescapsule.png
+image: /assets/images/posts/charlescapsule.png
 published : true
 ---
 
@@ -30,10 +30,10 @@ Regarding promoting the heck out of Charles and releasing Charles on Itch and Ne
 > I almost didn't make it to this month. I talked about that in this post: <https://blog.bluepinstudio.com/posts/Game-Launch-&-Near-Death/>
 {: .prompt-danger } 
 
-![Charles the Bee Screenshot](https://blog.bluepinstudio.com/images/toronto.jpg){: width="972" height="589" }
+![Charles the Bee Screenshot](/assets/images/posts/toronto.jpg){: width="972" height="589" }
 _The Toronto skyline at night, taken from a dinner cruise boat!_
 
-![Charles the Bee Screenshot](https://blog.bluepinstudio.com/images/toronto2.jpg){: width="972" height="589" }
+![Charles the Bee Screenshot](/assets/images/posts/toronto2.jpg){: width="972" height="589" }
 _The majestic Casa Loma castle in Toronto. Was some dude's house before the city bought it._
 
 I should expand on the Staycation I did as well. I went to all sorts of places around Toronto (the city I live in) with my girlfriend! We went to have dinner on a boat cruise, brunch in a castle, checked out the animals at the Zoo, checked out the yearly carnival that comes to town, some great food spots, and generally had an amazing adventure! This was my second time doing a staycation in Toronto and I think im running out of new things to experience. There's probably enough stuff for roughly 1 more of these!

@@ -24,19 +24,19 @@ Getting the team set up in google drive, getting hyped and getting ready to brai
 ### The first half...
 Noon on a Sunday, we got on a call and begin pitching ideas. We pitched everything from Plants vs Zombies to Chicken Invaders, to Asteroids, to retro driving and racing games. We started working through all the technical details of the game such as the resolution, art styles, and things we specifically wanted to avoid. By the time the night came around, we managed to narrow it down to an Asteroids-like with tons of upgrades that cost money. 
 
-![Trash Force Screenshot 1](https://blog.bluepinstudio.com/images/tf1.png){: width="972" height="589" }
+![Trash Force Screenshot 1](/assets/images/posts/tf1.png){: width="972" height="589" }
 _First bespoke piece of artwork done towards the final product_
 
 Over the next few days we spent a lot of time getting the basics down. A functional web build using asteroids-like mechanics, some mockups for HUDs and menus.
 
-![Trash Force Screenshot 3](https://blog.bluepinstudio.com/images/tf3.png){: width="972" height="589" }
+![Trash Force Screenshot 3](/assets/images/posts/tf3.png){: width="972" height="589" }
 _Working on the menus_
 
 We spent a bunch of time battling with Itch outages and revising all of the HUD/Menu assets.
 
 Right at the end of the first half, we have a near-final version of the title screen and some fantastic animations for the hands. Look at them go! This was the day one of our artists, PixelPigeon, started feeling sick. That spooked the heck out of me! Losing an artist halfway through the process would've caused us to cut down the scope dramatically.
 
-![Trash Force Screenshot 4](https://blog.bluepinstudio.com/images/tf1.gif){: width="972" height="589" }
+![Trash Force Screenshot 4](/assets/images/posts/tf1.gif){: width="972" height="589" }
 _The laptop is mostly done!_
 
 ### The second half...
@@ -70,7 +70,7 @@ Everything! All aspects of the game jam turned out great. The pipeline for deliv
 - **Comment from PixelPigeon (Artist)**: We had a good amount of time to work on this project and the team was able come together on the vision quite quickly. The programmers experience in game jams was definitely helpful.
 - **Comment from RedCocoa (Musician)**: I found a general theme for the music incredibly fast. This usually takes a few approaches but this time the first thing I tried almost always ended up being what we used. This is true for both music tracks and almost all sound effects. Additionally, I usually somewhat rely on samples when creating sound effects but this time I set myself the personal challenge to use them very little, instead making almost all sounds from synthesizers or edited vocal recordings which worked incredibly well in the game context.
 
-![Trash Force Screenshot 2](https://blog.bluepinstudio.com/images/tf2.png){: width="972" height="589" }
+![Trash Force Screenshot 2](/assets/images/posts/tf2.png){: width="972" height="589" }
 _Early screenshot before we finalized the UI_
 
 ## Challenges
@@ -91,7 +91,7 @@ The challenges in organizing and creating this project weren't super atypical. I
 
 
 ## Reception
-![Ribbon Yogscast Gave Us](https://blog.bluepinstudio.com/images/JingleGameJamRosette3.png){: width="400" height="400" }
+![Ribbon Yogscast Gave Us](/assets/images/posts/JingleGameJamRosette3.png){: width="200" height="200" }
 _Ribbon Yogscast Gave Us!_
 
 **Final Game**: We had 150 people leave try it out and leave lots of comments as well. This jam didn't have a rating period where fellow jammers played our game so there were no scores. HOWEVER! We did get our game featured on the Yogscast stream where Lewis, Pedguin and Jennifer played our game and loved it!

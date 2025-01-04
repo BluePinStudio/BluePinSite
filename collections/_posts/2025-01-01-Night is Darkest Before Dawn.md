@@ -5,8 +5,8 @@ description: Monthly Check-in January 1st 2025
 date: 2025-01-01 06:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, marketing, project jig]
-thumbnail: https://blog.bluepinstudio.com/images/december2024.png
-image: https://blog.bluepinstudio.com/images/december2024.png
+thumbnail: /assets/images/posts/december2024.png
+image: /assets/images/posts/december2024.png
 published : true
 ---
 
@@ -36,13 +36,13 @@ Everything else went smoothly and according to plan! The contract with a publish
 Needless to say, getting featured by Apple has a massive effect on player numbers. Check out the last few months of Pixel Fixel players! 
 
 <figure>
-  <img src="https://blog.bluepinstudio.com/images/GamesWeLove.png" alt="Image description">
+  <img src="/assets/images/posts/GamesWeLove.png" alt="Image description">
   <figcaption>Pixel Fixel appearing on Apple's New Games We Love.</figcaption>
 </figure>
 
 
 <figure>
-  <img src="https://blog.bluepinstudio.com/images/pixelstats2.png" alt="Image description">
+  <img src="/assets/images/posts/pixelstats2.png" alt="Image description">
   <figcaption>Chart showing how many people played Pixel Fixel for the first time in October versus November 2024 versus December 2024.</figcaption>
 </figure>
 
