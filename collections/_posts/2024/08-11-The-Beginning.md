@@ -1,7 +1,6 @@
 ---
 layout: post
 title: The Beginning
-permalink: "The-Beginning"
 description: First Monthly check in! August 2024
 date: 2024-08-11 08:00:00 -0400
 categories: [Monthly Check-in]
