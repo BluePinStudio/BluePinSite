@@ -64,7 +64,7 @@ category_dir: 'category'
 
 colors:
   #light-mode colors
-  primary_bg: "#EC255A"
+  primary_bg: "#0084ff"
   primary_bg_2: "#eed2d9"
   primary_bg_3: "#eed2d9"
   primary_text: "#f9fafb"
@@ -77,7 +77,7 @@ colors:
   menu_text: "#191a1a"
 
   # dark-mode colors
-  primary_bg_dark: "#EC255A"
+  primary_bg_dark: "#0084ff"
   primary_bg_2_dark: "#eed2d9"
   primary_bg_3_dark: "#eed2d9"
   primary_text_dark: "#f9fafb"
@@ -100,14 +100,14 @@ fonts:
 
 logo:
   logo_text: "Blue Pin Studio"
-  logo_image: assets/images/logo/logo.svg
-  logo_image_mobile: assets/images/logo/logo-mobile.svg
-  logo_image_invert: assets/images/logo/logo-invert.svg
-  logo_image_invert_mobile: assets/images/logo/logo-invert-mobile.svg
-  logo_image_desktop_height: "30px"
-  logo_image_desktop_width: "30px"
-  logo_image_mobile_height: "28px"
-  logo_image_mobile_width: "28px"
+  logo_image: assets/images/logo/logo.png
+  logo_image_mobile: assets/images/logo/logo.png
+  logo_image_invert: assets/images/logo/logo.png
+  logo_image_invert_mobile: assets/images/logo/logo.png
+  logo_image_desktop_height: "64px"
+  logo_image_desktop_width: "64px"
+  logo_image_mobile_height: "64px"
+  logo_image_mobile_width: "64px"
   show_logo_image_on_mobile: true
   show_logo_image_on_desktop: true
   show_logo_text_on_mobile: true
@@ -119,8 +119,8 @@ header:
 open_graph:
   meta_opengraph_type: "website"
   meta_twitter_card: "summary"
-  meta_twitter_site: "@zerostaticio"
-  meta_twitter_creator: "@zerostaticio"
+  meta_twitter_site: "@BluePinStudio1"
+  meta_twitter_creator: "@BluePinStudio1"
 
 darkmode:
   enable_dark_mode: true
