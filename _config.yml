@@ -2,7 +2,7 @@
 # Jekyll Config
 # --------------------
 baseurl: ""
-url: "https://jekyll-origin.netlify.app"
+url: "https://bluepinstudio.com"
 permalink: pretty
 markdown: kramdown
 highlighter: rouge
