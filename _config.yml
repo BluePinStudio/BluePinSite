@@ -133,7 +133,7 @@ cookie_banner:
   show_manage_cookies_at_bottom: false
 
 analytics:
-  google_analytics_id: "G-SL5FWY00S6" # G-XXXXXXXXXX
+  google_analytics_id: "" # G-XXXXXXXXXX
   gtm_id: "" # GTM-XXXXXXXX
   plausible_data_domain: "" # example: mywebsite.com
   umami_data_website_id: "" # example: "ddd14336-5fb0-4cdd-8f32-e1bfa906cc2b"
