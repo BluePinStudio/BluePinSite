@@ -4,6 +4,7 @@ description: Yearly recap for all milestones and feats of 2024.
 date: 2025-01-07 07:00:00 -0400
 categories: [Yearly Recap]
 tags: [charles the bee, pixel fixel]
+thumbnail: /assets/images/posts/2024recap.png
 image: /assets/images/posts/2024recap.png
 published : true
 ---
@@ -20,6 +21,7 @@ Let's see what we have. These are the key metrics that I would like to track com
 | Auxiliary Community Size|**879**|<span style="color:green">**+87%**</span> compared to 2023 |
 | Player Count Estimate|**10000**|no previous data available |
 | Website/Blog Unique Visitors|**2300**|<span style="color:green">**+389%**</span> compared to 2023|
+{: .table .table-bordered }
 
 - <small>**Total net revenue** includes all sources such as game sales, merch sales, publisher payments, contest prizes, etc. This is net revenue, not gross profit or net profit. Things like the steam fee, etsy fee, etsy promoted listing fee have been subtracted already.
 - <small>**Direct community size** is the size of the Discord server combined with mailing list. 
@@ -43,8 +45,8 @@ Since its the first time I'm doing one of these, I would like to include my Tota
 | 2022| **$351 (USD)**|<span style="color:red">**-67%**</span> |
 | 2023| **$232 (USD)**|<span style="color:red">**-34%**</span> |
 | 2024| **$1205 (USD)**|<span style="color:green">**+419%**</span> |
-|---|---|---|
 | Total| **$3162 (USD)**| - |  
+{: .table .table-bordered }
 
 ## Editorial
 If i had to sum up the year for Blue Pin Studio, it was the best year to-date! If i had to sum up the year for myself? It was the most stressful and difficult year I've ever gone through. Money problems like never before, moving, relationship ending, a few friendships ending, etc. Hopefully that means 2025 will seem amazing by comparison. I'll make sure to comment on that as future-me in the 2025 recap.
@@ -54,7 +56,8 @@ Remember folks, if you're having a hard time, its natural to want to recede into
 I'll leave you with this amazing fan art i got as a secret santa gift! It has references to most Blue Pin Studio games in it, very cool! :)
 
 ![blue pin studio fan art](/assets/images/posts/fanart.jpg){: width="700" height="700" }
-_Chart showing how many people played Pixel Fixel for the first time in October versus November 2024 versus December 2024._
+
+<small>Chart showing how many people played Pixel Fixel for the first time in October versus November 2024 versus December 2024.</small>
 
 ## Comments & Reactions
 

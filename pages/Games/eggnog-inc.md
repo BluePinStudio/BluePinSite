@@ -6,6 +6,18 @@ permalink: "/eggnog-inc/"
 description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
 image: /assets/images/games/eggnog1.jpg
 ---
+## <ins>Links</ins>
+
+<div class="row justify-content-start">
+  {% for link in site.data.eggnog_links %}
+    <div class="col-auto">
+      <a href="{{ link.url }}" target="_blank" class="btn btn-light" title="{{ link.title }}">
+        <i class="{{ link.fa_icon }} fa-2x" aria-hidden="true"></i>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
 ## <ins>The Gist</ins>
 
 - **Release Date:** December 28 2020
@@ -25,17 +37,5 @@ There are many endings and many different office layouts to explore.
 | Initial Position | Music                              | [Website](https://initialposition.net/)        |
 | Levar Allen      | Eggnog Credits Rap                 | [YouTube](https://www.youtube.com/levarallen)  |
 {: .table .table-bordered }
-
-## <ins>Links</ins>
-
-<div class="row justify-content-start">
-  {% for link in site.data.eggnog_links %}
-    <div class="col-auto">
-      <a href="{{ link.url }}" target="_blank" class="btn btn-light" title="{{ link.title }}">
-        <i class="{{ link.fa_icon }} fa-2x" aria-hidden="true"></i>
-      </a>
-    </div>
-  {% endfor %}
-</div>
 
 ![Eggnog Incorporated Screenshot](/assets/images/games/eggnog2.jpg)

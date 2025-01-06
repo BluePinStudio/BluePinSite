@@ -6,6 +6,18 @@ permalink: "/pixel-fixel/"
 description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
 image: /assets/images/games/pixel1.jpg
 ---
+## <ins>Links</ins>
+
+<div class="row justify-content-start">
+  {% for link in site.data.pixel_links %}
+    <div class="col-auto">
+      <a href="{{ link.url }}" target="_blank" class="btn btn-light" title="{{ link.title }}">
+        <i class="{{ link.fa_icon }} fa-2x" aria-hidden="true"></i>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
 ## <ins>The Gist</ins>
 
 - **Release Date:** March 1st 2024
@@ -24,17 +36,5 @@ The player is tasked with restoring a mixed-color gradient to its former glory! 
 |------------------|--------------------------------------|---------------------------------------------------------------------------|
 | Viktor           | Everything!           | -                                                                         |
 {: .table .table-bordered }
-
-## <ins>Links</ins>
-
-<div class="row justify-content-start">
-  {% for link in site.data.pixel_links %}
-    <div class="col-auto">
-      <a href="{{ link.url }}" target="_blank" class="btn btn-light" title="{{ link.title }}">
-        <i class="{{ link.fa_icon }} fa-2x" aria-hidden="true"></i>
-      </a>
-    </div>
-  {% endfor %}
-</div>
 
 ![Pixel Fixel Screenshot](/assets/images/games/pixel2.jpg)
