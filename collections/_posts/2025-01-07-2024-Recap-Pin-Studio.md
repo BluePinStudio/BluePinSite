@@ -57,8 +57,6 @@ I'll leave you with this amazing fan art i got as a secret santa gift! It has re
 
 ![blue pin studio fan art](/assets/images/posts/fanart.jpg){: width="700" height="700" }
 
-<small>Chart showing how many people played Pixel Fixel for the first time in October versus November 2024 versus December 2024.</small>
-
 ## Comments & Reactions
 
 {% include discus.html %}
