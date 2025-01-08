@@ -19,7 +19,9 @@ Let's see what we have. These are the key metrics that I would like to track com
 | Total Net Revenue from All Sources| **$1205 (USD)**|<span style="color:green">**+419%**</span> compared to 2023 |
 | Direct Community Size|**149**|<span style="color:green">**+110%**</span> compared to 2023 |
 | Auxiliary Community Size|**879**|<span style="color:green">**+87%**</span> compared to 2023 |
-| Player Count Estimate|**10000**|no previous data available |
+| Player Count Estimate|**10,000**|no previous data available |
+| Steam Store Impressions|**3,921,616**|<span style="color:green">**+1050%**</span> compared to 2023 |
+| Steam Store Visits|**223,266**|<span style="color:green">**+672%**</span> compared to 2023|
 | Website/Blog Unique Visitors|**2300**|<span style="color:green">**+389%**</span> compared to 2023|
 {: .table .table-bordered }
 
