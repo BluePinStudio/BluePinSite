@@ -14,7 +14,7 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 ### List of Submissions
 
 | **Date**    | **Jam**|   **Placement**   | **Title**    | **Genre**    |
-|MAR 2020| Below the Stone Jam      |Top 33%|[Toaster Treasure](https://bluepinstudio.itch.io/toaster-treasure)                |Metroidvania          |
+|MAR 2020| Below the Stone Jam      |Top 33%|[Toaster Treasure](https://bluepinstdio.itch.io/toaster-treasure)                |Metroidvania          |
 |APR 2020| Ludum Dare 46            |Top 35%|[Keep Dano Alive](https://bluepinstudio.itch.io/keep-dano-alive)                  |Farming Simulator     |
 |OCT 2020| Ludum Dare 47            |Top 28%|[Imperial Eggnog Inc](https://bluepinstudio.itch.io/imperial-eggnog-incorporated) |Desk Simulator        |
 |APR 2021| Ludum Dare 48            |Top 2% |[Explory Story](https://bluepinstudio.itch.io/explory-story-jam)                  |Walking Simulator     |
