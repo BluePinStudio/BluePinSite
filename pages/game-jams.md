@@ -22,7 +22,7 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 |APR 2022| Ludum Dare 50            |Top 27%|[Quadratorum](https://bluepinstudio.itch.io/quadratorum/)                         |Top-Down Shooter      |
 |AUG 2022| Wanna x Yam Game Jam     |Top 28%|[Blend Defend](https://bluepinstudio.itch.io/blend-defend/)                       |Tower Defense         |
 |OCT 2022| Ludum Dare 51            |Top 17%|[Panopticon](https://bluepinstudio.itch.io/panopticon/)                           |Top-Down Shooter      |
-|JAN 2023| Ludum Dare 52            |Top 14%|[Charles the Bee](https://bluepinstudio.itch.io/charles/)                        |Rhythm                |
+|JAN 2023| Ludum Dare 52            |Top 14%|[Charles the Bee](https://bluepinstudio.itch.io/charles/)                         |Rhythm                |
 |MAY 2023| Ludum Dare 53            |Top 13%|[Devilivery](https://bluepinstudio.itch.io/devilivery/)                           |Sidescroller / Shooter|
 |OCT 2023| Ludum Dare 54            |Top 25%|[RAMpage](https://bluepinstudio.itch.io/rampage/)                                 |Auto Battler          |
 |DEC 2023| Secret Santa Jam         |N/A    |[Seth's Mysterious Portal](https://bluepinstudio.itch.io/seth-mystery-portal/)    |Quiz                  |
@@ -30,7 +30,7 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 |AUG 2024| Do you WANNA Jam?!       |Top 13%|[Insock Out](https://bluepinstudio.itch.io/insock-out/)                           |Action                |
 |OCT 2024| Ludum Dare 56            |Top 29%|[Save Nebuville](https://bluepinstudio.itch.io/save-nebuville/)                   |Arcade Shooter        |
 |DEC 2024| Yogscast Jingle Jam 2024 |Winner!|[Trash Force](https://bluepinstudio.itch.io/trashforce)                           |Arcade Shooter        |
-|DEC 2024| Secret Santa Jam         |N/A    |[Bruugle's Keypad](https://bluepinstudio.itch.io/bruugles-keypad)                 |TBD                   |
+|DEC 2024| Secret Santa Jam         |N/A    |[Bruugle's Keypad](https://bluepinstudio.itch.io/bruugles-keypad)                 |Quiz                  |
 |APR 2025| Ludum Dare 57            |TBD    |TBD                                                                               |TBD                   |
 |OCT 2025| Ludum Dare 58            |TBD    |TBD                                                                               |TBD                   |
 {: .table .table-bordered }
