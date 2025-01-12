@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Moo Deng Tober!
-description: Monthly Check-in October 1st 2024
+description: Monthly Check-in for September 2024 (Month 54)
 date: 2024-10-08 07:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, explory story, marketing]

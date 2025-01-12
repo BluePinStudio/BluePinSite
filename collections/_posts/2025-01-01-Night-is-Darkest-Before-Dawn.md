@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Night is Darkest Before Dawn
-description: Monthly Check-in January 1st 2025
+description: Monthly Check-in for December 2024 (Month 57)
 date: 2025-01-01 06:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, marketing, project jig]
@@ -9,9 +9,8 @@ thumbnail: /assets/images/posts/december2024.png
 image: /assets/images/posts/december2024.png
 published : true
 ---
-## Month #57
+
 ## Welcome!
-Month #57
 Ahoy everyone! Welcome back, lets get into it. We're reviewing what happened in December 2024... First, let's start off with the goals we had planned!
 
 ## December 2024 Goals 

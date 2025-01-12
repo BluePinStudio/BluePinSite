@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Winter is coming...
-description: Monthly Check-in December 1st 2024
+description: Monthly Check-in for November 2025 (Month 56)
 date: 2024-12-01 07:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, marketing, project jig]

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Beginning
-description: First Monthly check in! August 2024
+description: First Monthly Check-in for July 2024 (Month 52)
 date: 2024-08-11 08:00:00 -0400
 category: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, game jam, marketing]

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Movember Mo Problems!
-description: Monthly Check-in November 1st 2024
+description: Monthly Check-in for October 2024 (Month 55)
 date: 2024-11-01 07:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, explory story, marketing, game jam, project jig]
