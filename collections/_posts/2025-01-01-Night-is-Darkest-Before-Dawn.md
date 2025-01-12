@@ -30,7 +30,7 @@ Everything else went smoothly and according to plan! The contract with a publish
 ## Bonus Tasks Completed in December 2024
   - [x] Got featured on Apple's "Games We Love"
   - [x] Successfully hosted the 6th Pixel Fixel 1v1 Tournament
-  - [x] Won the Jingle Jam! More details in [our post-mortem here!](https://blog.bluepinstudio.com/posts/Trash-Force-Post-Mortem/)
+  - [x] Won the Jingle Jam! More details in [our post-mortem here!](/posts/2024-12-20-Trash-Force-Post-Mortem)
   - [x] Visited the Bonus Stage Toronto meetup to talk about games with the local game devs!
 
 Needless to say, getting featured by Apple has a massive effect on player numbers. Check out the last few months of Pixel Fixel players! 

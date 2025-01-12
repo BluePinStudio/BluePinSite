@@ -3,7 +3,7 @@ layout: basic
 title: "Eggnog Incorporated"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/eggnog-inc/"
-description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
+description: "Enjoy working as an Eggnog Inspector for a shady company. Verify the color, art, and ingredients for batches of eggnog. It's not glamorous but it's an honest living. Who knows what surprises are in store for you..."
 image: /assets/images/games/eggnog1.jpg
 ---
 ## <ins>Links</ins>

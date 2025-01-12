@@ -3,7 +3,7 @@ layout: basic
 title: "Pixel Fixel"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/pixel-fixel/"
-description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
+description: "Pixel Fixel is a soothing game where players match tiles of various colors to form satisfying gradients. Arrange chaos into beautiful mosaics of colors!"
 image: /assets/images/games/pixel1.jpg
 ---
 ## <ins>Links</ins>

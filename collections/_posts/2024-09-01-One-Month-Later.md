@@ -27,7 +27,7 @@ Regarding Pixel Fixel, the android version has been deployed, but I'm dragging m
 
 Regarding promoting the heck out of Charles and releasing Charles on Itch and Newgrounds... I didn't do these tasks because I realized the game was not in a good state to be shown off as much as possible. The early players of the game have pointed out a lot of flaws and I will be spending tons of time in the coming weeks addressing those flaws and improving the game.
 
-> I almost didn't make it to this month. I talked about that in this post: <https://blog.bluepinstudio.com/posts/Game-Launch-&-Near-Death/>
+> I almost didn't make it to this month. I talked about that in this post: </posts/2024-08-22-Game-Launch-&-Near-Death>
 {: .prompt-danger } 
 
 ![Charles the Bee Screenshot](/assets/images/posts/toronto.jpg){: width="972" height="589" }
