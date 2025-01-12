@@ -9,8 +9,9 @@ thumbnail: /assets/images/posts/december2024.png
 image: /assets/images/posts/december2024.png
 published : true
 ---
-
+## Month #57
 ## Welcome!
+Month #57
 Ahoy everyone! Welcome back, lets get into it. We're reviewing what happened in December 2024... First, let's start off with the goals we had planned!
 
 ## December 2024 Goals 
