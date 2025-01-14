@@ -31,6 +31,4 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 |OCT 2024| Ludum Dare 56            |Top 29%|[Save Nebuville](https://bluepinstudio.itch.io/save-nebuville/)                   |Arcade Shooter        |
 |DEC 2024| Yogscast Jingle Jam 2024 |Winner!|[Trash Force](https://bluepinstudio.itch.io/trashforce)                           |Arcade Shooter        |
 |DEC 2024| Secret Santa Jam         |N/A    |[Bruugle's Keypad](https://bluepinstudio.itch.io/bruugles-keypad)                 |Quiz                  |
-|APR 2025| Ludum Dare 57            |TBD    |TBD                                                                               |TBD                   |
-|OCT 2025| Ludum Dare 58            |TBD    |TBD                                                                               |TBD                   |
 {: .table .table-bordered }
