@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Holy Moly
+title: Paso Corto Vista Larga
 description: Monthly Check-in for January 2025 (Month 58)
 date: 2025-02-01 06:00:00 -0400
 categories: [Monthly Check-in]
