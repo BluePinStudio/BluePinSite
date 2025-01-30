@@ -32,7 +32,7 @@ Welcome back! First Monthly recap on the new website! This website is a major up
   - [x] Featured on Newgrounds front page with Trash Force
   - [x] Hosted the 7th Pixel Fixel Tournament
   - [x] Audited "Blue Pin Studio" including previous years to make a yearly recap post
-  - [ ] Pitched Trash Force to a bunch of publishers
+  - [x] Pitched Trash Force to a bunch of publishers
 
   <figure>
   <img src="/assets/images/posts/fanart.png" alt="Image description">
