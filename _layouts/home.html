@@ -28,6 +28,8 @@ body_classes: page-home
   </div>
 </div>
 
+{% include subscribe.html %}
+
 {% assign cards = site.posts | sort: 'date' | reverse %}
 {% assign limit = page.posts.limit | default: 6 %}
 {% assign sort_by = page.posts.sort | default: 'date' %}
@@ -97,4 +99,3 @@ body_classes: page-home
 </div>
 {% endif %}
 
-{% include subscribe.html %}
