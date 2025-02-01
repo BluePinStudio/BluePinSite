@@ -2,7 +2,7 @@
 layout: post
 title: Paso Corto Vista Larga
 description: Monthly Check-in for January 2025 (Month 58)
-date: 2025-02-01 06:00:00 -0400
+date: 2024-02-01T19:00:00Z
 categories: [Monthly Check-in]
 tags: [trash force, pixel fixel, marketing, alakajam, bigmode]
 thumbnail: /assets/images/posts/jan2025.png
