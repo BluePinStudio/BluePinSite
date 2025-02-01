@@ -41,8 +41,8 @@ Welcome back! First Monthly recap on the new website! This website is a major up
 
 
 ## February 2025 Goals 
-  - [ ] Submit a game for BIGMODE Jam 2025
-  - [ ] Submit a game for Alakajam 21
+  - [ ] Submit a game for [BIGMODE Jam 2025](https://itch.io/jam/bigmode-game-jam-2025)
+  - [ ] Submit a game for [Alakajam 21](https://alakajam.com/)
   - [ ] Go to two game dev meetups, Bonus Stage Toronto and Dirty Rectangles Toronto
   - [ ] Get Explory Story to a state where it's playable from start to finish including cutscenes.
   - [ ] Put up at least 50 more stickers for Pixel Fixel
