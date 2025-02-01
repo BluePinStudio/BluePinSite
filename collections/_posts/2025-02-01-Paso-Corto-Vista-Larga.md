@@ -46,6 +46,7 @@ Welcome back! First Monthly recap on the new website! This website is a major up
   - [ ] Go to two game dev meetups, Bonus Stage Toronto and Dirty Rectangles Toronto
   - [ ] Get Explory Story to a state where it's playable from start to finish including cutscenes.
   - [ ] Put up at least 50 more stickers for Pixel Fixel
+  - [ ] Prepare the Pixel Fixel anniversary update!
 
 February is not the time to lift my foot off the gas. We need more people to see Pixel Fixel, we need more games completed, we need Explory Story to get closer to complete, and so on... February is going to be a busy month!
  
