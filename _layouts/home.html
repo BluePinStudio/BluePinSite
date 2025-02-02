@@ -28,8 +28,6 @@ body_classes: page-home
   </div>
 </div>
 
-{% include subscribe.html %}
-
 {% assign cards = site.posts | sort: 'date' | reverse %}
 {% assign limit = page.posts.limit | default: 6 %}
 {% assign sort_by = page.posts.sort | default: 'date' %}
@@ -86,6 +84,8 @@ body_classes: page-home
   </div>
 </div>
 {% endif %}
+
+{% include subscribe.html %}
 
 {% if site.newsletter.mailchimp.form_action_url and site.newsletter.mailchimp.form_action_url != '' %}
 <div class="section section-base-bg-2">
