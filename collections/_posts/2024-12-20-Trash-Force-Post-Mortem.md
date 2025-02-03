@@ -105,10 +105,14 @@ Have a look at the judge's reaction to our game!
 
 ## Links
 
-- **If you want to give the game a try, head over here!** <https://bluepinstudio.itch.io/trashforce>
-- Check out **Mike**'s stuff here : <https://www.strollart.com/>
-- Check out **PixelPigeon**'s stuff here : <https://bsky.app/profile/thepixelpigeon.bsky.social>
-- Check out **RedCocoa**'s stuff here : <https://initialposition.net>
+**If you want to give the game a try, head over here!** 
+<https://bluepinstudio.itch.io/trashforce>
+Check out **Mike**'s stuff here : 
+<https://www.strollart.com/>
+Check out **PixelPigeon**'s stuff here : 
+<https://bsky.app/profile/thepixelpigeon.bsky.social>
+Check out **RedCocoa**'s stuff here : 
+<https://initialposition.net>
 
 
 ## Comments & Reactions
