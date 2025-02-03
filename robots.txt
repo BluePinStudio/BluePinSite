@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://bluepinstudio.com/sitemap.xml
