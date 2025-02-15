@@ -2,7 +2,7 @@
 layout: post
 title: Power of Loveball
 description: Post Mortem for my BIGMODE Game Jam entry, "Power of Loveball"
-date: 2025-02-14 01:00:00 -0400
+date: 2025-02-17 01:00:00 -0400
 categories: [Jam Post Mortem]
 tags: [loveball, post mortem, game jam]
 thumbnail: /assets/images/posts/loveball.png

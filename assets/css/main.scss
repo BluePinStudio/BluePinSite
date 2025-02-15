@@ -27,7 +27,7 @@
   --menu-font-weight: 400;
 
   --header-height: {{ site.header.header_height | default: "60px" }};
-  --section-padding: 80px;
+  --section-padding: 40px;
   --card-border-radius: 5px;
   --button-border-radius: 5px;
 }
