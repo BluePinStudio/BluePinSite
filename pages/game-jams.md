@@ -31,6 +31,6 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 |OCT 2024| Ludum Dare 56            |Top 29%|[Save Nebuville](https://bluepinstudio.itch.io/save-nebuville/)                   |Arcade Shooter        |
 |DEC 2024| Yogscast Jingle Jam 2024 |Winner!|[Trash Force](https://bluepinstudio.itch.io/trashforce)                           |Arcade Shooter        |
 |DEC 2024| Secret Santa Jam         |N/A    |[Bruugle's Keypad](https://bluepinstudio.itch.io/bruugles-keypad)                 |Quiz                      |
-|FEB 2025| Bigmode Game Jam 2025    |TBD    |[Power of Loveball](https://bluepinstudio.itch.io/power-of-loveball)              |Platformer / Visual Novel |
+|FEB 2025| Bigmode Game Jam 2025    |Top 18%|[Power of Loveball](https://bluepinstudio.itch.io/power-of-loveball)              |Platformer / Visual Novel |
 |FEB 2025| Alakajam 21              |TBD    |TBD                                                                               |TBD                       |
 {: .table .table-bordered }

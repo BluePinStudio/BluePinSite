@@ -50,7 +50,10 @@ During the [Bigmode Game Jam 2025](https://itch.io/jam/bigmode-game-jam-2025) ga
 ## Reception
 
 
-**Final Game**: 
+**Final Game**: We had 208 people leave try it out and leave lots of comments as well. If you average the score we got in each category, you end up with a ranking of 150th. That puts us in the top 18% out of 834 games.
+
+
+They loved it so much that they awarded us Best Visual Design out of all games they reviewed. Therefore, in our eyes, we won the jam! At least we tied for first place with 6 other games. :)
 
 
 ## Links
