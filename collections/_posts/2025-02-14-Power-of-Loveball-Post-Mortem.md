@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Power of Loveball
+title: Power of Loveball Post Mortem
 description: Post Mortem for my BIGMODE Game Jam entry, "Power of Loveball"
 date: 2025-02-17 01:00:00 -0400
 categories: [Jam Post Mortem]
@@ -12,7 +12,7 @@ published : true
 
 ## Introduction
 
-During the [Bigmode Game Jam 2025](https://itch.io/jam/bigmode-game-jam-2025) game jam, we created **Power of Loveball**. The theme was **Power**, and we had 9 days comsplete the game. The team consisted of Myself (Viktor), Pijinguy, Fasla and Princess Sylvysprit.
+During the [Bigmode Game Jam 2025](https://itch.io/jam/bigmode-game-jam-2025) game jam, we created **Power of Loveball**. The theme was **Power**, and we had 9 days complete the game. The team consisted of Myself (Viktor), Pijinguy, Fasla and Princess Sylvysprit.
 
 
 ## Timeline
@@ -50,15 +50,19 @@ During the [Bigmode Game Jam 2025](https://itch.io/jam/bigmode-game-jam-2025) ga
 ## Reception
 
 
-**Final Game**: We had 208 people leave try it out and leave lots of comments as well. If you average the score we got in each category, you end up with a ranking of 150th. That puts us in the top 18% out of 834 games.
+**Final Game**: We had 208 people try it out and leave lots of comments as well. If you average the score we got in each category, you end up with a ranking of 150th. That puts us in the top 18% out of 834 games. Unfortunately we didn't end up getting any awards or a feature on Dunkey's stream. The competition was tough! So many great games. This game scores 8th out of all the ranked game jams i've done, which is a decent outcome.
 
-
-They loved it so much that they awarded us Best Visual Design out of all games they reviewed. Therefore, in our eyes, we won the jam! At least we tied for first place with 6 other games. :)
+| **Criteria**    | **Rank**| **Percentile** |
+|Originality  | 70th     |Top 8%  | 
+|Presentation | 101st    |Top 12% |
+|Fun          | 153rd    |Top 18% |
+|Theme        | 277th    |Top 33% |
+{: .table .table-bordered }
 
 
 ## Links
 
-- **If you want to give the game a try, head over here!** <https://bluepinstudio.itch.io/power-of-loveball>
+- [**If you want to give the game a try, head over here!**](https://bluepinstudio.itch.io/power-of-loveball)
 - Check out **Pijinguy**'s stuff here : <https://x.com/Blast_A_Finn>
 - Check out **Princess Sylvysprit**'s stuff here : <https://www.youtube.com/@Sylvysprit>
 - Check out **Fasla**'s stuff here : no link provided
