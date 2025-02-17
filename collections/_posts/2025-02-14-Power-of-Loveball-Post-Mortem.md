@@ -32,7 +32,7 @@ Maybe the previous statement was too dramatic. But I will say the development of
 
 Then, I found out that the musician will not be making any of the sound effects and will not be available until the final days of the jam. Which spooked me further... I went straight to work, whipping up a prototype in lightning speed. Me and Pijin began iterating while Pijin communicated to Fasla to get the character art sorted. Day by day, both sections of the game and the supporting systems got made, revised, remade, and polished. Sylvysprit came through in the final days with the music and we were able to make some adjustments to some of the scenes to match the music better.
 
-Ultimately every teammate ended up contributing a solid amount of effort towards completing the game. Sylvysprit mentioned in an interview after that she spent roughly 8 hours working on the game. Meanwhile myself and Pijin probably spent approximately 40 hours each and I have no clue how much time Fasla spent, but probably alot because she managed to deliver 5 HD character portraits.
+Ultimately every teammate ended up contributing a solid amount of effort towards completing the game. Sylvysprit mentioned in an interview after that she spent roughly 8 hours working on the game. Myself and Pijin probably spent approximately 40 hours each and I have no clue how much time Fasla spent, but probably alot because she managed to deliver 5 HD character portraits.
 
 <figure style="width: 100%; margin: 0; text-align: center;">
   <img src="/assets/images/posts/loveball2.png" alt="Image description" style="width: 100%; height: auto;">
