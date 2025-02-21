@@ -33,4 +33,5 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 |DEC 2024| Secret Santa Jam         |N/A    |[Bruugle's Keypad](https://bluepinstudio.itch.io/bruugles-keypad)                 |Quiz                      |
 |FEB 2025| Bigmode Game Jam 2025    |Top 18%|[Power of Loveball](https://bluepinstudio.itch.io/power-of-loveball)              |Platformer / Visual Novel |
 |FEB 2025| Alakajam 21              |TBD    |TBD                                                                               |TBD                       |
+|APR 2025| Ludum Dare 57            |TBD    |TBD                                                                               |TBD                       |
 {: .table .table-bordered }
