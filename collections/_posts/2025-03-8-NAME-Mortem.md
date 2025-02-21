@@ -2,7 +2,7 @@
 layout: post
 title: NAME Post Mortem
 description: Post Mortem for my Alakajam entry, "NAME"
-date: 2025-02-17T00:00:00Z
+date: 2025-03-08T00:00:00Z
 categories: [Jam Post Mortem]
 tags: [NAME, post mortem, game jam]
 thumbnail: /assets/images/posts/NAME.png
