@@ -1,10 +1,10 @@
 ---
 layout: post
-title: NAME Post Mortem
-description: Post Mortem for my Alakajam entry, "NAME"
+title: Falling Thingies Post Mortem
+description: Post Mortem for my Alakajam entry, "Falling Thingies"
 date: 2025-03-08T00:00:00Z
 categories: [Jam Post Mortem]
-tags: [NAME, post mortem, game jam]
+tags: [falling thingies, post mortem, game jam]
 thumbnail: /assets/images/posts/NAME.png
 image: /assets/images/posts/NAME.png
 published : true
