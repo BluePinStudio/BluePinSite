@@ -25,6 +25,8 @@ My submissions for Bigmode Jam and Alakajam went really well! You can check out 
 - [BIGMODE Jam 2025 Post Mortem](/blog/2025-02-14-Power-of-Loveball-Post-Mortem/)
 - [Alakajam 21 Post Mortem](/blog/2025-03-15-Falling-Thingies-Post-Mortem/) (coming March 15)
 
+I'm also busy deploying the Pixel Fixel anniversary update! A little bit late because I got sick for a solid week, but we're going! Feb goals ended up basiiiiiically complete!
+
 ## Bonus Tasks Completed in February 2025
   - [x] Hosted the 8th Pixel Fixel Tournament
   - [x] Pitched Trash Force to 30 more publishers
