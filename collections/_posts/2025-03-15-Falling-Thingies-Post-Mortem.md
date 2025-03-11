@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Falling Thingies Post Mortem
-description: Post Mortem for my Alakajam entry, "Falling Thingies"
+description: Post Mortem for my Alakajam 21 entry, "Falling Thingies"
 date: 2025-03-18T00:00:00Z
 categories: [Jam Post Mortem]
 tags: [falling thingies, post mortem, game jam, alakajam]
