@@ -22,7 +22,7 @@ I was scared when preparing for this jam. I knew I was going to be making all th
 
 The Pre-Jam period for Alakajam was awesome. I got to submit some themes, I got to vote on other people's themes, and I got to see the top themes before the jam started. I loved the process! Unfortunately the theme that ended up winning (Gravity) put a wrench in my plans to remake one of my favorite Neopets games "Dubloon Disaster" pictured below. But alas! We soldier on!
 
-  <figure>
+  <figure style="text-align: center;">
   <img src="/assets/images/posts/dubloon.png" alt="Neopets Dubloon Disaster">
   </figure>
 
@@ -32,6 +32,10 @@ Right before the Jam began I started looking for a musician because doing the ar
 ### The Development
 Over the next few days I worked very hard to get the game to a good state. Not much to report, just steady progress on making the thingies, thangies and super thingies. Applying lots of blur, glow, a moving background and so on...
 
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/thingies.gif" alt="First place prize in Alakajam 21">
+</figure>
 
 ## What Went Well
 Everything went well, i would say! The gameplay got up and running very quick. Thanks to it being so simple, it didn't take much time to implement. The music was also done well within the time limit so there was no extra crunch or anything. Me and Calvin even had time to playtest a bunch, discover bugs, and fix bugs at a leisurely pace.
@@ -65,6 +69,14 @@ Overall, I am pleased with the final product. Im considering putting a bit more 
 |Originality | 2nd |  Top 11% |
 |Theme       | 2nd |  Top 11% | 
 {: .table .table-bordered }
+
+
+
+We ended up winning the jam! (In the Team category). It was a great set of devs to jam with, everyone left such useful and thoughtful feedback and the two streams ran by the organizers were great too! I'm looking forward to my next Alakajam!
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/wonalakajam.png" alt="First place prize in Alakajam 21">
+</figure>
 
 
 ## Links
