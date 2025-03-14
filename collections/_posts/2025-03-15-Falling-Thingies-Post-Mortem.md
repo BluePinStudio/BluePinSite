@@ -2,7 +2,7 @@
 layout: post
 title: Falling Thingies Post Mortem
 description: Post Mortem for my Alakajam 21 entry, "Falling Thingies"
-date: 2025-03-18T00:00:00Z
+date: 2025-03-15T00:00:00Z
 categories: [Jam Post Mortem]
 tags: [falling thingies, post mortem, game jam, alakajam]
 thumbnail: /assets/images/posts/thingies.png
@@ -74,10 +74,13 @@ Overall, I am pleased with the final product. Im considering putting a bit more 
 
 We ended up winning the jam! (In the Team category). It was a great set of devs to jam with, everyone left such useful and thoughtful feedback and the two streams ran by the organizers were great too! I'm looking forward to my next Alakajam!
 
+
+
 <figure style="text-align: center;">
 <img src="/assets/images/posts/wonalakajam.png" alt="First place prize in Alakajam 21">
 </figure>
 
+Based on the reception it has had on Newgrounds and Alakajam, it seems like a good candidate to pop onto the mobile stores real quick but there are still some unanswered questions. How does the level end? How does the game progress? What variation can be added in order to have multiple different levels? All of these questions and more! We'll see where the game ends up in the future... I'll keep you posted!
 
 ## Links
 
