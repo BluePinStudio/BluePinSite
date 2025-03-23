@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Newgrounds Demo",
+    "fa_icon": "fab fa-gamepad",
+    "url": "https://www.newgrounds.com/portal/view/965670"
+  },
+  {
+    "title": "Itch Demo",
+    "fa_icon": "fab fa-itch-io",
+    "url": "https://bluepinstudio.itch.io/trashforce"
+  }
+]

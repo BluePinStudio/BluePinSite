@@ -6,6 +6,11 @@ main:
     url: /games/
     weight: 2
     child:
+      - name: "Trash Force"
+        icon: "/assets/images/games/trashforce.jpg"
+        icon_darkmode: "/assets/images/games/trashforce.jpg"
+        description: "2025"
+        url: /trash-force/    
       - name: "Explory Story"
         icon: "/assets/images/games/exploryheader.jpg"
         icon_darkmode: "/assets/images/games/exploryheader.jpg"
