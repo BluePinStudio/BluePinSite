@@ -83,7 +83,7 @@ Edit: Oh, one last minute addition to the blog post, I was reminded that this ga
 |Presentation | 101st    |Top 12% |
 |Fun          | 153rd    |Top 18% |
 |Theme        | 277th    |Top 33% |
-{: .table .table-bordered }
+{: .table .table-sm }
 
 
 ## Links

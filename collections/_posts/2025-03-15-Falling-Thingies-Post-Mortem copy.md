@@ -68,7 +68,7 @@ Overall, I am pleased with the final product. Im considering putting a bit more 
 |Gameplay    | 1st |  Winner! |
 |Originality | 2nd |  Top 11% |
 |Theme       | 2nd |  Top 11% | 
-{: .table .table-bordered }
+{: .table .table-sm }
 
 
 
