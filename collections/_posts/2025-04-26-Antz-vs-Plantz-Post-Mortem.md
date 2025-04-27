@@ -57,14 +57,14 @@ Empty
   </figure>
 
 | **Criteria**    | **Rank**| **Percentile** |
-|Overall       | 100 |  Top 11% | 
-|Fun           | 100 |  Top 11% |
-|Innovation    | 100 |  Top 11% |
-|Theme         | 100 |  Top 11% |
-|Graphics      | 100 |  Top 11% |
-|Audio         | 100 |  Top 11% | 
-|Humor         | 100 |  Top 11% | 
-|Mood          | 100 |  Top 11% | 
+|Overall       | 33rd |  Top 3% | 
+|Fun           | 14th |  Top 1% |
+|Innovation    | 91st |  Top 8% |
+|Theme         | 281st |  Top 24% |
+|Graphics      | 262nd |  Top 22% |
+|Audio         | 126th |  Top 11% | 
+|Humor         | 85th |  Top 7% | 
+|Mood          | 266th |  Top 23% | 
 {: .table .table-bordered }
 
 
