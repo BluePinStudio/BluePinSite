@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Title
+title: Death and Taxes
 description: Monthly Check-in for April 2025 (Month 61)
 date: 2025-05-01T12:00:00Z
 categories: [Monthly Check-in]
