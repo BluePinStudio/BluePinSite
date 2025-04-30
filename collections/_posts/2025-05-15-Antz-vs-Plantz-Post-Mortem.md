@@ -25,7 +25,7 @@ Normally I like to prepare for Ludum Dare by creating a document allowing the te
 ### Jam Begins...
 As soon as the jam started we got into a voice call. It was night time and most of the time was spent doodling on a shared canvas via Discord Activities. Something that is noteworthy to point out is that the idea we ended up choosing in the end was a plinko/tower defense hybrid. The noteworthy aspect of this is Manisha's reaction to the idea which you can see in this screenshot before i crossed it out. She said "nahhh"
 
-  <figure>
+  <figure style="text-align: center;">
   <img src="/assets/images/posts/AntzManisha.PNG" alt="Manisha wrote nahhh for our idea">
   </figure>
 
@@ -40,7 +40,7 @@ Here is what an early build of the game looked like. The process was basically e
 
 Additionally we spent a bunch of time adding fun decoration to the level such as these two tree mascots. One is nice and helpful, the other one isn't nice or helpful. This is what the game looked like after Day 1 of production was completed!
 
-  <figure>
+  <figure style="text-align: center;">
   <img src="/assets/images/posts/AntzvsPlantzDay1.PNG" alt="Antz vs Plantz Early Screenshot">
   </figure>
 
@@ -60,6 +60,9 @@ I came away from this jam having only one major complaint; I wish I had more tim
 - <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> I felt like my workflow still needs some work in terms of how I put art assets together. Ideally I'd like to have a better structure to how I organize things so that my work is just getting plugged in, rather than needing to make adjustments to get it to properly work because of a lack of experience on that side of things. I had a lot of downtime towards the back half of the project that I felt bad about not being able to help during. I feel like we should have probably aimed to get a testable prototype working earlier so that we could test and get some more feedback before the final stretch.
 - <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
 
+  <figure style="text-align: center;">
+  <img src="/assets/images/posts/AntzvsPlantz.gif" alt="Antz vs Plantz gameplay gif">
+  </figure>
 
 ## The Final Product
 I'm very pleased with the final product. I've been meaning to make an homage to Plants vs Zombies and I think this is a solid homage. The game had a great reception so perhaps we'll take it further, who knows!
@@ -69,9 +72,8 @@ I'm very pleased with the final product. I've been meaning to make an homage to 
 
 
 ## Reception
-
   <figure>
-  <img src="/assets/images/posts/AntzvsPlantz.gif" alt="Antz vs Plantz gameplay gif">
+  <img src="/assets/images/posts/fullgameantz.PNG" alt="Quintessential comment on Antz vs Plantz Ludum Dare page">
   </figure>
 
 **Final Game**: We had 90 Ludum Dare participants try it out and leave lots of comments as well. Additionally, we logged 224 scores logged to the database. It's unclear how many unique players we got because we don't have any identifiable data, but it seems like somewhere around 200! A fantastic outcome.
