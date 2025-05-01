@@ -19,7 +19,7 @@ Here we are again! Thanks for joining me on the 61th month of this indie adventu
   - [x] Update Trash Force with "THE HUB" Milestone
   - [x] Publish Pixel Fixel Anniversary update
   - [ ] Host Final Pixel Fixel Tournament!
-  - [x] Publish Charles the Bee multiplayer update
+  - [ ] Publish Charles the Bee multiplayer update
   - [x] File taxes
   - [ ] Get Explory Story to a state where it's playable from start to finish including cutscenes.
 
@@ -38,6 +38,7 @@ Here we are again! Thanks for joining me on the 61th month of this indie adventu
 ## May 2025 Goals 
   - [ ] Write a blog post mortem post for Antz vs Plantz
   - [ ] Update & Deploy Antz vs Plantz to Newgrounds
+  - [ ] Publish Charles the Bee multiplayer update
   - [ ] Host Final Pixel Fixel Tournament!
   - [ ] Make Falling Thingies Steam page public
   - [ ] Trash Force "Graystone Milestone"
