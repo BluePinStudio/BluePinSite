@@ -56,6 +56,9 @@ I think the entire process was smooth! We were able to get an idea agreed upon e
 
 <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Surprisingly, our brainstorming session was much quicker than I was generally used to and we settled on a game idea through a chaotically fun whiteboarding session the very first night. The team had great synergy, probably because we’ve worked together before and are all laid-back, open to feedback and comfortable sharing opinions when things need change. I personally had a lot of fun finding inspiration from the soundtrack on the song 'The Ants Go Marching' which I felt was perfect for our ant themed game.
 
+  <figure style="text-align: center;">
+  <img src="/assets/images/posts/antzvsplantzfrickyou.png" alt="Antz vs Plantz gameplay gif">
+  </figure>
 
 ## Challenges
 I came away from this jam having only one major complaint; I wish I had more time... This is the case with most jams i've done but this time i really felt like we could've done a much better job given a few more days. I think I'm starting to sour on the idea of doing an entire game in the span of a few days, especially while trying to do a day job throughout. It simply doesn't leave enough time for proper onboarding, menus, settings, polish, etc.
