@@ -54,7 +54,7 @@ I think the entire process was smooth! We were able to get an idea agreed upon e
 
 <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> Our ideation at the start of the jam was really productive. We came out of our initial session with a solid idea of the concept and an early prototype of the mechanics of it. I think we also coordinated well in terms of the design of the game. All three of us have a solid sense of game design so being able to bounce ideas and work through problems together made the project feel a lot more like a collective effort (rather than just a bunch of pieces being fit together). In terms of the art, I felt a little bit more confident in my ability to put things together in Asesprite than last time around. The trees also went well.
 
-<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Surprisingly, our brainstorming session was much quicker than I was generally used to and we settled on a game idea through a chaotically fun whiteboarding session the very first night. The team had great synergy, probably because we’ve worked together before and are all laid-back, open to feedback and comfortable sharing opinions when things need change. I personally had a lot of fun finding inspiration from the soundtrack on the song 'The Ants Go Marching' which I felt was perfect for our ant themed game.
 
 
 ## Challenges
@@ -62,7 +62,7 @@ I came away from this jam having only one major complaint; I wish I had more tim
 
 <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> I felt like my workflow still needs some work in terms of how I put art assets together. Ideally I'd like to have a better structure to how I organize things so that my work is just getting plugged in, rather than needing to make adjustments to get it to properly work because of a lack of experience on that side of things. I had a lot of downtime towards the back half of the project that I felt bad about not being able to help during. I feel like we should have probably aimed to get a testable prototype working earlier so that we could test and get some more feedback before the final stretch.
 
-<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> I only created one audio track this jam since I was a bit rusty after not making music for over a year and I was using GarageBand for the first time. I initially tried LMMS, which I'm more familiar with on PC, but it wasn't cooperating on my Mac. I quickly adjusted and ended up having fun learning a new DAW! Once the inspiration hit, the process flowed smoothly. My approach is mostly intuitive and I let the music take shape naturally, but I know I need more structure to my process. The track is a short loop with very repetitive elements and I wish I had took the time to make it longer with more variety. With the static screen for gameplay, a music shift halfway through or gradually layering the track as the ant hole deepened might have also elevated the experience.
 
   <figure style="text-align: center;">
   <img src="/assets/images/posts/AntzvsPlantz.gif" alt="Antz vs Plantz gameplay gif">
@@ -75,7 +75,7 @@ I'm very pleased with the final product. I've been meaning to make an homage to 
 
 Landing 14th place in fun was particularly wild - especially considering some of the competition we were up against. I personally think there's a lot of promise in the game concept that could be expanded upon into a full version. Keen to see whether we end up taking it that direction!
 
-<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> I'm really happy with our final entry and how the audio track turned out. It's catchy and whimsical and I think it matched the visuals, though I wouldn’t blame anyone if it got a little stuck in their head (or nerves). I don’t usually play tower defense games but our game had me hooked. I might be biased though, right? Finishing 33rd overall, with 14th in fun was a great surprise and I’m proud of my audio ranking too, especially since I don't consider myself a music composer. Proud of our team! Looking forward to how our development journey continues from here.
 
 
 
