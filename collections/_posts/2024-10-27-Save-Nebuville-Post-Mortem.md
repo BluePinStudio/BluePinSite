@@ -41,24 +41,27 @@ _Nebuville Prototype Mockup by Bonejacq_
 
 I didn't have a lot of time to work on the project, but I spent the time I had very well. I managed to design, implement and polish this game within the span of perhaps 10-15 hours total. Quite quick!
 
-- **Comment from Pijinguy (Artist)**: I somehow was able to make all the art in time and i am happy enough with the quality of it which kinda surprised me. Also you viktor, really tied it all together to finish the project well. 
-- **Comment from Bonejacq (Musician)**: Assembling the team was quick and painless. We didn't really have any creative differences, which is important. We just picked something and went with it.
+**Comment from Pijinguy (Artist)**: I somehow was able to make all the art in time and i am happy enough with the quality of it which kinda surprised me. Also you viktor, really tied it all together to finish the project well. 
+
+**Comment from Bonejacq (Musician)**: Assembling the team was quick and painless. We didn't really have any creative differences, which is important. We just picked something and went with it.
 
 
 ## Challenges
 
 Like I alluded to before, this jam had pretty minimal contribution from the other teammates. This gave me a new challenge to do more with less. In addition to my usual challenge of fitting in working a day job with game jamming.
 
-- **Comment from Pijinguy (Artist)**: My job was getting very hectic at the same time as the jam, and the stress levels were quite high. I was really scared of not being able to make the art in time, and i actually almost didn't.
-- **Comment from Bonejacq (Musician)**: Mostly personal issues on my part, so the challenge was getting up and doing what I needed to do at all. In terms of our collaboration, I think it felt like we were all equally lukewarm about the prompt and the resulting ideas, which made it hard to lock in as well.
+**Comment from Pijinguy (Artist)**: My job was getting very hectic at the same time as the jam, and the stress levels were quite high. I was really scared of not being able to make the art in time, and i actually almost didn't.
+
+**Comment from Bonejacq (Musician)**: Mostly personal issues on my part, so the challenge was getting up and doing what I needed to do at all. In terms of our collaboration, I think it felt like we were all equally lukewarm about the prompt and the resulting ideas, which made it hard to lock in as well.
 
 
 ## The Final Product
 
 I think my favorite part of the entire process was seeing a final product that was actually quite good, despite how little time myself and the other team members spent on the project. This Ludum Dare was definitely the least amount of hours contributed towards the end project across all the teammates that I've ever been a part of. That being said : It's not my least favorite final product, so that means there is tangible improvement across the game dev spectrum for myself! Very exciting!
 
-- **Comment from Pijinguy (Artist)**: Quite happy with how everything turned out, a very great learning experience for me, the game is actually a lot of fun, and the results weren't half bad. Glad i got to participate.
-- **Comment from Bonejacq (Musician)**: The final result is a cute little flash shooter. I like it! Could obviously be refined into something slicker and sleeker but it doesn't really need to be.
+**Comment from Pijinguy (Artist)**: Quite happy with how everything turned out, a very great learning experience for me, the game is actually a lot of fun, and the results weren't half bad. Glad i got to participate.
+
+**Comment from Bonejacq (Musician)**: The final result is a cute little flash shooter. I like it! Could obviously be refined into something slicker and sleeker but it doesn't really need to be.
 
 
 

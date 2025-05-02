@@ -39,17 +39,20 @@ Over the next few days I worked very hard to get the game to a good state. Not m
 
 ## What Went Well
 Everything went well, i would say! The gameplay got up and running very quick. Thanks to it being so simple, it didn't take much time to implement. The music was also done well within the time limit so there was no extra crunch or anything. Me and Calvin even had time to playtest a bunch, discover bugs, and fix bugs at a leisurely pace.
-- <span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**Comment from Calvin (Music)**:</span> Visuals and scope were set very early, which greatly facilitated my ability to create cohesive music. Knowing what the game would look like and how it would progress through play allowed me to commit to the style of music and the concept of evolving intensity and just go full steam ahead.
+
+<span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**Comment from Calvin (Music)**:</span> Visuals and scope were set very early, which greatly facilitated my ability to create cohesive music. Knowing what the game would look like and how it would progress through play allowed me to commit to the style of music and the concept of evolving intensity and just go full steam ahead.
 
 
 ## Challenges
 The main thing I was pushing myself on the entire time is aesthetics. I was deathly afraid of the game looking bland or boring. I'm not highly skilled at making great art, so i had to rely on shaders and effects applied to primitive geometry. I think it worked out ok!
-- <span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**Comment from Calvin (Music)**:</span> I was pretty busy during the jam and our schedules were a little out of sync. It made it difficult to do any play testing on my end and give appropriate and timely feedback. But the programmer had great vision and scope (and play testers on their end, I think) so it wasn’t detrimental. Just something I would have liked to help out more with.
+
+<span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**Comment from Calvin (Music)**:</span> I was pretty busy during the jam and our schedules were a little out of sync. It made it difficult to do any play testing on my end and give appropriate and timely feedback. But the programmer had great vision and scope (and play testers on their end, I think) so it wasn’t detrimental. Just something I would have liked to help out more with.
 
 
 ## The Final Product
 Overall, I am pleased with the final product. Im considering putting a bit more effort in some variation and putting it up on the mobile app stores. Why not!
-- <span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**Comment from Calvin (Music)**:</span> Very pleased with the outcome. Equally important is that I was very pleased with the process. Great working relationship which shows in the final product. I’m glad I could contribute my piece to this awesome project.
+
+<span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**Comment from Calvin (Music)**:</span> Very pleased with the outcome. Equally important is that I was very pleased with the process. Great working relationship which shows in the final product. I’m glad I could contribute my piece to this awesome project.
 
 
 

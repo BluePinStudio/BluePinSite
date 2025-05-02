@@ -51,14 +51,18 @@ We published the game at the last minute and it was relatively bug free! Another
 
 ## What Went Well
 I think the entire process was smooth! We were able to get an idea agreed upon early and we benefitted from that tremendously. My deep knowledge of plants vs zombies and other defense games came in handy here too. It allowed us to use a lot of tropes and ideas from those games as a springboard for our own designs.
-- <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> Our ideation at the start of the jam was really productive. We came out of our initial session with a solid idea of the concept and an early prototype of the mechanics of it. I think we also coordinated well in terms of the design of the game. All three of us have a solid sense of game design so being able to bounce ideas and work through problems together made the project feel a lot more like a collective effort (rather than just a bunch of pieces being fit together). In terms of the art, I felt a little bit more confident in my ability to put things together in Asesprite than last time around. The trees also went well.
-- <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
+
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> Our ideation at the start of the jam was really productive. We came out of our initial session with a solid idea of the concept and an early prototype of the mechanics of it. I think we also coordinated well in terms of the design of the game. All three of us have a solid sense of game design so being able to bounce ideas and work through problems together made the project feel a lot more like a collective effort (rather than just a bunch of pieces being fit together). In terms of the art, I felt a little bit more confident in my ability to put things together in Asesprite than last time around. The trees also went well.
+
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
 
 
 ## Challenges
 I came away from this jam having only one major complaint; I wish I had more time... This is the case with most jams i've done but this time i really felt like we could've done a much better job given a few more days. I think I'm starting to sour on the idea of doing an entire game in the span of a few days, especially while trying to do a day job throughout. It simply doesn't leave enough time for proper onboarding, menus, settings, polish, etc.
-- <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> I felt like my workflow still needs some work in terms of how I put art assets together. Ideally I'd like to have a better structure to how I organize things so that my work is just getting plugged in, rather than needing to make adjustments to get it to properly work because of a lack of experience on that side of things. I had a lot of downtime towards the back half of the project that I felt bad about not being able to help during. I feel like we should have probably aimed to get a testable prototype working earlier so that we could test and get some more feedback before the final stretch.
-- <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
+
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> I felt like my workflow still needs some work in terms of how I put art assets together. Ideally I'd like to have a better structure to how I organize things so that my work is just getting plugged in, rather than needing to make adjustments to get it to properly work because of a lack of experience on that side of things. I had a lot of downtime towards the back half of the project that I felt bad about not being able to help during. I feel like we should have probably aimed to get a testable prototype working earlier so that we could test and get some more feedback before the final stretch.
+
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
 
   <figure style="text-align: center;">
   <img src="/assets/images/posts/AntzvsPlantz.gif" alt="Antz vs Plantz gameplay gif">
@@ -66,8 +70,12 @@ I came away from this jam having only one major complaint; I wish I had more tim
 
 ## The Final Product
 I'm very pleased with the final product. I've been meaning to make an homage to Plants vs Zombies and I think this is a solid homage. The game had a great reception so perhaps we'll take it further, who knows!
-- <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> It's the best game jam game I've contributed to. It's a bit of a strange arrangement given that I'm not traditionally an artist - but I think we've found a configuration that works well for us for collaborating. I'm also happy that I got to put a bit more personality into some of the character designs towards the end. There was a bit where I liked the ant designs, but didn't necessarily feel like the game reflected my own personal style. Putting some weirdo trees in there helped on that front. Landing 14th place in fun was particularly wild - especially considering some of the competition we were up against. I personally think there's a lot of promise in the game concept that could be expanded upon into a full version. Keen to see whether we end up taking it that direction!
-- <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
+
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art)**:</span> It's the best game jam game I've contributed to. It's a bit of a strange arrangement given that I'm not traditionally an artist - but I think we've found a configuration that works well for us for collaborating. I'm also happy that I got to put a bit more personality into some of the character designs towards the end. There was a bit where I liked the ant designs, but didn't necessarily feel like the game reflected my own personal style. Putting some weirdo trees in there helped on that front. 
+
+Landing 14th place in fun was particularly wild - especially considering some of the competition we were up against. I personally think there's a lot of promise in the game concept that could be expanded upon into a full version. Keen to see whether we end up taking it that direction!
+
+<span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Empty
 
 
 

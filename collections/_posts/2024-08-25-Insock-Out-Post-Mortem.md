@@ -47,24 +47,27 @@ _Same placeholder art is in! This is what it looked like 3 days into the jam_
 
 The thing that comes to mind the most for myself is how easy the process was. We aimed to minimize crunch and over-working and we hit that aspect out of the park! I think I only spent around 10-20 hours across the 9 day period on the game. Admittedly, that probably wasn't enough time, but it allowed me to approach the development from a relaxed standpoint.
 
-- **Comment from Augusto (Artist)**: The overall product was almost 100% what we envisioned.
-- **Comment from RedCocoa (Musician)**: The main background track came together super fast so I was able to polish it a lot more than I had anticipated, also there was good communication about what to change with the sound effects so I could get them done in time the way everyone liked them
+**Comment from Augusto (Artist)**: The overall product was almost 100% what we envisioned.
+
+**Comment from RedCocoa (Musician)**: The main background track came together super fast so I was able to polish it a lot more than I had anticipated, also there was good communication about what to change with the sound effects so I could get them done in time the way everyone liked them
 
 
 ## Challenges
 
 The challenge, which is the same challenge I faced in my previous two game jams, was making a cohesive and fun experience. I think what we delivered is _ok_ but it isn't extraordinary in terms of innovation or design. We combined Fruit Ninja and turning socks inside out. While the modules worked well individually, they don't necessarily combine to make the game greater than the sum of it's parts. This is something our feedback from other developers pointed out as well. For my next jam, I will try to crank innovation to the limit in an attempt to make something more cohesive.
 
-- **Comment from Augusto (Artist)**: I learnt that the communication should be stronger and more thorough.
-- **Comment from RedCocoa (Musician)**: I initially had a hard time with the sound effects because I had no real idea which direction to go in, which was cleared up in communication fast afterwards though
+**Comment from Augusto (Artist)**: I learnt that the communication should be stronger and more thorough.
+
+**Comment from RedCocoa (Musician)**: I initially had a hard time with the sound effects because I had no real idea which direction to go in, which was cleared up in communication fast afterwards though
 
 
 ## The Final Product
 
 I'm pleased with what we delivered, especially given the context of the labor we put in. The game scored nicely and it didn't affect my personal life as much as previous jams did.
 
-- **Comment from Augusto (Artist)**: I'm at ease about the work done and the reception of the players.
-- **Comment from RedCocoa (Musician)**: The game has a very nice arcadey feel to it, I enjoy playing it, commenters seemed to generally like it a lot and I think we built a really good game here
+**Comment from Augusto (Artist)**: I'm at ease about the work done and the reception of the players.
+
+**Comment from RedCocoa (Musician)**: The game has a very nice arcadey feel to it, I enjoy playing it, commenters seemed to generally like it a lot and I think we built a really good game here
 
 
 
