@@ -53,5 +53,41 @@
 {% include framework/plausible-analytics.html %}
 {% include framework/umami-analytics.html %}
 
+<img id="follower-gif" src="{{ '/assets/images/Vinny_Small.gif' | relative_url }}" alt="Vinny" />
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Skip if on a touchscreen device
+    if ('ontouchstart' in window || navigator.maxTouchPoints) return;
+
+    const follower = document.getElementById('follower-gif');
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    document.addEventListener('mousemove', function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      const speed = 0.15; // Adjust this to control the smoothness
+
+      currentX += (mouseX - currentX) * speed;
+      currentY += (mouseY - currentY) * speed;
+
+      follower.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  });
+</script>
+
+
+
 </body>
 </html>

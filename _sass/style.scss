@@ -40,3 +40,14 @@
   content: "\f14a";
   color: #0084ff;
 }
+
+#follower-gif {
+  position: fixed;
+  pointer-events: none;
+  width: auto;
+  height: auto;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  will-change: top, left;
+}
