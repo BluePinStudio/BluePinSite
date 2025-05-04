@@ -58,7 +58,6 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Skip if on a touchscreen device
     if ('ontouchstart' in window || navigator.maxTouchPoints) return;
 
     const follower = document.getElementById('follower-gif');
@@ -73,12 +72,15 @@
     });
 
     function animate() {
-      const speed = 0.15; // Adjust this to control the smoothness
-
+      const speed = 0.15;
       currentX += (mouseX - currentX) * speed;
       currentY += (mouseY - currentY) * speed;
 
-      follower.style.transform = `translate(${currentX}px, ${currentY}px)`;
+      // Adjust Y to align the bottom of the image to the cursor
+      const offsetY = follower.offsetHeight;
+
+      follower.style.left = currentX + 'px';
+      follower.style.top = (currentY - offsetY) + 'px';
 
       requestAnimationFrame(animate);
     }
@@ -86,6 +88,7 @@
     animate();
   });
 </script>
+
 
 
 

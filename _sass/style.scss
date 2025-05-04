@@ -44,10 +44,11 @@
 #follower-gif {
   position: fixed;
   pointer-events: none;
-  width: auto;
-  height: auto;
+  width: 2; /* or whatever your GIF width is */
+  height: 2;
   z-index: 9999;
   top: 0;
   left: 0;
-  will-change: top, left;
+  transform: translate(-50%, 0%);
 }
+
