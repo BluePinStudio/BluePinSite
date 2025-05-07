@@ -44,11 +44,16 @@
 #follower-gif {
   position: fixed;
   pointer-events: none;
-  width: 2; /* or whatever your GIF width is */
-  height: 2;
+  width: auto;       /* Keep your original size */
+  height: auto;
   z-index: 9999;
   top: 0;
   left: 0;
   transform: translate(-50%, 0%);
+  display: none;     /* Hidden by default */
 }
 
+/* Hide when scripts are disabled */
+noscript #follower-gif {
+  display: none !important;
+}

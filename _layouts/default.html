@@ -58,15 +58,20 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    if ('ontouchstart' in window || navigator.maxTouchPoints) return;
-
     const follower = document.getElementById('follower-gif');
-    let mouseX = 0;
-    let mouseY = 0;
-    let currentX = 0;
-    let currentY = 0;
+    
+    // Exit and hide if mobile
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      follower.style.display = 'none';
+      return;
+    }
 
-    document.addEventListener('mousemove', function (e) {
+    // Show follower for desktop users with JS enabled
+    follower.style.display = 'block';
+
+    let mouseX = 0, mouseY = 0, currentX = 0, currentY = 0;
+
+    document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     });
@@ -75,13 +80,10 @@
       const speed = 0.02;
       currentX += (mouseX - currentX) * speed;
       currentY += (mouseY - currentY) * speed;
-
-      // Adjust Y to align the bottom of the image to the cursor
-      const offsetY = follower.offsetHeight;
-
-      follower.style.left = currentX + 'px';
-      follower.style.top = (currentY - offsetY) + 'px';
-
+      
+      // Maintain your original transform-based positioning
+      follower.style.transform = `translate(-50%, 0%) translate(${currentX}px, ${currentY}px)`;
+      
       requestAnimationFrame(animate);
     }
 
@@ -89,7 +91,14 @@
   });
 </script>
 
-
+<img src="your-gif.gif" id="follower-gif" alt="cursor follower">
+<noscript>
+  <style>
+    #follower-gif {
+      display: none !important;
+    }
+  </style>
+</noscript>
 
 
 </body>
