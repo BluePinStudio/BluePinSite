@@ -1,0 +1,129 @@
+<div id="toc-sidebar" class="toc-sidebar">
+  <div class="toc-header">Contents</div>
+  <div class="toc-items"></div>
+</div>
+
+<style>
+/* Desktop-only styles */
+@media (min-width: 1200px) {
+  .toc-sidebar {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--color-base-bg);
+    border: 1px solid var(--color-base-bg-3);
+    padding: 1.2rem;
+    max-width: 260px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: var(--card-border-radius);
+    box-shadow: rgba(17, 17, 17, 0.1) 0px 20px 25px -5px, rgba(17, 17, 17, 0.04) 0px 10px 10px -5px;
+    z-index: 20;
+    display: none;
+    font-family: var(--font-family-base);
+  }
+
+  html[data-bs-theme="dark"] .toc-sidebar {
+    box-shadow: rgba(127, 127, 127, 0.25) 0px 25px 50px -12px;
+  }
+
+  .toc-sidebar.visible {
+    display: block;
+  }
+
+  .toc-sidebar .toc-header {
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    color: var(--color-base-text);
+    font-size: 16px;
+  }
+
+  .toc-sidebar ul {
+    list-style: none;
+    padding-left: 1rem;
+    margin: 0;
+  }
+
+  .toc-sidebar li a {
+    color: var(--color-base-text-2);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 300;
+    transition: all 0.15s ease;
+    display: block;
+    padding: 0.3rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  .toc-sidebar li a:hover,
+  .toc-sidebar li a.active {
+    color: var(--color-base-text);
+    background-color: var(--color-base-bg-2);
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary-bg);
+    text-decoration-thickness: 2px;
+  }
+
+  .toc-sidebar li.toc-level-2 { padding-left: 1rem; }
+  .toc-sidebar li.toc-level-3 { padding-left: 2rem; }
+  .toc-sidebar li.toc-level-4 { padding-left: 3rem; }
+  .toc-sidebar li.toc-level-5 { padding-left: 4rem; }
+  .toc-sidebar li.toc-level-6 { padding-left: 5rem; }
+}
+</style>
+
+<script>
+// Only run on desktop
+if (window.matchMedia("(min-width: 1200px)").matches) {
+  document.addEventListener('DOMContentLoaded', function() {
+    const content = document.querySelector('.content');
+    if (!content) return;
+    
+    const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    const tocSidebar = document.getElementById('toc-sidebar');
+    const tocItems = document.querySelector('.toc-items');
+
+    if (headings.length > 1) {
+      tocSidebar.classList.add('visible');
+      let tocHTML = '<ul>';
+      
+      headings.forEach((heading, index) => {
+        const level = parseInt(heading.tagName.substring(1));
+        if (!heading.id) heading.id = `section-${index}`;
+        
+        tocHTML += `
+          <li class="toc-level-${level}">
+            <a href="#${heading.id}">${heading.textContent}</a>
+          </li>
+        `;
+      });
+      
+      tocHTML += '</ul>';
+      tocItems.innerHTML = tocHTML;
+
+      // Smooth scroll
+      tocItems.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // Scrollspy
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const id = entry.target.id;
+          const tocLink = document.querySelector(`.toc-items a[href="#${id}"]`);
+          if (tocLink) {
+            tocLink.classList.toggle('active', entry.isIntersecting);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      headings.forEach(heading => observer.observe(heading));
+    }
+  });
+}
+</script>

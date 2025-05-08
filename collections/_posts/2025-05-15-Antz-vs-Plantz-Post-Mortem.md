@@ -8,6 +8,7 @@ tags: [antz vs plantz, post mortem, game jam, ludum dare]
 thumbnail: /assets/images/posts/antzvsplantz.png
 image: /assets/images/posts/antzvsplantz.png
 published : true
+toc : true
 ---
 
 ## Introduction

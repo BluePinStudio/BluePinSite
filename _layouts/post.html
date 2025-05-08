@@ -26,7 +26,7 @@ body_classes: page-post page-post-1
               <p>{{ page.description }}</p>
             </div>
           {% endif %}
-
+          
           {% if page.authors %}
             <div class="post-authors">
               {% for author in page.authors %}
@@ -41,6 +41,12 @@ body_classes: page-post page-post-1
             </div>
           {% endif %}
 
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        {% include toc.html %}
       </div>
     </div>
           
