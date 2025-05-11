@@ -111,6 +111,7 @@ Maybe even one day, we will have the opportunity to "make it into a full game." 
 
 - <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**If you want to give the game a try, head over here:**</span>
   - <https://bluepinstudio.itch.io/antz-vs-plantz>
+  - <https://www.newgrounds.com/portal/view/979786>
 - Wishlist **Keely's**'s upcoming steam game here: 
   - <https://store.steampowered.com/app/2267230/Chicken_Scratch/>
 - Wishlist **Manisha's**'s upcoming steam game here: 
