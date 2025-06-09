@@ -42,7 +42,6 @@ Ahoy friend or foe. This is what I've been up to in May 2025!
 ## June 2025 Goals 
   - [ ] Participate in [Steam Next Fest](https://store.steampowered.com/sale/nextfest) with Falling Thingies online
   - [ ] Deploy Trash Force steam page, including making art assets for it
-  - [ ] Participate in [Tiny Teams Fest](https://www.yogscast.games/tinyteams) with Trash Force online
   - [ ] Participate in [Dirty Rectangles Toronto](https://www.dirty-rectangles.com/) with Falling thingies in person
   - [ ] Participate in [Game Con Canada](https://gameconcanada.com/) with Falling Thingies in person and online
   - [ ] Participate in [GDX Alberta convention](https://www.interactiveartsalberta.org/) with Falling Thingies in person
