@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Steam Page",
+    "fa_icon": "fab fa-steam",
+    "url": "https://store.steampowered.com/app/3625530/Falling_Thingies/"
+  },
+  {
+    "title": "Newgrounds Demo",
+    "fa_icon": "fab fa-gamepad",
+    "url": "https://www.newgrounds.com/portal/view/972297"
+  },
+  {
+    "title": "Itch Demo",
+    "fa_icon": "fab fa-itch-io",
+    "url": "https://bluepinstudio.itch.io/falling-thingies"
+  }
+]

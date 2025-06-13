@@ -11,11 +11,11 @@ main:
 ##        icon_darkmode: "/assets/images/games/trashforce.jpg"
 ##        description: "2025"
 ##        url: /trash-force/
-##     - name: "Falling Thingies"
-##        icon: "/assets/images/games/trashforce.jpg"
-##        icon_darkmode: "/assets/images/games/trashforce.jpg"
-##        description: "2025"
-##        url: /falling-thingies/              
+      - name: "Falling Thingies"
+        icon: "/assets/images/games/fallingthingiesheader.jpg"
+        icon_darkmode: "/assets/images/games/fallingthingiesheader.jpg"
+        description: "2025"
+        url: /falling-thingies/              
       - name: "Explory Story"
         icon: "/assets/images/games/exploryheader.jpg"
         icon_darkmode: "/assets/images/games/exploryheader.jpg"
