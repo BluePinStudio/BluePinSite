@@ -11,7 +11,7 @@ meta_description: "Blue Pin Studio is a Canadian indie developer specializing in
 
 posts:
   heading: ""
-  limit: 3
+  limit: 6
   sort: date # date | weight
   view_more_button_text: "More Blog Posts"
   view_more_button_link: /blog
