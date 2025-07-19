@@ -8,15 +8,16 @@ permalink: "/favorite-games"
 ## Welcome!
 - [ ] Halo 1
 - [ ] Halo 2
-- [ ] Fable 1
-- [ ] Vexx
-- [ ] WoW
+- [x] Fable 1
+- [x] Vexx
+- [x] WoW
 - [ ] Warcraft 3
 - [ ] Starcraft 1
 - [ ] Starcraft 2
 - [ ] Air Rivals
-- [ ] Rose Online
+- [x] Rose Online
 - [ ] Little Fighter 2
+- [x] Xenimus
 - [ ] Conquer Online
 - [ ] Rift
 - [ ] Forza Horizon 5
@@ -25,11 +26,12 @@ permalink: "/favorite-games"
 - [ ] PUBG
 - [ ] Civ 5
 - [ ] Stardew
+- [x] Gunz
 - [ ] Minecraft
 - [ ] Terraria
 - [ ] TF2
 - [ ] Witcher 3
-- [ ] Hades
+- [x] Hades
 - [ ] PVZ
 - [ ] GTA 3
 - [ ] GTA Vice City
