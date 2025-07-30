@@ -13,7 +13,7 @@ published : true
 ## Welcome!
 Ahoy friend or foe. This is what I've been up to in May 2025!
 
-## April 2025 Goals 
+## May 2025 Goals 
   - [x] Write a blog post mortem post for Antz vs Plantz
   - [x] Update & Deploy Antz vs Plantz to Newgrounds
   - [ ] Publish Charles the Bee multiplayer update
@@ -31,7 +31,7 @@ Ahoy friend or foe. This is what I've been up to in May 2025!
 
   The lovely [SanderFocus](https://x.com/SanderFocus) made the capsule image.
 
-## Bonus Tasks Completed in April 2025
+## Bonus Tasks Completed in May 2025
   - [x] Go to Bonus Stage Toronto meetup
   - [x] Go to Toronto Game Dev coffee meetup
 
@@ -50,7 +50,7 @@ Ahoy friend or foe. This is what I've been up to in May 2025!
   A lot of conventions and showcases happening June! Very exciting! I'm busy working on all of those things so this blog post is going to be light (and late oops). I'll see y'all on the next one where I can tell you how each of these events went! God speed
 
 
-## Footer & Note to Future Self
+## Musings
 Was it a joyous month? At times! Was it a sad month? At times! I guess this is how things are for most people right? Just as a reminder to my future self, at the moment I have really big hopes for Trash Force and Falling Thingies. The latter may surprise everyone, including myself!
 
 {% include framework/shortcodes/youtube.html id='ic1nhvWBvIo' %}

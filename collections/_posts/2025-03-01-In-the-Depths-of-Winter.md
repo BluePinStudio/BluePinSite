@@ -47,7 +47,7 @@ I slacked a bit on the Explory Story side, but I will pick up the slack and fini
 
  
 
-## Footer & Note to Future Self
+## Musings
 The troubles don't stop coming but neither do we. Lol that is probably not the best way to phrase that... Things are looking up. People were really pleased with my jam entries and my bigger projects are coming along. It seems like its all going to culminate to something this year, but if not, theres another year after that! Onwards!
 
 Shoutout to all the Habibis!

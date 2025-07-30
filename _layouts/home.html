@@ -3,6 +3,13 @@ layout: default
 body_classes: page-home
 ---
 
+{% if site.show_announcement %}
+<div class="announcement-bar">
+  <small class="announcement-date">Posted on August 1, 2025</small>
+  🚨 We just posted something new: <a href="/blog/2025-08-01-">check it out!</a> 🚨
+</div>
+{% endif %}
+
 <div class="section">
   <div class="container">
     <div class="row">
@@ -41,6 +48,11 @@ body_classes: page-home
 <div class="section bg-base-bg pt-0">
   <div class="container">
     <div class="row">
+
+      <div class="col-12 text-center mb-4">
+      <h2>Follow along the journey via our blogs!</h2>
+      </div>
+
 
       {% include framework/grid-header.html 
         heading=page.posts.heading 

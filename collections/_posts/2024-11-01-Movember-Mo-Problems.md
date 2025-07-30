@@ -49,7 +49,7 @@ It's time to put the pedal to the metal and get those pesky lingering tasks done
     
 Good luck to us all!
 
-## Footer & Note to Future Self
+## Musings
 The months get tougher and tougher! Luckily T-Pain released a song that I vibe with heavy. Say less fam.
 
 {% include framework/shortcodes/youtube.html id='lsdEY4OW2qI' %}

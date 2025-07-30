@@ -53,7 +53,7 @@ _Chart showing how many people played Pixel Fixel for the first time in October 
   - [ ] Launch the additional new Charles the Bee content
   - [ ] Sign a contract with a publisher for Project Jig
 
-## Footer & Note to Future Self
+## Musings
 November was not as bad as October, and I suspect December won't be as bad as November. So things are slowly improving on all fronts! Let's hope the momentum keeps up and I can report even greater news in the next year. Still working on getting my first publisher deal, so hopefully thats penned shortly too!
 
 Here is another song, this time it's brought to you buy a [twitch streamer named Zombiechou](https://www.twitch.tv/zombiechou). He was playing it in his stream (lol) and my mind was blown by the beauty! Let's all have some high high hopes for a living, like Mr. Zombiechou!

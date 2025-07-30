@@ -47,7 +47,7 @@ Here we are again! Thanks for joining me on the 61th month of this indie adventu
 
   May is going to be a fantastic month! We'll get to see how well Newgrounds users enjoy Antz vs Plantz, we'll finally wrap up Pixel Fixel tournaments, and we'll deploy the Falling Thingies Steam Page publically. Those are all going to be moments that boost morale quite a lot. It's important to have frequent morale boosts on endeavors like this one. Making video games and trying to make a living off of that is difficult. It's slightly less difficult when you have people enjoying and leaving comments about your games.
 
-## Footer & Note to Future Self
+## Musings
 The month was relatively uneventful on the person side, so the note to future self is not going to have any juice in it. This recent Ludum Dare was a great success and I'm excited to release Falling Thingies, Trash Force, and Explory Story soon!
 
 As is tradition, here's the song that stood out to me over the last few weeks! Cheers everyone, see you next month!

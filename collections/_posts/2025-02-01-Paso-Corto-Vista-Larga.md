@@ -51,7 +51,7 @@ Welcome back! First Monthly recap on the new website! This website is a major up
 February is not the time to lift my foot off the gas. We need more people to see Pixel Fixel, we need more games completed, we need Explory Story to get closer to complete, and so on... February is going to be a busy month!
  
 
-## Footer & Note to Future Self
+## Musings
 January 2025 was probably my new peak of stress. And yet? Here I am! Money problems, work problems, game problems, bah! Nothing can stop me. Shoutout to all of the people who were concerned and expressed their support. And an even bigger shoutout to two people who let me borrow some money in order to cover a spontaneous large expense. Money aside, everyone in my friend groups are the best :) 
 
 If I ever get somewhere up high, I'll be throwing down ladders as much as I can for y'all to join me.

@@ -57,7 +57,7 @@ Good ol' game dev is what's in store for July 2025. Lots of exciting stuff in th
   </figure> 
 
 
-## Footer & Note to Future Self
+## Musings
 A hectic month because it involved being sick for a solid week, then falling behind on my work stuff. It all got sorted out eventually and we're back to firing on all cylinders! 💛 At some point I had the wind knocked out of my sails in regards to the lack of success after 63 months of trying, but I think we're closer than ever so I'm not too stuck on that.
 
 {% include framework/shortcodes/youtube.html id='wEBlaMOmKV4' %}

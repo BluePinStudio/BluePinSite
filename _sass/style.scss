@@ -1,6 +1,8 @@
 @import 'framework';
 @import 'theme';
 
+
+
 /* Force the actual <input> to be visually hidden, but still present in the DOM */
 .task-list-item-checkbox {
   /* Let’s see it in the layout so we can place our icon */
@@ -56,4 +58,71 @@
 /* Hide when scripts are disabled */
 noscript #follower-gif {
   display: none !important;
+}
+
+.announcement-bar {
+  margin-top: 1rem;
+  padding: 1.25rem 1rem;
+  background-color: var(--primary_bg_3);
+  color: var(--base_text);
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.25rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 10;
+  animation: glowColors 6s linear infinite;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme='dark'] .announcement-bar {
+  background-color: var(--base_bg_2_dark);
+  color: var(--base_text_dark);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.announcement-bar a {
+  color: var(--primary_bg);
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.announcement-bar a:hover,
+.announcement-bar a:focus {
+  color: #0084ff;
+  text-shadow: 0 0 5px currentColor;
+}
+
+[data-theme='dark'] .announcement-bar a {
+  color: var(--primary_bg_dark);
+}
+
+[data-theme='dark'] .announcement-bar a:hover,
+[data-theme='dark'] .announcement-bar a:focus {
+  color: #0084ff;
+  text-shadow: 0 0 5px currentColor;
+}
+
+
+.announcement-bar .announcement-date {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.25rem;
+  color: var(--base_text_2);
+  opacity: 0.8;
+}
+
+[data-theme='dark'] .announcement-bar .announcement-date {
+  color: var(--base_text_2_dark);
+}
+
+/* Glow animation: ONLY animates the shadow, not background-color */
+@keyframes glowColors {
+  0%   { box-shadow: 0 0 10px #0084ff; }
+  25%  { box-shadow: 0 0 15px #00bfff; }
+  50%  { box-shadow: 0 0 20px #00ffaa; }
+  75%  { box-shadow: 0 0 15px #5c00ff; }
+  100% { box-shadow: 0 0 10px #0084ff; }
 }

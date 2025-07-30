@@ -5,8 +5,8 @@ description: First Monthly Check-in for July 2024 (Month 52)
 date: 2024-08-11 08:00:00 -0400
 category: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, game jam, marketing]
-thumbnail: /assets/images/posts/timbo.PNG
-image: /assets/images/posts/timbo.PNG
+thumbnail: /assets/images/posts/july2024.png
+image: /assets/images/posts/july2024.png
 published : true
 ---
 
@@ -39,7 +39,7 @@ A small hiccup regarding the plans is my vacation that is planned from Aug 14 to
 
 
 
-## Footer & Personal Note
+## Musings
 
 This is my first time doing a blog. The aim with these blogs is to maintain a communication with my future self. Undoubtedly I will be reading this in 2024 and 2025 and beyond. So i guess I should say "Hey future me! Hope all is well, hopefully everything worked out :)" 
 

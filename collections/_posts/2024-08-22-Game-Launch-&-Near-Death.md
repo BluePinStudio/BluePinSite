@@ -41,7 +41,7 @@ Over the last few days I've spent long nights after work patching the game and i
 _Charles the Bee unique playercount since launch_
 
 
-## Footer & Note to Future-Self
+## Musings
 
 Second blog post down! This one wasn't planned, but neither was nearly dying. So there's that! Im curious how much future self will look back at the moment I almost died. Hopefully he remembers the tremendous tsunami of emotions that transpired today.
 

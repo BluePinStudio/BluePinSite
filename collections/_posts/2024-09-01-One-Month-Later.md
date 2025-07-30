@@ -5,8 +5,8 @@ description: Monthly Check-in for August 2024 (Month 53)
 date: 2024-09-01 20:00:00 -0400
 categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, insock out, game jam, marketing]
-thumbnail: /assets/images/posts/charlescapsule.png
-image: /assets/images/posts/charlescapsule.png
+thumbnail: /assets/images/posts/aug2024.png
+image: /assets/images/posts/aug2024.png
 published : true
 ---
 
@@ -53,7 +53,7 @@ In addition to the tasks I planned for myself in August, I have also completed w
     
 
 
-## Footer & Personal Note
+## Musings
 The traditional of leaving myself a song continues! I hope I don't look back at this selections and cringe. The phrase "if you aren't cringing at your past self, you aren't growing" comes to mind :P
 
 Oh also, as an actual note for myself : good luck in September 2024 buddy! Related to what you check every morning.

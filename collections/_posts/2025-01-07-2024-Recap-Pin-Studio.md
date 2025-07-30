@@ -50,7 +50,7 @@ Since its the first time I'm doing one of these, I would like to include my Tota
 | Total| **$3162 (USD)**| - |  
 {: .table .table-sm }
 
-## Editorial
+## Musings
 If i had to sum up the year for Blue Pin Studio, it was the best year to-date! If i had to sum up the year for myself? It was the most stressful and difficult year I've ever gone through. Money problems like never before, moving, relationship ending, a few friendships ending, etc. Hopefully that means 2025 will seem amazing by comparison. I'll make sure to comment on that as future-me in the 2025 recap.
 
 Remember folks, if you're having a hard time, its natural to want to recede into the shadows and push people away. Try your best to avoid that and instead lean on people. Most of us has tons of people who want to help. Let them!

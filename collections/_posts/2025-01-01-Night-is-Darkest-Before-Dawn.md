@@ -58,7 +58,7 @@ Needless to say, getting featured by Apple has a massive effect on player number
 We're taking it easy in January. Heads down, working on games and not overdoing it. There are a few other stealth-mode things I have brewing but theres nothing worth announcing or discussing at such an early stage. 
  
 
-## Footer & Note to Future Self
+## Musings
 My 4~ year relationship came to an end! Nothing dramatic happened, more so the culmination of some incompatibilities. If you know me personally and you want to know more, I'm an open book, but I won't vent here publicly. Onwards and upwards!
 
 As-is customary, I leave future self a little musical breadcrumb. This is the track I listened to most in this month, trying to hype myself up for the Yogscast jam :P

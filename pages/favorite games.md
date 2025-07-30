@@ -40,9 +40,10 @@ permalink: "/favorite-games"
 - [ ] Guns of Icarus
 - [ ] Awesomenauts
 - [ ] Dome Keeper
-- [ ] Age of Mythology
+- [x] Age of Mythology
 - [ ] Bloons TD
 - [ ] Castle Crashers
 - [ ] Pychonauts
 - [ ] Little Inferno
 - [ ] Roller Coaster Tycoon
+- [ ] Dinomight
