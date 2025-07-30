@@ -47,6 +47,10 @@ Of course the publisher thing is an on-going challenge so it was merely hopeful 
 
 That's two big ones! Charles the Bee is turning 1 year old so we have to give it some love! I can't say for sure what will be in the update but we'll try to cram as much new stuff as possible. Likewise for Falling Thingies, have to ensure that the launch works out great!
 
+<figure style="text-align: center;">
+<img src="/assets/images/posts/fallingthingies2.png" alt="Infernus Falling Thingies Level">
+</figure>   
+
 
 
 ## Musings
