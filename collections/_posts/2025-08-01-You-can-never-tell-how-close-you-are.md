@@ -4,7 +4,7 @@ title: "You can never tell how close you are"
 description: Monthly Check-in for July 2025 (Month 64)
 date: 2025-08-01 04:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, trash force]
+tags: [trash force, falling thingies, trash force, charles the bee]
 thumbnail: /assets/images/posts/july2025.png
 image: /assets/images/posts/july2025.png
 published : true
@@ -32,7 +32,9 @@ Of course the publisher thing is an on-going challenge so it was merely hopeful 
   - [x] Updated the website in a lot of places. There's a 404 page, sitemap, announcement bar, and lots of other bits and bobs
 
 
-   
+<figure style="text-align: center;">
+<img src="/assets/images/posts/albertabeyond.png" alt="Calvin at Falling Thingies Booth">
+</figure>   
 
 
 ## August 2025 Goals 
