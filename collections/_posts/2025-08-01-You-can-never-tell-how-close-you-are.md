@@ -2,7 +2,7 @@
 layout: post
 title: "You can never tell how close you are"
 description: Monthly Check-in for July 2025 (Month 64)
-date: 2025-08-01 04:00:00
+date: 2025-08-01 05:00:00
 categories: [Monthly Check-in]
 tags: [trash force, falling thingies, trash force, charles the bee]
 thumbnail: /assets/images/posts/july2025.png
