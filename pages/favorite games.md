@@ -49,3 +49,7 @@ permalink: "/favorite-games"
 - [ ] Dinomight
 - [ ] Emperors New Groove 
 - [ ] Aladdin Nasira's Revenge
+- [ ] NBA Street Volume 2
+- [ ] Fusion Frenzy
+- [ ] Azurik Rise of Perathia
+- [ ] Morrowind
