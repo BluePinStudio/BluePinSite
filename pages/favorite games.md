@@ -5,7 +5,8 @@ permalink: "/favorite-games"
 ---
 
 
-## Welcome!
+How did you find this page? Well, since you have. I'll let you in on a little secret. This is my incomplete list of games I like. I like each game for different reasons but the overall theme for most of them is nostalgia. I try to embed a character or artwork from one of these games when i make a monthly check-in blog post. The ones with the "x" are the ones i already included in a blog post.
+
 - [ ] Halo 1
 - [ ] Halo 2
 - [x] Fable 1
