@@ -47,3 +47,5 @@ permalink: "/favorite-games"
 - [ ] Little Inferno
 - [ ] Roller Coaster Tycoon
 - [ ] Dinomight
+- [ ] Emperors New Groove 
+- [ ] Aladdin Nasira's Revenge
