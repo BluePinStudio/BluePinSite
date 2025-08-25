@@ -2,7 +2,7 @@
 layout: post
 title: Ship Happens Post Mortem
 description: Post Mortem for my Wanna Jam game jam entry, "Ship Happens"
-date: 2025-08-25 19:00:00 -0400
+date: 2025-08-25 07:00:00 -0400
 categories: [Jam Post Mortem]
 tags: [ship happens, post mortem, gamejam]
 thumbnail: /assets/images/posts/shiphappens.png
@@ -100,19 +100,19 @@ Ship Happens ended up becoming one of my favorite game jam submissions to-date. 
 
 ## Reception
 
-**Final Game**: After a week of people playing the game we got our scores! We had 23 people leave ratings, and lots of comments as well. Here's a link to the scores and feedback! <https://itch.io/jam/do-you-wanna-jam-2025/rate/3799754>
+**Final Game**: After a week of people playing the game we got our scores! We had 23 people leave ratings, and lots of comments as well. Here's a link to the scores and feedback! <https://itch.io/jam/do-you-wanna-jam-2025/rate/3799754>. The scores we got are fantastic! Hopefully when we deploy the game to Newgrounds with some fixes people like it just as much :)
 
 
 
-**Overall, we scored 22nd out of 69 entries (which is top 14%)**
+**Overall, we scored 3rd out of 69 entries (which is top 4%)**
 
 | **Criteria**    | **Rank**| **Percentile** |
-|Overall         | 10th  |  Top x% | 
-|Fun/Gameplay    | 10th  |  Top x% |
-|Art/Graphics    | 10th  |  Top x% |
-|Audio           | 10th  |  Top x% |
-|Originality     | 10th  |  Top x% |
-|Theme           | 10th  |  Top x% | 
+|Overall         | 3rd  |  Top 4% | 
+|Fun/Gameplay    | 2nd  |  Top 3% |
+|Art/Graphics    | 4th  |  Top 6% |
+|Audio           | 2nd  |  Top 3% |
+|Originality     | 2nd  |  Top 3% |
+|Theme           | 32nd  |  Top 46% | 
 {: .table .table-sm }
 
 
