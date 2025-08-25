@@ -34,6 +34,6 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 |18|FEB 2025| Bigmode Game Jam 2025    |Top 18%|[Power of Loveball](https://bluepinstudio.itch.io/power-of-loveball)              |Platformer / Visual Novel |
 |19|FEB 2025| Alakajam 21              |<span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**WINNER!**</span>|[Falling Thingies](https://bluepinstudio.itch.io/falling-thingies)                |Arcade Action             |
 |20|APR 2025| Ludum Dare 57            |Top 3%   |[Antz vs Plantz](https://bluepinstudio.itch.io/ants-vs-plantz)                  |Tower Defense             |
-|21|AUG 2025| Do you WANNA Jam?!       |TBD    |[Ship Happens](https://bluepinstudio.itch.io/ship-happens)                        |Mini-Game Assortment      |
+|21|AUG 2025| Do you WANNA Jam?!       |Top 4%    |[Ship Happens](https://bluepinstudio.itch.io/ship-happens)                        |Mini-Game Assortment      |
 |22|OCT 2025| Ludum Dare 58       |TBD    |TBD                                                                                    |TBD                       |
 {: .table .table-bordered }
