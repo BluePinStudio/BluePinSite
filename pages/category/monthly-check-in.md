@@ -2,5 +2,5 @@
 layout: category
 title: "Category: Monthly Check-in"
 category: Monthly Check-in
-permalink: /categories/monthly-check-in/
+permalink: /category/monthly-check-in/
 ---
