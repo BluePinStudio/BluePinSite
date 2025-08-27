@@ -168,6 +168,3 @@ bottom:
   enable_bottom_menu: true # if enabled, the bottom menu can be edited in `_data/menu.yml`
   copyright_text: "© 2025 Blue Pin Studio"
   show_rss_icon: true
-
-sass:
-  quiet_deps: true

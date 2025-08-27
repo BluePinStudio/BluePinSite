@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Charles the Bee Launches!
+title: Dead Gamedev
 description: Game Launch & Near Death
 date: 2024-08-22 19:00:00 -0400
 categories: [Game Launch]
