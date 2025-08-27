@@ -26,7 +26,7 @@ How did I find these peeps? Liamtonic & Rujum we're both people I met through fr
   - It wasn't long before we decided to pursue the Warioware and get to work! Making the game with a bunch of bugs that you find and perhaps fix, would've been nice but it would involve making a compelling game and then building the whole bug finding/solving system on top of it. It was too an ask!
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/rats.png" alt="Calvin at Falling Thingies Booth">
+<img src="/assets/images/posts/rats.png" alt="Ship Happens Rat Mini-game">
 </figure>   
 
 - **Day 2-8:** I don't want to log everything we did across all the days but suffice to say we spent a lot of time working and adding files to the google drive. I'll lots of in-progress screenshots above and below! The workflow involved uploading assets into a google drive and communicating async through discord. Before we started the game we decided on using 3D assets rasterized to png sprite sheets or individual pngs. So a lot of work was also spent on optimizing the file size and reducing the frame count for the spritesheets.
@@ -53,7 +53,7 @@ Another strong point was Viktor’s willingness to take on all of my design rela
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/pirate.png" alt="Calvin at Falling Thingies Booth">
+<img src="/assets/images/posts/pirate.png" alt="Ship Happens Pirate Mini-game">
 </figure>   
 
 ## Challenges
@@ -77,7 +77,7 @@ I had a very limited time to work on the assets due to work/personal life, so I 
 <span style="background: linear-gradient(90deg, #0d81a6, #54bdea); -webkit-background-clip: text; color: transparent;">**Comment from Calvin (Audio)**:</span> Would have liked more time to playtest late-stage game and provide feedback and fixes. Had some different ideas about audio implementation but too late to get them in (which songs would play in given contexts).
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/obstacles.png" alt="Calvin at Falling Thingies Booth">
+<img src="/assets/images/posts/obstacles.png" alt="Ship Happens Obstacles Mini-game">
 </figure>   
 
 
@@ -95,7 +95,7 @@ Ship Happens ended up becoming one of my favorite game jam submissions to-date. 
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/title.png" alt="Calvin at Falling Thingies Booth">
+<img src="/assets/images/posts/title.png" alt="Ship Happens Title Screen">
 </figure>   
 
 ## Reception

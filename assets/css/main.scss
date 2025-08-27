@@ -1,5 +1,6 @@
 ---
 ---
+@use "style" as *;
 
 :root {
   --font-family-base: {{ site.fonts.base }}, sans-serif;
@@ -46,4 +47,3 @@ html[data-bs-theme='dark'] {
   --color-header-text: {{ site.colors.header_text_dark | default: "#F4F4F5" }};
 }
 
-@import 'style';

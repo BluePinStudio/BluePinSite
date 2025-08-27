@@ -2,5 +2,5 @@
 layout: category
 title: "Category: Game Launch"
 category: Game Launch
-permalink: /category/game-launch/
+permalink: /categories/game-launch/
 ---
