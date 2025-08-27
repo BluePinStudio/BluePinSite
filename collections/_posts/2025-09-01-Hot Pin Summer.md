@@ -11,13 +11,7 @@ published : true
 ---
 
 ## Welcome!
-Hi there. Hello there. Greetings. Let's have a peak at what the frick I've been up to in August 2025. 
-
-First thing is first, I got this incredible offer that is apparently related to my experience in game dev. 3 steam games and 21 game jam entries make me a perfect candidate for a minimum wage part time role washing dishes in a bowling alley! How uplifting, thanks Linkedin...
-
-<figure style="text-align: center;">
-<img src="/assets/images/posts/dishwasher.png" alt="Your passion for gaming and experience in the industry could be a good match for this Dishwasher role at Bowlero. IF you're looking for a part-time position with free bowling and discounts on food and beverages, feel free to apply now or viewer the job description for more information.">
-</figure>
+Hi there. Hello there. Greetings. Let's have a peak at what the frick I've been up to in August 2025!
 
 
 ## August 2025 Goals 
