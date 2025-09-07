@@ -22,6 +22,12 @@
         --red: #e55353;
         --headerH: 110px; /* will be updated via JS */
         --gridColor: rgba(227, 193, 116, 0.08);
+
+        /* 🔥 fire palette (used by canvas embers) */
+        --fire-red: 255, 60, 40; /* hot reds */
+        --fire-org: 255, 120, 30; /* orange core */
+        --fire-amb: 255, 184, 70; /* amber glow */
+        --fire-gold: 255, 228, 150; /* outer gold */
       }
       * {
         box-sizing: border-box;
@@ -65,11 +71,11 @@
         padding: 10px 20px;
         display: flex;
         align-items: center;
-        gap: 16px; /* more breathing room */
-        column-gap: 16px; /* explicit gaps for multi-row wrapping */
-        row-gap: 10px;
-        flex-wrap: wrap; /* allows buttons to wrap to a new line */
+        gap: 12px;
+        flex-wrap: nowrap; /* keep brand + toolbar on one row */
+        overflow: visible; /* was overflow-x:auto; — avoid clipping dropdowns */
       }
+
       .brand {
         flex: 1 1 260px;
         min-width: 240px;
@@ -78,13 +84,12 @@
         gap: 10px;
       }
       .toolbar {
-        margin-left: 0; /* override previous auto push */
+        margin-left: auto;
         display: flex;
-        justify-content: flex-end; /* push buttons to the right */
-        gap: 12px; /* more space between buttons */
-        row-gap: 10px; /* space when wrapping to a new line */
-        flex-wrap: wrap; /* allow wrapping */
-        flex: 1 1 600px; /* lets toolbar grow on wide screens */
+        justify-content: flex-end;
+        gap: 10px;
+        flex-wrap: nowrap; /* ✅ buttons never wrap */
+        min-width: 0; /* ✅ allows shrinking */
       }
       h1 {
         margin: 0;
@@ -416,41 +421,40 @@
           inset 0 0 0 1px rgba(255, 255, 255, 0.04);
       }
       /* --- Theme dropdown (brand area) --- */
-.brand .theme-label {
-  font-size: 12px;
-  color: #bcd0df;
-  opacity: .9;
-  margin-left: 6px;
-}
-.brand .theme-select {
-  appearance: none;
-  border: 1px solid rgba(255,255,255,.14);
-  background: linear-gradient(180deg, #1b222c, #0f151c);
-  color: #eaf4ff;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-weight: 700;
-  letter-spacing: .2px;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05),
-              0 2px 0 0 rgba(0,0,0,.45);
-}
-.brand .theme-wrap {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 8px; /* space after the subtitle pill */
-}
-/* Theme dropdown fixes */
-.brand .theme-select option {
-  background: #0f151c;      /* dark background for opened list */
-  color: #eaf4ff;           /* light text */
-}
+      .brand .theme-label {
+        font-size: 12px;
+        color: #bcd0df;
+        opacity: 0.9;
+        margin-left: 6px;
+      }
+      .brand .theme-select {
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: linear-gradient(180deg, #1b222c, #0f151c);
+        color: #eaf4ff;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+          0 2px 0 0 rgba(0, 0, 0, 0.45);
+      }
+      .brand .theme-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: 8px; /* space after the subtitle pill */
+      }
+      /* Theme dropdown fixes */
+      .brand .theme-select option {
+        background: #0f151c; /* dark background for opened list */
+        color: #eaf4ff; /* light text */
+      }
 
-.brand .theme-select {
-  background: linear-gradient(180deg, #1b222c, #0f151c);
-  color: #eaf4ff;
-}
-
+      .brand .theme-select {
+        background: linear-gradient(180deg, #1b222c, #0f151c);
+        color: #eaf4ff;
+      }
 
       .frame {
         position: absolute;
@@ -546,52 +550,24 @@
         user-select: none;
       }
 
-/* background FX container */
-#fx {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-
-/* 🔥 War sparks */
-.spark {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 0;
-  background: rgba(227, 193, 116, 0.65);
-  box-shadow: 0 0 6px rgba(227, 193, 116, 0.45);
-  opacity: 0.55;
-  transform: translate3d(0, 0, 0);
-  animation: ember 12s linear infinite;
-  mix-blend-mode: screen;
-}
-@keyframes ember {
-  0% { transform: translateY(100vh) translateX(0) scale(1); opacity: 0; }
-  10% { opacity: 0.55; }
-  90% { opacity: 0.3; }
-  100% { transform: translateY(-10vh) translateX(20px) scale(1.2); opacity: 0; }
-}
-
-/* 🌸 Girly Pop petals */
-.petal {
-  position: absolute;
-  width: 16px;
-  height: 14px;
-  background: radial-gradient(ellipse at 40% 60%, #ffd1e4 0%, #ff9cc9 70%, #ff7fb8 100%);
-  border-radius: 60% 70% 70% 60% / 70% 60% 80% 60%;
-  opacity: 0.9;
-  transform-origin: 50% 50%;
-  animation: fallPetal linear infinite;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
-}
-@keyframes fallPetal {
-  0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
-  10%  { opacity: 1; }
-  100% { transform: translateY(110vh) translateX(var(--dx, 0)) rotate(360deg); opacity: 0; }
-}
-
+      /* background FX canvas (single layer) */
+      #fxCanvas {
+        position: absolute; /* lives inside #stage now */
+        inset: 0;
+        pointer-events: none;
+        z-index: 1; /* links(0) < fxCanvas(1) < nodes(2) */
+        display: block;
+        contain: strict;
+      }
+      /* ensure stacking order */
+      svg.links {
+        z-index: 0;
+        position: absolute;
+        inset: 0;
+      }
+      .node {
+        z-index: 2;
+      }
 
       /* shake + confetti */
       @keyframes shake {
@@ -620,7 +596,7 @@
         position: absolute;
         inset: 0;
         pointer-events: none;
-        z-index: 1;
+        z-index: 3;
       }
       .confetti {
         position: absolute;
@@ -755,109 +731,314 @@
         background: transparent;
       }
 
-/* === Girly Pop theme canvas (darker gray w/ noise) === */
-body.theme-girly-pop {
-  --gridColor: rgba(120, 120, 130, 0.08);
-}
+      /* === Girly Pop theme canvas (darker gray w/ noise) === */
+      body.theme-girly-pop {
+        --gridColor: rgba(255, 100, 160, 0.08); /* subtle pink grid lines */
+      }
 
-/* Canvas background (slightly darker gray, paper texture) */
-body.theme-girly-pop .board-wrap.panel {
-  background: #d8d8db; /* mid-light gray */
-  background-image: 
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='40' height='40' filter='url(%23n)' opacity='0.1'/></svg>");
-  background-size: 180px 180px;
-  border: 1px solid rgba(0,0,0,0.05);
-}
+      /* Canvas background (slightly darker gray, paper texture) */
+      body.theme-girly-pop .board-wrap.panel {
+        background: linear-gradient(180deg, #121018, #0b0a10);
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='40' height='40' filter='url(%23n)' opacity='0.08'/></svg>");
+        background-size: 180px 180px;
+        border: 1px solid rgba(255, 0, 80, 0.1);
+      }
 
-/* Stage outline stays gentle */
-body.theme-girly-pop #stage {
-  background: transparent;
-  outline: 2px dashed rgba(100, 100, 110, 0.3);
-  outline-offset: -1px;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
-}
+      /* Stage outline stays gentle */
+      body.theme-girly-pop #stage {
+        background: transparent;
+        outline: 2px dashed rgba(255, 120, 180, 0.25);
+        outline-offset: -1px;
+        box-shadow: inset 0 0 0 1px rgba(255, 0, 80, 0.15);
+      }
+      body.theme-girly-pop .node.locked .frame {
+        box-shadow: 0 0 0 5px #8882a8, inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+          0 0 16px rgba(160, 140, 200, 0.35);
+      }
+      body.theme-girly-pop .node.available .frame {
+        box-shadow: 0 0 0 5px #ff6ab5, inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 28px rgba(255, 106, 181, 0.6);
+      }
 
+      body.theme-girly-pop .node.done .frame {
+        box-shadow: 0 0 0 5px #ff3d6e, inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 28px rgba(255, 61, 110, 0.6);
+      }
+      body.theme-girly-pop .node .desc {
+        color: #ffcce0; /* soft pink for descriptions */
+      }
 
-body.theme-girly-pop .node.locked .frame {
-  /* unavailable → grey (same as War) */
-  box-shadow: 0 0 0 5px var(--steel),
-              inset 0 0 0 1px rgba(255,255,255,0.06),
-              0 0 14px rgba(123,141,160,0.22);
-}
+      /* === Girly Pop Theme: Links Only === */
+      body.theme-girly-pop .links .edge-base {
+        stroke: rgba(40, 20, 30, 0.8);
+      }
 
-body.theme-girly-pop .node.available .frame {
-  /* in progress → pink */
-  box-shadow: 0 0 0 5px #ff6ab5,
-              inset 0 0 0 1px rgba(255,255,255,0.12),
-              0 0 28px rgba(255,106,181,0.45);
-}
+      /* Locked edges = gray (unchanged from War) */
+      body.theme-girly-pop .links .locked .edge-main {
+        stroke: #9d8fb5;
+        opacity: 0.7;
+      }
+      body.theme-girly-pop .links .locked .edge-highlight {
+        stroke: rgba(200, 180, 220, 0.45);
+      }
 
-body.theme-girly-pop .node.done .frame {
-  /* completed → red */
-  box-shadow: 0 0 0 5px #ff3d3d,
-              inset 0 0 0 1px rgba(255,255,255,0.12),
-              0 0 26px rgba(255,61,61,0.55);
-}
+      /* Available edges = pink */
+      body.theme-girly-pop .links .avail .edge-main {
+        stroke: #ff6ab5;
+        filter: drop-shadow(0 0 6px rgba(255, 106, 181, 0.6));
+      }
+      body.theme-girly-pop .links .avail .edge-highlight {
+        stroke: #ffd8f0;
+        filter: drop-shadow(0 0 8px rgba(255, 200, 230, 0.7));
+      }
 
-/* === Girly Pop Theme: Links Only === */
-body.theme-girly-pop .links .edge-base {
-  stroke: rgba(200, 200, 210, 0.6); /* soft gray base */
-}
+      body.theme-girly-pop .links .done .edge-main {
+        stroke: #ff3d6e;
+        filter: drop-shadow(0 0 6px rgba(255, 61, 110, 0.6));
+      }
+      body.theme-girly-pop .links .done .edge-highlight {
+        stroke: #ffc0d0;
+        filter: drop-shadow(0 0 8px rgba(255, 160, 190, 0.6));
+      }
+      /* === Wacky Pomo theme (Buzz/Soaker palette) === */
+      body.theme-whacky-pomo {
+        --gridColor: rgba(255, 255, 255, 0.1);
+      }
 
-/* Locked edges = gray (unchanged from War) */
-body.theme-girly-pop .links .locked .edge-main {
-  stroke: #9da1ad;
-  filter: none;
-  opacity: 0.85;
-}
-body.theme-girly-pop .links .locked .edge-highlight {
-  stroke: rgba(200, 210, 225, 0.5);
-  opacity: 0.45;
-  filter: none;
-}
+      /* Paper-ish neon backdrop */
+      body.theme-whacky-pomo .board-wrap.panel {
+        background: radial-gradient(
+            1200px 800px at 15% 10%,
+            rgba(164, 255, 61, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 700px at 85% 90%,
+            rgba(140, 82, 255, 0.1),
+            transparent 60%
+          ),
+          linear-gradient(180deg, #0e1219, #0a0f15);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
 
-/* Available edges = pink */
-body.theme-girly-pop .links .avail .edge-main {
-  stroke: #e86aa6;
-  filter: drop-shadow(0 0 4px rgba(232,106,166,0.4));
-}
-body.theme-girly-pop .links .avail .edge-highlight {
-  stroke: #ffd8e8;
-  filter: drop-shadow(0 0 6px rgba(255,180,200,0.6));
-  opacity: 0.8;
-}
+      /* Stage outline tweak */
+      body.theme-whacky-pomo #stage {
+        background: transparent;
+        outline: 2px dashed rgba(255, 255, 255, 0.18);
+        outline-offset: -1px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      }
 
-/* Done edges = reddish pink */
-body.theme-girly-pop .links .done .edge-main {
-  stroke: #d43d4d;
-  filter: drop-shadow(0 0 5px rgba(212,61,77,0.5));
-}
-body.theme-girly-pop .links .done .edge-highlight {
-  stroke: #ffb8c4;
-  filter: drop-shadow(0 0 6px rgba(255,184,196,0.6));
-  opacity: 0.8;
-}
+      /* Node frames: neon state colors */
+      body.theme-whacky-pomo .node.locked .frame {
+        box-shadow: 0 0 0 5px #7b8da0, inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+          0 0 20px rgba(123, 141, 160, 0.35);
+      }
+      body.theme-whacky-pomo .node.available .frame {
+        box-shadow: 0 0 0 5px #8c52ff, inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 28px rgba(140, 82, 255, 0.55);
+      }
+      body.theme-whacky-pomo .node.done .frame {
+        box-shadow: 0 0 0 5px #a4ff3d, inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+          0 0 30px rgba(164, 255, 61, 0.65);
+      }
 
+      /* Links: bright duo-tone */
+      body.theme-whacky-pomo .links .edge-base {
+        stroke: rgba(10, 15, 21, 0.85);
+      }
+      body.theme-whacky-pomo .links .avail .edge-main {
+        stroke: #8c52ff;
+        filter: drop-shadow(0 0 6px rgba(140, 82, 255, 0.55));
+      }
+      body.theme-whacky-pomo .links .avail .edge-highlight {
+        stroke: rgba(204, 187, 255, 0.9);
+        filter: drop-shadow(0 0 8px rgba(204, 187, 255, 0.55));
+        opacity: 0.85;
+      }
+      body.theme-whacky-pomo .links .done .edge-main {
+        stroke: #00ffd5;
+        filter: drop-shadow(0 0 6px rgba(0, 255, 213, 0.6));
+      }
+      body.theme-whacky-pomo .links .done .edge-highlight {
+        stroke: rgba(200, 255, 245, 0.95);
+        filter: drop-shadow(0 0 8px rgba(0, 255, 213, 0.55));
+        opacity: 0.9;
+      }
+      body.theme-whacky-pomo .links .locked .edge-main {
+        stroke: #9aa9ba;
+        filter: none;
+        opacity: 0.9;
+      }
+      body.theme-whacky-pomo .links .locked .edge-highlight {
+        stroke: rgba(210, 225, 240, 0.5);
+        filter: none;
+        opacity: 0.5;
+      }
+
+      /* Titles: juicy gradient */
+      body.theme-whacky-pomo .title {
+        background: linear-gradient(180deg, #a4ff3d, #8c52ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      /* === Girly Pop Node Text Overrides === */
+      body.theme-girly-pop .node-inner {
+        color: #fff; /* default text inside node */
+      }
+
+      body.theme-girly-pop .title {
+        background: none; /* remove the neon gradient */
+        color: #ffffff; /* pure white for clarity */
+        font-weight: 900; /* keep bold */
+        letter-spacing: 0.2px; /* subtle spacing */
+      }
+
+      body.theme-girly-pop .desc {
+        color: #f2f2f2; /* softer white for descriptions */
+      }
+
+      body.theme-girly-pop .meta {
+        color: #f8a6c0; /* lighter meta info */
+      }
+      #fxToggleBtn[aria-pressed="false"] {
+        opacity: 0.85;
+        filter: saturate(0.85);
+      }
+      /* === Fruloo (Linux terminal) === */
+      body.theme-fruloo {
+        --gridColor: rgba(60, 255, 140, 0.08);
+        color: #cfeeda;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas,
+          "Liberation Mono", monospace;
+        background: radial-gradient(
+            100vw 60vh at 50% -10%,
+            rgba(0, 80, 40, 0.08),
+            transparent 60%
+          ),
+          linear-gradient(180deg, #050706, #0a0f0c 65%, #050706);
+      }
+
+      /* Canvas surface */
+      body.theme-fruloo .board-wrap.panel {
+        background: radial-gradient(
+            700px 400px at 20% 0%,
+            rgba(0, 120, 70, 0.08),
+            transparent 60%
+          ),
+          radial-gradient(
+            800px 500px at 85% 100%,
+            rgba(0, 90, 50, 0.08),
+            transparent 60%
+          ),
+          linear-gradient(180deg, #06110b, #090f0c);
+        border: 1px solid rgba(60, 255, 140, 0.12);
+      }
+
+      /* Stage outline */
+      body.theme-fruloo #stage {
+        background: transparent;
+        outline: 2px dashed rgba(60, 255, 140, 0.22);
+        outline-offset: -1px;
+        box-shadow: inset 0 0 0 1px rgba(60, 255, 140, 0.12);
+      }
+
+      /* Node frames (terminal green states) */
+      body.theme-fruloo .node.locked .frame {
+        box-shadow: 0 0 0 5px #4a6a55, inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+          0 0 16px rgba(90, 120, 100, 0.35);
+      }
+      body.theme-fruloo .node.available .frame {
+        box-shadow: 0 0 0 5px #3cff8c, inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 26px rgba(60, 255, 140, 0.45);
+      }
+      body.theme-fruloo .node.done .frame {
+        box-shadow: 0 0 0 5px #1aa572, inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+          0 0 28px rgba(26, 165, 114, 0.6);
+      }
+
+      /* Titles: pale green (no gradient) */
+      body.theme-fruloo .title {
+        background: none;
+        color: #d1ffe8;
+        font-weight: 900;
+        letter-spacing: 0.2px;
+      }
+
+      /* Descriptions + meta tint */
+      body.theme-fruloo .desc {
+        color: #bfe9d4;
+      }
+      body.theme-fruloo .meta {
+        color: #84cfa9;
+      }
+
+      /* Links: monochrome green set */
+      body.theme-fruloo .links .edge-base {
+        stroke: rgba(5, 20, 12, 0.85);
+      }
+      body.theme-fruloo .links .avail .edge-main {
+        stroke: #3cff8c;
+        filter: drop-shadow(0 0 6px rgba(60, 255, 140, 0.55));
+      }
+      body.theme-fruloo .links .avail .edge-highlight {
+        stroke: rgba(200, 255, 230, 0.9);
+        filter: drop-shadow(0 0 8px rgba(160, 255, 210, 0.55));
+        opacity: 0.85;
+      }
+      body.theme-fruloo .links .done .edge-main {
+        stroke: #1aa572;
+        filter: drop-shadow(0 0 6px rgba(26, 165, 114, 0.6));
+      }
+      body.theme-fruloo .links .done .edge-highlight {
+        stroke: rgba(180, 255, 210, 0.9);
+        filter: drop-shadow(0 0 8px rgba(90, 255, 170, 0.55));
+        opacity: 0.8;
+      }
+      body.theme-fruloo .links .locked .edge-main {
+        stroke: #6e7f73;
+        filter: none;
+        opacity: 0.85;
+      }
+      body.theme-fruloo .links .locked .edge-highlight {
+        stroke: rgba(200, 220, 210, 0.45);
+        filter: none;
+        opacity: 0.5;
+      }
     </style>
   </head>
-<body class="theme-war">
+  <body class="theme-war">
     <header>
       <div class="wrap">
-<div class="brand">
-  <h1>ProductiviTree 🌳</h1>
-  <span class="pill">Tech Tree Task Tracker</span>
+        <div class="brand">
+          <h1>ProductiviTree 🌳</h1>
+          <span class="pill">Tech Tree Task Tracker</span>
 
-  <!-- Theme dropdown (no functionality yet) -->
-  <div class="theme-wrap" aria-label="Theme chooser">
-    <span class="theme-label">Theme</span>
-    <select id="themeSelect" class="theme-select">
-      <option value="war">War</option>
-      <option value="girly-pop">Girly Pop</option>
-    </select>
-  </div>
-</div>
+          <div class="theme-wrap" aria-label="Theme chooser">
+            <span class="theme-label">Theme</span>
+            <select id="themeSelect" class="theme-select">
+              <option value="war">War</option>
+              <option value="girly-pop">Girly Pop</option>
+              <option value="whacky-pomo">Wacky Pomo</option>
+              <option value="fruloo">Fruloo</option>
+            </select>
+          </div>
+          <!-- ✅ close theme-wrap -->
+                     <button
+            class="btn"
+            id="fxToggleBtn"
+            aria-pressed="true"
+            title="Toggle background particles"
+          >
+            FX: On
+          </button>
+        </div>
+        <!-- ✅ close brand -->
 
         <div class="toolbar">
+          <!-- ✅ toolbar is now a sibling -->
+
           <button class="btn primary" id="addNodeBtn">+ Add Node (N)</button>
           <button class="btn" id="linkBtn">Link Nodes (L)</button>
           <div class="dropdown">
@@ -889,6 +1070,7 @@ body.theme-girly-pop .links .done .edge-highlight {
           <button class="btn" id="zoomOutBtn">−</button>
           <button class="btn" id="zoomResetBtn">100%</button>
           <button class="btn" id="zoomInBtn">+</button>
+
           <button class="btn danger" id="clearBtn">Clear</button>
 
           <!-- NEW: choose export folder (File System Access API) -->
@@ -940,19 +1122,17 @@ body.theme-girly-pop .links .done .edge-highlight {
     </header>
 
     <section class="board-wrap panel" id="wrap">
-      <div class="board-frame">
-        <div id="stage">
-          <div id="grid"></div>
-          <!-- add this line -->
-          <svg
-            class="links"
-            id="linkSvg"
-            viewBox="0 0 1800 1000"
-            preserveAspectRatio="none"
-          ></svg>
-          <div id="burstFx" aria-hidden="true"></div>
-          <div id="board"></div>
-        </div>
+      <div id="stage">
+        <div id="grid"></div>
+        <svg
+          class="links"
+          id="linkSvg"
+          viewBox="0 0 1800 1000"
+          preserveAspectRatio="none"
+        ></svg>
+        <canvas id="fxCanvas" aria-hidden="true"></canvas>
+        <div id="burstFx" aria-hidden="true"></div>
+        <div id="board"></div>
       </div>
     </section>
 
@@ -997,7 +1177,6 @@ body.theme-girly-pop .links .done .edge-highlight {
     </aside>
 
     <div class="toast" id="toast"></div>
-    <div id="fx" aria-hidden="true"></div>
 
     <!-- Color wheel popover -->
     <div class="popover-backdrop" id="colorPopover">
@@ -1053,6 +1232,7 @@ body.theme-girly-pop .links .done .edge-highlight {
         BOARD_H = 1000;
       const Z = { scale: 1, min: 0.5, max: 2, step: 0.1 };
       const Pan = { x: 0, y: 0 };
+      let FX_ENABLED = JSON.parse(localStorage.getItem("fx_enabled") || "true");
 
       /* ========================= Element refs ========================= */
       const wrap = document.getElementById("wrap");
@@ -1263,6 +1443,23 @@ body.theme-girly-pop .links .done .edge-highlight {
         saveAllWorkspaces();
         setCurrentWorkspace(id);
         renderWorkspaceRibbons();
+      }
+      function setFXEnabled(on, { persist = true } = {}) {
+        FX_ENABLED = !!on;
+        if (persist)
+          localStorage.setItem("fx_enabled", JSON.stringify(FX_ENABLED));
+        const btn = document.getElementById("fxToggleBtn");
+        if (btn) {
+          btn.setAttribute("aria-pressed", FX_ENABLED ? "true" : "false");
+          btn.textContent = "FX: " + (FX_ENABLED ? "On" : "Off");
+        }
+        if (FX_ENABLED) {
+          if (fxCanvas) fxCanvas.style.display = "block";
+          seedFX();
+        } else {
+          killFX();
+          if (fxCanvas) fxCanvas.style.display = "none";
+        }
       }
 
       function renameWorkspace() {
@@ -2237,49 +2434,433 @@ body.theme-girly-pop .links .done .edge-highlight {
       }
       const headerRO = new ResizeObserver(() => setHeaderH());
 
-/* ========================= Background FX (theme-aware) ========================= */
-function seedFX() {
-  const fx = document.getElementById("fx");
-  if (!fx) return;
-  fx.textContent = ""; // clear old FX
+      /* ========================= Background FX (theme-aware, canvas) ========================= */
+      let fxCtx = null,
+        fxCanvas = null,
+        fxRAF = 0,
+        fxParticles = [];
 
-  if (document.body.classList.contains("theme-girly-pop")) {
-    // 🌸 petals
-    const COUNT = 36;
-    for (let i = 0; i < COUNT; i++) {
-      const p = document.createElement("span");
-      p.className = "petal";
-      p.style.left = Math.random() * 100 + "%";
-      p.style.top = (-5 - Math.random() * 20) + "vh";
-      const w = 12 + Math.random() * 10;
-      const h = 9 + Math.random() * 8;
-      p.style.width = w + "px";
-      p.style.height = h + "px";
-      p.style.animationDuration = (8 + Math.random() * 8) + "s";
-      p.style.animationDelay = (-Math.random() * 8) + "s";
-      p.style.setProperty("--dx", (Math.random() * 120 - 60) + "px");
-      fx.appendChild(p);
-    }
-  } else {
-    // 🔥 sparks
-    const COUNT = 64;
-    for (let i = 0; i < COUNT; i++) {
-      const s = document.createElement("span");
-      s.className = "spark";
-      s.style.left = Math.random() * 100 + "%";
-      s.style.top = Math.random() * 100 + "%";
-      const sz = Math.random() < 0.25 ? 3 : 2;
-      s.style.width = sz + "px";
-      s.style.height = sz + "px";
-      s.style.animationDuration = (9 + Math.random() * 11) + "s";
-      s.style.animationDelay = (-Math.random() * 10) + "s";
-      s.style.filter = "blur(" + Math.random() * 1.2 + "px)";
-      fx.appendChild(s);
-    }
-  }
-}
+      function fxResize() {
+        if (!fxCanvas) return;
+        fxCanvas.width = BOARD_W; // 1800
+        fxCanvas.height = BOARD_H; // 1000
+        fxCanvas.style.width = "100%";
+        fxCanvas.style.height = "100%";
+        fxCtx.setTransform(1, 0, 0, 1, 0, 0); // no DPR here; stage scaling applies
+      }
 
+      function makeParticles(theme) {
+        const area = BOARD_W * BOARD_H;
+        const base =
+          theme === "girly-pop"
+            ? 32
+            : theme === "whacky-pomo"
+            ? 48
+            : theme === "fruloo"
+            ? Math.max(18, Math.floor(BOARD_W / 32))
+            : 80; // war
+        const scale = clamp(area / (1920 * 1080), 0.6, 1.6);
+        const count = theme === "fruloo" ? base : Math.round(base * scale);
 
+        const pomoPalette = [
+          [164, 255, 61],
+          [140, 82, 255],
+          [0, 255, 255],
+          [255, 84, 0],
+          [255, 239, 0],
+          [0, 212, 98],
+        ];
+
+        // Helper for fire coloring
+        const FIRE_STARTS = [
+          { c: [255, 60, 40], w: 4 }, // red (hot)
+          { c: [255, 120, 30], w: 3 }, // orange
+          { c: [255, 184, 70], w: 2 }, // amber
+        ];
+        const FIRE_MID = [255, 184, 70]; // amber
+        const FIRE_END = [255, 228, 150]; // gold
+        const pickWeighted = (stops) => {
+          const total = stops.reduce((a, s) => a + s.w, 0);
+          let r = Math.random() * total;
+          for (const s of stops) {
+            if ((r -= s.w) <= 0) return s.c;
+          }
+          return stops[0].c;
+        };
+
+        if (theme === "fruloo") {
+          const cols = Math.max(18, Math.floor(BOARD_W / 32));
+          const rows = Math.max(12, Math.floor(BOARD_H / 24));
+          const charset = "01$#%@&{}[]<>/\\*+-=_~";
+          fxParticles = new Array(cols).fill(0).map((_, i) => ({
+            kind: "glyph",
+            x: (i + 0.5) * (BOARD_W / cols),
+            y: -Math.random() * BOARD_H,
+            vy: 1.2 + Math.random() * 1.6,
+            len: 6 + Math.floor(Math.random() * Math.min(24, rows)),
+            t: Math.random() * 1000,
+            charset,
+          }));
+          return;
+        }
+
+        if (theme === "girly-pop") {
+          fxParticles = new Array(count).fill(0).map(() => {
+            const size = 10 + Math.random() * 10;
+            return {
+              kind: "petal",
+              x: Math.random() * BOARD_W,
+              y: -20 - Math.random() * BOARD_H * 0.4,
+              vx: Math.random() * 0.6 - 0.3,
+              vy: 0.6 + Math.random() * 0.8,
+              rot: Math.random() * Math.PI * 2,
+              vr:
+                (Math.random() * 0.02 + 0.01) * (Math.random() < 0.5 ? -1 : 1),
+              w: size * (0.9 + Math.random() * 0.3),
+              h: size,
+              tint: [
+                255,
+                156 + ((Math.random() * 80) | 0),
+                200 + ((Math.random() * 40) | 0),
+                0.9,
+              ],
+            };
+          });
+          return;
+        }
+
+        if (theme === "whacky-pomo") {
+          fxParticles = new Array(count).fill(0).map(() => {
+            const c =
+              pomoPalette[Math.floor(Math.random() * pomoPalette.length)];
+            const size = 6 + Math.random() * 14;
+            return {
+              kind: "blob",
+              x: Math.random() * BOARD_W,
+              y: Math.random() * BOARD_H,
+              vx: Math.random() * 1.6 - 0.8,
+              vy: Math.random() * 1.6 - 0.8,
+              w: size,
+              h: size,
+              rot: Math.random() * Math.PI * 2,
+              vr: Math.random() * 0.03 - 0.015,
+              color: c,
+              alpha: 0.55 + Math.random() * 0.35,
+            };
+          });
+          return;
+        }
+
+        // === war: FIRE CINDERS (chunky dots, no tails) — FULL-HEIGHT COVERAGE ===
+        const now = performance.now();
+
+        // Slight density boost for visibility
+        const N = Math.round(count * 1.25);
+
+        fxParticles = new Array(N).fill(0).map(() => {
+          // Longer life so more can traverse the board
+          const life = 2800 + Math.random() * 2400; // ~2.8–5.2s
+          const start = now - Math.random() * life;
+
+          // Bigger heads (visible at typical zoom)
+          const size = 1.8 + Math.random() * 2.2; // ~2–4 px radius
+
+          return {
+            kind: "ember",
+            x: Math.random() * BOARD_W,
+            // Spawn anywhere (not just bottom) so we always have activity up high
+            y: BOARD_H * (0.05 + Math.random() * 0.95),
+
+            // Much faster upward velocity (px/frame) to cover height
+            vx: (Math.random() - 0.5) * 0.18,
+            vy: -(1.2 + Math.random() * 1.6), // ~1.2–2.8 px/frame up
+
+            size,
+            t0: start,
+            life,
+
+            // red/orange start → warm gold end (visible)
+            c0: (function () {
+              const total = 4 + 3 + 2;
+              let r = Math.random() * total;
+              if ((r -= 4) <= 0) return [255, 64, 42];
+              if ((r -= 3) <= 0) return [255, 128, 36];
+              return [250, 176, 72];
+            })(),
+            mid: [238, 170, 84],
+            end: [232, 196, 128],
+
+            // very mild flicker; almost no jitter
+            flicker: 0.15 + Math.random() * 0.2,
+            phase: Math.random() * Math.PI * 2,
+            jitter: 0.008 + Math.random() * 0.02,
+
+            // buoyancy factor applied per frame in fxLoop()
+            buoyancy: 1.005, // ~0.5% faster rise each frame
+          };
+        });
+      }
+
+      function fxLoop() {
+        fxRAF = 0;
+        if (!fxCtx) return;
+
+        const theme = currentTheme();
+        fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+
+        if (theme === "girly-pop") {
+          for (const p of fxParticles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vr;
+            if (p.y > BOARD_H + 40) {
+              p.y = -20 - Math.random() * 120;
+              p.x = Math.random() * BOARD_W;
+            }
+            fxCtx.save();
+            fxCtx.translate(p.x, p.y);
+            fxCtx.rotate(p.rot);
+            const [r, g, b, a] = p.tint || [255, 200, 230, 0.9];
+            fxCtx.globalAlpha = a;
+            fxCtx.fillStyle = `rgba(${r},${g},${b},${a})`;
+            fxCtx.beginPath();
+            fxCtx.ellipse(0, 0, p.w * 0.6, p.h * 0.5, 0.3, 0, Math.PI * 2);
+            fxCtx.fill();
+            fxCtx.restore();
+          }
+          fxRAF = requestAnimationFrame(fxLoop);
+          return;
+        }
+
+        if (theme === "whacky-pomo") {
+          const pomoPalette = [
+            [164, 255, 61],
+            [140, 82, 255],
+            [0, 255, 255],
+            [255, 84, 0],
+            [255, 239, 0],
+            [0, 212, 98],
+          ];
+          for (const b of fxParticles) {
+            if (b.kind !== "blob") {
+              const c =
+                pomoPalette[Math.floor(Math.random() * pomoPalette.length)];
+              const size = 6 + Math.random() * 14;
+              Object.assign(b, {
+                kind: "blob",
+                vx: Math.random() * 1.6 - 0.8,
+                vy: Math.random() * 1.6 - 0.8,
+                w: size,
+                h: size,
+                rot: Math.random() * Math.PI * 2,
+                vr: Math.random() * 0.03 - 0.015,
+                color: c,
+                alpha: 0.55 + Math.random() * 0.35,
+              });
+            }
+            b.x += b.vx;
+            b.y += b.vy;
+            b.rot += b.vr;
+            if (b.x < -20 || b.x > BOARD_W + 20) b.vx *= -1;
+            if (b.y < -20 || b.y > BOARD_H + 20) b.vy *= -1;
+            const [r, g, bb] = b.color || [255, 255, 255];
+            fxCtx.save();
+            fxCtx.translate(b.x, b.y);
+            fxCtx.rotate(b.rot);
+            fxCtx.globalAlpha = b.alpha ?? 0.8;
+            const grd = fxCtx.createRadialGradient(0, 0, 0, 0, 0, b.w * 1.6);
+            grd.addColorStop(0, `rgba(${r},${g},${bb},0.95)`);
+            grd.addColorStop(1, `rgba(${r},${g},${bb},0.2)`);
+            fxCtx.fillStyle = grd;
+            fxCtx.beginPath();
+            fxCtx.ellipse(0, 0, b.w * 0.9, b.h * 0.9, 0, 0, Math.PI * 2);
+            fxCtx.fill();
+            fxCtx.lineWidth = 1.5;
+            fxCtx.strokeStyle = "rgba(255,255,255,0.35)";
+            fxCtx.stroke();
+            fxCtx.restore();
+          }
+          fxRAF = requestAnimationFrame(fxLoop);
+          return;
+        }
+
+        if (theme === "fruloo") {
+          fxCtx.save();
+          fxCtx.fillStyle = "rgba(0,0,0,0.35)";
+          fxCtx.fillRect(0, 0, fxCanvas.width, fxCanvas.height);
+          fxCtx.font =
+            "16px ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace";
+          fxCtx.textAlign = "center";
+          fxCtx.textBaseline = "top";
+          for (const s of fxParticles) {
+            s.y += s.vy;
+            s.t += 1;
+            if (s.y - s.len * 18 > BOARD_H + 48) {
+              s.y = -Math.random() * 200;
+              s.vy = 1.2 + Math.random() * 1.6;
+              s.len = 6 + Math.floor(Math.random() * 18);
+            }
+            for (let i = 0; i < s.len; i++) {
+              const yy = s.y - i * 18;
+              if (yy < -24 || yy > BOARD_H + 24) continue;
+              const ch = s.charset[Math.floor(s.t + i) % s.charset.length];
+              const head = i === 0;
+              fxCtx.fillStyle = head
+                ? "rgba(180,255,200,0.95)"
+                : "rgba(60,255,140,0.75)";
+              fxCtx.fillText(ch, s.x, yy);
+            }
+          }
+          fxCtx.restore();
+          fxRAF = requestAnimationFrame(fxLoop);
+          return;
+        }
+
+        // === war: FIRE CINDERS (chunky dots, no tails) — FULL-HEIGHT COVERAGE ===
+        const now = performance.now();
+
+        // light frame fade for a hint of persistence
+        fxCtx.globalCompositeOperation = "source-over";
+        fxCtx.fillStyle = "rgba(0,0,0,0.06)";
+        fxCtx.fillRect(0, 0, fxCanvas.width, fxCanvas.height);
+
+        for (let i = 0; i < fxParticles.length; i++) {
+          const p = fxParticles[i];
+          if (p.kind !== "ember") continue;
+
+          // age 0..1
+          const t = Math.min(1, (now - p.t0) / p.life);
+
+          // drift + very slight jitter
+          p.x += p.vx + Math.cos(now * 0.01 + p.phase) * p.jitter;
+          p.y +=
+            p.vy - Math.abs(Math.sin(now * 0.009 + p.phase)) * p.jitter * 0.4;
+
+          // mild "buoyancy": accelerate upward a touch so more reach the top
+          p.vy *= p.buoyancy || 1.005;
+
+          // color ramp (kept bright enough to read)
+          const midT = 0.33;
+          const lerp = (a, b, k) => a + (b - a) * k;
+          const mix = (c1, c2, k) => [
+            Math.round(lerp(c1[0], c2[0], k)),
+            Math.round(lerp(c1[1], c2[1], k)),
+            Math.round(lerp(c1[2], c2[2], k)),
+          ];
+          const col =
+            t < midT
+              ? mix(p.c0, p.mid, t / midT)
+              : mix(p.mid, p.end, (t - midT) / (1 - midT));
+
+          // alpha: slower fade so dots stay visible longer
+          const baseA = (t < 0.12 ? t / 0.12 : 1 - t) * 1.0; // peak 1.0
+          const flick = 0.85 + 0.15 * Math.sin(now * 0.012 + p.phase);
+          const alpha = Math.max(
+            0,
+            Math.min(1, baseA * (0.9 + p.flicker * (flick - 0.85)))
+          );
+
+          // dot radius (slightly grows early, then holds)
+          const r = p.size * (t < 0.4 ? 1.0 + t * 0.6 : 1.24);
+
+          // 1) solid body (normal blending) — makes them readable
+          fxCtx.globalCompositeOperation = "source-over";
+          fxCtx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},${alpha})`;
+          fxCtx.beginPath();
+          fxCtx.arc(p.x, p.y, r, 0, Math.PI * 2);
+          fxCtx.fill();
+
+          // 2) tiny hot core to add punch (additive), but not a glow cloud
+          fxCtx.globalCompositeOperation = "lighter";
+          fxCtx.globalAlpha = Math.min(1, alpha * 0.8);
+          fxCtx.beginPath();
+          fxCtx.arc(p.x, p.y, Math.max(0.6, r * 0.45), 0, Math.PI * 2);
+          fxCtx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},1)`;
+          fxCtx.fill();
+
+          // reset blend/alpha for next particle
+          fxCtx.globalAlpha = 1.0;
+          fxCtx.globalCompositeOperation = "source-over";
+
+          // recycle when done or off-screen — respawn at bottom for continuous upward flow
+          if (
+            now - p.t0 > p.life ||
+            p.y < -16 ||
+            p.x < -16 ||
+            p.x > BOARD_W + 16
+          ) {
+            const life = 2800 + Math.random() * 2400;
+            p.t0 = now;
+            p.life = life;
+            p.size = 1.8 + Math.random() * 2.2;
+            p.x = Math.random() * BOARD_W;
+            p.y = BOARD_H + 16; // come in from just below bottom
+            p.vx = (Math.random() - 0.5) * 0.18;
+            p.vy = -(1.2 + Math.random() * 1.6);
+            p.c0 = (function () {
+              const total = 4 + 3 + 2;
+              let r = Math.random() * total;
+              if ((r -= 4) <= 0) return [255, 64, 42];
+              if ((r -= 3) <= 0) return [255, 128, 36];
+              return [250, 176, 72];
+            })();
+            p.mid = [238, 170, 84];
+            p.end = [232, 196, 128];
+            p.flicker = 0.15 + Math.random() * 0.2;
+            p.phase = Math.random() * Math.PI * 2;
+            p.jitter = 0.008 + Math.random() * 0.02;
+            p.buoyancy = 1.005;
+          }
+        }
+
+        fxRAF = requestAnimationFrame(fxLoop);
+      }
+
+      function killFX() {
+        if (fxRAF) cancelAnimationFrame(fxRAF);
+        fxRAF = 0;
+      }
+
+      function seedFX() {
+        if (!FX_ENABLED) return;
+        killFX();
+        fxCanvas = document.getElementById("fxCanvas");
+        if (!fxCanvas) return;
+        fxCanvas.style.display = "block";
+        fxCtx = fxCanvas.getContext("2d", {
+          alpha: true,
+          desynchronized: true,
+        });
+        fxResize();
+        const theme = currentTheme();
+
+        makeParticles(theme);
+        fxRAF = requestAnimationFrame(fxLoop);
+      }
+
+      window.addEventListener(
+        "resize",
+        () => {
+          if (!FX_ENABLED || !fxCanvas) return;
+          fxResize();
+          const theme = currentTheme();
+
+          makeParticles(theme);
+        },
+        { passive: true }
+      );
+
+      document.addEventListener(
+        "visibilitychange",
+        () => {
+          if (document.hidden) {
+            killFX();
+          } else if (FX_ENABLED) {
+            seedFX();
+          }
+        },
+        { passive: true }
+      );
 
       /* ========================= Controls + Shortcuts ========================= */
       (function wireControls() {
@@ -2293,6 +2874,8 @@ function seedFX() {
         const wsNewBtn = document.getElementById("wsNew");
         const wsRenBtn = document.getElementById("wsRename");
         const wsDelBtn = document.getElementById("wsDelete");
+        const fxToggleBtn = document.getElementById("fxToggleBtn");
+        fxToggleBtn?.addEventListener("click", () => setFXEnabled(!FX_ENABLED));
 
         wsNewBtn?.addEventListener("click", newWorkspace);
         wsRenBtn?.addEventListener("click", renameWorkspace);
@@ -2721,12 +3304,10 @@ function seedFX() {
         };
       })();
 
-/* ========================= Init ========================= */
-function updateHeaderOffset() {
-  setHeaderH();
-}
-// (no seedFX here)
-
+      function updateHeaderOffset() {
+        setHeaderH();
+      }
+      // (seedFX runs in init)
 
       function loadFromData(data) {
         state.nodes.clear();
@@ -2739,12 +3320,20 @@ function updateHeaderOffset() {
         schedule.once("graphChanged");
         schedule.once("edges");
       }
+      function currentTheme() {
+        if (document.body.classList.contains("theme-fruloo")) return "fruloo";
+        if (document.body.classList.contains("theme-girly-pop"))
+          return "girly-pop";
+        if (document.body.classList.contains("theme-whacky-pomo"))
+          return "whacky-pomo";
+        return "war";
+      }
 
       (function init() {
         loadAllWorkspaces();
         renderWorkspaceRibbons();
         setCurrentWorkspace(currentWsId);
-        seedFX();
+        setFXEnabled(FX_ENABLED, { persist: false });
         if (window.ResizeObserver) {
           headerRO.observe(header);
         } else {
@@ -2765,22 +3354,23 @@ function updateHeaderOffset() {
             if (state.selected) toggleDone(state.selected);
           });
         document.getElementById("deleteBtn").addEventListener("click", () => {
-document.getElementById("deleteBtn").addEventListener("click", () => {
-  if (state.selected) deleteNode(state.selected);
-});
+          if (state.selected) deleteNode(state.selected);
         });
       })();
-// Theme dropdown
-if (themeSelect) {
-  themeSelect.addEventListener("change", () => {
-    const v = themeSelect.value;
-    document.body.classList.toggle("theme-war", v === "war");
-    document.body.classList.toggle("theme-girly-pop", v === "girly-pop");
-    seedFX(); // refresh background FX on theme switch
-  });
-}
-
-
+      // Theme dropdown
+      if (themeSelect) {
+        themeSelect.addEventListener("change", () => {
+          const v = themeSelect.value;
+          document.body.classList.toggle("theme-war", v === "war");
+          document.body.classList.toggle("theme-girly-pop", v === "girly-pop");
+          document.body.classList.toggle(
+            "theme-whacky-pomo",
+            v === "whacky-pomo"
+          );
+          document.body.classList.toggle("theme-fruloo", v === "fruloo");
+          if (FX_ENABLED) seedFX(); // refresh FX
+        });
+      }
     </script>
   </body>
 </html>
