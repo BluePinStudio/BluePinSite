@@ -1,0 +1,2786 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ProductiviTree 🌳</title>
+    <style>
+      :root {
+        --bg0: #090b0f;
+        --bg1: #0f141a;
+        --panel: #0b0f14;
+        --panel2: #0a0e12;
+        --gold: #e3c174;
+        --gold2: #b88a35;
+        --amber: #ffd590;
+        --emerald: #45c49c;
+        --bronze: #b98b57;
+        --bronze-d: #7b5733;
+        --steel: #7b8da0;
+        --sizeW: 1800;
+        --sizeH: 1000;
+        --red: #e55353;
+        --headerH: 110px; /* will be updated via JS */
+        --gridColor: rgba(227, 193, 116, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        color: #e8f2ff;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Arial;
+        background: radial-gradient(
+            80vw 60vh at 50% -10%,
+            rgba(100, 0, 0, 0.15),
+            transparent 60%
+          ),
+          radial-gradient(
+            70vw 60vh at 80% 110%,
+            rgba(0, 0, 0, 0.35),
+            transparent 60%
+          ),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: linear-gradient(
+          180deg,
+          rgba(12, 16, 22, 0.95),
+          rgba(12, 16, 22, 0.78)
+        );
+        backdrop-filter: blur(8px);
+        border-bottom: 2px solid rgba(158, 47, 47, 0.45);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      }
+      .wrap {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px; /* more breathing room */
+        column-gap: 16px; /* explicit gaps for multi-row wrapping */
+        row-gap: 10px;
+        flex-wrap: wrap; /* allows buttons to wrap to a new line */
+      }
+      .brand {
+        flex: 1 1 260px;
+        min-width: 240px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .toolbar {
+        margin-left: 0; /* override previous auto push */
+        display: flex;
+        justify-content: flex-end; /* push buttons to the right */
+        gap: 12px; /* more space between buttons */
+        row-gap: 10px; /* space when wrapping to a new line */
+        flex-wrap: wrap; /* allow wrapping */
+        flex: 1 1 600px; /* lets toolbar grow on wide screens */
+      }
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+      .pill {
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: #0c131b;
+        font-size: 12px;
+        color: #bcd0df;
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: linear-gradient(180deg, #1b222c, #0f151c);
+        color: #eaf4ff;
+        padding: 8px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 800;
+        letter-spacing: 0.25px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+          0 2px 0 0 rgba(0, 0, 0, 0.45);
+      }
+      .btn.primary {
+        border-color: rgba(158, 47, 47, 0.55);
+        background: linear-gradient(180deg, #9e2f2f, #5b1919);
+        color: #ffd9d9;
+      }
+      .btn.danger {
+        border-color: rgba(255, 120, 120, 0.35);
+        color: #ffdede;
+        background: linear-gradient(180deg, #3a1414, #210c0c);
+      }
+      .panel {
+        position: relative;
+        background: linear-gradient(180deg, var(--panel), var(--panel2));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+      }
+
+      /* === Workspace ribbons === */
+      /* Grid layer */
+      #grid {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: linear-gradient(var(--gridColor) 1px, transparent 1px),
+          linear-gradient(90deg, var(--gridColor) 1px, transparent 1px);
+        background-size: 24px 24px, 24px 24px; /* will be updated via JS */
+        opacity: 0.8;
+      }
+      /* Grid dropdown */
+      .dropdown {
+        position: relative;
+      }
+      .menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 6px;
+        z-index: 120;
+        min-width: 220px;
+        padding: 10px;
+        border-radius: 10px;
+        background: #0b1118;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.6);
+        display: none;
+      }
+      .menu.show {
+        display: block;
+      }
+      .menu .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 6px 0;
+      }
+      .menu label {
+        font-size: 12px;
+        color: #bcd0df;
+      }
+      .menu input[type="number"] {
+        width: 88px;
+        padding: 6px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: #0a0f15;
+        color: #d9e6ef;
+      }
+      .menu input[type="checkbox"] {
+        transform: scale(1.05);
+      }
+
+      .workspace-bar {
+        position: relative;
+        z-index: 45;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        background: linear-gradient(180deg, #0e141b, #0b1118);
+      }
+      .workspace-wrap {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 8px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px; /* wider spacing */
+        column-gap: 12px;
+        row-gap: 8px;
+        flex-wrap: wrap; /* ribbons + actions can wrap */
+      }
+      .ribbons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .ribbon {
+        --wsA: #a06a23;
+        --wsB: #6a4314;
+        --wsSide: #55320f;
+        position: relative;
+        padding: 8px 16px 8px 22px;
+        cursor: pointer;
+        user-select: none;
+        color: #f6ead8;
+        font-weight: 900;
+        letter-spacing: 0.2px;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+        background: linear-gradient(180deg, var(--wsA), var(--wsB));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+          0 6px 16px rgba(0, 0, 0, 0.6);
+        clip-path: polygon(
+          10px 0,
+          100% 0,
+          100% 70%,
+          95% 100%,
+          10px 100%,
+          0 70%,
+          0 0
+        );
+      }
+      .ribbon:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 12px;
+        background: linear-gradient(180deg, var(--wsSide), var(--wsB));
+        clip-path: polygon(0 0, 100% 0, 100% 70%, 80% 100%, 0 100%);
+        box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.15);
+      }
+      .ribbon.active {
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 10px 20px rgba(0, 0, 0, 0.7), 0 0 32px rgba(227, 193, 116, 0.35);
+      }
+      .ribbon .count {
+        margin-left: 8px;
+        padding: 2px 6px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        font-size: 12px;
+        font-weight: 800;
+        color: #fff;
+        text-shadow: none;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+      }
+
+      .ws-actions {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+        flex-wrap: wrap;
+      }
+      .ws-actions .btn {
+        padding: 6px 10px;
+        font-weight: 800;
+      }
+
+      .board-wrap {
+        width: 100%;
+        height: calc(100vh - var(--headerH)); /* remove the -80px reserve */
+        margin: 8px 0 0; /* no bottom margin */
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .board-frame {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      #stage {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: calc(var(--sizeW) * 1px);
+        height: calc(var(--sizeH) * 1px);
+        transform-origin: 0 0;
+        outline: 2px dashed rgba(185, 139, 87, 0.35);
+        outline-offset: -1px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      }
+
+      #board,
+      svg.links {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      svg.links {
+        pointer-events: none;
+      }
+      /* Layered, glowy, always-animated links */
+      .links .edge-base {
+        stroke: rgba(20, 25, 32, 0.85);
+        stroke-width: 6.5;
+        fill: none;
+        vector-effect: non-scaling-stroke;
+        filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
+      }
+
+      .links .edge-main {
+        stroke: url(#bronzeGrad);
+        stroke-width: 3.5;
+        fill: none;
+        vector-effect: non-scaling-stroke;
+        stroke-linecap: round;
+        /* Consistent dash look with normalized pathLength (see JS) */
+        stroke-dasharray: 10 14;
+        animation: linkFlow 2.8s linear infinite;
+        filter: drop-shadow(0 0 4px rgba(227, 193, 116, 0.35));
+        opacity: 0.95;
+      }
+      .links .edge-highlight {
+        stroke: rgba(255, 230, 160, 0.75);
+        stroke-width: 1.2;
+        fill: none;
+        vector-effect: non-scaling-stroke;
+        opacity: 0.65;
+        filter: drop-shadow(0 0 6px rgba(255, 230, 160, 0.35));
+      }
+
+      /* State colors */
+      .links .locked .edge-main {
+        stroke: #6e7f93;
+        filter: none;
+        opacity: 0.85;
+      }
+      .links .locked .edge-highlight {
+        stroke: rgba(220, 230, 245, 0.45);
+        opacity: 0.45;
+      }
+      /* Completed edges: glowing green like completed nodes */
+      .links .done .edge-main {
+        stroke: #1aa572; /* same green as .node.done frame */
+        filter: drop-shadow(0 0 6px rgba(26, 165, 114, 0.6));
+      }
+      .links .done .edge-highlight {
+        stroke: rgba(180, 255, 210, 0.9);
+        filter: drop-shadow(0 0 8px rgba(90, 255, 170, 0.55));
+        opacity: 0.8;
+      }
+      /* Available edges: glowing amber like available nodes */
+      .links .avail .edge-main {
+        stroke: #b88a35; /* amber */
+        filter: drop-shadow(0 0 6px rgba(227, 193, 116, 0.55));
+      }
+      .links .avail .edge-highlight {
+        stroke: rgba(255, 230, 160, 0.9);
+        filter: drop-shadow(0 0 8px rgba(255, 230, 160, 0.55));
+        opacity: 0.8;
+      }
+      /* === Perf mode: reduce visual cost during interaction === */
+      body.perf .links .edge-main {
+        animation: none;
+      }
+      body.perf .links .edge-base,
+      body.perf .links .edge-main,
+      body.perf .links .edge-highlight {
+        filter: none;
+      }
+
+      body.perf .node-inner {
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      }
+      body.perf .frame {
+        box-shadow: 0 0 0 2px var(--bronze),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+      }
+
+      /* Dash animation (always on) */
+      @keyframes linkFlow {
+        to {
+          stroke-dashoffset: -48;
+        }
+      }
+
+      .node {
+        position: absolute;
+        min-width: 150px;
+        max-width: 220px;
+        padding: 10px 12px 12px;
+        cursor: grab;
+        z-index: 2;
+        touch-action: none;
+      }
+      .node-inner {
+        position: relative;
+        padding: 10px;
+        background: linear-gradient(180deg, #0e161e, #0a1016);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      }
+      /* --- Theme dropdown (brand area) --- */
+.brand .theme-label {
+  font-size: 12px;
+  color: #bcd0df;
+  opacity: .9;
+  margin-left: 6px;
+}
+.brand .theme-select {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, #1b222c, #0f151c);
+  color: #eaf4ff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05),
+              0 2px 0 0 rgba(0,0,0,.45);
+}
+.brand .theme-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px; /* space after the subtitle pill */
+}
+/* Theme dropdown fixes */
+.brand .theme-select option {
+  background: #0f151c;      /* dark background for opened list */
+  color: #eaf4ff;           /* light text */
+}
+
+.brand .theme-select {
+  background: linear-gradient(180deg, #1b222c, #0f151c);
+  color: #eaf4ff;
+}
+
+
+      .frame {
+        position: absolute;
+        inset: 0px;
+        pointer-events: none;
+        box-shadow: 0 0 0 2px var(--bronze),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+          0 0 18px rgba(185, 139, 87, 0.18);
+      }
+      .title {
+        font-weight: 900;
+        letter-spacing: 0.2px;
+        background: linear-gradient(180deg, var(--amber), var(--gold));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .desc {
+        color: #b8c7d5;
+        font-size: 12px;
+        line-height: 1.25;
+        margin-top: 4px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+      }
+      .meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        margin-top: 8px;
+        color: #a9bdcc;
+      }
+      .node.done .frame {
+        box-shadow: 0 0 0 5px #1aa572, inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 26px rgba(69, 196, 156, 0.55);
+      }
+      .node.available .frame {
+        box-shadow: 0 0 0 5px #b88a35, inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+          0 0 28px rgba(227, 193, 116, 0.45);
+      }
+      .node.locked .frame {
+        box-shadow: 0 0 0 5px var(--steel),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+          0 0 14px rgba(123, 141, 160, 0.22);
+      }
+
+      .sidebar {
+        position: fixed;
+        right: 20px;
+        top: var(--headerH);
+        width: 320px;
+        z-index: 90;
+      }
+      .node.link-mode {
+        cursor: crosshair;
+      }
+      .node.link-from .frame {
+        box-shadow: 0 0 0 2px #83b9ff, inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+          0 0 18px rgba(131, 185, 255, 0.35);
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 18px;
+        transform: translateX(-50%);
+        opacity: 0;
+        display: none; /* <-- no layout presence by default */
+        pointer-events: none;
+
+        background: rgba(12, 16, 22, 0.9);
+        border: none;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+        padding: 6px 12px;
+        border-radius: 6px;
+
+        transition: opacity 0.2s, transform 0.2s;
+      }
+      .toast.show {
+        display: block; /* only exists when visible */
+        opacity: 1;
+        transform: translateX(-50%) translateY(-6px);
+      }
+
+      .node,
+      .node *:not(input):not(textarea) {
+        user-select: none;
+      }
+      body.noselect,
+      body.noselect * {
+        user-select: none;
+      }
+
+/* background FX container */
+#fx {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* 🔥 War sparks */
+.spark {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 0;
+  background: rgba(227, 193, 116, 0.65);
+  box-shadow: 0 0 6px rgba(227, 193, 116, 0.45);
+  opacity: 0.55;
+  transform: translate3d(0, 0, 0);
+  animation: ember 12s linear infinite;
+  mix-blend-mode: screen;
+}
+@keyframes ember {
+  0% { transform: translateY(100vh) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-10vh) translateX(20px) scale(1.2); opacity: 0; }
+}
+
+/* 🌸 Girly Pop petals */
+.petal {
+  position: absolute;
+  width: 16px;
+  height: 14px;
+  background: radial-gradient(ellipse at 40% 60%, #ffd1e4 0%, #ff9cc9 70%, #ff7fb8 100%);
+  border-radius: 60% 70% 70% 60% / 70% 60% 80% 60%;
+  opacity: 0.9;
+  transform-origin: 50% 50%;
+  animation: fallPetal linear infinite;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+}
+@keyframes fallPetal {
+  0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(110vh) translateX(var(--dx, 0)) rotate(360deg); opacity: 0; }
+}
+
+
+      /* shake + confetti */
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-4px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(4px);
+        }
+      }
+      .shake {
+        animation: shake 0.45s ease;
+      }
+      #burstFx {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .confetti {
+        position: absolute;
+        width: 6px;
+        height: 10px;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+        background: var(--color, #ffd590);
+        border-radius: 1px;
+        animation: confettiPop var(--dur, 700ms) ease-out forwards;
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+      }
+      @keyframes confettiPop {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) rotate(var(--rot, 0)) scale(0.8);
+        }
+        10% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(
+              calc(-50% + var(--dx, 0px)),
+              calc(-50% + var(--dy, 0px))
+            )
+            rotate(calc(var(--rot, 0deg) + 180deg)) scale(1);
+        }
+      }
+
+      /* === Color Wheel Popover === */
+      .popover-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 120;
+      }
+      .popover-backdrop.show {
+        display: flex;
+      }
+      .color-pop {
+        width: 320px;
+        padding: 14px;
+        border-radius: 12px;
+        background: #0b1118;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      #wheelCanvas {
+        display: block;
+        margin: 0 auto 10px;
+      }
+      .slider {
+        width: 100%;
+      }
+      .swatch {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+      }
+      .pop-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+      input.hexfield {
+        flex: 1;
+        padding: 8px;
+        background: #0a0f15;
+        color: #d9e6ef;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas,
+          "Liberation Mono", monospace;
+      }
+      /* Single-row header on desktop */
+      @media (min-width: 1080px) {
+        header .wrap {
+          flex-wrap: nowrap; /* no wrapping */
+          gap: 10px;
+        }
+        .brand {
+          flex: 0 0 auto; /* don't grow; keep compact */
+          min-width: 0; /* let it shrink if needed */
+        }
+        .brand h1 {
+          font-size: 20px; /* slightly smaller to fit */
+          white-space: nowrap; /* avoid wrapping the title */
+        }
+        .toolbar {
+          flex: 1 1 auto; /* buttons take remaining room */
+          justify-content: flex-end;
+          flex-wrap: nowrap; /* keep buttons on one line */
+          gap: 8px;
+        }
+        .toolbar .btn {
+          padding: 6px 8px; /* tighter buttons */
+          white-space: nowrap; /* no wraps per button */
+        }
+      }
+      /* No text selection or caret on the canvas/layers */
+      .board-wrap,
+      .board-frame,
+      #stage,
+      svg.links,
+      .links *,
+      #fx,
+      .spark,
+      .frame,
+      header,
+      .workspace-bar,
+      .panel {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        caret-color: transparent; /* hide blinking caret if focus lands here */
+      }
+
+      /* Also avoid accidental selection highlight */
+      ::selection {
+        background: transparent;
+      }
+
+/* === Girly Pop theme canvas (darker gray w/ noise) === */
+body.theme-girly-pop {
+  --gridColor: rgba(120, 120, 130, 0.08);
+}
+
+/* Canvas background (slightly darker gray, paper texture) */
+body.theme-girly-pop .board-wrap.panel {
+  background: #d8d8db; /* mid-light gray */
+  background-image: 
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='40' height='40' filter='url(%23n)' opacity='0.1'/></svg>");
+  background-size: 180px 180px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Stage outline stays gentle */
+body.theme-girly-pop #stage {
+  background: transparent;
+  outline: 2px dashed rgba(100, 100, 110, 0.3);
+  outline-offset: -1px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+}
+
+
+body.theme-girly-pop .node.locked .frame {
+  /* unavailable → grey (same as War) */
+  box-shadow: 0 0 0 5px var(--steel),
+              inset 0 0 0 1px rgba(255,255,255,0.06),
+              0 0 14px rgba(123,141,160,0.22);
+}
+
+body.theme-girly-pop .node.available .frame {
+  /* in progress → pink */
+  box-shadow: 0 0 0 5px #ff6ab5,
+              inset 0 0 0 1px rgba(255,255,255,0.12),
+              0 0 28px rgba(255,106,181,0.45);
+}
+
+body.theme-girly-pop .node.done .frame {
+  /* completed → red */
+  box-shadow: 0 0 0 5px #ff3d3d,
+              inset 0 0 0 1px rgba(255,255,255,0.12),
+              0 0 26px rgba(255,61,61,0.55);
+}
+
+/* === Girly Pop Theme: Links Only === */
+body.theme-girly-pop .links .edge-base {
+  stroke: rgba(200, 200, 210, 0.6); /* soft gray base */
+}
+
+/* Locked edges = gray (unchanged from War) */
+body.theme-girly-pop .links .locked .edge-main {
+  stroke: #9da1ad;
+  filter: none;
+  opacity: 0.85;
+}
+body.theme-girly-pop .links .locked .edge-highlight {
+  stroke: rgba(200, 210, 225, 0.5);
+  opacity: 0.45;
+  filter: none;
+}
+
+/* Available edges = pink */
+body.theme-girly-pop .links .avail .edge-main {
+  stroke: #e86aa6;
+  filter: drop-shadow(0 0 4px rgba(232,106,166,0.4));
+}
+body.theme-girly-pop .links .avail .edge-highlight {
+  stroke: #ffd8e8;
+  filter: drop-shadow(0 0 6px rgba(255,180,200,0.6));
+  opacity: 0.8;
+}
+
+/* Done edges = reddish pink */
+body.theme-girly-pop .links .done .edge-main {
+  stroke: #d43d4d;
+  filter: drop-shadow(0 0 5px rgba(212,61,77,0.5));
+}
+body.theme-girly-pop .links .done .edge-highlight {
+  stroke: #ffb8c4;
+  filter: drop-shadow(0 0 6px rgba(255,184,196,0.6));
+  opacity: 0.8;
+}
+
+    </style>
+  </head>
+<body class="theme-war">
+    <header>
+      <div class="wrap">
+<div class="brand">
+  <h1>ProductiviTree 🌳</h1>
+  <span class="pill">Tech Tree Task Tracker</span>
+
+  <!-- Theme dropdown (no functionality yet) -->
+  <div class="theme-wrap" aria-label="Theme chooser">
+    <span class="theme-label">Theme</span>
+    <select id="themeSelect" class="theme-select">
+      <option value="war">War</option>
+      <option value="girly-pop">Girly Pop</option>
+    </select>
+  </div>
+</div>
+
+        <div class="toolbar">
+          <button class="btn primary" id="addNodeBtn">+ Add Node (N)</button>
+          <button class="btn" id="linkBtn">Link Nodes (L)</button>
+          <div class="dropdown">
+            <button class="btn" id="gridBtn" title="Grid options">
+              Grid ▾
+            </button>
+            <div class="menu" id="gridMenu">
+              <div class="row">
+                <label for="gridVisible">Show grid</label>
+                <input type="checkbox" id="gridVisible" />
+              </div>
+              <div class="row">
+                <label for="gridSize">Grid size (px)</label>
+                <input
+                  type="number"
+                  id="gridSize"
+                  min="4"
+                  step="1"
+                  value="24"
+                />
+              </div>
+              <div class="row">
+                <label for="gridSnap">Snap to grid</label>
+                <input type="checkbox" id="gridSnap" />
+              </div>
+            </div>
+          </div>
+
+          <button class="btn" id="zoomOutBtn">−</button>
+          <button class="btn" id="zoomResetBtn">100%</button>
+          <button class="btn" id="zoomInBtn">+</button>
+          <button class="btn danger" id="clearBtn">Clear</button>
+
+          <!-- NEW: choose export folder (File System Access API) -->
+          <button
+            class="btn"
+            id="setExportFolderBtn"
+            title="Choose a folder to save exports"
+          >
+            Set Export Folder
+          </button>
+
+          <button
+            class="btn"
+            id="exportWsBtn"
+            title="Export all workspaces as JSON"
+          >
+            Export JSON
+          </button>
+          <button
+            class="btn"
+            id="importWsBtn"
+            title="Import workspaces from JSON"
+          >
+            Import JSON
+          </button>
+          <input
+            type="file"
+            id="importFileInput"
+            accept="application/json,.json"
+            style="display: none"
+          />
+        </div>
+      </div>
+      <!-- Workspace ribbon bar -->
+      <div class="workspace-bar">
+        <div class="workspace-wrap">
+          <div class="ribbons" id="wsRibbons"></div>
+          <div class="ws-actions">
+            <button class="btn" id="wsNew">New Workspace</button>
+            <button class="btn" id="wsRename">Rename</button>
+            <button class="btn danger" id="wsDelete">Delete</button>
+            <!-- Color wheel trigger -->
+            <button class="btn" id="wsColorBtn" title="Workspace color">
+              🎨 Color
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="board-wrap panel" id="wrap">
+      <div class="board-frame">
+        <div id="stage">
+          <div id="grid"></div>
+          <!-- add this line -->
+          <svg
+            class="links"
+            id="linkSvg"
+            viewBox="0 0 1800 1000"
+            preserveAspectRatio="none"
+          ></svg>
+          <div id="burstFx" aria-hidden="true"></div>
+          <div id="board"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar" id="sidebar" hidden>
+      <div class="card panel" style="padding: 12px">
+        <h3 id="sideTitle">Node</h3>
+        <label for="titleInput">Title</label>
+        <input
+          id="titleInput"
+          type="text"
+          placeholder="Name your task"
+          style="
+            width: 100%;
+            padding: 8px;
+            background: #0b1118;
+            color: #d9e6ef;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+          "
+        />
+        <label for="descInput">Description</label>
+        <textarea
+          id="descInput"
+          placeholder="Optional details"
+          style="
+            width: 100%;
+            min-height: 80px;
+            padding: 8px;
+            background: #0b1118;
+            color: #d9e6ef;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+          "
+        ></textarea>
+        <div style="display: flex; gap: 8px; margin-top: 10px">
+          <button class="btn" id="toggleDoneBtn">Toggle Done</button>
+          <button class="btn danger" id="deleteBtn">Delete</button>
+        </div>
+        <label>Dependencies</label>
+        <div id="depsList" style="font-size: 13px; color: #9fb2bf"></div>
+      </div>
+    </aside>
+
+    <div class="toast" id="toast"></div>
+    <div id="fx" aria-hidden="true"></div>
+
+    <!-- Color wheel popover -->
+    <div class="popover-backdrop" id="colorPopover">
+      <div class="color-pop">
+        <canvas id="wheelCanvas" width="220" height="220"></canvas>
+        <div class="row" style="margin: 6px 0 4px">
+          <div class="swatch" id="swatch"></div>
+          <input
+            class="slider"
+            id="valSlider"
+            type="range"
+            min="0"
+            max="100"
+            value="100"
+          />
+          <input class="hexfield" id="hexField" placeholder="#c79039" />
+        </div>
+        <div class="pop-actions">
+          <button class="btn" id="cancelColor">Cancel (Esc)</button>
+          <button class="btn primary" id="applyColor">Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Local audio -->
+    <audio id="s-cheer" src="cheer.wav" preload="auto"></audio>
+
+    <script>
+      /* ========================= Minimal globals ========================= */
+      const state = {
+        nodes: new Map(),
+        edges: [],
+        selected: null,
+        linkMode: false,
+        linkFrom: null,
+
+        // adjacency caches...
+        inEdges: new Map(),
+        outEdges: new Map(),
+
+        // NEW: when we create a node, auto-focus its title once sidebar renders
+        focusTitleForId: null,
+      };
+
+      let SNAP_ENABLED = JSON.parse(
+        localStorage.getItem("grid_snap") || "true"
+      );
+      let GRID = parseInt(localStorage.getItem("grid_size") || "24", 10);
+      let GRID_VISIBLE = JSON.parse(
+        localStorage.getItem("grid_visible") || "true"
+      );
+      const BOARD_W = 1800,
+        BOARD_H = 1000;
+      const Z = { scale: 1, min: 0.5, max: 2, step: 0.1 };
+      const Pan = { x: 0, y: 0 };
+
+      /* ========================= Element refs ========================= */
+      const wrap = document.getElementById("wrap");
+      const stage = document.getElementById("stage");
+      const board = document.getElementById("board");
+      const linkSvg = document.getElementById("linkSvg");
+      const sidebar = document.getElementById("sidebar");
+      const toast = document.getElementById("toast");
+      const sideTitle = document.getElementById("sideTitle");
+      const titleInput = document.getElementById("titleInput");
+      const descInput = document.getElementById("descInput");
+      const depsList = document.getElementById("depsList");
+      const burstFx = document.getElementById("burstFx");
+      const wsRibbons = document.getElementById("wsRibbons");
+      const importFileInput = document.getElementById("importFileInput");
+      const wsColorBtn = document.getElementById("wsColorBtn");
+      const gridLayer = document.getElementById("grid");
+      const gridBtn = document.getElementById("gridBtn");
+      const gridMenu = document.getElementById("gridMenu");
+      const gridVisibleInput = document.getElementById("gridVisible");
+      const gridSizeInput = document.getElementById("gridSize");
+      const gridSnapInput = document.getElementById("gridSnap");
+      const themeSelect = document.getElementById("themeSelect");
+
+      /* ========================= Utils ========================= */
+      const uid = () => "n" + Math.random().toString(36).slice(2, 8);
+      const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+      const getCSS = (v) =>
+        getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+      const screenToWorld = (sx, sy) => ({
+        x: (sx - Pan.x) / Z.scale,
+        y: (sy - Pan.y) / Z.scale,
+      });
+
+      function applyTransform() {
+        stage.style.transform = `translate(${Pan.x}px, ${Pan.y}px) scale(${Z.scale})`;
+      }
+
+      let perfTimer = null;
+      function bumpPerfMode(ms = 240) {
+        document.body.classList.add("perf");
+        clearTimeout(perfTimer);
+        perfTimer = setTimeout(
+          () => document.body.classList.remove("perf"),
+          ms
+        );
+      }
+      function updateGrid() {
+        if (!gridLayer) return;
+        const sz = Math.max(4, Math.floor(GRID));
+        gridLayer.style.backgroundSize = `${sz}px ${sz}px, ${sz}px ${sz}px`;
+        gridLayer.style.display = GRID_VISIBLE ? "block" : "none";
+      }
+
+      function showToast(m) {
+        toast.textContent = m;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1400);
+      }
+
+      /* ========================= SVG defs once ========================= */
+      const defs = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "defs"
+      );
+      defs.innerHTML = `
+  <linearGradient id="bronzeGrad" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="${getCSS("--bronze")}"/>
+    <stop offset="100%" stop-color="${getCSS("--bronze-d")}"/>
+  </linearGradient>`;
+      linkSvg.appendChild(defs);
+
+      /* ========================= Workspaces (unchanged behavior) ========================= */
+      const WS_KEY = "productivitree_workspaces_v1";
+      const WS_CUR = "productivitree_current_ws_v1";
+      let workspaces = null; // id -> { name, color?, data:{version,nodes,edges} }
+      let currentWsId = null;
+      const WS_EMPTY = () => ({ version: 1, nodes: [], edges: [] });
+      const WS_SETTINGS_DEFAULT = () => ({
+        gridSize: GRID, // current UI/defaults
+        gridSnap: SNAP_ENABLED,
+        gridVisible: GRID_VISIBLE,
+      });
+
+      function loadAllWorkspaces() {
+        try {
+          workspaces = JSON.parse(localStorage.getItem(WS_KEY)) || {};
+        } catch {
+          workspaces = {};
+        }
+        currentWsId = localStorage.getItem(WS_CUR);
+
+        if (Object.keys(workspaces).length === 0) {
+          const id = "ws_" + Math.random().toString(36).slice(2, 8);
+          workspaces[id] = {
+            name: "Default Project",
+            color: "#c79039",
+            settings: WS_SETTINGS_DEFAULT(), // <— add this
+            data: WS_EMPTY(),
+          };
+          currentWsId = id;
+          saveAllWorkspaces();
+        }
+        if (!workspaces[currentWsId]) currentWsId = Object.keys(workspaces)[0];
+      }
+
+      function saveAllWorkspaces() {
+        try {
+          localStorage.setItem(WS_KEY, JSON.stringify(workspaces));
+        } catch {}
+        try {
+          localStorage.setItem(WS_CUR, currentWsId);
+        } catch {}
+      }
+
+      function setCurrentWorkspace(id) {
+        if (!workspaces[id]) return;
+        currentWsId = id;
+        saveAllWorkspaces();
+        loadFromData(workspaces[id].data);
+        applyWorkspaceGridSettings(workspaces[id]);
+        fitBoard();
+        renderWorkspaceRibbons();
+        showToast(`Switched to "${workspaces[id].name}"`);
+        setHeaderH();
+      }
+
+      function serialize() {
+        const nodes = [...state.nodes.values()].map((n) => ({
+          id: n.id,
+          title: n.title,
+          desc: n.desc,
+          x: Math.round(n.x),
+          y: Math.round(n.y),
+          done: !!n.done,
+        }));
+        const edges = state.edges.map((e) => ({ from: e.from, to: e.to }));
+        return { version: 1, nodes, edges };
+      }
+
+      function updateCurrentWorkspaceDataNow() {
+        if (!currentWsId) return;
+        workspaces[currentWsId].data = serialize();
+        saveAllWorkspaces();
+      }
+
+      let saveTimer = null;
+      function saveLocal() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+          updateCurrentWorkspaceDataNow();
+          renderWorkspaceRibbons(); // counts might change
+        }, 150);
+      }
+
+      /* ========================= Ribbons (batched) ========================= */
+      function shade(hex, pct) {
+        const { r, g, b } = hexToRgb(hex);
+        const t = pct < 0 ? 0 : 255,
+          p = Math.abs(pct);
+        return rgbToHex(
+          Math.round((t - r) * p + r),
+          Math.round((t - g) * p + g),
+          Math.round((t - b) * p + b)
+        );
+      }
+
+      function renderWorkspaceRibbons() {
+        wsRibbons.textContent = "";
+        const frag = document.createDocumentFragment();
+        Object.entries(workspaces).forEach(([id, ws]) => {
+          const total = Array.isArray(ws?.data?.nodes)
+            ? ws.data.nodes.length
+            : 0;
+          const done = total
+            ? ws.data.nodes.reduce((a, n) => a + (n.done ? 1 : 0), 0)
+            : 0;
+          const base = ws.color || "#c79039";
+          const b = document.createElement("div");
+          b.className = "ribbon" + (id === currentWsId ? " active" : "");
+          b.title = `Switch to ${
+            ws.name || "Workspace"
+          } — ${done}/${total} done`;
+          b.innerHTML = `${escapeHtml(
+            ws.name || "Workspace"
+          )} <span class="count">[${done}/${total}]</span>`;
+          b.style.setProperty("--wsA", shade(base, +0.0));
+          b.style.setProperty("--wsB", shade(base, -0.35));
+          b.style.setProperty("--wsSide", shade(base, -0.5));
+          b.addEventListener("click", () => setCurrentWorkspace(id));
+          frag.appendChild(b);
+        });
+        wsRibbons.appendChild(frag);
+        setHeaderH(); // keeps sidebar offset in sync
+      }
+
+      function newWorkspace() {
+        const name = (prompt("Workspace name?", "New Workspace") || "").trim();
+        if (!name) return;
+        const id = "ws_" + Math.random().toString(36).slice(2, 8);
+        workspaces[id] = {
+          name,
+          color: "#c79039",
+          settings: WS_SETTINGS_DEFAULT(),
+          data: WS_EMPTY(),
+        };
+
+        saveAllWorkspaces();
+        setCurrentWorkspace(id);
+        renderWorkspaceRibbons();
+      }
+
+      function renameWorkspace() {
+        if (!currentWsId || !workspaces[currentWsId]) return;
+        const cur = workspaces[currentWsId];
+        const name = (
+          prompt("Rename workspace:", cur.name || "Workspace") || ""
+        ).trim();
+        if (!name) return;
+        cur.name = name;
+        saveAllWorkspaces();
+        renderWorkspaceRibbons();
+        showToast(`Renamed to "${name}"`);
+      }
+      function applyWorkspaceGridSettings(ws) {
+        const s = ws?.settings || {};
+        GRID = Number.isFinite(s.gridSize) ? s.gridSize : GRID;
+        SNAP_ENABLED =
+          typeof s.gridSnap === "boolean" ? s.gridSnap : SNAP_ENABLED;
+        GRID_VISIBLE =
+          typeof s.gridVisible === "boolean" ? s.gridVisible : GRID_VISIBLE;
+
+        // Reflect in the UI controls
+        if (gridVisibleInput) gridVisibleInput.checked = GRID_VISIBLE;
+        if (gridSizeInput) gridSizeInput.value = String(GRID);
+        if (gridSnapInput) gridSnapInput.checked = SNAP_ENABLED;
+
+        // Apply to the canvas immediately
+        updateGrid();
+
+        // Keep localStorage in sync (optional)
+        localStorage.setItem("grid_visible", JSON.stringify(GRID_VISIBLE));
+        localStorage.setItem("grid_size", String(GRID));
+        localStorage.setItem("grid_snap", JSON.stringify(SNAP_ENABLED));
+      }
+
+      function deleteWorkspace() {
+        if (!currentWsId || !workspaces[currentWsId]) return;
+        const cur = workspaces[currentWsId];
+        const ids = Object.keys(workspaces);
+        if (ids.length <= 1) {
+          if (
+            !confirm(
+              `Delete the ONLY workspace "${cur.name}"? This will just clear its canvas.`
+            )
+          )
+            return;
+          state.nodes.clear();
+          state.edges.length = 0;
+          state.selected = null;
+          schedule.once("graphChanged");
+          schedule.once("save");
+          return;
+        }
+        if (!confirm(`Delete workspace "${cur.name}" entirely?`)) return;
+        delete workspaces[currentWsId];
+        const nextId = Object.keys(workspaces)[0];
+        saveAllWorkspaces();
+        setCurrentWorkspace(nextId);
+        renderWorkspaceRibbons();
+        showToast("Workspace deleted");
+      }
+
+      /* ========================= Color helpers ========================= */
+      function hexToRgb(hex) {
+        const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        if (!m) return { r: 160, g: 106, b: 35 };
+        return {
+          r: parseInt(m[1], 16),
+          g: parseInt(m[2], 16),
+          b: parseInt(m[3], 16),
+        };
+      }
+      function rgbToHex(r, g, b) {
+        const h = (n) => n.toString(16).padStart(2, "0");
+        return `#${h(clamp(r, 0, 255))}${h(clamp(g, 0, 255))}${h(
+          clamp(b, 0, 255)
+        )}`;
+      }
+      function setWorkspaceColor(hex) {
+        if (!currentWsId) return;
+        workspaces[currentWsId].color = hex;
+        saveAllWorkspaces();
+        renderWorkspaceRibbons();
+      }
+
+      /* ========================= Recompute node classes & badges ========================= */
+      function refreshNodeStates() {
+        // assumes adjacency cache is up to date
+        state.nodes.forEach((n) => {
+          const el = board.querySelector(`.node[data-id="${n.id}"]`);
+          if (!el) return;
+          el.classList.toggle("done", !!n.done);
+          const avail = !n.done && isAvailable(n);
+          const locked = !n.done && !avail;
+          el.classList.toggle("available", avail);
+          el.classList.toggle("locked", locked);
+          // update meta badges without re-rendering nodes
+          const req = parentsOf(n.id).length;
+          const out = childrenOf(n.id).length;
+          const reqEl = el.querySelector(".req");
+          const outEl = el.querySelector(".out");
+          if (reqEl) reqEl.textContent = `${req} req`;
+          if (outEl) outEl.textContent = `${out} out`;
+        });
+      }
+
+      /* ========================= Adjacency cache ========================= */
+      function rebuildAdjacency() {
+        state.inEdges.clear();
+        state.outEdges.clear();
+        const ensure = (map, key) =>
+          map.has(key) ? map.get(key) : (map.set(key, []), map.get(key));
+        for (const nId of state.nodes.keys()) {
+          state.inEdges.set(nId, state.inEdges.get(nId) || []);
+          state.outEdges.set(nId, state.outEdges.get(nId) || []);
+        }
+        for (const e of state.edges) {
+          ensure(state.outEdges, e.from).push(e.to);
+          ensure(state.inEdges, e.to).push(e.from);
+        }
+      }
+      const parentsOf = (id) => state.inEdges.get(id) || [];
+      const childrenOf = (id) => state.outEdges.get(id) || [];
+      const isAvailable = (node) =>
+        parentsOf(node.id).every((pid) => state.nodes.get(pid)?.done);
+
+      /* ========================= Measure ========================= */
+      const FRAME_OUTSET = 6;
+      function measureNode(n) {
+        const el = board.querySelector(`.node[data-id="${n.id}"]`);
+        if (!el) return;
+        n.w = el.offsetWidth / Z.scale;
+        n.h = el.offsetHeight / Z.scale;
+        const out = FRAME_OUTSET / Z.scale;
+        n.vx = n.x - out;
+        n.vy = n.y - out;
+        n.vw = n.w + out * 2;
+        n.vh = n.h + out * 2;
+      }
+      function measureAll() {
+        state.nodes.forEach(measureNode);
+      }
+
+      /* ========================= Render nodes (build once) ========================= */
+      function renderNodes() {
+        board.textContent = "";
+        const frag = document.createDocumentFragment();
+        state.nodes.forEach((node) => {
+          const el = document.createElement("div");
+          el.className = "node";
+          if (node.done) el.classList.add("done");
+          if (!node.done && isAvailable(node)) el.classList.add("available");
+          if (!node.done && !isAvailable(node)) el.classList.add("locked");
+          el.style.left = node.x + "px";
+          el.style.top = node.y + "px";
+          el.dataset.id = node.id;
+          el.innerHTML = `
+      <div class="node-inner">
+        <span class="title"></span>
+        <div class="frame"></div>
+        <div class="desc"></div>
+        <div class="meta"><span class="req"></span><span class="out"></span></div>
+      </div>`;
+          el.querySelector(".title").textContent = node.title || "Untitled";
+          el.querySelector(".desc").textContent = node.desc || "";
+          el.querySelector(".req").textContent = `${
+            parentsOf(node.id).length
+          } req`;
+          el.querySelector(".out").textContent = `${
+            childrenOf(node.id).length
+          } out`;
+          el.addEventListener("pointerdown", startDrag, { passive: false });
+          el.addEventListener("click", (evt) => {
+            if (!drag.moved) selectNode(node.id);
+          });
+          frag.appendChild(el);
+        });
+        board.appendChild(frag);
+
+        // ensure future edges use fresh measurements
+        schedule.once("measure");
+
+        // NEW: if link mode is on, re-bind handlers on new nodes
+        if (state.linkMode) setLinkMode(true);
+      }
+
+      /* ========================= Edges (throttled) ========================= */
+      function drawEdges() {
+        const parts = [];
+        let idx = 0;
+
+        state.edges.forEach((e) => {
+          const a = state.nodes.get(e.from),
+            b = state.nodes.get(e.to);
+          if (!a || !b) return;
+
+          const startX = (a.vx ?? a.x) + (a.vw ?? a.w ?? 180) / 2;
+          const startY = (a.vy ?? a.y) + (a.vh ?? a.h ?? 64) / 2;
+          const endX = (b.vx ?? b.x) + (b.vw ?? b.w ?? 180) / 2;
+          const endY = (b.vy ?? b.y) + (b.vh ?? b.h ?? 64) / 2;
+
+          const dx = endX - startX,
+            dy = endY - startY,
+            dist = Math.hypot(dx, dy);
+          const bend = Math.max(22, Math.min(260, dist * 0.25));
+          const t = Math.abs(dx) / (Math.abs(dx) + Math.abs(dy) || 1);
+          const hx = Math.sign(dx) * Math.min(Math.abs(dx) * 0.6, bend);
+          const vy = Math.sign(dy) * Math.min(Math.abs(dy) * 0.6, bend);
+
+          let c1x = startX + hx * t,
+            c1y = startY + vy * (1 - t);
+          let c2x = endX - hx * t,
+            c2y = endY - vy * (1 - t);
+          if (Math.abs(dy) < 0.002) {
+            c1y += 0.002;
+            c2y -= 0.002;
+          }
+
+          const d = `M ${startX} ${startY} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${endX} ${endY}`;
+
+          const toNode = state.nodes.get(e.to),
+            fromNode = state.nodes.get(e.from);
+
+          const avail = !toNode?.done && isAvailable(toNode);
+          const locked = !toNode?.done && !avail;
+          const completed = !!fromNode?.done && !!toNode?.done;
+
+          const groupCls = locked
+            ? "locked"
+            : completed
+            ? "done"
+            : avail
+            ? "avail"
+            : "";
+
+          parts.push(
+            `<g class="${groupCls}">
+        <path class="edge-base" d="${d}" pathLength="300"></path>
+        <path class="edge-main" d="${d}" pathLength="300"></path>
+        <path class="edge-highlight" d="${d}" pathLength="300"></path>
+      </g>`
+          );
+          idx++;
+        });
+
+        linkSvg.innerHTML = defs.outerHTML + parts.join("");
+      }
+
+      /* ========================= Sidebar ========================= */
+      function selectNode(id) {
+        state.selected = id;
+        refreshSidebar();
+      }
+      function refreshSidebar() {
+        const n = state.nodes.get(state.selected);
+        if (!n) {
+          sidebar.hidden = true;
+          return;
+        }
+        sidebar.hidden = false;
+        sideTitle.textContent = n.title || "Node";
+        titleInput.value = n.title || "";
+        descInput.value = n.desc || "";
+        depsList.innerHTML =
+          parentsOf(n.id)
+            .map((pid) => {
+              const pn = state.nodes.get(pid);
+              return `<div style="display:flex;align-items:center;gap:6px;margin:4px 0">
+      <span class="pill">${escapeHtml(pn?.title || "")}</span>
+      <button class="btn" data-remove="${pid}">Remove</button></div>`;
+            })
+            .join("") || '<div style="color:#7f97a8">No dependencies</div>';
+
+        depsList.querySelectorAll("button[data-remove]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const pid = btn.dataset.remove;
+            for (let i = state.edges.length - 1; i >= 0; i--) {
+              const e = state.edges[i];
+              if (e.from === pid && e.to === n.id) state.edges.splice(i, 1);
+            }
+            schedule.once("edgesChanged");
+            schedule.once("save");
+          });
+        });
+        if (state.focusTitleForId === n.id) {
+          requestAnimationFrame(() => {
+            titleInput.focus();
+            titleInput.select();
+            state.focusTitleForId = null; // clear so normal selections don't steal focus
+          });
+        }
+      }
+      /* only update text; no re-render */
+      titleInput.addEventListener("input", () => {
+        const n = state.nodes.get(state.selected);
+        if (!n) return;
+        n.title = titleInput.value;
+        const el = board.querySelector(`.node[data-id="${n.id}"] .title`);
+        if (el) el.textContent = n.title || "Untitled";
+        schedule.once("measure");
+        schedule.once("edges");
+        schedule.once("save");
+      });
+      // NEW: Press Enter to commit title and leave the field, so you can hit N again
+      titleInput.addEventListener(
+        "keydown",
+        (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            titleInput.blur();
+          }
+        },
+        { passive: false }
+      );
+      descInput.addEventListener("input", () => {
+        const n = state.nodes.get(state.selected);
+        if (!n) return;
+        n.desc = descInput.value;
+        const el = board.querySelector(`.node[data-id="${n.id}"] .desc`);
+        if (el) el.textContent = n.desc || "";
+        schedule.once("measure");
+        schedule.once("edges");
+        schedule.once("save");
+      });
+
+      /* click empty canvas closes sidebar */
+      wrap.addEventListener(
+        "mousedown",
+        (e) => {
+          if (
+            e.target.closest(".node") ||
+            e.target.closest(".sidebar") ||
+            e.target.closest("header")
+          )
+            return;
+
+          // If a text field was focused, blur it so no caret remains
+          const ae = document.activeElement;
+          if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA")) {
+            ae.blur();
+          }
+
+          state.selected = null;
+          refreshSidebar();
+        },
+        { passive: true }
+      );
+
+      /* ========================= Node CRUD ========================= */
+      function addNodeAt(x, y) {
+        if (SNAP_ENABLED) {
+          x = Math.round(x / GRID) * GRID;
+          y = Math.round(y / GRID) * GRID;
+        }
+        const id = uid();
+        const node = {
+          id,
+          title: "New Task",
+          desc: "",
+          x: clamp(x, 10, BOARD_W - 160),
+          y: clamp(y, 10, BOARD_H - 80),
+          done: false,
+        };
+        state.nodes.set(id, node);
+
+        // NEW: tell the sidebar to focus this node's title when it renders
+        state.focusTitleForId = id;
+
+        selectNode(id);
+        schedule.once("graphChanged");
+        showToast("Node added (N)");
+      }
+      function addNodeAtViewportCenter() {
+        const cx = wrap.clientWidth / 2,
+          cy = wrap.clientHeight / 2;
+        const { x, y } = screenToWorld(cx, cy);
+        addNodeAt(x - 80, y - 24);
+      }
+      function deleteNode(id) {
+        const n = state.nodes.get(id);
+        if (!confirm(`Delete node${n ? ` "${n.title}"` : ""}?`)) return;
+        state.nodes.delete(id);
+        for (let i = state.edges.length - 1; i >= 0; i--) {
+          const e = state.edges[i];
+          if (e.from === id || e.to === id) state.edges.splice(i, 1);
+        }
+        if (state.selected === id) state.selected = null;
+        schedule.once("graphChanged");
+      }
+
+      /* ========================= Audio (unchanged behavior) ========================= */
+      let AC = null,
+        masterGain = null,
+        audioReady = false;
+      function ensureAudio() {
+        if (audioReady) return;
+        try {
+          AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+          masterGain = AC.createGain();
+          masterGain.gain.value = 0.6;
+          masterGain.connect(AC.destination);
+          audioReady = true;
+        } catch {}
+      }
+      function resumeAudioIfSuspended() {
+        if (AC && AC.state === "suspended") AC.resume();
+      }
+      window.addEventListener(
+        "pointerdown",
+        () => {
+          ensureAudio();
+          resumeAudioIfSuspended();
+        },
+        { once: true, passive: true }
+      );
+
+      function playCheer() {
+        const el = document.getElementById("s-cheer");
+        if (!el) return;
+        resumeAudioIfSuspended();
+        el.currentTime = 0;
+        el.volume = 0.85;
+        el.play().catch(() => {});
+      }
+      function playClick(type = "up") {
+        ensureAudio();
+        if (!AC) return;
+        const now = AC.currentTime,
+          osc = AC.createOscillator(),
+          gain = AC.createGain();
+        const isUp = type === "up";
+        const baseFreq = isUp ? 600 : 280,
+          dur = isUp ? 0.05 : 0.07,
+          startGain = isUp ? 0.18 : 0.24;
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(baseFreq, now);
+        osc.frequency.exponentialRampToValueAtTime(
+          baseFreq * (isUp ? 0.92 : 0.85),
+          now + dur
+        );
+        gain.gain.setValueAtTime(startGain, now);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
+        osc.connect(gain);
+        gain.connect(masterGain);
+        osc.start(now);
+        osc.stop(now + dur + 0.01);
+      }
+
+      /* ========================= Visual FX (unchanged) ========================= */
+      function shakeNodeElement(el) {
+        if (!el) return;
+        el.classList.remove("shake");
+        el.offsetWidth;
+        el.classList.add("shake");
+      }
+      function emitConfettiAt(px, py, opts = {}) {
+        const {
+          pieces = 30,
+          spread = 120,
+          distance = 160,
+          duration = 850,
+          colors = ["#ffd590", "#e3c174", "#45c49c", "#83b9ff", "#b98b57"],
+        } = opts;
+        for (let i = 0; i < pieces; i++) {
+          const piece = document.createElement("span");
+          piece.className = "confetti";
+          const angle = -spread / 2 + Math.random() * spread;
+          const rad = ((angle - 90) * Math.PI) / 180;
+          const dist = distance * (0.5 + Math.random());
+          const dx = Math.cos(rad) * dist,
+            dy = Math.sin(rad) * dist;
+          piece.style.left = px + "px";
+          piece.style.top = py + "px";
+          piece.style.setProperty("--dx", dx.toFixed(1) + "px");
+          piece.style.setProperty("--dy", dy.toFixed(1) + "px");
+          piece.style.setProperty(
+            "--rot",
+            Math.floor(Math.random() * 360) + "deg"
+          );
+          piece.style.setProperty("--dur", duration + "ms");
+          piece.style.setProperty("--color", colors[i % colors.length]);
+          burstFx.appendChild(piece);
+          piece.addEventListener("animationend", () => piece.remove(), {
+            passive: true,
+          });
+        }
+      }
+      function emitConfettiForNode(n) {
+        const cx = (n.vx ?? n.x) + (n.vw ?? n.w ?? 180) / 2;
+        const cy = (n.vy ?? n.y) + (n.vh ?? n.h ?? 64) / 2;
+        emitConfettiAt(cx, cy);
+      }
+
+      /* ========================= Toggle Done ========================= */
+      function toggleDone(id) {
+        const n = state.nodes.get(id);
+        if (!n) return;
+        if (!n.done && !isAvailable(n)) {
+          showToast("Locked by prerequisites");
+          return;
+        }
+        n.done = !n.done;
+
+        const el = board.querySelector(`.node[data-id="${id}"]`);
+        if (el) {
+          el.classList.toggle("done", n.done);
+          el.classList.toggle("available", !n.done && isAvailable(n));
+          el.classList.toggle("locked", !n.done && !isAvailable(n));
+          el.querySelector(".req").textContent = `${
+            parentsOf(n.id).length
+          } req`;
+          el.querySelector(".out").textContent = `${
+            childrenOf(n.id).length
+          } out`;
+        }
+
+        if (n.done) {
+          shakeNodeElement(el);
+          emitConfettiForNode(n);
+          playCheer();
+        } else {
+          shakeNodeElement(el);
+        }
+
+        schedule.once("nodesState"); // <- other nodes may become available/locked
+        schedule.once("edges");
+        schedule.once("save");
+      }
+
+      /* ========================= Edges CRUD ========================= */
+      function wouldCreateCycle(from, to) {
+        const seen = new Set();
+        const stack = [to];
+        while (stack.length) {
+          const cur = stack.pop();
+          if (cur === from) return true;
+          (childrenOf(cur) || []).forEach((n) => {
+            if (!seen.has(n)) {
+              seen.add(n);
+              stack.push(n);
+            }
+          });
+        }
+        return false;
+      }
+      function createLink(parentId, childId) {
+        if (parentId === childId) return;
+        if (state.edges.some((e) => e.from === parentId && e.to === childId))
+          return;
+        if (wouldCreateCycle(parentId, childId)) {
+          showToast("Link would create a cycle");
+          return;
+        }
+        state.edges.push({ from: parentId, to: childId });
+        schedule.once("edgesChanged");
+        schedule.once("nodesState"); // child may switch to locked; others may change
+        schedule.once("save");
+      }
+
+      /* ========================= Dragging ========================= */
+      let drag = { active: false, id: null, dx: 0, dy: 0, moved: false };
+      const DRAG_CLICK_SLOP = 6;
+
+      function startDrag(e) {
+        const el = e.currentTarget,
+          id = el.dataset.id,
+          n = state.nodes.get(id);
+        if (!n) return;
+        e.preventDefault();
+        const world = screenToWorld(e.clientX, e.clientY);
+        drag = {
+          active: true,
+          id,
+          dx: world.x - n.x,
+          dy: world.y - n.y,
+          moved: false,
+        };
+        document.body.classList.add("noselect");
+        el.setPointerCapture?.(e.pointerId);
+        window.addEventListener("pointermove", onDrag, { passive: true });
+        window.addEventListener("pointerup", endDrag, {
+          once: true,
+          passive: true,
+        });
+        playClick("up");
+      }
+      function onDrag(e) {
+        if (!drag.active) return;
+        const n = state.nodes.get(drag.id);
+        if (!n) return;
+        const world = screenToWorld(e.clientX, e.clientY);
+        let nx = world.x - drag.dx,
+          ny = world.y - drag.dy;
+
+        if (
+          !drag.moved &&
+          (Math.abs(nx - n.x) > DRAG_CLICK_SLOP ||
+            Math.abs(ny - n.y) > DRAG_CLICK_SLOP)
+        )
+          drag.moved = true;
+        if (SNAP_ENABLED) {
+          nx = Math.round(nx / GRID) * GRID;
+          ny = Math.round(ny / GRID) * GRID;
+        }
+
+        n.x = clamp(nx, 0, BOARD_W - 160);
+        n.y = clamp(ny, 0, BOARD_H - 80);
+
+        const el = board.querySelector(`.node[data-id="${drag.id}"]`);
+        if (el) {
+          el.style.left = n.x + "px";
+          el.style.top = n.y + "px";
+        }
+
+        const out = FRAME_OUTSET / Z.scale;
+        n.vx = n.x - out;
+        n.vy = n.y - out;
+        bumpPerfMode();
+        schedule.once("edges");
+      }
+      function endDrag() {
+        drag.active = false;
+        window.removeEventListener("pointermove", onDrag);
+        document.body.classList.remove("noselect");
+        setTimeout(() => {
+          drag.moved = false;
+        }, 60);
+        playClick("down");
+        schedule.once("save");
+      }
+
+      /* ========================= Link mode ========================= */
+      /* ========================= Link mode ========================= */
+      function setLinkMode(on) {
+        state.linkMode = !!on;
+
+        // Only reset linkFrom when turning OFF link mode
+        if (!state.linkMode) state.linkFrom = null;
+
+        const btn = document.getElementById("linkBtn");
+        btn.classList.toggle("primary", state.linkMode);
+        btn.textContent = state.linkMode
+          ? "Link: parent → child (L)"
+          : "Link Nodes (L)";
+
+        // Bind/unbind click listeners on current nodes
+        board.querySelectorAll(".node").forEach((el) => {
+          el.classList.toggle("link-mode", state.linkMode);
+          el.removeEventListener("click", linkClickHandler); // ensure no dupes
+          if (state.linkMode) el.addEventListener("click", linkClickHandler);
+        });
+
+        // Small visual cue when (re)entering link mode
+        if (state.linkMode && !state.linkFrom)
+          showToast("Click a PARENT task, then a CHILD task");
+      }
+
+      function linkClickHandler(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = e.currentTarget.dataset.id;
+
+        // First click: choose parent
+        if (!state.linkFrom) {
+          state.linkFrom = id;
+          showToast("Now click the CHILD task");
+          // optional soft highlight
+          board
+            .querySelectorAll(".node")
+            .forEach((n) => n.classList.remove("link-from"));
+          e.currentTarget.classList.add("link-from");
+          return;
+        }
+
+        // Second click: create link parent → child
+        const parentId = state.linkFrom;
+        const childId = id;
+
+        // Clear temporary highlight, keep link mode ON for chaining
+        board
+          .querySelectorAll(".node")
+          .forEach((n) => n.classList.remove("link-from"));
+        state.linkFrom = null;
+
+        createLink(parentId, childId); // already schedules edgesChanged+save
+        showToast("Linked ✓  (pick another parent or press L to exit)");
+      }
+
+      /* ========================= Zoom / Pan ========================= */
+      function setScale(next, center) {
+        const rect = wrap.getBoundingClientRect();
+        const cx = center?.x ?? rect.width / 2,
+          cy = center?.y ?? rect.height / 2;
+        const preWorldX = (cx - Pan.x) / Z.scale,
+          preWorldY = (cy - Pan.y) / Z.scale;
+        Z.scale = clamp(next, Z.min, Z.max);
+        Pan.x = cx - preWorldX * Z.scale;
+        Pan.y = cy - preWorldY * Z.scale;
+        applyTransform();
+        document.getElementById("zoomResetBtn").textContent =
+          Math.round(Z.scale * 100) + "%";
+        bumpPerfMode();
+        schedule.once("measure");
+        schedule.once("edges");
+      }
+      document
+        .getElementById("zoomInBtn")
+        .addEventListener("click", () => setScale(Z.scale + Z.step));
+      document
+        .getElementById("zoomOutBtn")
+        .addEventListener("click", () => setScale(Z.scale - Z.step));
+      document
+        .getElementById("zoomResetBtn")
+        .addEventListener("click", fitBoard);
+
+      wrap.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.ctrlKey) {
+            e.preventDefault();
+            const dir = e.deltaY > 0 ? -1 : 1;
+            bumpPerfMode();
+            setScale(Z.scale + dir * Z.step, { x: e.clientX, y: e.clientY });
+          }
+        },
+        { passive: false }
+      );
+
+      (function enableBoardPanning() {
+        let isDown = false,
+          sx = 0,
+          sy = 0,
+          startX = 0,
+          startY = 0;
+        wrap.addEventListener("mousedown", (e) => {
+          if (e.target.closest(".node") || e.target.closest(".sidebar")) return;
+          isDown = true;
+          wrap.style.cursor = "grabbing";
+          sx = e.clientX;
+          sy = e.clientY;
+          startX = Pan.x;
+          startY = Pan.y;
+        });
+        window.addEventListener(
+          "mousemove",
+          (e) => {
+            if (!isDown) return;
+            Pan.x = startX + (e.clientX - sx);
+            Pan.y = startY + (e.clientY - sy);
+            applyTransform();
+            bumpPerfMode();
+          },
+          { passive: true }
+        );
+        window.addEventListener(
+          "mouseup",
+          () => {
+            if (isDown) {
+              isDown = false;
+              wrap.style.cursor = "auto";
+            }
+          },
+          { passive: true }
+        );
+      })();
+
+      function fitBoard() {
+        const availW = wrap.clientWidth,
+          availH = wrap.clientHeight;
+        const scale = Math.min(availW / BOARD_W, availH / BOARD_H);
+        Z.scale = clamp(scale, Z.min, Z.max);
+        const stageW = BOARD_W * Z.scale,
+          stageH = BOARD_H * Z.scale;
+        Pan.x = Math.floor((availW - stageW) / 2);
+        Pan.y = Math.floor((availH - stageH) / 2);
+        applyTransform();
+        document.getElementById("zoomResetBtn").textContent =
+          Math.round(Z.scale * 100) + "%";
+        bumpPerfMode();
+        schedule.once("measure");
+        schedule.once("edges");
+      }
+      window.addEventListener("resize", () => fitBoard(), { passive: true });
+
+      /* ========================= Export / Import (same UI, same behavior) ========================= */
+      function download(filename, text) {
+        const blob = new Blob([text], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+      const DB_NAME = "productivitree_fs",
+        DB_STORE = "kv";
+      function idbOpen() {
+        return new Promise((res, rej) => {
+          const req = indexedDB.open(DB_NAME, 1);
+          req.onupgradeneeded = () => req.result.createObjectStore(DB_STORE);
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => rej(req.error);
+        });
+      }
+      async function idbSet(key, value) {
+        const db = await idbOpen();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(DB_STORE, "readwrite");
+          tx.objectStore(DB_STORE).put(value, key);
+          tx.oncomplete = () => res();
+          tx.onerror = () => rej(tx.error);
+        });
+      }
+      async function idbGet(key) {
+        const db = await idbOpen();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(DB_STORE, "readonly");
+          const req = tx.objectStore(DB_STORE).get(key);
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => rej(req.error);
+        });
+      }
+      const FS_HANDLE_KEY = "export_dir_handle_v1";
+      async function verifyFsPermission(handle, mode = "readwrite") {
+        const opts = { mode };
+        if ((await handle.queryPermission(opts)) === "granted") return true;
+        return (await handle.requestPermission(opts)) === "granted";
+      }
+      async function chooseExportDirectory() {
+        if (!window.showDirectoryPicker) {
+          alert(
+            "Your browser does not support choosing a folder. Use Chrome/Edge or rely on the download fallback."
+          );
+          return null;
+        }
+        try {
+          const dirHandle = await window.showDirectoryPicker();
+          if (!(await verifyFsPermission(dirHandle))) {
+            alert("Permission denied for the selected folder.");
+            return null;
+          }
+          await idbSet(FS_HANDLE_KEY, dirHandle);
+          showToast("Export folder set.");
+          return dirHandle;
+        } catch (e) {
+          if (e?.name !== "AbortError") console.error(e);
+          return null;
+        }
+      }
+      async function getSavedExportDirectory() {
+        const handle = await idbGet(FS_HANDLE_KEY);
+        if (handle && (await verifyFsPermission(handle))) return handle;
+        return null;
+      }
+      async function saveJsonIntoDirectory(dirHandle, filename, text) {
+        const fileHandle = await dirHandle.getFileHandle(filename, {
+          create: true,
+        });
+        const writable = await fileHandle.createWritable();
+        await writable.write(text);
+        await writable.close();
+      }
+      async function exportAllWorkspaces() {
+        // build JSON
+        const payload = {
+          exportVersion: 1,
+          exportedAt: new Date().toISOString(),
+          current: currentWsId,
+          workspaces,
+        };
+        const pretty = JSON.stringify(payload, null, 2);
+
+        // ISO-style, 24h filename
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        const YYYY = now.getFullYear();
+        const MM = pad(now.getMonth() + 1);
+        const DD = pad(now.getDate());
+        const HH = pad(now.getHours());
+        const mm = pad(now.getMinutes());
+        const filename = `productivitree_${YYYY}-${MM}-${DD}_${HH}-${mm}.json`;
+
+        try {
+          const dirHandle = await getSavedExportDirectory();
+          if (dirHandle) {
+            await saveJsonIntoDirectory(dirHandle, filename, pretty);
+            showToast(`Saved to export folder: ${filename}`);
+            return;
+          }
+        } catch (e) {
+          console.warn("FS API export failed, falling back to download:", e);
+        }
+        download(filename, pretty);
+        showToast(
+          'Exported (browser download). Tip: click "Set Export Folder" to save directly into your repo.'
+        );
+      }
+
+      function validateImportedPayload(obj) {
+        if (!obj || typeof obj !== "object") return "Invalid JSON root";
+        if (!obj.workspaces || typeof obj.workspaces !== "object")
+          return "Missing 'workspaces' object";
+        const ids = Object.keys(obj.workspaces);
+        if (ids.length === 0) return "No workspaces found";
+        for (const id of ids) {
+          const ws = obj.workspaces[id];
+          if (!ws || typeof ws !== "object")
+            return `Workspace '${id}' is invalid`;
+          if (
+            !ws.data ||
+            !Array.isArray(ws.data.nodes) ||
+            !Array.isArray(ws.data.edges)
+          )
+            return `Workspace '${id}' missing nodes/edges`;
+        }
+        return null;
+      }
+      document
+        .getElementById("exportWsBtn")
+        .addEventListener("click", exportAllWorkspaces);
+      document
+        .getElementById("importWsBtn")
+        .addEventListener("click", () => importFileInput.click());
+      importFileInput.addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        try {
+          const text = await file.text();
+          const obj = JSON.parse(text);
+          const err = validateImportedPayload(obj);
+          if (err) {
+            alert("Import failed: " + err);
+            return;
+          }
+          if (
+            !confirm(
+              "This will REPLACE all existing workspaces with the imported data. Continue?"
+            )
+          )
+            return;
+          workspaces = obj.workspaces;
+
+          // Ensure settings exist for older files
+          Object.values(workspaces).forEach((ws) => {
+            ws.settings = ws.settings || WS_SETTINGS_DEFAULT();
+          });
+
+          currentWsId =
+            obj.current && workspaces[obj.current]
+              ? obj.current
+              : Object.keys(workspaces)[0];
+
+          saveAllWorkspaces();
+          setCurrentWorkspace(currentWsId);
+          showToast("Imported workspaces");
+        } catch (ex) {
+          console.error(ex);
+          alert("Import failed: " + (ex?.message || ex));
+        } finally {
+          importFileInput.value = "";
+        }
+      });
+
+      /* ========================= Header height (ResizeObserver) ========================= */
+      const header = document.querySelector("header");
+      function setHeaderH() {
+        const h = header?.offsetHeight || 110;
+        document.documentElement.style.setProperty("--headerH", h + 10 + "px");
+      }
+      const headerRO = new ResizeObserver(() => setHeaderH());
+
+/* ========================= Background FX (theme-aware) ========================= */
+function seedFX() {
+  const fx = document.getElementById("fx");
+  if (!fx) return;
+  fx.textContent = ""; // clear old FX
+
+  if (document.body.classList.contains("theme-girly-pop")) {
+    // 🌸 petals
+    const COUNT = 36;
+    for (let i = 0; i < COUNT; i++) {
+      const p = document.createElement("span");
+      p.className = "petal";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.top = (-5 - Math.random() * 20) + "vh";
+      const w = 12 + Math.random() * 10;
+      const h = 9 + Math.random() * 8;
+      p.style.width = w + "px";
+      p.style.height = h + "px";
+      p.style.animationDuration = (8 + Math.random() * 8) + "s";
+      p.style.animationDelay = (-Math.random() * 8) + "s";
+      p.style.setProperty("--dx", (Math.random() * 120 - 60) + "px");
+      fx.appendChild(p);
+    }
+  } else {
+    // 🔥 sparks
+    const COUNT = 64;
+    for (let i = 0; i < COUNT; i++) {
+      const s = document.createElement("span");
+      s.className = "spark";
+      s.style.left = Math.random() * 100 + "%";
+      s.style.top = Math.random() * 100 + "%";
+      const sz = Math.random() < 0.25 ? 3 : 2;
+      s.style.width = sz + "px";
+      s.style.height = sz + "px";
+      s.style.animationDuration = (9 + Math.random() * 11) + "s";
+      s.style.animationDelay = (-Math.random() * 10) + "s";
+      s.style.filter = "blur(" + Math.random() * 1.2 + "px)";
+      fx.appendChild(s);
+    }
+  }
+}
+
+
+
+      /* ========================= Controls + Shortcuts ========================= */
+      (function wireControls() {
+        const addNodeBtn = document.getElementById("addNodeBtn");
+        const linkBtn = document.getElementById("linkBtn");
+        const snapBtn = document.getElementById("snapBtn");
+        const clearBtn = document.getElementById("clearBtn");
+        const setExportFolderBtn =
+          document.getElementById("setExportFolderBtn");
+
+        const wsNewBtn = document.getElementById("wsNew");
+        const wsRenBtn = document.getElementById("wsRename");
+        const wsDelBtn = document.getElementById("wsDelete");
+
+        wsNewBtn?.addEventListener("click", newWorkspace);
+        wsRenBtn?.addEventListener("click", renameWorkspace);
+        wsDelBtn?.addEventListener("click", deleteWorkspace);
+
+        addNodeBtn?.addEventListener("click", addNodeAtViewportCenter);
+        linkBtn?.addEventListener("click", () => setLinkMode(!state.linkMode));
+        snapBtn?.addEventListener("click", () => {
+          SNAP_ENABLED = !SNAP_ENABLED;
+          snapBtn.textContent = "Snap: " + (SNAP_ENABLED ? "On" : "Off");
+          snapBtn.setAttribute("aria-pressed", SNAP_ENABLED ? "true" : "false");
+        });
+        clearBtn?.addEventListener("click", () => {
+          if (!confirm("Clear the current workspace canvas?")) return;
+          state.nodes.clear();
+          state.edges.length = 0;
+          state.selected = null;
+          schedule.once("graphChanged");
+          schedule.once("save");
+        });
+        setExportFolderBtn?.addEventListener("click", chooseExportDirectory);
+
+        window.addEventListener(
+          "keydown",
+          (e) => {
+            if (e.target && ["INPUT", "TEXTAREA"].includes(e.target.tagName))
+              return;
+            if (e.key === "l" || e.key === "L") {
+              setLinkMode(!state.linkMode);
+              e.preventDefault();
+              return;
+            }
+            if (e.key === "n" || e.key === "N") {
+              addNodeAtViewportCenter();
+              e.preventDefault();
+              return;
+            }
+            if (e.key === "Delete" && state.selected) {
+              deleteNode(state.selected);
+              e.preventDefault();
+              return;
+            }
+            if (e.key === "Escape") {
+              hideColorPopover();
+            }
+          },
+          { passive: false }
+        );
+      })();
+      // --- Grid menu wiring ---
+      gridBtn.addEventListener("click", () => {
+        gridMenu.classList.toggle("show");
+        // sync controls with current state
+        gridVisibleInput.checked = GRID_VISIBLE;
+        gridSizeInput.value = GRID;
+        gridSnapInput.checked = SNAP_ENABLED;
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!gridMenu.contains(e.target) && !gridBtn.contains(e.target)) {
+          gridMenu.classList.remove("show");
+        }
+      });
+
+      // Show/hide
+      gridVisibleInput.addEventListener("change", () => {
+        GRID_VISIBLE = gridVisibleInput.checked;
+        localStorage.setItem("grid_visible", JSON.stringify(GRID_VISIBLE));
+        if (currentWsId && workspaces[currentWsId]) {
+          workspaces[currentWsId].settings =
+            workspaces[currentWsId].settings || WS_SETTINGS_DEFAULT();
+          workspaces[currentWsId].settings.gridVisible = GRID_VISIBLE;
+          saveAllWorkspaces();
+        }
+        updateGrid();
+      });
+
+      // Size
+      gridSizeInput.addEventListener("change", () => {
+        const v = Math.max(4, Math.floor(Number(gridSizeInput.value) || 24));
+        GRID = v;
+        localStorage.setItem("grid_size", String(GRID));
+        if (currentWsId && workspaces[currentWsId]) {
+          workspaces[currentWsId].settings =
+            workspaces[currentWsId].settings || WS_SETTINGS_DEFAULT();
+          workspaces[currentWsId].settings.gridSize = GRID;
+          saveAllWorkspaces();
+        }
+        updateGrid();
+      });
+
+      // Snap
+      gridSnapInput.addEventListener("change", () => {
+        SNAP_ENABLED = gridSnapInput.checked;
+        localStorage.setItem("grid_snap", JSON.stringify(SNAP_ENABLED));
+        if (currentWsId && workspaces[currentWsId]) {
+          workspaces[currentWsId].settings =
+            workspaces[currentWsId].settings || WS_SETTINGS_DEFAULT();
+          workspaces[currentWsId].settings.gridSnap = SNAP_ENABLED;
+          saveAllWorkspaces();
+        }
+        // no redraw needed, just affects dragging/new node placement
+      });
+
+      /* ========================= Helpers ========================= */
+      function escapeHtml(s) {
+        return (s || "").replace(
+          /[&<>"']/g,
+          (m) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            }[m])
+        );
+      }
+
+      /* ========================= Color Wheel Popover (unchanged UI; minor tidy) ========================= */
+      const pop = document.getElementById("colorPopover");
+      const wheel = document.getElementById("wheelCanvas");
+      const vSlider = document.getElementById("valSlider");
+      const swatch = document.getElementById("swatch");
+      const hexField = document.getElementById("hexField");
+      const ctx = wheel.getContext("2d");
+      const SEGMENTS = 16;
+      let curH = 40 / 360,
+        curS = 0.45,
+        curV = 1.0;
+
+      function hsvToRgb(h, s, v) {
+        let r,
+          g,
+          b,
+          i = Math.floor(h * 6),
+          f = h * 6 - i,
+          p = v * (1 - s),
+          q = v * (1 - f * s),
+          t = v * (1 - (1 - f) * s);
+        switch (i % 6) {
+          case 0:
+            r = v;
+            g = t;
+            b = p;
+            break;
+          case 1:
+            r = q;
+            g = v;
+            b = p;
+            break;
+          case 2:
+            r = p;
+            g = v;
+            b = t;
+            break;
+          case 3:
+            r = p;
+            g = q;
+            b = v;
+            break;
+          case 4:
+            r = t;
+            g = p;
+            b = v;
+            break;
+          case 5:
+            r = v;
+            g = p;
+            b = q;
+            break;
+        }
+        return {
+          r: Math.round(r * 255),
+          g: Math.round(g * 255),
+          b: Math.round(b * 255),
+        };
+      }
+      function rgbToHsv(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        const max = Math.max(r, g, b),
+          min = Math.min(r, g, b),
+          d = max - min;
+        let h = 0,
+          s = max === 0 ? 0 : d / max,
+          v = max;
+        if (d !== 0) {
+          switch (max) {
+            case r:
+              h = (g - b) / d + (g < b ? 6 : 0);
+              break;
+            case g:
+              h = (b - r) / d + 2;
+              break;
+            case b:
+              h = (r - g) / d + 4;
+              break;
+          }
+          h /= 6;
+        }
+        return { h, s, v };
+      }
+      function drawWheel() {
+        const { width, height } = wheel;
+        const cx = width / 2,
+          cy = height / 2;
+        const R = Math.min(cx, cy) - 2;
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < SEGMENTS; i++) {
+          const a0 = (i / SEGMENTS) * Math.PI * 2,
+            a1 = ((i + 1) / SEGMENTS) * Math.PI * 2,
+            hue = i / SEGMENTS;
+          const { r, g, b } = hsvToRgb(hue, 1, curV);
+          const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+          grad.addColorStop(0, "rgba(255,255,255,1)");
+          grad.addColorStop(1, `rgb(${r},${g},${b})`);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, R, a0, a1, false);
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
+        }
+        ctx.save();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(255,255,255,.35)";
+        for (let i = 0; i < SEGMENTS; i++) {
+          const ang = (i / SEGMENTS) * Math.PI * 2;
+          const x = cx + R * Math.cos(ang),
+            y = cy + R * Math.sin(ang);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+        ctx.restore();
+        ctx.save();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "rgba(255,255,255,.4)";
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+        const px = cx + curS * R * Math.cos(curH * 2 * Math.PI),
+          py = cy + curS * R * Math.sin(curH * 2 * Math.PI);
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "#fff";
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(px, py, 6, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(0,0,0,.6)";
+        ctx.stroke();
+      }
+      function updateSwatchAndHex() {
+        const { r, g, b } = hsvToRgb(curH, curS, curV);
+        const hex = rgbToHex(r, g, b);
+        swatch.style.background = hex;
+        hexField.value = hex;
+      }
+      function showColorPopover() {
+        const hex = workspaces[currentWsId]?.color || "#c79039";
+        const { r, g, b } = hexToRgb(hex);
+        const hsv = rgbToHsv(r, g, b);
+        curH = hsv.h;
+        curS = hsv.s;
+        curV = hsv.v;
+        vSlider.value = Math.round(curV * 100);
+        updateSwatchAndHex();
+        drawWheel();
+        pop.classList.add("show");
+      }
+      function hideColorPopover() {
+        pop.classList.remove("show");
+      }
+      let wheelDragging = false;
+      function handleWheelPick(clientX, clientY) {
+        const rect = wheel.getBoundingClientRect();
+        const x = clientX - rect.left,
+          y = clientY - rect.top;
+        const cx = wheel.width / 2,
+          cy = wheel.height / 2;
+        const dx = x - cx,
+          dy = y - cy;
+        const R = Math.min(cx, cy) - 2;
+        const dist = Math.min(Math.sqrt(dx * dx + dy * dy), R);
+        curS = dist / R;
+        let ang = Math.atan2(dy, dx);
+        if (ang < 0) ang += Math.PI * 2;
+        const wedge = (Math.PI * 2) / SEGMENTS;
+        const seg = Math.round(ang / wedge) % SEGMENTS;
+        curH = (seg + 0.5) / SEGMENTS;
+        updateSwatchAndHex();
+        drawWheel();
+      }
+      wheel.addEventListener(
+        "pointerdown",
+        (e) => {
+          wheelDragging = true;
+          wheel.setPointerCapture?.(e.pointerId);
+          handleWheelPick(e.clientX, e.clientY);
+        },
+        { passive: true }
+      );
+      window.addEventListener(
+        "pointermove",
+        (e) => {
+          if (wheelDragging) handleWheelPick(e.clientX, e.clientY);
+        },
+        { passive: true }
+      );
+      window.addEventListener(
+        "pointerup",
+        () => {
+          wheelDragging = false;
+        },
+        { passive: true }
+      );
+      vSlider.addEventListener(
+        "input",
+        () => {
+          curV = vSlider.value / 100;
+          updateSwatchAndHex();
+          drawWheel();
+        },
+        { passive: true }
+      );
+      hexField.addEventListener("change", () => {
+        const v = hexField.value.trim();
+        if (/^#?[0-9a-fA-F]{6}$/.test(v)) {
+          const hex = v.startsWith("#") ? v : "#" + v;
+          const { r, g, b } = hexToRgb(hex);
+          const hsv = rgbToHsv(r, g, b);
+          curH = hsv.h;
+          curS = hsv.s;
+          curV = hsv.v;
+          vSlider.value = Math.round(curV * 100);
+          updateSwatchAndHex();
+          drawWheel();
+        } else showToast("Invalid hex color");
+      });
+      wsColorBtn.addEventListener("click", showColorPopover);
+      document
+        .getElementById("cancelColor")
+        .addEventListener("click", hideColorPopover);
+      document.getElementById("applyColor").addEventListener("click", () => {
+        setWorkspaceColor(hexField.value.trim() || "#c79039");
+        hideColorPopover();
+      });
+      pop.addEventListener("click", (e) => {
+        if (e.target === pop) hideColorPopover();
+      });
+
+      /* ========================= Scheduler =========================
+   Coalesces work into the next animation frame to minimize layout thrash.
+   Keys:
+     - graphChanged: nodes OR edges changed (rebuild cache + re-render nodes)
+     - edgesChanged: only edges changed (rebuild cache)
+     - measure: recompute node measurements/centers
+     - nodesState: recompute node classes/badges (available/locked/done)
+     - edges: redraw edges
+     - save: debounce local save
+*/
+      const schedule = (() => {
+        const pending = new Set();
+        let rafId = 0;
+
+        function request() {
+          if (!rafId) rafId = requestAnimationFrame(flush);
+        }
+
+        function flush() {
+          rafId = 0;
+
+          if (pending.has("graphChanged")) {
+            pending.delete("graphChanged");
+            rebuildAdjacency();
+            renderNodes(); // will queue "measure" itself
+            pending.add("nodesState");
+            pending.add("edges");
+          }
+
+          if (pending.has("edgesChanged")) {
+            pending.delete("edgesChanged");
+            rebuildAdjacency();
+            pending.add("nodesState");
+            pending.add("edges");
+          }
+
+          if (pending.has("measure")) {
+            pending.delete("measure");
+            measureAll();
+            // after measuring, edges may depend on new centers; ensure edges is pending
+            pending.add("edges");
+          }
+
+          if (pending.has("nodesState")) {
+            pending.delete("nodesState");
+            refreshNodeStates();
+          }
+
+          if (pending.has("edges")) {
+            pending.delete("edges");
+            drawEdges();
+          }
+
+          if (pending.has("save")) {
+            pending.delete("save");
+            saveLocal();
+          }
+
+          if (pending.size) request(); // run again if new work got queued
+        }
+
+        return {
+          once(key) {
+            pending.add(key);
+            request();
+          },
+          measure() {
+            this.once("measure");
+          },
+        };
+      })();
+
+/* ========================= Init ========================= */
+function updateHeaderOffset() {
+  setHeaderH();
+}
+// (no seedFX here)
+
+
+      function loadFromData(data) {
+        state.nodes.clear();
+        state.edges.length = 0;
+        if (data && data.nodes) {
+          data.nodes.forEach((n) => state.nodes.set(n.id, { ...n }));
+          if (Array.isArray(data.edges))
+            data.edges.forEach((e) => state.edges.push({ ...e }));
+        }
+        schedule.once("graphChanged");
+        schedule.once("edges");
+      }
+
+      (function init() {
+        loadAllWorkspaces();
+        renderWorkspaceRibbons();
+        setCurrentWorkspace(currentWsId);
+        seedFX();
+        if (window.ResizeObserver) {
+          headerRO.observe(header);
+        } else {
+          // fallback
+          window.addEventListener("resize", setHeaderH, { passive: true });
+          setHeaderH();
+        }
+        setHeaderH();
+        fitBoard();
+        updateGrid();
+
+        // toolbar buttons are already wired in wireControls()
+
+        // Link button state sync if toggled later
+        document
+          .getElementById("toggleDoneBtn")
+          .addEventListener("click", () => {
+            if (state.selected) toggleDone(state.selected);
+          });
+        document.getElementById("deleteBtn").addEventListener("click", () => {
+document.getElementById("deleteBtn").addEventListener("click", () => {
+  if (state.selected) deleteNode(state.selected);
+});
+        });
+      })();
+// Theme dropdown
+if (themeSelect) {
+  themeSelect.addEventListener("change", () => {
+    const v = themeSelect.value;
+    document.body.classList.toggle("theme-war", v === "war");
+    document.body.classList.toggle("theme-girly-pop", v === "girly-pop");
+    seedFX(); // refresh background FX on theme switch
+  });
+}
+
+
+    </script>
+  </body>
+</html>
