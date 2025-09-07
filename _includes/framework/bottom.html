@@ -10,6 +10,13 @@
           &nbsp;|&nbsp;
           <a href="/privacy-policy">Privacy Policy</a> ·
           © 2025 Blue Pin Studio
+
+          {% if site.bottom.show_rss_icon %}
+            &nbsp;
+            <a class="feed" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
+              <i class="fas fa-feed"></i>
+            </a>
+          {% endif %}
         </div>
 
       </div>
