@@ -1648,157 +1648,126 @@ function escapeHtml(s) {
   );
 }
 
-/* ========================= Color Wheel Popover (unchanged UI; minor tidy) ========================= */
+/* ========================= Color Wheel Popover (segmented donut, 32 slices) ========================= */
 const pop = document.getElementById("colorPopover");
 const wheel = document.getElementById("wheelCanvas");
 const vSlider = document.getElementById("valSlider");
 const swatch = document.getElementById("swatch");
 const hexField = document.getElementById("hexField");
 const ctx = wheel.getContext("2d");
-const SEGMENTS = 16;
-let curH = 40 / 360,
-  curS = 0.45,
-  curV = 1.0;
+
+const SEGMENTS = 32;          // 32 wedges
+const RING_THICKNESS = 0.38;  // 0..1 of outer radius (adjust to taste)
+
+let curH = 40 / 360;  // hue 0..1
+let curV = 1.0;       // value 0..1
+// Saturation is locked to 1 for a crisp segmented wheel
+const SAT = 1.0;
 
 function hsvToRgb(h, s, v) {
-  let r,
-    g,
-    b,
-    i = Math.floor(h * 6),
-    f = h * 6 - i,
-    p = v * (1 - s),
-    q = v * (1 - f * s),
-    t = v * (1 - (1 - f) * s);
+  let r, g, b, i = Math.floor(h * 6), f = h * 6 - i,
+      p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s);
   switch (i % 6) {
-    case 0:
-      r = v;
-      g = t;
-      b = p;
-      break;
-    case 1:
-      r = q;
-      g = v;
-      b = p;
-      break;
-    case 2:
-      r = p;
-      g = v;
-      b = t;
-      break;
-    case 3:
-      r = p;
-      g = q;
-      b = v;
-      break;
-    case 4:
-      r = t;
-      g = p;
-      b = v;
-      break;
-    case 5:
-      r = v;
-      g = p;
-      b = q;
-      break;
+    case 0: r = v; g = t; b = p; break;
+    case 1: r = q; g = v; b = p; break;
+    case 2: r = p; g = v; b = t; break;
+    case 3: r = p; g = q; b = v; break;
+    case 4: r = t; g = p; b = v; break;
+    case 5: r = v; g = p; b = q; break;
   }
-  return {
-    r: Math.round(r * 255),
-    g: Math.round(g * 255),
-    b: Math.round(b * 255),
-  };
+  return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
 }
 function rgbToHsv(r, g, b) {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  const max = Math.max(r, g, b),
-    min = Math.min(r, g, b),
-    d = max - min;
-  let h = 0,
-    s = max === 0 ? 0 : d / max,
-    v = max;
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+  let h = 0, s = max === 0 ? 0 : d / max, v = max;
   if (d !== 0) {
     switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
     }
     h /= 6;
   }
   return { h, s, v };
 }
+function rgbToHex(r, g, b) {
+  const toHex = (n) => n.toString(16).padStart(2, "0");
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+function hexToRgb(hex) {
+  const v = hex.replace("#", "");
+  const r = parseInt(v.slice(0, 2), 16), g = parseInt(v.slice(2, 4), 16), b = parseInt(v.slice(4, 6), 16);
+  return { r, g, b };
+}
+
 function drawWheel() {
   const { width, height } = wheel;
-  const cx = width / 2,
-    cy = height / 2;
-  const R = Math.min(cx, cy) - 2;
+  const cx = width / 2, cy = height / 2;
+  const R = Math.min(cx, cy) - 2;                 // outer radius
+  const rInner = Math.max(8, R * (1 - RING_THICKNESS)); // inner radius for donut
+
   ctx.clearRect(0, 0, width, height);
+
+  // Paint wedges
   for (let i = 0; i < SEGMENTS; i++) {
-    const a0 = (i / SEGMENTS) * Math.PI * 2,
-      a1 = ((i + 1) / SEGMENTS) * Math.PI * 2,
-      hue = i / SEGMENTS;
-    const { r, g, b } = hsvToRgb(hue, 1, curV);
-    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
-    grad.addColorStop(0, "rgba(255,255,255,1)");
-    grad.addColorStop(1, `rgb(${r},${g},${b})`);
+    const a0 = (i / SEGMENTS) * Math.PI * 2;
+    const a1 = ((i + 1) / SEGMENTS) * Math.PI * 2;
+    const hue = i / SEGMENTS;
+    const { r, g, b } = hsvToRgb(hue, SAT, curV);
+
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
+    // donut wedge
     ctx.arc(cx, cy, R, a0, a1, false);
+    ctx.arc(cx, cy, rInner, a1, a0, true);
     ctx.closePath();
-    ctx.fillStyle = grad;
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
     ctx.fill();
   }
+
+  // Wedge separators
   ctx.save();
   ctx.lineWidth = 1;
   ctx.strokeStyle = "rgba(255,255,255,.35)";
   for (let i = 0; i < SEGMENTS; i++) {
     const ang = (i / SEGMENTS) * Math.PI * 2;
-    const x = cx + R * Math.cos(ang),
-      y = cy + R * Math.sin(ang);
+    const x0 = cx + rInner * Math.cos(ang), y0 = cy + rInner * Math.sin(ang);
+    const x1 = cx + R * Math.cos(ang),      y1 = cy + R * Math.sin(ang);
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(x, y);
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
     ctx.stroke();
   }
+  // outer and inner rings
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, rInner, 0, Math.PI * 2); ctx.stroke();
   ctx.restore();
+
+  // Highlight current segment
+  const seg = Math.floor(curH * SEGMENTS) % SEGMENTS;
+  const aMid = ((seg + 0.5) / SEGMENTS) * Math.PI * 2;
   ctx.save();
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = "rgba(255,255,255,.4)";
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "rgba(255,255,255,.9)";
   ctx.beginPath();
-  ctx.arc(cx, cy, R, 0, Math.PI * 2);
+  ctx.arc(cx, cy, (R + rInner) / 2, aMid - (Math.PI / SEGMENTS), aMid + (Math.PI / SEGMENTS));
   ctx.stroke();
   ctx.restore();
-  const px = cx + curS * R * Math.cos(curH * 2 * Math.PI),
-    py = cy + curS * R * Math.sin(curH * 2 * Math.PI);
-  ctx.beginPath();
-  ctx.arc(px, py, 4, 0, Math.PI * 2);
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = "#fff";
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(px, py, 6, 0, Math.PI * 2);
-  ctx.strokeStyle = "rgba(0,0,0,.6)";
-  ctx.stroke();
 }
+
 function updateSwatchAndHex() {
-  const { r, g, b } = hsvToRgb(curH, curS, curV);
+  const { r, g, b } = hsvToRgb(curH, SAT, curV);
   const hex = rgbToHex(r, g, b);
   swatch.style.background = hex;
   hexField.value = hex;
 }
+
 function showColorPopover() {
   const hex = workspaces[currentWsId]?.color || "#c79039";
   const { r, g, b } = hexToRgb(hex);
   const hsv = rgbToHsv(r, g, b);
-  curH = hsv.h;
-  curS = hsv.s;
-  curV = hsv.v;
+  curH = hsv.h;          // keep hue from current color
+  curV = hsv.v;          // keep value from current color
   vSlider.value = Math.round(curV * 100);
   updateSwatchAndHex();
   drawWheel();
@@ -1807,81 +1776,76 @@ function showColorPopover() {
 function hideColorPopover() {
   pop.classList.remove("show");
 }
+
 let wheelDragging = false;
-function handleWheelPick(clientX, clientY) {
+
+function pickHueFromPoint(clientX, clientY) {
   const rect = wheel.getBoundingClientRect();
-  const x = clientX - rect.left,
-    y = clientY - rect.top;
-  const cx = wheel.width / 2,
-    cy = wheel.height / 2;
-  const dx = x - cx,
-    dy = y - cy;
+  const x = clientX - rect.left, y = clientY - rect.top;
+  const cx = wheel.width / 2, cy = wheel.height / 2;
+  const dx = x - cx, dy = y - cy;
+  const dist = Math.sqrt(dx * dx + dy * dy);
   const R = Math.min(cx, cy) - 2;
-  const dist = Math.min(Math.sqrt(dx * dx + dy * dy), R);
-  curS = dist / R;
+  const rInner = Math.max(8, R * (1 - RING_THICKNESS));
+
+  // Only respond if pointer is within the donut ring
+  if (dist < rInner || dist > R) return;
+
   let ang = Math.atan2(dy, dx);
   if (ang < 0) ang += Math.PI * 2;
+
   const wedge = (Math.PI * 2) / SEGMENTS;
-  const seg = Math.round(ang / wedge) % SEGMENTS;
+  const seg = Math.floor(ang / wedge) % SEGMENTS;
+
+  // snap hue to the center of the wedge
   curH = (seg + 0.5) / SEGMENTS;
+
   updateSwatchAndHex();
   drawWheel();
 }
-wheel.addEventListener(
-  "pointerdown",
-  (e) => {
-    wheelDragging = true;
-    wheel.setPointerCapture?.(e.pointerId);
-    handleWheelPick(e.clientX, e.clientY);
-  },
-  { passive: true }
-);
-window.addEventListener(
-  "pointermove",
-  (e) => {
-    if (wheelDragging) handleWheelPick(e.clientX, e.clientY);
-  },
-  { passive: true }
-);
-window.addEventListener(
-  "pointerup",
-  () => {
-    wheelDragging = false;
-  },
-  { passive: true }
-);
-vSlider.addEventListener(
-  "input",
-  () => {
-    curV = vSlider.value / 100;
-    updateSwatchAndHex();
-    drawWheel();
-  },
-  { passive: true }
-);
+
+wheel.addEventListener("pointerdown", (e) => {
+  wheelDragging = true;
+  wheel.setPointerCapture?.(e.pointerId);
+  pickHueFromPoint(e.clientX, e.clientY);
+}, { passive: true });
+
+window.addEventListener("pointermove", (e) => {
+  if (wheelDragging) pickHueFromPoint(e.clientX, e.clientY);
+}, { passive: true });
+
+window.addEventListener("pointerup", () => { wheelDragging = false; }, { passive: true });
+
+vSlider.addEventListener("input", () => {
+  curV = vSlider.value / 100;
+  updateSwatchAndHex();
+  drawWheel();
+}, { passive: true });
+
 hexField.addEventListener("change", () => {
   const v = hexField.value.trim();
   if (/^#?[0-9a-fA-F]{6}$/.test(v)) {
     const hex = v.startsWith("#") ? v : "#" + v;
     const { r, g, b } = hexToRgb(hex);
     const hsv = rgbToHsv(r, g, b);
-    curH = hsv.h;
-    curS = hsv.s;
-    curV = hsv.v;
+    curH = hsv.h;          // take hue from typed color
+    curV = hsv.v;          // take value from typed color
     vSlider.value = Math.round(curV * 100);
     updateSwatchAndHex();
     drawWheel();
-  } else showToast("Invalid hex color");
+  } else {
+    showToast("Invalid hex color");
+  }
 });
+
+// Wire buttons (assumes these exist)
 wsColorBtn.addEventListener("click", showColorPopover);
 document.getElementById("cancelColor").addEventListener("click", hideColorPopover);
 document.getElementById("applyColor").addEventListener("click", () => {
   setWorkspaceColor(hexField.value.trim() || "#c79039");
   hideColorPopover();
 });
-pop.addEventListener("click", (e) => {
-  if (e.target === pop) hideColorPopover();
-});
+pop.addEventListener("click", (e) => { if (e.target === pop) hideColorPopover(); });
 
 /* ========================= Scheduler =========================
  Coalesces work into the next animation frame to minimize layout thrash.
