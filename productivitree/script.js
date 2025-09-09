@@ -217,11 +217,14 @@ function newWorkspace() {
 function setFXEnabled(on, { persist = true } = {}) {
   FX_ENABLED = !!on;
   if (persist) localStorage.setItem("fx_enabled", JSON.stringify(FX_ENABLED));
+
   const btn = document.getElementById("fxToggleBtn");
   if (btn) {
     btn.setAttribute("aria-pressed", FX_ENABLED ? "true" : "false");
     btn.textContent = "FX: " + (FX_ENABLED ? "On" : "Off");
   }
+
+  // Also reflect link animation state (we’ll re-draw edges below)
   if (FX_ENABLED) {
     if (fxCanvas) fxCanvas.style.display = "block";
     seedFX();
@@ -229,7 +232,11 @@ function setFXEnabled(on, { persist = true } = {}) {
     killFX();
     if (fxCanvas) fxCanvas.style.display = "none";
   }
+
+  // re-render edges so their inline animation state updates
+  schedule.once("edges");
 }
+
 
 function renameWorkspace() {
   if (!currentWsId || !workspaces[currentWsId]) return;
@@ -404,6 +411,9 @@ function drawEdges() {
   const parts = [];
   let idx = 0;
 
+  // If FX is off, we inline-disable CSS animations on animated paths
+  const animOff = FX_ENABLED ? "" : ' style="animation:none"';
+
   state.edges.forEach((e) => {
     const a = state.nodes.get(e.from),
       b = state.nodes.get(e.to);
@@ -445,8 +455,8 @@ function drawEdges() {
     parts.push(
       `<g class="${groupCls}">
         <path class="edge-base" d="${d}" pathLength="300"></path>
-        <path class="edge-main" d="${d}" pathLength="300"></path>
-        <path class="edge-highlight" d="${d}" pathLength="300"></path>
+        <path class="edge-main" d="${d}" pathLength="300"${animOff}></path>
+        <path class="edge-highlight" d="${d}" pathLength="300"${animOff}></path>
       </g>`
     );
     idx++;
@@ -454,6 +464,7 @@ function drawEdges() {
 
   linkSvg.innerHTML = defs.outerHTML + parts.join("");
 }
+
 
 /* ========================= Sidebar ========================= */
 function selectNode(id) {
