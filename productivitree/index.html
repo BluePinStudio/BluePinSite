@@ -2150,66 +2150,66 @@
       schedule.once("save");
     }
 
-/* ========================= Link mode ========================= */
-function setLinkMode(on) {
-  state.linkMode = !!on;
+    /* ========================= Link mode ========================= */
+    function setLinkMode(on) {
+      state.linkMode = !!on;
 
-  // Always clear the starting node when turning OFF link mode
-  if (!state.linkMode) state.linkFrom = null;
+      // Always clear the starting node when turning OFF link mode
+      if (!state.linkMode) state.linkFrom = null;
 
-  const btn = document.getElementById("linkBtn");
-  if (btn) {
-    btn.classList.toggle("primary", state.linkMode);
-    btn.textContent = state.linkMode ? "Link: parent → child (L)" : "Link Nodes (L)";
-  }
+      const btn = document.getElementById("linkBtn");
+      if (btn) {
+        btn.classList.toggle("primary", state.linkMode);
+        btn.textContent = state.linkMode ? "Link: parent → child (L)" : "Link Nodes (L)";
+      }
 
-  // Bind/unbind click listeners on current nodes
-  board.querySelectorAll(".node").forEach((el) => {
-    el.classList.toggle("link-mode", state.linkMode);
-    el.classList.remove("link-from");
-    el.removeEventListener("click", linkClickHandler); // avoid dupes
-    if (state.linkMode) el.addEventListener("click", linkClickHandler);
-  });
+      // Bind/unbind click listeners on current nodes
+      board.querySelectorAll(".node").forEach((el) => {
+        el.classList.toggle("link-mode", state.linkMode);
+        el.classList.remove("link-from");
+        el.removeEventListener("click", linkClickHandler); // avoid dupes
+        if (state.linkMode) el.addEventListener("click", linkClickHandler);
+      });
 
-  if (state.linkMode && !state.linkFrom) {
-    showToast("Click a PARENT task, then a CHILD task");
-  }
-}
+      if (state.linkMode && !state.linkFrom) {
+        showToast("Click a PARENT task, then a CHILD task");
+      }
+    }
 
-function linkClickHandler(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const id = e.currentTarget.dataset.id;
+    function linkClickHandler(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = e.currentTarget.dataset.id;
 
-  // First click: choose parent
-  if (!state.linkFrom) {
-    state.linkFrom = id;
-    showToast("Now click the CHILD task");
-    // soft highlight on chosen parent
-    board.querySelectorAll(".node").forEach((n) => n.classList.remove("link-from"));
-    e.currentTarget.classList.add("link-from");
-    return;
-  }
+      // First click: choose parent
+      if (!state.linkFrom) {
+        state.linkFrom = id;
+        showToast("Now click the CHILD task");
+        // soft highlight on chosen parent
+        board.querySelectorAll(".node").forEach((n) => n.classList.remove("link-from"));
+        e.currentTarget.classList.add("link-from");
+        return;
+      }
 
-  // Second click: create link parent → child
-  const parentId = state.linkFrom;
-  const childId = id;
+      // Second click: create link parent → child
+      const parentId = state.linkFrom;
+      const childId = id;
 
-  // Clear highlight immediately
-  board.querySelectorAll(".node").forEach((n) => n.classList.remove("link-from"));
-  state.linkFrom = null;
+      // Clear highlight immediately
+      board.querySelectorAll(".node").forEach((n) => n.classList.remove("link-from"));
+      state.linkFrom = null;
 
-  // Prevent self-link and proceed
-  if (parentId !== childId) {
-    createLink(parentId, childId); // schedules edgesChanged + save
-    showToast("Linked ✓ — Link mode off");
-  } else {
-    showToast("Cannot link a node to itself — Link mode off");
-  }
+      // Prevent self-link and proceed
+      if (parentId !== childId) {
+        createLink(parentId, childId); // schedules edgesChanged + save
+        showToast("Linked ✓ — Link mode off");
+      } else {
+        showToast("Cannot link a node to itself — Link mode off");
+      }
 
-  // 🔸 Auto-exit link mode after one link attempt (success or not)
-  setLinkMode(false);
-}
+      // 🔸 Auto-exit link mode after one link attempt (success or not)
+      setLinkMode(false);
+    }
 
 
     /* ========================= Zoom / Pan ========================= */
