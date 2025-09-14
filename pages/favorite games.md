@@ -54,3 +54,9 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Fusion Frenzy
 - [ ] Azurik Rise of Perathia
 - [ ] Morrowind
+- [ ] Ragnarok Online
+- [ ] Maple Story
+- [ ] Kingdoms of Amalur
+- [ ] Kingdom: Two Crowns
+- [ ] Neopets
+- [ ] Coke Music
