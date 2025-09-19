@@ -15,7 +15,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [x] Xenimus (Dec/1999)  
 - [ ] Neopets (Nov/1999)  
 
-- [ ] Emperors New Groove (Jun/2000)  
+- [ ] Emperors New Groove (Nov/2000)  
 - [ ] Aladdin Nasira's Revenge (Nov/2000)  
 - [ ] Halo 1 (Nov/2001)  
 - [ ] GTA 3 (Oct/2001)  
