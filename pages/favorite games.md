@@ -69,6 +69,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Risk of Rain 2 (Mar/2019) 
 
 - [x] Hades (Sep/2020)  
+- [ ] Pychonauts 2 (Aug/2021)
 - [ ] Forza Horizon 5 (Nov/2021)  
 - [ ] Dinomight (Dec/2021)  
 - [ ] Dome Keeper (Sep/2022) 
