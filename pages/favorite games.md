@@ -43,7 +43,8 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Bloons TD (Aug/2007)  
 - [ ] TF2 (Oct/2007)  
 - [ ] GTA 4 (Apr/2008)  
-- [ ] Castle Crashers (Aug/2008)  
+- [ ] Castle Crashers (Aug/2008) 
+- [ ] Left for Dead (Nov/2008) 
 - [ ] PVZ (May/2009)
 
 - [ ] Starcraft 2 (Jul/2010)  
