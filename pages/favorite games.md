@@ -57,6 +57,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Guns of Icarus (Jul/2012) 
 - [ ] FTL: Faster than Light (Sept/2012) 
 - [ ] Little Inferno (Nov/2012)  
+- [ ] Papers Please (Feb/2014)
 - [ ] Witcher 3 (May/2015)  
 - [ ] Stardew (Feb/2016)
 - [ ] Enter the Gungeon (Apr/2016)
