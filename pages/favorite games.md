@@ -73,4 +73,5 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Super Kiwi 64 (Dec/2022)
 - [ ] Thronefall (Aug/2023)
 - [ ] Stellar Initiative (May/2024)
+- [ ] Rocket Rats (Dec/2024)
 - [ ] Nubby's Number Factory (Mar/2025) 
