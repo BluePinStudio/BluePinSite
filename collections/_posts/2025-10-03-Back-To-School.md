@@ -2,7 +2,7 @@
 layout: post
 title: "Back to School"
 description: Monthly Check-in for September 2025 (Month 66)
-date: 2025-10-02 05:00:00
+date: 2025-10-03 05:00:00
 categories: [Monthly Check-in]
 tags: [trash force, falling thingies, trash force, charles the bee]
 thumbnail: /assets/images/posts/sept2025.png
