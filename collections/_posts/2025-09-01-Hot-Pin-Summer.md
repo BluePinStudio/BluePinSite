@@ -7,6 +7,9 @@ categories: [Monthly Check-in]
 tags: [trash force, falling thingies, trash force, charles the bee]
 thumbnail: /assets/images/posts/aug2025.png
 image: /assets/images/posts/aug2025.png
+image_caption: "Paul Signac, “Saint-Tropez, Fontaine des Lices”, 1895"
+
+
 published : true
 ---
 

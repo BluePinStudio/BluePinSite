@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, marketing, project jig]
 thumbnail: /assets/images/posts/december2024.png
 image: /assets/images/posts/december2024.png
+image_caption: "Ivan Aivazovsky, “Battle of Çeşme”, 1856"
 published : true
 ---
 

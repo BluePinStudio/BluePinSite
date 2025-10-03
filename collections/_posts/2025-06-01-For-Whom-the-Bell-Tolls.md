@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [trash force, falling thingies, pixel fixel, charles the bee]
 thumbnail: /assets/images/posts/may2025.png
 image: /assets/images/posts/may2025.png
+image_caption: "Winslow Homer, “Northeaster”, 1895"
 published : true
 ---
 

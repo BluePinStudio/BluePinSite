@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [trash force, pixel fixel, charles the bee, ludum dare, game jam]
 thumbnail: /assets/images/posts/april2025.png
 image: /assets/images/posts/april2025.png
+image_caption: "Mikhail Vrubel, “The Demon Seated”, 1890"
 published : true
 ---
 

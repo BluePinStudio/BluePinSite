@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [trash force, pixel fixel, marketing, alakajam, bigmode]
 thumbnail: /assets/images/posts/jan2025.png
 image: /assets/images/posts/jan2025.png
+image_caption: "Ivan Aivazovsky, “Ship at Sea”, 1857"
 published : true
 ---
 

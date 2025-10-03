@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, marketing, project jig]
 thumbnail: /assets/images/posts/pixelocean.png
 image: /assets/images/posts/pixelocean.png
+image_caption: "Ivan Aivzovsky, “The Ninth Wave”, 1850"
 published : true
 ---
 

@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [charles the bee, pixel fixel, explory story, marketing, game jam, project jig]
 thumbnail: /assets/images/posts/gogh.png
 image: /assets/images/posts/gogh.png
+image_caption: "Vincent van Gogh, “Wheat Field with Cypresses”, 1889"
 published : true
 ---
 

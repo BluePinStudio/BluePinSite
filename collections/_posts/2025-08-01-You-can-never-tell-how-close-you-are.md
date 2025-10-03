@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [trash force, falling thingies, trash force, charles the bee]
 thumbnail: /assets/images/posts/july2025.png
 image: /assets/images/posts/july2025.png
+image_caption: "August Wilhelm Leu, “Sunny Day on a Norwegian Fjord”, 1861"
 published : true
 ---
 

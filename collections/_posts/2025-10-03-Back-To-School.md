@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [trash force, falling thingies, trash force, charles the bee]
 thumbnail: /assets/images/posts/sept2025.png
 image: /assets/images/posts/sept2025.png
+image_caption: "Robert Spear Dunning, “Apples”, 1869"
 published : true
 ---
 

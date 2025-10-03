@@ -126,3 +126,10 @@ noscript #follower-gif {
   75%  { box-shadow: 0 0 15px #5c00ff; }
   100% { box-shadow: 0 0 10px #0084ff; }
 }
+
+.post-image figcaption {
+  font-size: 0.9em;   /* smaller text */
+  color: #666;        /* grey */
+  font-style: italic; /* italic */
+  margin-top: 0.4em;  /* spacing from the image */
+}

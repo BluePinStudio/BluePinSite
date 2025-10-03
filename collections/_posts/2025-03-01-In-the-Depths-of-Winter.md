@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [trash force, pixel fixel, marketing, alakajam, bigmode]
 thumbnail: /assets/images/posts/feb2025.png
 image: /assets/images/posts/feb2025.png
+image_caption: "Ivan Aivazovsky, “The Shipwreck on Northern Sea”, 1865"
 published : true
 ---
 

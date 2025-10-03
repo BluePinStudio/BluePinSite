@@ -7,6 +7,7 @@ categories: [Monthly Check-in]
 tags: [trash force, falling thingies, trash force]
 thumbnail: /assets/images/posts/june2025.png
 image: /assets/images/posts/june2025.png
+image_caption: "Alexander Nasmyth, “A View of Tantallon Castle with the Bass Rock”, 1816"
 published : true
 ---
 but opts instead for "see you tomorrow..."
