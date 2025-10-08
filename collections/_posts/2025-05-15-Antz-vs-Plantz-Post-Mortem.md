@@ -94,7 +94,7 @@ In addition to lots of people leaving lovely comments and playing the game, we g
 
 Maybe even one day, we will have the opportunity to "make it into a full game." The game jam cliche haha.
 
-
+**There were 1600 other entries**
 
 | **Criteria**    | **Rank**| **Percentile** |
 |Overall       | 33rd |  Top 3% | 
