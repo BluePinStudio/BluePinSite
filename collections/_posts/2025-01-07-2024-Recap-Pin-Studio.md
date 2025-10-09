@@ -27,7 +27,7 @@ Let's see what we have. These are the key metrics that I would like to track com
 
 - <small>**Total net revenue** includes all sources such as game sales, merch sales, publisher payments, contest prizes, etc. This is net revenue, not gross profit or net profit. Things like the steam fee, etsy fee, etsy promoted listing fee have been subtracted already.
 - <small>**Direct community size** is the size of the Discord server combined with mailing list. 
-- <small>**Auxiliary community size** is a combination of all the other platform followers such as bluesky, twitter, youtube, steam, itch, newgrounds, etc. 
+- <small>**Auxiliary community size** is a combination of all the other platform followers such as bluesky, twitter, youtube, steam, itch, newgrounds, twitch, etc. 
 - <small>**Player count estimate** is my best guess for how many people played all of the games I have on various platforms. With the player estimate, there is some guesswork because not ever platform reports unique users.
 
 
