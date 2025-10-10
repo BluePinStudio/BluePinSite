@@ -30,6 +30,11 @@
     "url": "https://bsky.app/profile/bluepinstudio.com/"
   },
   {
+    "title": "Newgrounds",
+    "fa_icon": "fab fa-newgrounds",
+    "url": "https://bluepingames.newgrounds.com/"
+  },
+  {
     "title": "Itch.io",
     "fa_icon": "fab fa-itch-io",
     "url": "https://bluepinstudio.itch.io/"
