@@ -20,6 +20,11 @@
     "url": "https://www.youtube.com/channel/UC30OItehENMbrOSIFo1UfMQ/"
   },
   {
+    "title": "Twitch.tv",
+    "fa_icon": "fab fa-twitch",
+    "url": "https://www.twitch.tv/bluepinstudio"
+  },
+  {
     "title": "Blue Sky",
     "fa_icon": "fab fa-bluesky",
     "url": "https://bsky.app/profile/bluepinstudio.com/"
