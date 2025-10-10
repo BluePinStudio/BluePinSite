@@ -1,7 +1,5 @@
-@import 'framework';
-@import 'theme';
-
-
+@import "framework";
+@import "theme";
 
 /* Force the actual <input> to be visually hidden, but still present in the DOM */
 .task-list-item-checkbox {
@@ -28,12 +26,13 @@
   /* Use a Font Awesome glyph for an empty square or circle, e.g. \f096 = fa-square (solid) */
   content: "\f096";
   font-family: "Font Awesome 6 Free";
-  font-weight: 900;  /* solid icons weight */
+  font-weight: 900; /* solid icons weight */
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%); /* center the icon in the box */
-  color: #666;                     /* "unchecked" color */
-  font-size: 1.25em;               /* adjust size to your liking */
+  color: #666; /* "unchecked" color */
+  font-size: 1.25em; /* adjust size to your liking */
 }
 
 /* The "checked" icon */
@@ -46,13 +45,13 @@
 #follower-gif {
   position: fixed;
   pointer-events: none;
-  width: auto;       /* Keep your original size */
+  width: auto; /* Keep your original size */
   height: auto;
   z-index: 9999;
   top: 0;
   left: 0;
   transform: translate(-50%, 0%);
-  display: none;     /* Hidden by default */
+  display: none; /* Hidden by default */
 }
 
 /* Hide when scripts are disabled */
@@ -76,7 +75,7 @@ noscript #follower-gif {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-[data-theme='dark'] .announcement-bar {
+[data-theme="dark"] .announcement-bar {
   background-color: var(--base_bg_2_dark);
   color: var(--base_text_dark);
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
@@ -95,16 +94,15 @@ noscript #follower-gif {
   text-shadow: 0 0 5px currentColor;
 }
 
-[data-theme='dark'] .announcement-bar a {
+[data-theme="dark"] .announcement-bar a {
   color: var(--primary_bg_dark);
 }
 
-[data-theme='dark'] .announcement-bar a:hover,
-[data-theme='dark'] .announcement-bar a:focus {
+[data-theme="dark"] .announcement-bar a:hover,
+[data-theme="dark"] .announcement-bar a:focus {
   color: #0084ff;
   text-shadow: 0 0 5px currentColor;
 }
-
 
 .announcement-bar .announcement-date {
   display: block;
@@ -114,22 +112,32 @@ noscript #follower-gif {
   opacity: 0.8;
 }
 
-[data-theme='dark'] .announcement-bar .announcement-date {
+[data-theme="dark"] .announcement-bar .announcement-date {
   color: var(--base_text_2_dark);
 }
 
 /* Glow animation: ONLY animates the shadow, not background-color */
 @keyframes glowColors {
-  0%   { box-shadow: 0 0 10px #0084ff; }
-  25%  { box-shadow: 0 0 15px #00bfff; }
-  50%  { box-shadow: 0 0 20px #00ffaa; }
-  75%  { box-shadow: 0 0 15px #5c00ff; }
-  100% { box-shadow: 0 0 10px #0084ff; }
+  0% {
+    box-shadow: 0 0 10px #0084ff;
+  }
+  25% {
+    box-shadow: 0 0 15px #00bfff;
+  }
+  50% {
+    box-shadow: 0 0 20px #00ffaa;
+  }
+  75% {
+    box-shadow: 0 0 15px #5c00ff;
+  }
+  100% {
+    box-shadow: 0 0 10px #0084ff;
+  }
 }
 
 .post-image figcaption {
-  font-size: 0.9em;   /* smaller text */
-  color: #666;        /* grey */
+  font-size: 0.9em; /* smaller text */
+  color: #666; /* grey */
   font-style: italic; /* italic */
-  margin-top: 0.4em;  /* spacing from the image */
+  margin-top: 0.4em; /* spacing from the image */
 }
