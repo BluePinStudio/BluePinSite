@@ -32,6 +32,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Maple Story (Apr/2003)  
 - [ ] Conquer Online (Sep/2003)  
 - [x] Gunz (Jul/2003)  
+- [ ] Far Cry 1 (Mar/2004)
 - [x] Fable 1 (Sep/2004)  
 - [ ] Halo 2 (Nov/2004)  
 - [x] WoW (Nov/2004)  
@@ -45,7 +46,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] GTA 4 (Apr/2008)  
 - [ ] Castle Crashers (Aug/2008) 
 - [ ] Left for Dead (Nov/2008) 
-- [ ] PVZ (May/2009)
+- [ ] Plantz vs Zombies (May/2009)
 
 - [ ] Starcraft 2 (Jul/2010)  
 - [ ] Civ 5 (Sep/2010)  
@@ -64,7 +65,8 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Enter the Gungeon (Apr/2016)
 - [ ] Astroneer (Dec/2016)
 - [ ] Slay the Spire (Nov/2017)  
-- [ ] PUBG (Dec/2017)  
+- [ ] PUBG (Dec/2017)
+- [ ] Far Cry 5 (Mar/2018)  
 - [ ] Kingdom: Two Crowns (Dec/2018) 
 - [ ] Risk of Rain 2 (Mar/2019) 
 
