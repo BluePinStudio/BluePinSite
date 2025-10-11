@@ -1,0 +1,368 @@
+:root{
+  --bg:#0b0d10;
+  --bg-elev:#12161b;
+  --text:#e6eef7;
+  --muted:#9fb0c0;
+  --accent:#64d2ff;
+  --chip:#1b222b;
+  --chip-border:#2a3440;
+  --tag:#192029;
+  --tag-match:#233b2b;
+  --bar:#64d2ff;
+  --bar-bg:#1f2833;
+  --card:#11151a;
+  --outline:#2a3440;
+}
+
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f7fafc;
+    --bg-elev:#ffffff;
+    --text:#0b0d10;
+    --muted:#556270;
+    --accent:#086dd8;
+    --chip:#f0f5fb;
+    --chip-border:#d8e2ee;
+    --tag:#edf2f7;
+    --tag-match:#e3f6ea;
+    --bar:#086dd8;
+    --bar-bg:#e7eef6;
+    --card:#ffffff;
+    --outline:#d8e2ee;
+  }
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Header / Footer */
+.site-header,.site-footer{
+  padding:1rem 1.25rem;
+  background:var(--bg-elev);
+  border-bottom:1px solid var(--outline);
+}
+.site-footer{
+  border-top:1px solid var(--outline);
+  border-bottom:none;
+  color:var(--muted);
+}
+.site-header h1{margin:0 0 .25rem; font-size:1.5rem}
+.sub{color:var(--muted); margin:0}
+
+/* Layout */
+.container{max-width:1100px; margin:0 auto; padding:1rem 1.25rem 2rem}
+.controls{
+  background:var(--bg-elev);
+  border:1px solid var(--outline);
+  border-radius:12px;
+  padding:1rem;
+  margin-bottom:1rem;
+}
+
+/* Inputs & Buttons */
+.input-row{display:flex; gap:.5rem; align-items:center; flex-wrap:wrap}
+.input-main,#tagInput{
+  flex:1 1 480px; min-width:320px;
+  padding:.8rem 1rem;
+  border:1px solid var(--outline);
+  border-radius:12px;
+  background:var(--card);
+  color:var(--text);
+  font-size:1rem;
+}
+.input-main:focus-visible,#tagInput:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+  border-color:color-mix(in srgb, var(--accent) 60%, var(--outline));
+}
+
+.btn{
+  border:1px solid var(--outline);
+  background:var(--card);
+  color:var(--text);
+  padding:.6rem .9rem;
+  border-radius:10px;
+  cursor:pointer;
+  transition:border-color .15s ease, box-shadow .15s ease, transform .06s ease;
+}
+.btn:hover{border-color:var(--accent)}
+.btn:active{transform:translateY(1px)}
+.btn-ghost{background:transparent}
+.btn-accent{border-color:var(--accent)}
+.btn-accent:hover{box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent)}
+
+/* Options panels */
+.options{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:.75rem 1.25rem;
+  margin-top:.75rem;
+}
+fieldset{
+  border:1px dashed var(--outline);
+  border-radius:10px;
+  padding:.5rem .75rem .6rem;
+}
+legend{padding:0 .3rem; color:var(--muted); font-size:.9rem}
+label{display:inline-flex; gap:.5rem; align-items:center; margin:.1rem .75rem .25rem 0}
+.meta{color:var(--muted); font-size:.9rem}
+
+/* Chips */
+.chips{display:flex; gap:.5rem; flex-wrap:wrap; margin:.75rem 0 0}
+.chip{
+  background:var(--chip);
+  border:1px solid var(--chip-border);
+  color:var(--text);
+  padding:.35rem .6rem;
+  border-radius:999px;
+  font-size:.9rem;
+}
+.chip-removable{cursor:pointer}
+.chip-removable:hover{border-color:var(--accent)}
+.query-chips .chip{
+  background:color-mix(in srgb, var(--accent) 10%, var(--chip));
+  border-color:color-mix(in srgb, var(--accent) 40%, var(--chip-border));
+}
+.chip-query{font-weight:600}
+
+/* Banned chips */
+.banned-chips .chip{
+  border-color:color-mix(in srgb, #ff6b6b 50%, var(--chip-border));
+  background:color-mix(in srgb, #ff6b6b 12%, var(--chip));
+}
+.banned-label{color:var(--muted); font-size:.9rem; margin-top:.25rem}
+
+/* Results */
+.results{display:grid; gap:.75rem}
+.card{
+  background:var(--card);
+  border:1px solid var(--outline);
+  border-radius:12px;
+  padding:.9rem .95rem;
+  transition:border-color .15s ease, box-shadow .2s ease;
+}
+.card.minimal{padding:.6rem .7rem}
+.card:hover{border-color:color-mix(in srgb, var(--accent) 55%, var(--outline)); box-shadow:0 6px 22px rgba(0,0,0,.22)}
+.card h3{margin:0 0 .35rem; font-size:1.05rem}
+.meta-row{display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:.5rem}
+
+/* Title & similarity */
+.title-row{display:flex; align-items:center; justify-content:space-between; gap:.75rem}
+.title{margin:0}
+.sim-pill{
+  display:inline-block;
+  padding:.2rem .55rem;
+  font-size:.86rem;
+  line-height:1.1;
+  border-radius:999px;
+  border:1px solid var(--outline);
+  background:var(--bg-elev);
+  color:var(--text);
+  white-space:nowrap;
+  opacity:.95;
+  transition:border-color .15s ease, opacity .15s ease;
+}
+.card:hover .sim-pill{border-color:var(--accent); opacity:1}
+
+/* Game Title Links */
+.card h3 a{
+  color:var(--text);
+  text-decoration:none;
+  border-bottom:1px dotted var(--accent);
+  transition:color .15s ease, border-color .15s ease, text-shadow .15s ease;
+}
+.card h3 a:hover{
+  color:var(--accent);
+  border-color:var(--accent);
+  text-shadow:0 0 4px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.card h3 a:visited{color:var(--text)}
+
+/* Similarity bar */
+.bar-wrap{
+  position:relative;
+  background:var(--bar-bg);
+  border-radius:999px;
+  height:10px;
+  overflow:hidden;
+  margin:.4rem 0 .6rem;
+  border:1px solid var(--outline);
+}
+.bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, var(--bar), #49ffa3);
+  transition:width .25s ease;
+}
+
+/* Tags */
+.tags{display:flex; gap:.35rem; flex-wrap:wrap}
+.tag{
+  background:var(--tag);
+  color:var(--text);
+  border:1px solid var(--chip-border);
+  border-radius:999px;
+  padding:.2rem .5rem;
+  font-size:.85rem;
+}
+.tag.matched{
+  background:var(--tag-match);
+  border-color:#339b57;
+}
+
+/* Misc text */
+.empty,.hint{color:var(--muted); font-style:italic; padding:.5rem 0}
+
+/* Emphasize the input area */
+.controls-emphasis{
+  background:linear-gradient(180deg, color-mix(in srgb, var(--bg-elev) 92%, transparent), var(--bg-elev));
+  border:1px solid var(--outline);
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+
+/* Toggle buttons */
+.toggle-row{display:flex; flex-wrap:wrap; gap:.5rem; margin:.25rem 0}
+.toggle{
+  appearance:none;
+  border:1px solid var(--outline);
+  background:var(--card);
+  color:var(--text);
+  padding:.4rem .7rem;
+  border-radius:999px;
+  cursor:pointer;
+  font-size:.9rem;
+  transition:border-color .15s, box-shadow .15s, background .15s, color .15s, transform .06s;
+}
+.toggle:hover{border-color:var(--accent)}
+.toggle:active{transform:translateY(1px)}
+.toggle.active{
+  background:color-mix(in srgb, var(--accent) 16%, var(--card));
+  border-color:color-mix(in srgb, var(--accent) 60%, var(--outline));
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+  font-weight:600;
+}
+
+/* Require-all checkbox */
+.require-all{display:inline-flex; gap:.5rem; align-items:center; margin-top:.5rem}
+
+/* Pager (Prev/Next) */
+.pager{display:flex; align-items:center; gap:.6rem; justify-content:center; margin:1rem 0 2rem}
+.pager .meta{opacity:.85}
+
+/* Focus outlines for a11y */
+a:focus-visible,.btn:focus-visible,.toggle:focus-visible,.chip-removable:focus-visible,.input-main:focus-visible,#tagInput:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+  border-color:color-mix(in srgb, var(--accent) 60%, var(--outline));
+}
+/* Help panel polish */
+details.help{
+  margin-top:.5rem;
+  border:1px dashed var(--outline);
+  border-radius:12px;
+  padding:.6rem .75rem .75rem;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+}
+details.help > summary{
+  cursor:pointer;
+  font-weight:700;
+  color:var(--text);
+  list-style:none;
+}
+details.help > summary::-webkit-details-marker{display:none}
+details.help > summary::after{
+  content:"";
+  float:right;
+  width:.65rem; height:.65rem;
+  border-right:2px solid var(--muted);
+  border-bottom:2px solid var(--muted);
+  transform:rotate(-45deg) translateY(.2rem);
+  transition:transform .15s ease, border-color .15s ease;
+  margin-top:.3rem;
+}
+details[open] > summary::after{
+  transform:rotate(45deg) translateY(-.2rem);
+  border-color:var(--accent);
+}
+
+.help-body{margin-top:.6rem}
+.help-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: .8rem;
+}
+.help-card{
+  background: var(--card);
+  border:1px solid var(--outline);
+  border-radius:12px;
+  padding:.75rem .8rem;
+  box-shadow: 0 6px 16px rgba(0,0,0,.18);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.help-card:hover{
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--outline));
+  box-shadow: 0 8px 20px rgba(0,0,0,.22);
+}
+.help-head{
+  display:flex; align-items:center; gap:.5rem; margin-bottom:.35rem;
+}
+.help-head h4{ margin:0; font-size:1rem; }
+
+.badge{
+  display:inline-block;
+  font-size:.72rem;
+  line-height:1;
+  padding:.22rem .45rem;
+  border-radius:999px;
+  border:1px solid var(--chip-border);
+  background: var(--chip);
+  color: var(--muted);
+}
+.badge-contain{
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--chip-border));
+  background: color-mix(in srgb, var(--accent) 18%, var(--chip));
+  color: var(--text);
+  font-weight:700;
+}
+
+.eq{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size:.92rem;
+  padding:.25rem .45rem;
+  border:1px dashed var(--outline);
+  border-radius:8px;
+  display:inline-block;
+  background: color-mix(in srgb, var(--bg-elev) 85%, transparent);
+  margin:.25rem 0 .4rem;
+}
+
+.sets{display:grid; gap:.4rem; margin:.25rem 0 .4rem}
+.set-title{font-size:.8rem; color:var(--muted); margin-bottom:.15rem}
+
+.chips-mini{display:flex; gap:.35rem; flex-wrap:wrap}
+.chip-mini{
+  background: var(--tag);
+  border:1px solid var(--chip-border);
+  color: var(--text);
+  padding:.12rem .4rem;
+  border-radius:999px;
+  font-size:.78rem;
+}
+.chip-mini.match{
+  background: var(--tag-match);
+  border-color:#339b57;
+}
+
+.calc{margin:.2rem 0 .45rem}
+
+.use-for{
+  margin:.25rem 0 0; padding-left:1.1rem;
+  display:grid; gap:.2rem;
+}
+.use-for li{margin:.05rem 0}

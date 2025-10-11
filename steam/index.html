@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Steam Tag Hunter</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .pager{display:flex; align-items:center; gap:.6rem; justify-content:center; margin:1rem 0 2rem;}
+    .pager .meta{opacity:.85}
+    .btn[disabled]{opacity:.5; cursor:not-allowed}
+    /* subtle, consistent look for banned chips */
+    .banned-chips .chip{
+      border-color: color-mix(in srgb, #ff6b6b 50%, var(--chip-border));
+      background: color-mix(in srgb, #ff6b6b 12%, var(--chip));
+    }
+    .banned-label{ color: var(--muted); font-size:.9rem; margin-top:.25rem; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <h1>Steam Tag Hunter</h1>
+  <p class="sub">Find games based on tag similarity...</p>
+</header>
+
+<main class="container">
+  <section class="controls controls-emphasis">
+    <!-- Query tags -->
+    <div class="input-row">
+      <input id="tagInput" class="input-main" type="text" placeholder='e.g., FPS, Multiplayer, Cold War' />
+      <button id="addBtn" class="btn btn-accent">Add tag(s)</button>
+      <button id="clearBtn" class="btn btn-ghost">Clear tags</button>
+    </div>
+    <div id="activeTags" class="chips query-chips"></div>
+
+    <!-- Banned tags (NEW, directly visible) -->
+    <div class="input-row" style="margin-top:.6rem;">
+      <input id="banInput" class="input-main" type="text" placeholder="Banned tags (comma-separated)" />
+      <button id="banAddBtn" class="btn">Add banned</button>
+      <button id="banClearBtn" class="btn btn-ghost">Clear banned</button>
+    </div>
+    <div class="banned-label">Games that contain any banned tag (within enabled pools) will be excluded.</div>
+    <div id="bannedTags" class="chips banned-chips" style="margin-top:.4rem;"></div>
+
+    <div class="options">
+      <fieldset>
+        <legend>Scoring</legend>
+        <label><input type="radio" name="scoreMode" value="containment" checked /> Containment</label>
+        <label><input type="radio" name="scoreMode" value="jaccard" /> Jaccard</label>
+
+<details class="help">
+  <summary>What’s the difference?</summary>
+  <div class="help-body">
+
+    <div class="help-grid">
+      <!-- Containment -->
+      <div class="help-card">
+        <div class="help-head">
+          <span class="badge badge-contain">Default</span>
+          <h4>Containment</h4>
+        </div>
+        <div class="eq">
+          overlap ÷ <strong>your query size</strong>
+        </div>
+        <p class="muted">Measures how much of your request is covered. Ignores extra tags the game has.</p>
+
+        <div class="sets">
+          <div class="set">
+            <div class="set-title">Your query</div>
+            <div class="chips-mini">
+              <span class="chip-mini">fps</span>
+              <span class="chip-mini">multiplayer</span>
+              <span class="chip-mini">tactical</span>
+            </div>
+          </div>
+          <div class="set">
+            <div class="set-title">Game tags</div>
+            <div class="chips-mini">
+              <span class="chip-mini match">fps</span>
+              <span class="chip-mini match">multiplayer</span>
+              <span class="chip-mini">co-op</span>
+              <span class="chip-mini">class-based</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc muted">
+          overlap = 2 (fps, multiplayer) • query size = 3 → <strong>2/3 = 67%</strong>
+        </div>
+
+        <ul class="use-for">
+          <li><strong>Specific/niche</strong> requests</li>
+          <li>“I want as many of my tags matched as possible.”</li>
+        </ul>
+      </div>
+
+      <!-- Jaccard -->
+      <div class="help-card">
+        <div class="help-head">
+          <span class="badge">Alt</span>
+          <h4>Jaccard</h4>
+        </div>
+        <div class="eq">
+          overlap ÷ <strong>union</strong>
+        </div>
+        <p class="muted">Measures overall vibe. Penalizes extra, unrelated tags on the game.</p>
+
+        <div class="sets">
+          <div class="set">
+            <div class="set-title">Your query</div>
+            <div class="chips-mini">
+              <span class="chip-mini">fps</span>
+              <span class="chip-mini">multiplayer</span>
+              <span class="chip-mini">tactical</span>
+            </div>
+          </div>
+          <div class="set">
+            <div class="set-title">Game tags</div>
+            <div class="chips-mini">
+              <span class="chip-mini match">fps</span>
+              <span class="chip-mini match">multiplayer</span>
+              <span class="chip-mini">co-op</span>
+              <span class="chip-mini">class-based</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc muted">
+          overlap = 2 • union = 5 → <strong>2/5 = 40%</strong>
+        </div>
+
+        <ul class="use-for">
+          <li><strong>Broader “vibe”</strong> searches</li>
+          <li>“I care about overall similarity, not only coverage.”</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</details>
+
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Match Options</legend>
+
+        <!-- Button-style toggles: Tags + Free ON; Genres + Categories OFF -->
+        <div class="toggle-row">
+          <button type="button" class="toggle active" id="tTags" aria-pressed="true">Include Tags</button>
+          <button type="button" class="toggle" id="tGenres" aria-pressed="false">Include Genres</button>
+          <button type="button" class="toggle" id="tCategories" aria-pressed="false">Include Categories</button>
+          <button type="button" class="toggle active" id="tIncludeFree" aria-pressed="true">Include Free Games</button>
+        </div>
+
+        <label class="require-all"><input type="checkbox" id="requireAll" /> Require all query tags</label>
+
+        <div class="meta" style="margin-top:.35rem">
+          Toggle which metadata to compare. “Require all” demands every query tag (within enabled pools).
+        </div>
+      </fieldset>
+    </div>
+  </section>
+
+  <section id="results" class="results"></section>
+
+  <!-- Pagination controls (shown only when a query is active) -->
+  <div id="pager" class="pager" style="display:none;">
+    <button id="prevBtn" class="btn btn-ghost" disabled>Prev</button>
+    <span id="pageInfo" class="meta">Page 1 of 1</span>
+    <button id="nextBtn" class="btn">Next</button>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <small>Static frontend for games.jsonl (Steam tags viewer)</small>
+</footer>
+
+<script>
+  // ---------- Config ----------
+  const JSON_LINES_PATH = 'games.jsonl';
+  const PAGE_SIZE = 50;
+
+  // ---------- State ----------
+  let games = []; // light objects
+  let queryTags = new Set();
+  let bannedTags = new Set();
+  // Defaults: Tags + Free ON; Genres + Categories OFF
+  let useTags = true, useGenres = false, useCategories = false, includeFree = true;
+
+  // pagination state
+  let currentPage = 1;
+  let lastResults = [];
+  let totalPages = 1;
+
+  // inverted indices by pool
+  const idx = { tags: new Map(), genres: new Map(), categories: new Map() };
+
+  // ---------- DOM ----------
+  const tagInput = document.getElementById('tagInput');
+  const addBtn = document.getElementById('addBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const chipsEl = document.getElementById('activeTags');
+
+  const banInput = document.getElementById('banInput');
+  const banAddBtn = document.getElementById('banAddBtn');
+  const banClearBtn = document.getElementById('banClearBtn');
+  const bannedEl = document.getElementById('bannedTags');
+
+  const resultsEl = document.getElementById('results');
+  const scoreModeEls = document.querySelectorAll('input[name="scoreMode"]');
+  const requireAllEl = document.getElementById('requireAll');
+  const tTagsBtn = document.getElementById('tTags');
+  const tGenresBtn = document.getElementById('tGenres');
+  const tCategoriesBtn = document.getElementById('tCategories');
+  const tIncludeFreeBtn = document.getElementById('tIncludeFree');
+  const pagerEl = document.getElementById('pager');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageInfoEl = document.getElementById('pageInfo');
+
+  // ---------- Utils ----------
+  const normTag = t => t.trim().toLowerCase();
+  const isFree = p => (p == null) || (p === 0); // null or 0 => Free
+  const formatPrice = p => isFree(p) ? 'Free' : `$${Number(p).toFixed(2)}`;
+  const estimateSalesUSD = g => {
+    const r = g.reviews ?? 0;
+    const p = isFree(g.price) ? 0 : g.price;
+    return r && p ? r * p * 20 : 0;
+  };
+  const formatUSD = n => n ? n.toLocaleString(undefined, {style:'currency',currency:'USD',maximumFractionDigits:0}) : '—';
+
+  function decileLabel(pct) {
+    if (pct === 100) return 'exact match';
+    const d = Math.floor(pct / 10) * 10;
+    switch (d) {
+      case 90: return 'almost exact';
+      case 80: return 'highly similar';
+      case 70: return 'very similar';
+      case 60: return 'pretty similar';
+      case 50: return 'moderately similar';
+      case 40: return 'somewhat similar';
+      case 30: return 'loose match';
+      case 20: return 'very weak match';
+      case 10: return 'barely related';
+      default: return 'no real match';
+    }
+  }
+  function similarityColor(pct) {
+    const hue = Math.round((pct / 100) * 120);
+    return `hsl(${hue} 80% 55%)`;
+  }
+
+  // ---------- Indexing ----------
+  function addPosting(map, tag, gi) {
+    if (!map.has(tag)) map.set(tag, []);
+    map.get(tag).push(gi);
+  }
+  function buildIndices() {
+    for (let gi = 0; gi < games.length; gi++) {
+      const g = games[gi];
+      g.tags.forEach(t => addPosting(idx.tags, t, gi));
+      g.genres.forEach(t => addPosting(idx.genres, t, gi));
+      g.categories.forEach(t => addPosting(idx.categories, t, gi));
+    }
+    for (const map of [idx.tags, idx.genres, idx.categories]) {
+      for (const [k, arr] of map.entries()) arr.sort((a,b)=>a-b);
+    }
+  }
+  function postingsFor(tag, pools) {
+    let out = [];
+    for (const p of pools) {
+      const arr = idx[p].get(tag) || [];
+      if (out.length === 0) { out = out.concat(arr); continue; }
+      // union merge
+      let i=0,j=0, res=[], a=out, b=arr, last=null;
+      while (i<a.length || j<b.length) {
+        const va = i<a.length ? a[i] : Infinity;
+        const vb = j<b.length ? b[j] : Infinity;
+        let v;
+        if      (va<vb){ v=va; i++; }
+        else if (vb<va){ v=vb; j++; }
+        else            { v=va; i++; j++; }
+        if (v!==last){ res.push(v); last=v; }
+      }
+      out = res;
+    }
+    return out;
+  }
+  function intersectSorted(a,b) {
+    const res=[]; let i=0,j=0;
+    while(i<a.length && j<b.length){
+      if (a[i]===b[j]) { res.push(a[i]); i++; j++; }
+      else if (a[i]<b[j]) i++; else j++;
+    }
+    return res;
+  }
+
+  // ---------- Scoring ----------
+  function buildTagSetFromPools(g, pools) {
+    const s = new Set();
+    if (pools.includes('tags')) g.tags.forEach(t=>s.add(t));
+    if (pools.includes('genres')) g.genres.forEach(t=>s.add(t));
+    if (pools.includes('categories')) g.categories.forEach(t=>s.add(t));
+    return s;
+  }
+  function hasAnyBanned(g, pools) {
+    if (bannedTags.size === 0) return false;
+    const s = buildTagSetFromPools(g, pools);
+    for (const bt of bannedTags) if (s.has(bt)) return true;
+    return false;
+  }
+  function similarityScore(g, qSet, mode, pools, requireAll) {
+    const gSet = buildTagSetFromPools(g, pools);
+    let inter = 0;
+    for (const t of qSet) if (gSet.has(t)) inter++;
+    if (requireAll && inter < qSet.size) return { score: 0, inter };
+    if (!inter) return { score: 0, inter };
+    const score = (mode === 'containment')
+      ? inter / Math.max(1, qSet.size)
+      : inter / Math.max(1, new Set([...qSet, ...gSet]).size);
+    return { score, inter };
+  }
+
+  // ---------- UI ----------
+  function renderChips() {
+    chipsEl.innerHTML = '';
+    if (queryTags.size === 0) {
+      chipsEl.innerHTML = '<div class="hint">No active tags. Add some to see results.</div>';
+    } else {
+      for (const t of queryTags) {
+        const btn = document.createElement('button');
+        btn.className = 'chip chip-removable chip-query';
+        btn.textContent = t;
+        btn.onclick = () => { queryTags.delete(t); currentPage = 1; renderChips(); renderQuery(); };
+        chipsEl.appendChild(btn);
+      }
+    }
+
+    bannedEl.innerHTML = '';
+    for (const t of bannedTags) {
+      const btn = document.createElement('button');
+      btn.className = 'chip chip-removable';
+      btn.textContent = t;
+      btn.title = 'Remove banned tag';
+      btn.onclick = () => { bannedTags.delete(t); currentPage = 1; renderChips(); renderQuery(); };
+      bannedEl.appendChild(btn);
+    }
+  }
+
+  function highlightTag(tag, q) {
+    const s = document.createElement('span');
+    s.className = q.has(tag) ? 'tag matched' : 'tag';
+    s.textContent = tag;
+    return s;
+  }
+
+  function renderPage() {
+    resultsEl.innerHTML = '';
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const slice = lastResults.slice(start, start + PAGE_SIZE);
+
+    const q = new Set(queryTags);
+    for (const item of slice) {
+      const g = games[item.gIdx];
+      const pct = Math.round(item.score * 100);
+      const color = similarityColor(pct);
+      const label = decileLabel(pct);
+
+      const card = document.createElement('article');
+      card.className = 'card';
+
+      const titleRow = document.createElement('div');
+      titleRow.className = 'title-row';
+
+      const title = document.createElement('h3');
+      title.className = 'title';
+      const a = document.createElement('a');
+      a.href = `https://store.steampowered.com/app/${g.app_id}`;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = g.name;
+      title.appendChild(a);
+
+      const pill = document.createElement('span');
+      pill.className = 'sim-pill';
+      pill.title = `Matched ${item.interCount} of ${q.size} query tag(s)`;
+      pill.textContent = `${pct}% ${label}`;
+      pill.style.borderColor = color;
+      pill.style.color = color;
+
+      titleRow.appendChild(title);
+      titleRow.appendChild(pill);
+      card.appendChild(titleRow);
+
+      const meta = document.createElement('div');
+      meta.className = 'meta-row';
+      const estimate = estimateSalesUSD(g);
+      meta.innerHTML = `
+        <span class="meta">App ID: ${g.app_id}</span>
+        <span class="meta">Price: ${formatPrice(g.price)}</span>
+        <span class="meta">Reviews: ${(g.reviews||0).toLocaleString()}</span>
+        <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
+      `;
+      card.appendChild(meta);
+
+      const barWrap = document.createElement('div');
+      barWrap.className = 'bar-wrap';
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.width = pct + '%';
+      bar.style.background = color;
+      barWrap.appendChild(bar);
+      card.appendChild(barWrap);
+
+      const tagsDiv = document.createElement('div');
+      tagsDiv.className = 'tags';
+      const pools = [];
+      if (useTags) pools.push('tags');
+      if (useGenres) pools.push('genres');
+      if (useCategories) pools.push('categories');
+      const show = [];
+      if (pools.includes('tags')) show.push(...g.tags);
+      if (pools.includes('genres')) show.push(...g.genres);
+      if (pools.includes('categories')) show.push(...g.categories);
+      show.forEach(t => tagsDiv.appendChild(highlightTag(t, q)));
+      card.appendChild(tagsDiv);
+
+      resultsEl.appendChild(card);
+    }
+
+    pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages;
+    pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
+  }
+
+  function renderQuery() {
+    const q = new Set(queryTags);
+    // Blank query: show nothing
+    if (q.size === 0) {
+      resultsEl.innerHTML = '';
+      pagerEl.style.display = 'none';
+      return;
+    }
+
+    const pools = [];
+    if (useTags) pools.push('tags');
+    if (useGenres) pools.push('genres');
+    if (useCategories) pools.push('categories');
+    if (pools.length === 0) {
+      resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>';
+      pagerEl.style.display = 'none';
+      return;
+    }
+
+    const tags = [...q];
+    const lists = tags.map(t => postingsFor(t, pools));
+    if (lists.every(l => l.length === 0)) {
+      resultsEl.innerHTML = '<div class="card">No matches.</div>';
+      pagerEl.style.display = 'none';
+      return;
+    }
+    const requireAll = !!requireAllEl.checked;
+    lists.sort((a,b)=>a.length-b.length);
+    let candidates = lists[0].slice();
+    for (let i=1;i<lists.length;i++){
+      candidates = requireAll ? intersectSorted(candidates, lists[i]) : (function union(a,b){
+        const out=[]; let i=0,j=0,last=null;
+        while(i<a.length || j<b.length){
+          const va = i<a.length ? a[i] : Infinity;
+          const vb = j<b.length ? b[j] : Infinity;
+          let v;
+          if      (va<vb){ v=va; i++; }
+          else if (vb<va){ v=vb; j++; }
+          else            { v=va; i++; j++; }
+          if (v!==last){ out.push(v); last=v; }
+        }
+        return out;
+      })(candidates, lists[i]);
+      if (requireAll && candidates.length === 0) break;
+    }
+
+    const mode = [...scoreModeEls].find(r => r.checked)?.value || 'jaccard';
+    const results = [];
+    for (const gi of candidates) {
+      const g = games[gi];
+
+      // Exclude free if toggle is off (free = null or 0)
+      if (!includeFree && isFree(g.price)) continue;
+
+      // Exclude if game has any banned tag in enabled pools
+      if (hasAnyBanned(g, pools)) continue;
+
+      const { score, inter } = similarityScore(g, q, mode, pools, requireAll);
+      if (score <= 0) continue;
+      results.push({ gIdx: gi, score, interCount: inter });
+    }
+
+    results.sort((a,b) => (b.score - a.score) || ((games[b.gIdx].reviews||0) - (games[a.gIdx].reviews||0)));
+    lastResults = results;
+    totalPages = Math.max(1, Math.ceil(lastResults.length / PAGE_SIZE));
+    currentPage = Math.min(currentPage, totalPages);
+    renderPage();
+  }
+
+  // ---------- Events ----------
+  function parseFreeformTags(str) {
+    const parts = str.split(/,/).map(s => s.trim()).filter(Boolean);
+    return parts.map(p => normTag(p.replace(/^["'](.*)["']$/s, '$1')));
+  }
+
+  // Query tags
+  tagInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      parseFreeformTags(tagInput.value).forEach(t => queryTags.add(t));
+      tagInput.value = '';
+      currentPage = 1;
+      renderChips(); renderQuery();
+    }
+  });
+  addBtn.onclick = () => {
+    parseFreeformTags(tagInput.value).forEach(t => queryTags.add(t));
+    tagInput.value = '';
+    currentPage = 1;
+    renderChips(); renderQuery();
+  };
+  clearBtn.onclick = () => { queryTags.clear(); currentPage = 1; renderChips(); renderQuery(); };
+
+  // Banned tags
+  banInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      parseFreeformTags(banInput.value).forEach(t => bannedTags.add(t));
+      banInput.value = '';
+      currentPage = 1;
+      renderChips(); renderQuery();
+    }
+  });
+  banAddBtn.onclick = () => {
+    parseFreeformTags(banInput.value).forEach(t => bannedTags.add(t));
+    banInput.value = '';
+    currentPage = 1;
+    renderChips(); renderQuery();
+  };
+  banClearBtn.onclick = () => { bannedTags.clear(); currentPage = 1; renderChips(); renderQuery(); };
+
+  // Radios/checkbox
+  [...scoreModeEls, requireAllEl].forEach(el => el.addEventListener('change', () => { currentPage = 1; renderQuery(); }));
+
+  // Button toggles
+  function toggleButton(btn, setter) {
+    const active = btn.classList.toggle('active');
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    setter(active);
+    currentPage = 1;
+    renderQuery();
+  }
+  tTagsBtn.addEventListener('click', () => toggleButton(tTagsBtn, v=> useTags = v));
+  tGenresBtn.addEventListener('click', () => toggleButton(tGenresBtn, v=> useGenres = v));
+  tCategoriesBtn.addEventListener('click', () => toggleButton(tCategoriesBtn, v=> useCategories = v));
+  tIncludeFreeBtn.addEventListener('click', () => toggleButton(tIncludeFreeBtn, v=> includeFree = v));
+
+  // Pager
+  prevBtn.addEventListener('click', () => { if (currentPage>1){ currentPage--; renderPage(); }});
+  nextBtn.addEventListener('click', () => { if (currentPage<totalPages){ currentPage++; renderPage(); }});
+
+  // ---------- Load ----------
+  (async () => {
+    try {
+      const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH}`);
+      const text = await res.text();
+      games = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+        const j = JSON.parse(l);
+        const cls = j.classification || {};
+        return {
+          app_id: j.app_id,
+          name: (j.identity && j.identity.name) || `App ${j.app_id}`,
+          price: j.pricing ? j.pricing.price_usd : null,
+          reviews: j.reviews ? (j.reviews.review_count || 0) : 0,
+          tags: (cls.tags || []).map(normTag),
+          genres: (cls.genres || []).map(normTag),
+          categories: (cls.categories || []).map(normTag),
+        };
+      });
+      buildIndices();
+    } catch (err) {
+      resultsEl.innerHTML = `<div class="card">${err.message}</div>`;
+      return;
+    }
+    renderChips(); // no games until a query
+  })();
+</script>
+</body>
+</html>
