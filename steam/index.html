@@ -40,7 +40,7 @@
       min-height: 1rem;
     }
 
-    /* Compact header row: Thumbnail → Name → % Match */
+    /* Compact header row */
     .card-header {
       display: flex;
       align-items: center;
@@ -63,7 +63,7 @@
       white-space: nowrap;
     }
 
-    /* Inline thumbnail (larger, ~2x) */
+    /* Inline thumbnail (larger) */
     .thumb-inline {
       width: 160px;
       height: auto;
@@ -73,7 +73,7 @@
       object-fit: cover;
     }
 
-    /* Date filter row */
+    /* Date filter */
     .date-filter {
       display: flex;
       align-items: center;
@@ -98,6 +98,56 @@
       padding: .35rem .5rem;
       font-size: .9rem;
     }
+
+    /* Help panel polish */
+    details.help {
+      margin-top: .35rem;
+    }
+
+    .help-body {
+      padding: .6rem .75rem .8rem;
+      background: var(--bg-elev);
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+    }
+
+    .help-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem;
+    }
+
+    .help-card {
+      background: var(--card);
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+      padding: .6rem .75rem;
+    }
+
+    .help-head {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .25rem;
+    }
+
+    .badge {
+      font-size: .75rem;
+      border: 1px solid var(--outline);
+      padding: .05rem .4rem;
+      border-radius: 999px;
+      opacity: .85;
+    }
+
+    .badge-contain {
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--outline));
+    }
+
+    .eq {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      opacity: .9;
+    }
   </style>
 </head>
 
@@ -109,8 +159,7 @@
 
   <main class="container">
     <section class="controls controls-emphasis">
-
-      <!-- Seed from a game URL / AppID / Exact name -->
+      <!-- Seed -->
       <div class="input-row">
         <input id="seedInput" class="input-main" type="text"
           placeholder="Paste a Steam URL, AppID, or EXACT game name…" />
@@ -178,6 +227,8 @@
           </div>
 
           <label class="require-all"><input type="checkbox" id="requireAll" /> Require all query tags</label>
+          <label class="require-all"><input type="checkbox" id="ignoreUnreleased" /> Hide unreleased (Coming
+            soon)</label>
 
           <!-- Release date filter -->
           <div class="date-filter">
@@ -188,10 +239,6 @@
             <select id="releaseMonth" aria-label="Release month"></select>
             <select id="releaseYear" aria-label="Release year"></select>
           </div>
-          <label class="require-all" style="margin-top:0.4rem;">
-            <input type="checkbox" id="ignoreUnreleased" checked />
-            Ignore unreleased / coming soon games
-          </label>
         </fieldset>
 
         <fieldset>
@@ -232,18 +279,18 @@
     let lastResults = [];
     let totalPages = 1;
 
-    let seedExclude = null; // track seeded game to exclude from results
+    // always exclude the seed once set
+    let seedExclude = null;
 
     const idx = { tags: new Map(), genres: new Map(), categories: new Map() };
-    const byAppId = new Map(); // appid -> gi
-    const byName = new Map();  // lower name -> [gi...]
+    const byAppId = new Map();
+    const byName = new Map();
 
-    // ---------- Release-date filter state ----------
+    // ---------- Release-date filter ----------
     let releaseFilter = { on: false, y: null, m: null, cutoff: null };
     const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    function firstOfMonthUTC(year, monthIdx) { return Date.UTC(year, monthIdx, 1); }
-    function fmtMonYear(ts) { const d = new Date(ts); return `${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`; }
+    const firstOfMonthUTC = (y, m) => Date.UTC(y, m, 1);
+    const fmtMonYear = ts => { const d = new Date(ts); return `${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
     function parseReleaseTs(raw) {
       if (!raw) return null;
       if (typeof raw === "number") return raw < 1e12 ? raw * 1000 : raw;
@@ -285,21 +332,42 @@
     const releaseYearSel = document.getElementById('releaseYear');
     const ignoreUnreleasedEl = document.getElementById('ignoreUnreleased');
 
-
     const pagerEl = document.getElementById('pager');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const pageInfoEl = document.getElementById('pageInfo');
 
+    // Force sane defaults on initial load (browsers may restore form/button state)
+    useTags = true;
+    tTagsBtn.classList.add('active');
+    tTagsBtn.setAttribute('aria-pressed', 'true');
+
+    // Show free games by default
+    includeFree = true;
+    tIncludeFreeBtn.classList.add('active');
+    tIncludeFreeBtn.setAttribute('aria-pressed', 'true');
+
+    // Do NOT hide unreleased by default
+    if (ignoreUnreleasedEl) ignoreUnreleasedEl.checked = false;
+
+    // Date filter OFF by default (very important for unreleased UX)
+    if (releaseFilterOn) {
+      releaseFilterOn.checked = false;
+      releaseFilter.on = false;       // keep internal state in sync
+    }
+
+
     // ---------- Utils ----------
     const normTag = t => t.trim().toLowerCase();
     const normName = s => (s || '').trim().toLowerCase();
-    const isFree = p => (p == null) || (p === 0);
-    const formatPrice = p => isFree(p) ? 'Free' : `$${Number(p).toFixed(2)}`;
+
+    // price helpers (null price ≠ free)
+    const isFreeGame = g => (g.is_free === true) || (g.price === 0);
+    const formatPrice = p => (p == null) ? '—' : (p === 0 ? 'Free' : `$${Number(p).toFixed(2)}`);
     const estimateSalesUSD = g => {
       const r = g.reviews ?? 0;
-      const p = isFree(g.price) ? 0 : g.price;
-      return r && p ? r * p * 20 : 0;
+      const p = isFreeGame(g) ? 0 : (g.price ?? 0);
+      return (r > 0 && p > 0) ? r * p * 20 : 0;
     };
     const formatUSD = n => n ? n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) : '—';
 
@@ -311,22 +379,16 @@
         50: 'moderately similar', 40: 'somewhat similar', 30: 'loose match', 20: 'very weak match', 10: 'barely related'
       }[d]) || 'no real match';
     }
-    function similarityColor(pct) {
-      const hue = Math.round((pct / 100) * 120);
-      return `hsl(${hue} 80% 55%)`;
-    }
+    const similarityColor = pct => `hsl(${Math.round((pct / 100) * 120)} 80% 55%)`;
 
     // ---------- Indexing ----------
-    function addPosting(map, tag, gi) {
-      if (!map.has(tag)) map.set(tag, []);
-      map.get(tag).push(gi);
-    }
+    function addPosting(map, tag, gi) { if (!map.has(tag)) map.set(tag, []); map.get(tag).push(gi); }
     function buildIndices() {
       for (let gi = 0; gi < games.length; gi++) {
         const g = games[gi];
-        g.tags.forEach(t => addPosting(idx.tags, t, gi));
-        g.genres.forEach(t => addPosting(idx.genres, t, gi));
-        g.categories.forEach(t => addPosting(idx.categories, t, gi));
+        (g.tags || []).forEach(t => addPosting(idx.tags, t, gi));
+        (g.genres || []).forEach(t => addPosting(idx.genres, t, gi));
+        (g.categories || []).forEach(t => addPosting(idx.categories, t, gi));
       }
       for (const map of [idx.tags, idx.genres, idx.categories]) {
         for (const [k, arr] of map.entries()) arr.sort((a, b) => a - b);
@@ -372,9 +434,9 @@
     // ---------- Scoring ----------
     function buildTagSetFromPools(g, pools) {
       const s = new Set();
-      if (pools.includes('tags')) g.tags.forEach(t => s.add(t));
-      if (pools.includes('genres')) g.genres.forEach(t => s.add(t));
-      if (pools.includes('categories')) g.categories.forEach(t => s.add(t));
+      if (pools.includes('tags')) (g.tags || []).forEach(t => s.add(t));
+      if (pools.includes('genres')) (g.genres || []).forEach(t => s.add(t));
+      if (pools.includes('categories')) (g.categories || []).forEach(t => s.add(t));
       return s;
     }
     function hasAnyBanned(g, pools) {
@@ -385,8 +447,7 @@
     }
     function similarityScore(g, qSet, mode, pools, requireAll) {
       const gSet = buildTagSetFromPools(g, pools);
-      let inter = 0;
-      for (const t of qSet) if (gSet.has(t)) inter++;
+      let inter = 0; for (const t of qSet) if (gSet.has(t)) inter++;
       if (requireAll && inter < qSet.size) return { score: 0, inter };
       if (!inter) return { score: 0, inter };
       const score = (mode === 'containment')
@@ -403,48 +464,22 @@
         chipsEl.innerHTML = '<div class="hint">No active tags. Add some to see results.</div>';
       } else {
         for (const t of queryTags) {
-          const chip = document.createElement('span');
-          chip.className = 'chip chip-query';
-          chip.textContent = t;
-
-          const x = document.createElement('button');
-          x.className = 'chip-x';
-          x.type = 'button';
-          x.setAttribute('aria-label', `Remove ${t}`);
-          x.textContent = '×';
-          x.onclick = (e) => {
-            e.stopPropagation();
-            queryTags.delete(t);
-            currentPage = 1;
-            renderChips(); renderQuery();
-          };
-
-          chip.appendChild(x);
-          chipsEl.appendChild(chip);
+          const chip = document.createElement('span'); chip.className = 'chip chip-query'; chip.textContent = t;
+          const x = document.createElement('button'); x.className = 'chip-x'; x.type = 'button';
+          x.setAttribute('aria-label', `Remove ${t}`); x.textContent = '×';
+          x.onclick = (e) => { e.stopPropagation(); queryTags.delete(t); currentPage = 1; renderChips(); renderQuery(); };
+          chip.appendChild(x); chipsEl.appendChild(chip);
         }
       }
 
       // Banned chips
       bannedEl.innerHTML = '';
       for (const t of bannedTags) {
-        const chip = document.createElement('span');
-        chip.className = 'chip';
-        chip.textContent = t;
-
-        const x = document.createElement('button');
-        x.className = 'chip-x';
-        x.type = 'button';
-        x.setAttribute('aria-label', `Remove ${t}`);
-        x.textContent = '×';
-        x.onclick = (e) => {
-          e.stopPropagation();
-          bannedTags.delete(t);
-          currentPage = 1;
-          renderChips(); renderQuery();
-        };
-
-        chip.appendChild(x);
-        bannedEl.appendChild(chip);
+        const chip = document.createElement('span'); chip.className = 'chip'; chip.textContent = t;
+        const x = document.createElement('button'); x.className = 'chip-x'; x.type = 'button';
+        x.setAttribute('aria-label', `Remove ${t}`); x.textContent = '×';
+        x.onclick = (e) => { e.stopPropagation(); bannedTags.delete(t); currentPage = 1; renderChips(); renderQuery(); };
+        chip.appendChild(x); bannedEl.appendChild(chip);
       }
     }
 
@@ -459,8 +494,8 @@
       resultsEl.innerHTML = '';
       const start = (currentPage - 1) * PAGE_SIZE;
       const slice = lastResults.slice(start, start + PAGE_SIZE);
-
       const q = new Set(queryTags);
+
       for (const item of slice) {
         const g = games[item.gIdx];
         const pct = Math.round(item.score * 100);
@@ -471,78 +506,50 @@
         card.className = 'card';
         if (!showThumbs) card.classList.add('minimal');
 
-        // Compact header: Thumbnail → Name → % Match
-        const header = document.createElement('div');
-        header.className = 'card-header';
-
+        // Header
+        const header = document.createElement('div'); header.className = 'card-header';
         if (showThumbs && g.header) {
-          const img = document.createElement('img');
-          img.className = 'thumb thumb-inline';
-          img.loading = 'lazy';
-          img.decoding = 'async';
-          img.alt = `${g.name} header image`;
-          img.src = g.header;
+          const img = document.createElement('img'); img.className = 'thumb thumb-inline';
+          img.loading = 'lazy'; img.decoding = 'async'; img.alt = `${g.name} header image`; img.src = g.header;
           header.appendChild(img);
         }
+        const title = document.createElement('h3'); title.className = 'title';
+        const a = document.createElement('a'); a.href = `https://store.steampowered.com/app/${g.app_id}`; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = g.name;
+        title.appendChild(a); header.appendChild(title);
 
-        const title = document.createElement('h3');
-        title.className = 'title';
-        const a = document.createElement('a');
-        a.href = `https://store.steampowered.com/app/${g.app_id}`;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.textContent = g.name;
-        title.appendChild(a);
-        header.appendChild(title);
-
-        const pill = document.createElement('span');
-        pill.className = 'sim-pill';
+        const pill = document.createElement('span'); pill.className = 'sim-pill';
         pill.title = `Matched ${item.interCount} of ${q.size} query tag(s) • ${label}`;
-        pill.textContent = `${pct}%`;
-        pill.style.borderColor = color;
-        pill.style.color = color;
+        pill.textContent = `${pct}%`; pill.style.borderColor = color; pill.style.color = color;
         header.appendChild(pill);
-
         card.appendChild(header);
 
-        // Meta row (now includes Released)
+        // Meta row
         const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
         const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
         const estimate = estimateSalesUSD(g);
 
-        const meta = document.createElement('div');
-        meta.className = 'meta-row';
+        const meta = document.createElement('div'); meta.className = 'meta-row';
         meta.innerHTML = `
-        <span class="meta">Developer: ${devs}</span>
-        <span class="meta">Publisher: ${pubs}</span>
-        <span class="meta">Released: ${g.releaseFmt ?? '—'}</span>
-        <span class="meta">Price: ${formatPrice(g.price)}</span>
-        <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
-        <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
-      `;
+          <span class="meta">Developer: ${devs}</span>
+          <span class="meta">Publisher: ${pubs}</span>
+          <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
+          <span class="meta">Price: ${formatPrice(g.price)}</span>
+          <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
+          <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
+        `;
         card.appendChild(meta);
 
         // Similarity bar
-        const barWrap = document.createElement('div');
-        barWrap.className = 'bar-wrap';
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        bar.style.width = pct + '%';
-        bar.style.background = color;
-        barWrap.appendChild(bar);
-        card.appendChild(barWrap);
+        const barWrap = document.createElement('div'); barWrap.className = 'bar-wrap';
+        const bar = document.createElement('div'); bar.className = 'bar'; bar.style.width = pct + '%'; bar.style.background = color;
+        barWrap.appendChild(bar); card.appendChild(barWrap);
 
-        // Tags (respect enabled pools)
-        const tagsDiv = document.createElement('div');
-        tagsDiv.className = 'tags';
-        const pools = [];
-        if (useTags) pools.push('tags');
-        if (useGenres) pools.push('genres');
-        if (useCategories) pools.push('categories');
-        const show = [];
-        if (pools.includes('tags')) show.push(...g.tags);
-        if (pools.includes('genres')) show.push(...g.genres);
-        if (pools.includes('categories')) show.push(...g.categories);
+        // Tags
+        const tagsDiv = document.createElement('div'); tagsDiv.className = 'tags';
+        const pools = []; if (useTags) pools.push('tags'); if (useGenres) pools.push('genres'); if (useCategories) pools.push('categories');
+        const show = []; if (pools.includes('tags')) show.push(...(g.tags || []));
+        if (pools.includes('genres')) show.push(...(g.genres || []));
+        if (pools.includes('categories')) show.push(...(g.categories || []));
         show.forEach(t => tagsDiv.appendChild(highlightTag(t, q)));
         card.appendChild(tagsDiv);
 
@@ -555,134 +562,114 @@
       pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
     }
 
-function renderQuery() {
-  const q = new Set(queryTags);
-  if (q.size === 0) {
-    resultsEl.innerHTML = '';
-    pagerEl.style.display = 'none';
-    return;
-  }
+    function renderQuery() {
+      const q = new Set(queryTags);
+      if (q.size === 0) { resultsEl.innerHTML = ''; pagerEl.style.display = 'none'; return; }
 
-  const pools = [];
-  if (useTags) pools.push('tags');
-  if (useGenres) pools.push('genres');
-  if (useCategories) pools.push('categories');
-  if (pools.length === 0) {
-    resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>';
-    pagerEl.style.display = 'none';
-    return;
-  }
+      const pools = []; if (useTags) pools.push('tags'); if (useGenres) pools.push('genres'); if (useCategories) pools.push('categories');
+      if (pools.length === 0) { resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>'; pagerEl.style.display = 'none'; return; }
 
-  const tags = [...q];
-  const lists = tags.map(t => postingsFor(t, pools));
-  if (lists.every(l => l.length === 0)) {
-    resultsEl.innerHTML = '<div class="card">No matches.</div>';
-    pagerEl.style.display = 'none';
-    return;
-  }
+      const tags = [...q];
+      const lists = tags.map(t => postingsFor(t, pools));
+      if (lists.every(l => l.length === 0)) { resultsEl.innerHTML = '<div class="card">No matches.</div>'; pagerEl.style.display = 'none'; return; }
 
-  const requireAll = !!requireAllEl.checked;
-  lists.sort((a, b) => a.length - b.length);
-  let candidates = lists[0].slice();
-  for (let i = 1; i < lists.length; i++) {
-    candidates = requireAll ? intersectSorted(candidates, lists[i]) : (function union(a, b) {
-      const out = []; let i = 0, j = 0, last = null;
-      while (i < a.length || j < b.length) {
-        const va = i < a.length ? a[i] : Infinity;
-        const vb = j < b.length ? b[j] : Infinity;
-        let v;
-        if (va < vb) { v = va; i++; }
-        else if (vb < va) { v = vb; j++; }
-        else { v = va; i++; j++; }
-        if (v !== last) { out.push(v); last = v; }
+      const requireAll = !!requireAllEl.checked;
+      lists.sort((a, b) => a.length - b.length);
+      let candidates = lists[0].slice();
+      for (let i = 1; i < lists.length; i++) {
+        candidates = requireAll ? intersectSorted(candidates, lists[i]) : (function union(a, b) {
+          const out = []; let i = 0, j = 0, last = null;
+          while (i < a.length || j < b.length) {
+            const va = i < a.length ? a[i] : Infinity;
+            const vb = j < b.length ? b[j] : Infinity;
+            let v;
+            if (va < vb) { v = va; i++; }
+            else if (vb < va) { v = vb; j++; }
+            else { v = va; i++; j++; }
+            if (v !== last) { out.push(v); last = v; }
+          }
+          return out;
+        })(candidates, lists[i]);
+        if (requireAll && candidates.length === 0) break;
       }
-      return out;
-    })(candidates, lists[i]);
-    if (requireAll && candidates.length === 0) break;
-  }
 
-  const mode = [...scoreModeEls].find(r => r.checked)?.value || 'containment';
-  const results = [];
-  for (const gi of candidates) {
-    const g = games[gi];
+      const mode = [...scoreModeEls].find(r => r.checked)?.value || 'containment';
+      const results = [];
+      for (const gi of candidates) {
+        const g = games[gi];
 
-    // Exclude the seeded game itself (by id OR exact name)
-    if (seedExclude &&
-        (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) {
-      continue;
+        // Always exclude the seeded game if set
+        if (seedExclude && (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) continue;
+
+        // 1) Hide unreleased only when explicitly requested
+        if (ignoreUnreleasedEl && ignoreUnreleasedEl.checked && g.comingSoon) continue;
+
+        // 2) Release-date cutoff applies ONLY to already-released titles
+        if (releaseFilter.on && !g.comingSoon) {
+          if (!g.releaseTs) continue;
+          if (g.releaseTs < releaseFilter.cutoff) continue;
+        }
+
+        // 3) Exclude free titles only when "Include Free Games" is OFF
+        if (!includeFree && isFreeGame(g)) continue;
+
+
+        if (hasAnyBanned(g, pools)) continue;
+
+        const { score, inter } = similarityScore(g, q, mode, pools, requireAll);
+        if (score <= 0) continue;
+        results.push({ gIdx: gi, score, interCount: inter });
+      }
+
+      // Sort: released first, higher score, more reviews, newer, name
+      results.sort((a, b) => {
+        const ga = games[a.gIdx], gb = games[b.gIdx];
+        const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
+        if (aSoon !== bSoon) return aSoon ? 1 : -1;
+        if (b.score !== a.score) return b.score - a.score;
+        const ar = ga.reviews || 0, br = gb.reviews || 0; if (br !== ar) return br - ar;
+        const at = ga.releaseTs || 0, bt = gb.releaseTs || 0; if (bt !== at) return bt - at;
+        return normName(ga.name).localeCompare(normName(gb.name));
+      });
+
+      // De-dupe by (name + release status)
+      const seen = new Set();
+      lastResults = results.filter(r => {
+        const g = games[r.gIdx];
+        const key = `${normName(g.name)}::${g.comingSoon ? 'soon' : 'released'}`;
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+      });
+
+      totalPages = Math.max(1, Math.ceil(lastResults.length / PAGE_SIZE));
+      currentPage = Math.min(currentPage, totalPages);
+      renderPage();
     }
 
-    // NEW: Ignore unreleased / coming soon if the checkbox is on
-    if (typeof ignoreUnreleasedEl !== 'undefined' && ignoreUnreleasedEl.checked && g.comingSoon) {
-      continue;
-    }
-
-    // Release-date filter
-    if (releaseFilter.on) {
-      if (!g.releaseTs) continue;                 // missing date → exclude when filter is on
-      if (g.releaseTs < releaseFilter.cutoff) continue; // must be AFTER selected month/year (inclusive of month)
-    }
-
-    if (!includeFree && isFree(g.price)) continue;
-    if (hasAnyBanned(g, pools)) continue;
-
-    const { score, inter } = similarityScore(g, q, mode, pools, requireAll);
-    if (score <= 0) continue;
-    results.push({ gIdx: gi, score, interCount: inter });
-  }
-
-  // Sort and de-dupe by exact name (case-insensitive), keep best score then reviews
-  results.sort((a, b) => (b.score - a.score) || ((games[b.gIdx].reviews || 0) - (games[a.gIdx].reviews || 0)));
-  const seenNames = new Set();
-  lastResults = results.filter(r => {
-    const name = normName(games[r.gIdx].name);
-    if (seenNames.has(name)) return false;
-    seenNames.add(name);
-    return true;
-  });
-
-  totalPages = Math.max(1, Math.ceil(lastResults.length / PAGE_SIZE));
-  currentPage = Math.min(currentPage, totalPages);
-  renderPage();
-}
-
-
-    // ---------- Seed from game ----------
+    // ---------- Seed ----------
     function parseSeedToAppId(str) {
-      const s = (str || '').trim();
-      if (!s) return null;
-      if (/^\d+$/.test(s)) return s; // digits only (appid)
-      const m = s.match(/store\.steampowered\.com\/app\/(\d+)/i);
-      if (m) return m[1];            // URL
-      return null;                    // otherwise treat as name
+      const s = (str || '').trim(); if (!s) return null;
+      if (/^\d+$/.test(s)) return s;
+      const m = s.match(/store\.steampowered\.com\/app\/(\d+)/i); if (m) return m[1];
+      return null;
     }
     function findGameBySeed(seedRaw) {
       const appId = parseSeedToAppId(seedRaw);
-      if (appId) {
-        if (byAppId.has(String(appId))) return games[byAppId.get(String(appId))];
-        return null;
-      }
-      const nm = normName(seedRaw);
-      if (!nm) return null;
-      const arr = byName.get(nm);
-      if (!arr || arr.length === 0) return null;
+      if (appId) { if (byAppId.has(String(appId))) return games[byAppId.get(String(appId))]; return null; }
+      const nm = normName(seedRaw); if (!nm) return null;
+      const arr = byName.get(nm); if (!arr || arr.length === 0) return null;
       const bestGi = arr.slice().sort((a, b) => (games[b].reviews || 0) - (games[a].reviews || 0))[0];
       return games[bestGi];
     }
     function injectTagsFromGame(g) {
-      const pools = [];
-      if (useTags) pools.push('tags');
-      if (useGenres) pools.push('genres');
-      if (useCategories) pools.push('categories');
-      const incoming = [];
-      if (pools.includes('tags')) incoming.push(...g.tags);
-      if (pools.includes('genres')) incoming.push(...g.genres);
-      if (pools.includes('categories')) incoming.push(...g.categories);
+      const pools = []; if (useTags) pools.push('tags'); if (useGenres) pools.push('genres'); if (useCategories) pools.push('categories');
+      const incoming = []; if (pools.includes('tags')) incoming.push(...(g.tags || []));
+      if (pools.includes('genres')) incoming.push(...(g.genres || []));
+      if (pools.includes('categories')) incoming.push(...(g.categories || []));
       let added = 0;
       for (const t of incoming) {
         const nt = normTag(t);
-        const before = queryTags.size;
-        queryTags.add(nt);
+        const before = queryTags.size; queryTags.add(nt);
         if (queryTags.size > before) added++;
       }
       return { added, total: incoming.length };
@@ -690,20 +677,13 @@ function renderQuery() {
     function handleSeed() {
       seedStatus.textContent = '';
       const raw = seedInput.value.trim();
-      if (!raw) {
-        seedStatus.textContent = 'Enter a Steam URL, AppID, or exact game name.';
-        return;
-      }
+      if (!raw) { seedStatus.textContent = 'Enter a Steam URL, AppID, or exact game name.'; return; }
       const g = findGameBySeed(raw);
-      if (!g) {
-        seedStatus.textContent = 'That game isn’t in this list.';
-        return;
-      }
+      if (!g) { seedStatus.textContent = 'That game isn’t in this list.'; return; }
       const { added, total } = injectTagsFromGame(g);
-      seedExclude = { app_id: String(g.app_id), name: normName(g.name) }; // exclude itself from results
+      seedExclude = { app_id: String(g.app_id), name: normName(g.name) }; // always exclude itself
       seedStatus.textContent = `Loaded ${added}/${total} tag(s) from “${g.name}”. (Excluded itself from results)`;
-      currentPage = 1;
-      renderChips(); renderQuery();
+      currentPage = 1; renderChips(); renderQuery();
     }
 
     // ---------- Events ----------
@@ -711,7 +691,6 @@ function renderQuery() {
       const parts = str.split(/,/).map(s => s.trim()).filter(Boolean);
       return parts.map(p => normTag(p.replace(/^["'](.*)["']$/s, '$1')));
     }
-
     seedBtn.addEventListener('click', handleSeed);
     seedInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); handleSeed(); } });
 
@@ -719,34 +698,20 @@ function renderQuery() {
       if (e.key === 'Enter') {
         e.preventDefault();
         parseFreeformTags(tagInput.value).forEach(t => queryTags.add(t));
-        tagInput.value = '';
-        currentPage = 1;
-        renderChips(); renderQuery();
+        tagInput.value = ''; currentPage = 1; renderChips(); renderQuery();
       }
     });
-    addBtn.onclick = () => {
-      parseFreeformTags(tagInput.value).forEach(t => queryTags.add(t));
-      tagInput.value = '';
-      currentPage = 1;
-      renderChips(); renderQuery();
-    };
+    addBtn.onclick = () => { parseFreeformTags(tagInput.value).forEach(t => queryTags.add(t)); tagInput.value = ''; currentPage = 1; renderChips(); renderQuery(); };
     clearBtn.onclick = () => { queryTags.clear(); currentPage = 1; renderChips(); renderQuery(); };
 
     banInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') {
         e.preventDefault();
         parseFreeformTags(banInput.value).forEach(t => bannedTags.add(t));
-        banInput.value = '';
-        currentPage = 1;
-        renderChips(); renderQuery();
+        banInput.value = ''; currentPage = 1; renderChips(); renderQuery();
       }
     });
-    banAddBtn.onclick = () => {
-      parseFreeformTags(banInput.value).forEach(t => bannedTags.add(t));
-      banInput.value = '';
-      currentPage = 1;
-      renderChips(); renderQuery();
-    };
+    banAddBtn.onclick = () => { parseFreeformTags(banInput.value).forEach(t => bannedTags.add(t)); banInput.value = ''; currentPage = 1; renderChips(); renderQuery(); };
     banClearBtn.onclick = () => { bannedTags.clear(); currentPage = 1; renderChips(); renderQuery(); };
 
     [...scoreModeEls, requireAllEl].forEach(el => el.addEventListener('change', () => { currentPage = 1; renderQuery(); }));
@@ -754,9 +719,7 @@ function renderQuery() {
     function toggleButton(btn, setter) {
       const active = btn.classList.toggle('active');
       btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-      setter(active);
-      currentPage = 1;
-      renderQuery();
+      setter(active); currentPage = 1; renderQuery();
     }
     tTagsBtn.addEventListener('click', () => toggleButton(tTagsBtn, v => useTags = v));
     tGenresBtn.addEventListener('click', () => toggleButton(tGenresBtn, v => useGenres = v));
@@ -773,13 +736,13 @@ function renderQuery() {
         const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
         if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH}`);
         const text = await res.text();
+
         games = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
           const j = JSON.parse(l);
           const cls = j.classification || {};
           const id = j.identity || {};
           const media = j.media || {};
 
-          // Your file uses release.date_iso / release.date_raw
           const relRaw =
             j.release?.date_iso ??
             j.release?.date_raw ??
@@ -787,69 +750,72 @@ function renderQuery() {
             j.release_date ??
             j.meta?.release_date;
 
-
           const relTs = parseReleaseTs(relRaw);
+          const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
 
           return {
             app_id: j.app_id,
             name: id.name || `App ${j.app_id}`,
+
+            // classification pools (normalized)
+            tags: arr(cls.tags).map(normTag),
+            genres: arr(cls.genres).map(normTag),
+            categories: arr(cls.categories).map(normTag),
+
+            // credits (keep original casing)
+            developers: Array.isArray(id.developers) ? id.developers : (id.developers ? [id.developers] : []),
+            publishers: Array.isArray(id.publishers) ? id.publishers : (id.publishers ? [id.publishers] : []),
+
             price: j.pricing ? j.pricing.price_usd : null,
-            reviews: j.reviews ? (j.reviews.review_count || 0) : 0,
-            tags: (cls.tags || []).map(normTag),
-            genres: (cls.genres || []).map(normTag),
-            categories: (cls.categories || []).map(normTag),
-            developers: Array.isArray(id.developers) ? id.developers : [],
-            publishers: Array.isArray(id.publishers) ? id.publishers : [],
+            is_free: !!(j.pricing && j.pricing.is_free),
+
+            // reviews (fallbacks)
+            reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
+
             header: media.header_image || null,
+
             releaseTs: relTs,
             releaseFmt: relTs ? fmtMonYear(relTs) : null,
+            comingSoon: !!(j.release && j.release.coming_soon)
           };
         });
+
         buildIndices();
         buildLookups();
 
-        // Populate release month/year selects based on data range (fallbacks safe)
-        const yearsInData = games
-          .map(g => g.releaseTs)
-          .filter(Boolean)
-          .map(ts => new Date(ts).getUTCFullYear());
-
+        // Populate release selects
+        const yearsInData = games.map(g => g.releaseTs).filter(Boolean).map(ts => new Date(ts).getUTCFullYear());
         const minYear = yearsInData.length ? Math.min(...yearsInData) : 1997;
         const maxYear = yearsInData.length ? Math.max(...yearsInData) : (new Date()).getUTCFullYear();
 
-        // Months
         releaseMonthSel.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
-        // Years (newest first)
-        let yOpts = '';
-        for (let y = maxYear; y >= minYear; y--) yOpts += `<option value="${y}">${y}</option>`;
+        let yOpts = ''; for (let y = maxYear; y >= minYear; y--) yOpts += `<option value="${y}">${y}</option>`;
         releaseYearSel.innerHTML = yOpts;
 
-        // Defaults: current month/year selected but filter OFF
         releaseMonthSel.value = String((new Date()).getUTCMonth());
         releaseYearSel.value = String((new Date()).getUTCFullYear());
 
         function updateReleaseCutoff() {
-          const y = +releaseYearSel.value;
-          const m = +releaseMonthSel.value;
-          releaseFilter.y = y;
-          releaseFilter.m = m;
-          releaseFilter.cutoff = firstOfMonthUTC(y, m);
-          currentPage = 1;
-          renderQuery();
+          const y = +releaseYearSel.value, m = +releaseMonthSel.value;
+          releaseFilter.y = y; releaseFilter.m = m; releaseFilter.cutoff = firstOfMonthUTC(y, m);
+          currentPage = 1; renderQuery();
         }
-releaseFilterOn.addEventListener('change', () => {
+releaseFilterOn.addEventListener('change', ()=>{
   releaseFilter.on = releaseFilterOn.checked;
-  updateReleaseCutoff();
-});
-releaseMonthSel.addEventListener('change', updateReleaseCutoff);
-releaseYearSel.addEventListener('change', updateReleaseCutoff);
-
-// NEW: ignore unreleased toggle
-ignoreUnreleasedEl.addEventListener('change', () => {
-  currentPage = 1;
-  renderQuery();
+  if (releaseFilter.on) {
+    updateReleaseCutoff();         // compute cutoff, then render
+  } else {
+    currentPage = 1;               // just re-render with cutoff disabled
+    renderQuery();
+  }
 });
 
+        releaseMonthSel.addEventListener('change', updateReleaseCutoff);
+        releaseYearSel.addEventListener('change', updateReleaseCutoff);
+
+        if (ignoreUnreleasedEl) {
+          ignoreUnreleasedEl.addEventListener('change', () => { currentPage = 1; renderQuery(); });
+        }
 
       } catch (err) {
         resultsEl.innerHTML = `<div class="card">${err.message}</div>`;
