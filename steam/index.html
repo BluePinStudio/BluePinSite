@@ -6,149 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Steam Tag Hunter</title>
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    /* small inline tweaks that won't fight your stylesheet */
-
-    /* Pager */
-    .pager {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      justify-content: center;
-      margin: 1rem 0 2rem;
-    }
-
-    .pager .meta {
-      opacity: .85
-    }
-
-    .btn[disabled] {
-      opacity: .5;
-      cursor: not-allowed
-    }
-
-    /* Banned chip tint */
-    .banned-chips .chip {
-      border-color: color-mix(in srgb, #ff6b6b 50%, var(--chip-border));
-      background: color-mix(in srgb, #ff6b6b 12%, var(--chip));
-    }
-
-    /* Compact seed status */
-    #seedStatus {
-      display: block;
-      margin: .2rem 0 .3rem;
-      min-height: 1rem;
-    }
-
-    /* Compact header row */
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: .8rem;
-      margin-bottom: .4rem;
-    }
-
-    .card-header .title {
-      flex: 1;
-      font-size: 1.05rem;
-      margin: 0;
-    }
-
-    .sim-pill {
-      font-size: .85rem;
-      padding: .2rem .5rem;
-      border-radius: 6px;
-      border: 1px solid currentColor;
-      white-space: nowrap;
-    }
-
-    /* Inline thumbnail (larger) */
-    .thumb-inline {
-      width: 160px;
-      height: auto;
-      border-radius: 8px;
-      border: 1px solid var(--chip-border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
-      object-fit: cover;
-    }
-
-    /* Date filter */
-    .date-filter {
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-      margin: .2rem 0 0;
-    }
-
-    .date-filter-label {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      margin-right: .25rem;
-      white-space: nowrap;
-    }
-
-    #releaseMonth,
-    #releaseYear {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--outline);
-      border-radius: 8px;
-      padding: .35rem .5rem;
-      font-size: .9rem;
-    }
-
-    /* Help panel polish */
-    details.help {
-      margin-top: .35rem;
-    }
-
-    .help-body {
-      padding: .6rem .75rem .8rem;
-      background: var(--bg-elev);
-      border: 1px solid var(--outline);
-      border-radius: 12px;
-    }
-
-    .help-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .6rem;
-    }
-
-    .help-card {
-      background: var(--card);
-      border: 1px solid var(--outline);
-      border-radius: 12px;
-      padding: .6rem .75rem;
-    }
-
-    .help-head {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      margin-bottom: .25rem;
-    }
-
-    .badge {
-      font-size: .75rem;
-      border: 1px solid var(--outline);
-      padding: .05rem .4rem;
-      border-radius: 999px;
-      opacity: .85;
-    }
-
-    .badge-contain {
-      background: color-mix(in srgb, var(--accent) 16%, transparent);
-      border-color: color-mix(in srgb, var(--accent) 40%, var(--outline));
-    }
-
-    .eq {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      opacity: .9;
-    }
-  </style>
 </head>
 
 <body>
@@ -184,92 +41,150 @@
       <div class="banned-label">Games that contain any banned tag (within enabled pools) will be excluded.</div>
       <div id="bannedTags" class="chips banned-chips" style="margin-top:.25rem;"></div>
 
-      <!-- Options -->
       <div class="options">
+        <!-- 1) Scoring (kept, help made leaner) -->
         <fieldset>
           <legend>Scoring</legend>
           <label><input type="radio" name="scoreMode" value="containment" checked /> Containment</label>
           <label><input type="radio" name="scoreMode" value="jaccard" /> Jaccard</label>
 
-          <details class="help">
-            <summary>What’s the difference?</summary>
-            <div class="help-body">
-              <div class="help-grid">
-                <div class="help-card">
-                  <div class="help-head">
-                    <span class="badge badge-contain">Default</span>
-                    <h4>Containment</h4>
-                  </div>
-                  <div class="eq">overlap ÷ <strong>your query size</strong></div>
-                  <p class="muted">Measures how much of your request is covered. Ignores extra tags the game has.</p>
+          <div class="help-inline">
+            <button type="button" class="btn btn-ghost btn-help" id="openScoreHelp">
+              What’s the difference?
+            </button>
+          </div>
+
+          <dialog id="scoreDialog" class="modal">
+            <form method="dialog" class="modal__panel" aria-labelledby="scoreDlgTitle">
+              <header class="modal__header">
+                <h3 id="scoreDlgTitle">Scoring: Containment vs Jaccard</h3>
+                <button class="modal__close" aria-label="Close scoring help">×</button>
+              </header>
+
+              <section class="modal__content">
+                <div class="modal__intro">
+                  Two ways to measure overlap between your query tags and a game’s tags:
                 </div>
-                <div class="help-card">
-                  <div class="help-head">
-                    <span class="badge">Alt</span>
-                    <h4>Jaccard</h4>
-                  </div>
-                  <div class="eq">overlap ÷ <strong>union</strong></div>
-                  <p class="muted">Measures overall vibe. Penalizes extra, unrelated tags on the game.</p>
+
+                <div class="modal__grid">
+                  <article class="modal__card">
+                    <div class="modal__cardHead">
+                      <span class="badge badge-contain">Default</span>
+                      <h4>Containment</h4>
+                    </div>
+                    <p class="eq">score = <strong>overlap</strong> ÷ <strong>your query size</strong></p>
+                    <ul class="use-for">
+                      <li>“Did it match the tags I care about?”</li>
+                      <li>Extra tags on the game don’t hurt the score.</li>
+                    </ul>
+
+                    <div class="modal__example">
+                      <div class="ex-row"><span class="ex-label">Your query</span><span class="chips-mini"><span
+                            class="chip-mini match">roguelike</span><span
+                            class="chip-mini match">deckbuilder</span><span class="chip-mini">pixel art</span></span>
+                      </div>
+                      <div class="ex-row"><span class="ex-label">Game</span><span class="chips-mini"><span
+                            class="chip-mini match">roguelike</span><span
+                            class="chip-mini match">deckbuilder</span><span class="chip-mini">strategy</span><span
+                            class="chip-mini">indie</span></span></div>
+                      <div class="ex-row ex-result">Overlap = 2 • Query size = 3 → <b>2/3 = 0.67</b></div>
+                    </div>
+                  </article>
+
+                  <article class="modal__card">
+                    <div class="modal__cardHead">
+                      <span class="badge">Alt</span>
+                      <h4>Jaccard</h4>
+                    </div>
+                    <p class="eq">score = <strong>overlap</strong> ÷ <strong>union</strong></p>
+                    <ul class="use-for">
+                      <li>Overall “vibe similarity.”</li>
+                      <li>Unrelated extra tags reduce the score.</li>
+                    </ul>
+
+                    <div class="modal__example">
+                      <div class="ex-row"><span class="ex-label">Your query</span><span class="chips-mini"><span
+                            class="chip-mini match">roguelike</span><span
+                            class="chip-mini match">deckbuilder</span><span class="chip-mini">pixel art</span></span>
+                      </div>
+                      <div class="ex-row"><span class="ex-label">Game</span><span class="chips-mini"><span
+                            class="chip-mini match">roguelike</span><span
+                            class="chip-mini match">deckbuilder</span><span class="chip-mini">strategy</span><span
+                            class="chip-mini">indie</span></span></div>
+                      <div class="ex-row ex-result">Overlap = 2 • Union = 5 → <b>2/5 = 0.40</b></div>
+                    </div>
+                  </article>
                 </div>
-              </div>
-            </div>
-          </details>
+
+                <div class="modal__note">
+                  Tip: If you’re filtering tightly with <em>Require all query tags</em>, Containment will often feel
+                  more intuitive.
+                </div>
+
+              </section>
+
+              <footer class="modal__footer">
+                <button class="btn btn-accent">Got it</button>
+              </footer>
+            </form>
+          </dialog>
+
         </fieldset>
 
+        <!-- 2) Match (trimmed down to “what to compare” + strictness) -->
         <fieldset>
-          <legend>Match Options</legend>
+          <legend>Match</legend>
           <div class="toggle-row">
-            <button type="button" class="toggle active" id="tTags" aria-pressed="true">Include Tags</button>
-            <button type="button" class="toggle" id="tGenres" aria-pressed="false">Include Genres</button>
-            <button type="button" class="toggle" id="tCategories" aria-pressed="false">Include Categories</button>
+            <button type="button" class="toggle active" id="tTags" aria-pressed="true">Tags</button>
+            <button type="button" class="toggle" id="tGenres" aria-pressed="false">Genres</button>
+            <button type="button" class="toggle" id="tCategories" aria-pressed="false">Categories</button>
           </div>
 
           <label class="require-all"><input type="checkbox" id="requireAll" /> Require all query tags</label>
-          <label class="require-all"><input type="checkbox" id="ignoreUnreleased" autocomplete="off" /> Hide unreleased
-            (Coming
-            soon)</label>
 
-          <!-- Release date filter -->
+
+          <div class="toggle-row" style="margin-top:.25rem">
+            <label class="require-all"><input type="checkbox" id="ignoreUnreleased" autocomplete="off" /> Hide
+              unreleased</label>
+          </div>
+
           <div class="date-filter">
             <label class="date-filter-label">
               <input type="checkbox" id="releaseFilterOn" autocomplete="off" />
               <span>Exclude games released before</span>
             </label>
-
             <select id="releaseMonth" aria-label="Release month"></select>
             <select id="releaseYear" aria-label="Release year"></select>
           </div>
-          <fieldset>
-            <legend>Price & Revenue</legend>
-
-            <div class="range-row">
-              <label class="range-label">Price (USD)</label>
-              <input id="priceMin" class="range-input" type="number" step="0.01" min="0" placeholder="min" />
-              <span class="range-sep">–</span>
-              <input id="priceMax" class="range-input" type="number" step="0.01" min="0" placeholder="max" />
-              <small class="meta">Leave blank to ignore one side. If any bound is set, games with unknown price are
-                excluded.</small>
-            </div>
-
-            <div class="range-row">
-              <label class="range-label">Estimated Revenue</label>
-              <input id="revMin" class="range-input" type="number" step="1" min="0" placeholder="min" />
-              <span class="range-sep">–</span>
-              <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
-              <small class="meta">Revenue = reviews × price × 20. If any bound is set, games missing price/reviews are
-                excluded.</small>
-            </div>
-          </fieldset>
-
         </fieldset>
 
+        <!-- 3) Filters (split out of Match to reduce clutter) -->
+        <fieldset>
+          <legend>Filters</legend>
+          <small class="meta">Leave blank to ignore a side. If any bound is set, unknown prices are excluded.</small>
+          <div class="range-row">
+            <label class="range-label">Price (USD)</label>
+            <input id="priceMin" class="range-input" type="number" step="0.01" min="0" placeholder="min" />
+            <span class="range-sep">–</span>
+            <input id="priceMax" class="range-input" type="number" step="0.01" min="0" placeholder="max" />
+          </div>
+          <div class="range-row">
+            <label class="range-label">Estimated Revenue</label>
+            <input id="revMin" class="range-input" type="number" step="1" min="0" placeholder="min" />
+            <span class="range-sep">–</span>
+            <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
+          </div>
+        </fieldset>
+
+        <!-- 4) View (beefed up) -->
         <fieldset>
           <legend>View</legend>
           <div class="toggle-row">
             <button type="button" class="toggle active" id="tThumbs" aria-pressed="true">Show thumbnails</button>
           </div>
-          <div class="meta">Hide thumbnails to make entries more compact.</div>
         </fieldset>
+      </div>
+
       </div>
     </section>
 
@@ -301,6 +216,10 @@
     let currentPage = 1;
     let lastResults = [];
     let totalPages = 1;
+
+    // how many of the query tags actually exist in the enabled pools this render
+    let requiredCount = 0;
+
 
     // always exclude the seed once set
     let seedExclude = null;
@@ -347,12 +266,16 @@
     const tTagsBtn = document.getElementById('tTags');
     const tGenresBtn = document.getElementById('tGenres');
     const tCategoriesBtn = document.getElementById('tCategories');
-    const tThumbsBtn = document.getElementById('tThumbs');
+
 
     const priceMinEl = document.getElementById('priceMin');
     const priceMaxEl = document.getElementById('priceMax');
     const revMinEl = document.getElementById('revMin');
     const revMaxEl = document.getElementById('revMax');
+
+    const openScoreHelpBtn = document.getElementById('openScoreHelp');
+    const scoreDialog = document.getElementById('scoreDialog');
+
 
 
     const releaseFilterOn = document.getElementById('releaseFilterOn');
@@ -385,6 +308,25 @@
     // ---------- Utils ----------
     const normTag = t => t.trim().toLowerCase();
     const normName = s => (s || '').trim().toLowerCase();
+
+    // Scoring help modal
+    if (openScoreHelpBtn && scoreDialog) {
+      openScoreHelpBtn.addEventListener('click', () => {
+        if (typeof scoreDialog.showModal === 'function') scoreDialog.showModal();
+        else scoreDialog.setAttribute('open', ''); // fallbacks
+      });
+
+      scoreDialog.addEventListener('click', (e) => {
+        // click outside panel closes (backdrop click)
+        const rect = scoreDialog.querySelector('.modal__panel').getBoundingClientRect();
+        const within = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+        if (!within) scoreDialog.close();
+      });
+
+      scoreDialog.querySelector('.modal__close').addEventListener('click', () => scoreDialog.close());
+      scoreDialog.addEventListener('keydown', (e) => { if (e.key === 'Escape') scoreDialog.close(); });
+    }
+
 
     // price helpers (null price ≠ free)
     const isFreeGame = g => (g.is_free === true) || (g.price === 0);
@@ -479,16 +421,23 @@
       for (const bt of bannedTags) if (s.has(bt)) return true;
       return false;
     }
-    function similarityScore(g, qSet, mode, pools, requireAll) {
-      const gSet = buildTagSetFromPools(g, pools);
-      let inter = 0; for (const t of qSet) if (gSet.has(t)) inter++;
-      if (requireAll && inter < qSet.size) return { score: 0, inter };
-      if (!inter) return { score: 0, inter };
-      const score = (mode === 'containment')
-        ? inter / Math.max(1, qSet.size)
-        : inter / Math.max(1, new Set([...qSet, ...gSet]).size);
-      return { score, inter };
-    }
+function similarityScore(g, qSet, mode, pools) {
+  const gSet = buildTagSetFromPools(g, pools);
+  let inter = 0;
+  for (const t of qSet) if (gSet.has(t)) inter++;
+
+  const containsAll = inter === qSet.size;
+  const exactOnly = containsAll && gSet.size === qSet.size;
+
+  if (inter === 0) return { score: 0, inter, gSize: gSet.size, containsAll, exactOnly };
+
+  const score = (mode === 'containment')
+    ? inter / Math.max(1, qSet.size)
+    : inter / Math.max(1, new Set([...qSet, ...gSet]).size);
+
+  return { score, inter, gSize: gSet.size, containsAll, exactOnly };
+}
+
 
     // ---------- UI ----------
     function renderChips() {
@@ -524,205 +473,223 @@
       return s;
     }
 
-    function renderPage() {
-      resultsEl.innerHTML = '';
-      const start = (currentPage - 1) * PAGE_SIZE;
-      const slice = lastResults.slice(start, start + PAGE_SIZE);
-      const q = new Set(queryTags);
+function renderPage() {
+  resultsEl.innerHTML = '';
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const slice = lastResults.slice(start, start + PAGE_SIZE);
 
-      for (const item of slice) {
-        const g = games[item.gIdx];
-        const pct = Math.round(item.score * 100);
-        const color = similarityColor(pct);
-        const label = decileLabel(pct);
+  // Keep full query for highlighting matched vs not
+  const q = new Set(queryTags);
 
-        const card = document.createElement('article');
-        card.className = 'card';
-        if (!showThumbs) card.classList.add('minimal');
+  for (const item of slice) {
+    const g = games[item.gIdx];
+    const pct = Math.round(item.score * 100);
+    const color = similarityColor(pct);
+    const label = decileLabel(pct);
 
-        // Header
-        const header = document.createElement('div'); header.className = 'card-header';
-        if (showThumbs && g.header) {
-          const img = document.createElement('img'); img.className = 'thumb thumb-inline';
-          img.loading = 'lazy'; img.decoding = 'async'; img.alt = `${g.name} header image`; img.src = g.header;
-          header.appendChild(img);
-        }
-        const title = document.createElement('h3'); title.className = 'title';
-        const a = document.createElement('a'); a.href = `https://store.steampowered.com/app/${g.app_id}`; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = g.name;
-        title.appendChild(a); header.appendChild(title);
+    const card = document.createElement('article');
+    card.className = 'card';
+    if (!showThumbs) card.classList.add('minimal');
 
-        const pill = document.createElement('span'); pill.className = 'sim-pill';
-        pill.title = `Matched ${item.interCount} of ${q.size} query tag(s) • ${label}`;
-        pill.textContent = `${pct}%`; pill.style.borderColor = color; pill.style.color = color;
-        header.appendChild(pill);
-        card.appendChild(header);
+    // Header
+    const header = document.createElement('div'); header.className = 'card-header';
+    if (showThumbs && g.header) {
+      const img = document.createElement('img'); img.className = 'thumb thumb-inline';
+      img.loading = 'lazy'; img.decoding = 'async'; img.alt = `${g.name} header image`; img.src = g.header;
+      header.appendChild(img);
+    }
+    const title = document.createElement('h3'); title.className = 'title';
+    const a = document.createElement('a'); a.href = `https://store.steampowered.com/app/${g.app_id}`; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = g.name;
+    title.appendChild(a); header.appendChild(title);
 
-        // Meta row
-        const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
-        const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
-        const estimate = estimateSalesUSD(g);
+    const pill = document.createElement('span'); pill.className = 'sim-pill';
+    // Use requiredCount (effective query size for current pools) in the tooltip
+    pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
+    pill.textContent = `${pct}%`; pill.style.borderColor = color; pill.style.color = color;
+    header.appendChild(pill);
+    card.appendChild(header);
 
-        const meta = document.createElement('div'); meta.className = 'meta-row';
-        meta.innerHTML = `
-          <span class="meta">Developer: ${devs}</span>
-          <span class="meta">Publisher: ${pubs}</span>
-          <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
-          <span class="meta">Price: ${formatPrice(g.price)}</span>
-          <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
-          <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
-        `;
-        card.appendChild(meta);
+    // Meta row
+    const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
+    const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
+    const estimate = estimateSalesUSD(g);
 
-        // Similarity bar
-        const barWrap = document.createElement('div'); barWrap.className = 'bar-wrap';
-        const bar = document.createElement('div'); bar.className = 'bar'; bar.style.width = pct + '%'; bar.style.background = color;
-        barWrap.appendChild(bar); card.appendChild(barWrap);
+    const meta = document.createElement('div'); meta.className = 'meta-row';
+    meta.innerHTML = `
+      <span class="meta">Developer: ${devs}</span>
+      <span class="meta">Publisher: ${pubs}</span>
+      <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
+      <span class="meta">Price: ${formatPrice(g.price)}</span>
+      <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
+      <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
+    `;
+    card.appendChild(meta);
 
-        // Tags
-        const tagsDiv = document.createElement('div'); tagsDiv.className = 'tags';
-        const pools = []; if (useTags) pools.push('tags'); if (useGenres) pools.push('genres'); if (useCategories) pools.push('categories');
-        const show = []; if (pools.includes('tags')) show.push(...(g.tags || []));
-        if (pools.includes('genres')) show.push(...(g.genres || []));
-        if (pools.includes('categories')) show.push(...(g.categories || []));
-        show.forEach(t => tagsDiv.appendChild(highlightTag(t, q)));
-        card.appendChild(tagsDiv);
+    // Similarity bar
+    const barWrap = document.createElement('div'); barWrap.className = 'bar-wrap';
+    const bar = document.createElement('div'); bar.className = 'bar'; bar.style.width = pct + '%'; bar.style.background = color;
+    barWrap.appendChild(bar); card.appendChild(barWrap);
 
-        resultsEl.appendChild(card);
-      }
+    // Tags
+    const tagsDiv = document.createElement('div'); tagsDiv.className = 'tags';
+    const pools = [];
+    if (useTags) pools.push('tags');
+    if (useGenres) pools.push('genres');
+    if (useCategories) pools.push('categories');
 
-      pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
-      prevBtn.disabled = currentPage <= 1;
-      nextBtn.disabled = currentPage >= totalPages;
-      pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
+    const show = [];
+    if (pools.includes('tags')) show.push(...(g.tags || []));
+    if (pools.includes('genres')) show.push(...(g.genres || []));
+    if (pools.includes('categories')) show.push(...(g.categories || []));
+
+    show.forEach(t => {
+      const s = document.createElement('span');
+      s.className = q.has(t) ? 'tag matched' : 'tag';
+      s.textContent = t;
+      tagsDiv.appendChild(s);
+    });
+    card.appendChild(tagsDiv);
+
+    resultsEl.appendChild(card);
+  }
+
+  pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
+  prevBtn.disabled = currentPage <= 1;
+  nextBtn.disabled = currentPage >= totalPages;
+  pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
+}
+
+
+function renderQuery() {
+  const hideUnreleased = !!(ignoreUnreleasedEl && ignoreUnreleasedEl.checked);
+  const dateOn = !!(releaseFilterOn && releaseFilterOn.checked);
+  releaseFilter.on = dateOn;
+
+  const q = new Set(queryTags);
+  if (q.size === 0) { resultsEl.innerHTML = ''; pagerEl.style.display = 'none'; return; }
+
+  const pools = [];
+  if (useTags) pools.push('tags');
+  if (useGenres) pools.push('genres');
+  if (useCategories) pools.push('categories');
+
+  if (pools.length === 0) {
+    resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>';
+    pagerEl.style.display = 'none';
+    return;
+  }
+
+  const tags = [...q];
+  const lists = tags.map(t => ({ tag: t, docs: postingsFor(t, pools) }));
+  const nonEmpty = lists.filter(x => x.docs.length > 0);
+
+  if (nonEmpty.length === 0) {
+    resultsEl.innerHTML = `
+      <div class="card">
+        None of your query tags exist in the enabled pools (${pools.join(', ') || '—'}).
+        Try enabling a different pool or adjust your tags.
+      </div>`;
+    pagerEl.style.display = 'none';
+    return;
+  }
+
+  const qEff = new Set(nonEmpty.map(x => x.tag));
+  requiredCount = qEff.size;
+
+  const requireAll = !!(requireAllEl && requireAllEl.checked);
+
+  // candidate set (union vs intersection) is just a prefilter; exactness is enforced later
+  nonEmpty.sort((a, b) => a.docs.length - b.docs.length);
+  let candidates = nonEmpty[0].docs.slice();
+
+  const union = (a, b) => {
+    const out = []; let i = 0, j = 0, last = null;
+    while (i < a.length || j < b.length) {
+      const va = i < a.length ? a[i] : Infinity;
+      const vb = j < b.length ? b[j] : Infinity;
+      let v;
+      if (va < vb) { v = va; i++; }
+      else if (vb < va) { v = vb; j++; }
+      else { v = va; i++; j++; }
+      if (v !== last) { out.push(v); last = v; }
+    }
+    return out;
+  };
+
+  for (let i = 1; i < nonEmpty.length; i++) {
+    candidates = requireAll
+      ? intersectSorted(candidates, nonEmpty[i].docs)
+      : union(candidates, nonEmpty[i].docs);
+    if (requireAll && candidates.length === 0) break;
+  }
+
+  const mode = [...scoreModeEls].find(r => r.checked)?.value || 'containment';
+  const results = [];
+
+  for (const gi of candidates) {
+    const g = games[gi];
+
+    if (seedExclude && (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) continue;
+    if (hideUnreleased && g.comingSoon) continue;
+
+    if (dateOn && !g.comingSoon) {
+      if (!(typeof g.releaseTs === 'number')) continue;
+      if (g.releaseTs < releaseFilter.cutoff) continue;
     }
 
-    function renderQuery() {
-      // Hard-sync with actual checkboxes on every render
-      const hideUnreleased = !!(ignoreUnreleasedEl && ignoreUnreleasedEl.checked);
-      const dateOn = !!(releaseFilterOn && releaseFilterOn.checked);
+    if (hasAnyBanned(g, pools)) continue;
 
-      // keep the object in sync too (for other helpers that read it)
-      releaseFilter.on = dateOn;
-
-      const q = new Set(queryTags);
-      if (q.size === 0) { resultsEl.innerHTML = ''; pagerEl.style.display = 'none'; return; }
-
-
-
-      const pools = []; if (useTags) pools.push('tags'); if (useGenres) pools.push('genres'); if (useCategories) pools.push('categories');
-      if (pools.length === 0) { resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>'; pagerEl.style.display = 'none'; return; }
-
-      const tags = [...q];
-      const lists = tags.map(t => postingsFor(t, pools));
-      if (lists.every(l => l.length === 0)) { resultsEl.innerHTML = '<div class="card">No matches.</div>'; pagerEl.style.display = 'none'; return; }
-
-      const requireAll = !!requireAllEl.checked;
-      lists.sort((a, b) => a.length - b.length);
-      let candidates = lists[0].slice();
-      for (let i = 1; i < lists.length; i++) {
-        candidates = requireAll ? intersectSorted(candidates, lists[i]) : (function union(a, b) {
-          const out = []; let i = 0, j = 0, last = null;
-          while (i < a.length || j < b.length) {
-            const va = i < a.length ? a[i] : Infinity;
-            const vb = j < b.length ? b[j] : Infinity;
-            let v;
-            if (va < vb) { v = va; i++; }
-            else if (vb < va) { v = vb; j++; }
-            else { v = va; i++; j++; }
-            if (v !== last) { out.push(v); last = v; }
-          }
-          return out;
-        })(candidates, lists[i]);
-        if (requireAll && candidates.length === 0) break;
-      }
-
-      const mode = [...scoreModeEls].find(r => r.checked)?.value || 'containment';
-      const results = [];
-      for (const gi of candidates) {
-        const g = games[gi];
-
-        // Always exclude the seeded game if set
-        if (seedExclude && (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) continue;
-
-        // 1) Hide unreleased only when explicitly requested
-        if (hideUnreleased && g.comingSoon) continue;
-
-        // 2) Date filter: applies ONLY to released titles when ON
-        if (dateOn && !g.comingSoon) {
-          // If we don't know the release date, treat as "too old" → exclude
-          if (!(typeof g.releaseTs === 'number')) continue;
-          if (g.releaseTs < releaseFilter.cutoff) continue;
-        }
-
-
-        // 3) Banned tags
-        if (hasAnyBanned(g, pools)) continue;
-
-        // --- Price range filter ---
-        const pMin = readNum(priceMinEl), pMax = readNum(priceMaxEl);
-        if (pMin !== null || pMax !== null) {
-          const price = g.price; // null means unknown
-          if (price == null) continue; // exclude unknown when range is active
-          if (pMin !== null && price < pMin) continue;
-          if (pMax !== null && price > pMax) continue;
-        }
-
-        // --- Revenue range filter ---
-        const rMin = readNum(revMinEl), rMax = readNum(revMaxEl);
-        if (rMin !== null || rMax !== null) {
-          const rev = estimateSalesUSD(g); // uses price & reviews
-          if (!Number.isFinite(rev) || rev <= 0) {
-            // If either price or reviews missing, we can’t estimate → exclude when range active
-            continue;
-          }
-          if (rMin !== null && rev < rMin) continue;
-          if (rMax !== null && rev > rMax) continue;
-        }
-
-
-
-        const { score, inter } = similarityScore(g, q, mode, pools, requireAll);
-        if (score <= 0) continue;
-        results.push({ gIdx: gi, score, interCount: inter });
-      }
-
-      // Sort: released first, higher score, more reviews, newer, name
-      results.sort((a, b) => {
-        const ga = games[a.gIdx], gb = games[b.gIdx];
-
-        // 1) Higher similarity first
-        if (b.score !== a.score) return b.score - a.score;
-
-        // 2) More reviews first
-        const ar = ga.reviews || 0, br = gb.reviews || 0;
-        if (br !== ar) return br - ar;
-
-        // 3) Newer release first (unknown/null = 0)
-        const at = ga.releaseTs || 0, bt = gb.releaseTs || 0;
-        if (bt !== at) return bt - at;
-
-        // 4) As a FINAL tie-breaker only, prefer released over coming soon
-        const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
-        if (aSoon !== bSoon) return aSoon ? 1 : -1;
-
-        // 5) Stable tie-breaker by name
-        return normName(ga.name).localeCompare(normName(gb.name));
-      });
-
-
-      // De-dupe by (name + release status)
-      const seen = new Set();
-      lastResults = results.filter(r => {
-        const g = games[r.gIdx];
-        const key = `${normName(g.name)}::${g.comingSoon ? 'soon' : 'released'}`;
-        if (seen.has(key)) return false;
-        seen.add(key); return true;
-      });
-
-      totalPages = Math.max(1, Math.ceil(lastResults.length / PAGE_SIZE));
-      currentPage = Math.min(currentPage, totalPages);
-      renderPage();
+    const pMin = readNum(priceMinEl), pMax = readNum(priceMaxEl);
+    if (pMin !== null || pMax !== null) {
+      const price = g.price;
+      if (price == null) continue;
+      if (pMin !== null && price < pMin) continue;
+      if (pMax !== null && price > pMax) continue;
     }
+
+    const rMin = readNum(revMinEl), rMax = readNum(revMaxEl);
+    if (rMin !== null || rMax !== null) {
+      const rev = estimateSalesUSD(g);
+      if (!Number.isFinite(rev) || rev <= 0) continue;
+      if (rMin !== null && rev < rMin) continue;
+      if (rMax !== null && rev > rMax) continue;
+    }
+
+    // --- core fix: "Require all" means EXACT tag set in enabled pools ---
+    const sc = similarityScore(g, qEff, mode, pools);
+    if (requireAll) {
+      if (!sc.exactOnly) continue; // must contain all AND have no extra tags (in enabled pools)
+    } else {
+      if (sc.score <= 0) continue;
+    }
+
+    results.push({ gIdx: gi, score: sc.score, interCount: sc.inter });
+  }
+
+  results.sort((a, b) => {
+    const ga = games[a.gIdx], gb = games[b.gIdx];
+    if (b.score !== a.score) return b.score - a.score;
+    const ar = ga.reviews || 0, br = gb.reviews || 0;
+    if (br !== ar) return br - ar;
+    const at = ga.releaseTs || 0, bt = gb.releaseTs || 0;
+    if (bt !== at) return bt - at;
+    const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
+    if (aSoon !== bSoon) return aSoon ? 1 : -1;
+    return normName(ga.name).localeCompare(normName(gb.name));
+  });
+
+  const seen = new Set();
+  lastResults = results.filter(r => {
+    const g = games[r.gIdx];
+    const key = `${normName(g.name)}::${g.comingSoon ? 'soon' : 'released'}`;
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+
+  totalPages = Math.max(1, Math.ceil(lastResults.length / PAGE_SIZE));
+  currentPage = Math.min(currentPage, totalPages);
+  renderPage();
+}
 
 
 
@@ -794,7 +761,20 @@
     banAddBtn.onclick = () => { parseFreeformTags(banInput.value).forEach(t => bannedTags.add(t)); banInput.value = ''; currentPage = 1; renderChips(); renderQuery(); };
     banClearBtn.onclick = () => { bannedTags.clear(); currentPage = 1; renderChips(); renderQuery(); };
 
-    [...scoreModeEls, requireAllEl].forEach(el => el.addEventListener('change', () => { currentPage = 1; renderQuery(); }));
+    [...scoreModeEls].forEach(el => el.addEventListener('change', () => { currentPage = 1; renderQuery(); }));
+    if (requireAllEl) {
+      requireAllEl.addEventListener('change', () => { currentPage = 1; renderQuery(); });
+    }
+
+    const requireAllHint = document.getElementById('requireAllHint');
+    if (requireAllEl && requireAllHint) {
+      requireAllEl.addEventListener('change', () => {
+        requireAllHint.style.display = requireAllEl.checked ? '' : 'none';
+      });
+      // reflect initial state
+      requireAllHint.style.display = requireAllEl.checked ? '' : 'none';
+    }
+
 
     function toggleButton(btn, setter) {
       const active = btn.classList.toggle('active');
@@ -804,7 +784,18 @@
     tTagsBtn.addEventListener('click', () => toggleButton(tTagsBtn, v => useTags = v));
     tGenresBtn.addEventListener('click', () => toggleButton(tGenresBtn, v => useGenres = v));
     tCategoriesBtn.addEventListener('click', () => toggleButton(tCategoriesBtn, v => useCategories = v));
+
+    const tThumbsBtn = document.getElementById('tThumbs');
+    const tCompactBtn = document.getElementById('tCompact'); // NEW
+
     tThumbsBtn.addEventListener('click', () => toggleButton(tThumbsBtn, v => showThumbs = v));
+    tCompactBtn?.addEventListener('click', () =>
+      toggleButton(tCompactBtn, v => {
+        document.body.classList.toggle('compact-mode', v);
+      })
+    );
+
+
 
     prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderPage(); } });
     nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; renderPage(); } });
