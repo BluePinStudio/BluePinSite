@@ -162,18 +162,24 @@
         <fieldset>
           <legend>Filters</legend>
           <small class="meta">Leave blank to ignore a side. If any bound is set, unknown prices are excluded.</small>
-          <div class="range-row">
-            <label class="range-label">Price (USD)</label>
-            <input id="priceMin" class="range-input" type="number" step="0.01" min="0" placeholder="min" />
-            <span class="range-sep">–</span>
-            <input id="priceMax" class="range-input" type="number" step="0.01" min="0" placeholder="max" />
-          </div>
-          <div class="range-row">
-            <label class="range-label">Estimated Revenue</label>
-            <input id="revMin" class="range-input" type="number" step="1" min="0" placeholder="min" />
-            <span class="range-sep">–</span>
-            <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
-          </div>
+<div class="range-row">
+  <label class="range-label">Price (USD)</label>
+  <div class="range-inputs">
+    <input id="priceMin" class="range-input" type="number" step="0.01" min="0" placeholder="min" />
+    <span class="range-sep">–</span>
+    <input id="priceMax" class="range-input" type="number" step="0.01" min="0" placeholder="max" />
+  </div>
+</div>
+
+<div class="range-row">
+  <label class="range-label">Estimated Revenue</label>
+  <div class="range-inputs">
+    <input id="revMin" class="range-input" type="number" step="1" min="0" placeholder="min" />
+    <span class="range-sep">–</span>
+    <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
+  </div>
+</div>
+
         </fieldset>
 
         <!-- 4) View (beefed up) -->
