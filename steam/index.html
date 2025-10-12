@@ -222,8 +222,6 @@
             <button type="button" class="toggle active" id="tTags" aria-pressed="true">Include Tags</button>
             <button type="button" class="toggle" id="tGenres" aria-pressed="false">Include Genres</button>
             <button type="button" class="toggle" id="tCategories" aria-pressed="false">Include Categories</button>
-            <button type="button" class="toggle active" id="tIncludeFree" aria-pressed="true">Include Free
-              Games</button>
           </div>
 
           <label class="require-all"><input type="checkbox" id="requireAll" /> Require all query tags</label>
@@ -235,11 +233,34 @@
           <div class="date-filter">
             <label class="date-filter-label">
               <input type="checkbox" id="releaseFilterOn" autocomplete="off" />
-              <span>Include games released after</span>
+              <span>Exclude games released before</span>
             </label>
+
             <select id="releaseMonth" aria-label="Release month"></select>
             <select id="releaseYear" aria-label="Release year"></select>
           </div>
+          <fieldset>
+            <legend>Price & Revenue</legend>
+
+            <div class="range-row">
+              <label class="range-label">Price (USD)</label>
+              <input id="priceMin" class="range-input" type="number" step="0.01" min="0" placeholder="min" />
+              <span class="range-sep">–</span>
+              <input id="priceMax" class="range-input" type="number" step="0.01" min="0" placeholder="max" />
+              <small class="meta">Leave blank to ignore one side. If any bound is set, games with unknown price are
+                excluded.</small>
+            </div>
+
+            <div class="range-row">
+              <label class="range-label">Estimated Revenue</label>
+              <input id="revMin" class="range-input" type="number" step="1" min="0" placeholder="min" />
+              <span class="range-sep">–</span>
+              <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
+              <small class="meta">Revenue = reviews × price × 20. If any bound is set, games missing price/reviews are
+                excluded.</small>
+            </div>
+          </fieldset>
+
         </fieldset>
 
         <fieldset>
@@ -274,7 +295,8 @@
     let games = [];
     let queryTags = new Set();
     let bannedTags = new Set();
-    let useTags = true, useGenres = false, useCategories = false, includeFree = true, showThumbs = true;
+    let useTags = true, useGenres = false, useCategories = false, showThumbs = true;
+
 
     let currentPage = 1;
     let lastResults = [];
@@ -325,8 +347,13 @@
     const tTagsBtn = document.getElementById('tTags');
     const tGenresBtn = document.getElementById('tGenres');
     const tCategoriesBtn = document.getElementById('tCategories');
-    const tIncludeFreeBtn = document.getElementById('tIncludeFree');
     const tThumbsBtn = document.getElementById('tThumbs');
+
+    const priceMinEl = document.getElementById('priceMin');
+    const priceMaxEl = document.getElementById('priceMax');
+    const revMinEl = document.getElementById('revMin');
+    const revMaxEl = document.getElementById('revMax');
+
 
     const releaseFilterOn = document.getElementById('releaseFilterOn');
     const releaseMonthSel = document.getElementById('releaseMonth');
@@ -343,10 +370,6 @@
     tTagsBtn.classList.add('active');
     tTagsBtn.setAttribute('aria-pressed', 'true');
 
-    // Show free games by default
-    includeFree = true;
-    tIncludeFreeBtn.classList.add('active');
-    tIncludeFreeBtn.setAttribute('aria-pressed', 'true');
 
     // Do NOT hide unreleased by default
     if (ignoreUnreleasedEl) ignoreUnreleasedEl.checked = false;
@@ -382,6 +405,15 @@
       }[d]) || 'no real match';
     }
     const similarityColor = pct => `hsl(${Math.round((pct / 100) * 120)} 80% 55%)`;
+
+    const readNum = el => {
+      if (!el) return null;
+      const v = (el.value ?? '').trim();
+      if (v === '') return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    };
+
 
     // ---------- Indexing ----------
     function addPosting(map, tag, gi) { if (!map.has(tag)) map.set(tag, []); map.get(tag).push(gi); }
@@ -622,11 +654,31 @@
           if (g.releaseTs < releaseFilter.cutoff) continue;
         }
 
-        // 3) Exclude free titles only when "Include Free Games" is OFF
-        if (!includeFree && isFreeGame(g)) continue;
 
-        // 4) Banned tags
+        // 3) Banned tags
         if (hasAnyBanned(g, pools)) continue;
+
+        // --- Price range filter ---
+        const pMin = readNum(priceMinEl), pMax = readNum(priceMaxEl);
+        if (pMin !== null || pMax !== null) {
+          const price = g.price; // null means unknown
+          if (price == null) continue; // exclude unknown when range is active
+          if (pMin !== null && price < pMin) continue;
+          if (pMax !== null && price > pMax) continue;
+        }
+
+        // --- Revenue range filter ---
+        const rMin = readNum(revMinEl), rMax = readNum(revMaxEl);
+        if (rMin !== null || rMax !== null) {
+          const rev = estimateSalesUSD(g); // uses price & reviews
+          if (!Number.isFinite(rev) || rev <= 0) {
+            // If either price or reviews missing, we can’t estimate → exclude when range active
+            continue;
+          }
+          if (rMin !== null && rev < rMin) continue;
+          if (rMax !== null && rev > rMax) continue;
+        }
+
 
 
         const { score, inter } = similarityScore(g, q, mode, pools, requireAll);
@@ -635,27 +687,27 @@
       }
 
       // Sort: released first, higher score, more reviews, newer, name
-results.sort((a, b) => {
-  const ga = games[a.gIdx], gb = games[b.gIdx];
+      results.sort((a, b) => {
+        const ga = games[a.gIdx], gb = games[b.gIdx];
 
-  // 1) Higher similarity first
-  if (b.score !== a.score) return b.score - a.score;
+        // 1) Higher similarity first
+        if (b.score !== a.score) return b.score - a.score;
 
-  // 2) More reviews first
-  const ar = ga.reviews || 0, br = gb.reviews || 0;
-  if (br !== ar) return br - ar;
+        // 2) More reviews first
+        const ar = ga.reviews || 0, br = gb.reviews || 0;
+        if (br !== ar) return br - ar;
 
-  // 3) Newer release first (unknown/null = 0)
-  const at = ga.releaseTs || 0, bt = gb.releaseTs || 0;
-  if (bt !== at) return bt - at;
+        // 3) Newer release first (unknown/null = 0)
+        const at = ga.releaseTs || 0, bt = gb.releaseTs || 0;
+        if (bt !== at) return bt - at;
 
-  // 4) As a FINAL tie-breaker only, prefer released over coming soon
-  const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
-  if (aSoon !== bSoon) return aSoon ? 1 : -1;
+        // 4) As a FINAL tie-breaker only, prefer released over coming soon
+        const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
+        if (aSoon !== bSoon) return aSoon ? 1 : -1;
 
-  // 5) Stable tie-breaker by name
-  return normName(ga.name).localeCompare(normName(gb.name));
-});
+        // 5) Stable tie-breaker by name
+        return normName(ga.name).localeCompare(normName(gb.name));
+      });
 
 
       // De-dupe by (name + release status)
@@ -752,11 +804,17 @@ results.sort((a, b) => {
     tTagsBtn.addEventListener('click', () => toggleButton(tTagsBtn, v => useTags = v));
     tGenresBtn.addEventListener('click', () => toggleButton(tGenresBtn, v => useGenres = v));
     tCategoriesBtn.addEventListener('click', () => toggleButton(tCategoriesBtn, v => useCategories = v));
-    tIncludeFreeBtn.addEventListener('click', () => toggleButton(tIncludeFreeBtn, v => includeFree = v));
     tThumbsBtn.addEventListener('click', () => toggleButton(tThumbsBtn, v => showThumbs = v));
 
     prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderPage(); } });
     nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; renderPage(); } });
+
+    [priceMinEl, priceMaxEl, revMinEl, revMaxEl].forEach(el => {
+      if (!el) return;
+      el.addEventListener('input', () => { currentPage = 1; renderQuery(); });
+      el.addEventListener('change', () => { currentPage = 1; renderQuery(); });
+    });
+
 
     // ---------- Load ----------
     (async () => {
@@ -823,30 +881,30 @@ results.sort((a, b) => {
         releaseMonthSel.value = String((new Date()).getUTCMonth());
         releaseYearSel.value = String((new Date()).getUTCFullYear());
 
-function updateReleaseCutoff() {
-  const y = +releaseYearSel.value, m = +releaseMonthSel.value;
-  releaseFilter.y = y; releaseFilter.m = m; releaseFilter.cutoff = firstOfMonthUTC(y, m);
-  currentPage = 1; renderQuery();
-}
+        function updateReleaseCutoff() {
+          const y = +releaseYearSel.value, m = +releaseMonthSel.value;
+          releaseFilter.y = y; releaseFilter.m = m; releaseFilter.cutoff = firstOfMonthUTC(y, m);
+          currentPage = 1; renderQuery();
+        }
 
-releaseFilterOn.addEventListener('change', () => {
-  // Trust the checkbox; render will re-sync too
-  if (releaseFilterOn.checked) {
-    updateReleaseCutoff();
-  } else {
-    releaseFilter.on = false; // explicit
-    currentPage = 1;
-    renderQuery();
-  }
-});
+        releaseFilterOn.addEventListener('change', () => {
+          // Trust the checkbox; render will re-sync too
+          if (releaseFilterOn.checked) {
+            updateReleaseCutoff();
+          } else {
+            releaseFilter.on = false; // explicit
+            currentPage = 1;
+            renderQuery();
+          }
+        });
 
-// Only recompute cutoff if the feature is ON
-releaseMonthSel.addEventListener('change', () => {
-  if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
-});
-releaseYearSel.addEventListener('change', () => {
-  if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
-});
+        // Only recompute cutoff if the feature is ON
+        releaseMonthSel.addEventListener('change', () => {
+          if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
+        });
+        releaseYearSel.addEventListener('change', () => {
+          if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
+        });
 
 
         if (ignoreUnreleasedEl) {

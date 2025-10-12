@@ -805,3 +805,28 @@ fieldset:last-of-type .meta {
 .btn {
   padding: 0.45rem 0.7rem !important;
 }
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin: .35rem 0 .2rem;
+  flex-wrap: wrap;
+}
+.range-label {
+  white-space: nowrap;
+  min-width: 9rem;
+  opacity: .9;
+}
+.range-input {
+  width: 9rem;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+  padding: .35rem .5rem;
+  font-size: .9rem;
+}
+.range-sep {
+  opacity: .7;
+}
