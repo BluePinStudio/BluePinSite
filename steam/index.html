@@ -227,13 +227,14 @@
           </div>
 
           <label class="require-all"><input type="checkbox" id="requireAll" /> Require all query tags</label>
-          <label class="require-all"><input type="checkbox" id="ignoreUnreleased" /> Hide unreleased (Coming
+          <label class="require-all"><input type="checkbox" id="ignoreUnreleased" autocomplete="off" /> Hide unreleased
+            (Coming
             soon)</label>
 
           <!-- Release date filter -->
           <div class="date-filter">
             <label class="date-filter-label">
-              <input type="checkbox" id="releaseFilterOn" />
+              <input type="checkbox" id="releaseFilterOn" autocomplete="off" />
               <span>Include games released after</span>
             </label>
             <select id="releaseMonth" aria-label="Release month"></select>
@@ -350,11 +351,12 @@
     // Do NOT hide unreleased by default
     if (ignoreUnreleasedEl) ignoreUnreleasedEl.checked = false;
 
-    // Date filter OFF by default (very important for unreleased UX)
+    // Date filter OFF by default (critical for unreleased UX)
     if (releaseFilterOn) {
-      releaseFilterOn.checked = false;
-      releaseFilter.on = false;       // keep internal state in sync
+      releaseFilterOn.checked = false;  // checkbox state
+      releaseFilter.on = false;         // internal state
     }
+
 
 
     // ---------- Utils ----------
@@ -563,8 +565,17 @@
     }
 
     function renderQuery() {
+      // Hard-sync with actual checkboxes on every render
+      const hideUnreleased = !!(ignoreUnreleasedEl && ignoreUnreleasedEl.checked);
+      const dateOn = !!(releaseFilterOn && releaseFilterOn.checked);
+
+      // keep the object in sync too (for other helpers that read it)
+      releaseFilter.on = dateOn;
+
       const q = new Set(queryTags);
       if (q.size === 0) { resultsEl.innerHTML = ''; pagerEl.style.display = 'none'; return; }
+
+
 
       const pools = []; if (useTags) pools.push('tags'); if (useGenres) pools.push('genres'); if (useCategories) pools.push('categories');
       if (pools.length === 0) { resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>'; pagerEl.style.display = 'none'; return; }
@@ -602,19 +613,21 @@
         if (seedExclude && (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) continue;
 
         // 1) Hide unreleased only when explicitly requested
-        if (ignoreUnreleasedEl && ignoreUnreleasedEl.checked && g.comingSoon) continue;
+        if (hideUnreleased && g.comingSoon) continue;
 
-        // 2) Release-date cutoff applies ONLY to already-released titles
-        if (releaseFilter.on && !g.comingSoon) {
-          if (!g.releaseTs) continue;
+        // 2) Date filter: applies ONLY to released titles when ON
+        if (dateOn && !g.comingSoon) {
+          // If we don't know the release date, treat as "too old" → exclude
+          if (!(typeof g.releaseTs === 'number')) continue;
           if (g.releaseTs < releaseFilter.cutoff) continue;
         }
 
         // 3) Exclude free titles only when "Include Free Games" is OFF
         if (!includeFree && isFreeGame(g)) continue;
 
-
+        // 4) Banned tags
         if (hasAnyBanned(g, pools)) continue;
+
 
         const { score, inter } = similarityScore(g, q, mode, pools, requireAll);
         if (score <= 0) continue;
@@ -622,15 +635,28 @@
       }
 
       // Sort: released first, higher score, more reviews, newer, name
-      results.sort((a, b) => {
-        const ga = games[a.gIdx], gb = games[b.gIdx];
-        const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
-        if (aSoon !== bSoon) return aSoon ? 1 : -1;
-        if (b.score !== a.score) return b.score - a.score;
-        const ar = ga.reviews || 0, br = gb.reviews || 0; if (br !== ar) return br - ar;
-        const at = ga.releaseTs || 0, bt = gb.releaseTs || 0; if (bt !== at) return bt - at;
-        return normName(ga.name).localeCompare(normName(gb.name));
-      });
+results.sort((a, b) => {
+  const ga = games[a.gIdx], gb = games[b.gIdx];
+
+  // 1) Higher similarity first
+  if (b.score !== a.score) return b.score - a.score;
+
+  // 2) More reviews first
+  const ar = ga.reviews || 0, br = gb.reviews || 0;
+  if (br !== ar) return br - ar;
+
+  // 3) Newer release first (unknown/null = 0)
+  const at = ga.releaseTs || 0, bt = gb.releaseTs || 0;
+  if (bt !== at) return bt - at;
+
+  // 4) As a FINAL tie-breaker only, prefer released over coming soon
+  const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
+  if (aSoon !== bSoon) return aSoon ? 1 : -1;
+
+  // 5) Stable tie-breaker by name
+  return normName(ga.name).localeCompare(normName(gb.name));
+});
+
 
       // De-dupe by (name + release status)
       const seen = new Set();
@@ -645,6 +671,8 @@
       currentPage = Math.min(currentPage, totalPages);
       renderPage();
     }
+
+
 
     // ---------- Seed ----------
     function parseSeedToAppId(str) {
@@ -795,23 +823,31 @@
         releaseMonthSel.value = String((new Date()).getUTCMonth());
         releaseYearSel.value = String((new Date()).getUTCFullYear());
 
-        function updateReleaseCutoff() {
-          const y = +releaseYearSel.value, m = +releaseMonthSel.value;
-          releaseFilter.y = y; releaseFilter.m = m; releaseFilter.cutoff = firstOfMonthUTC(y, m);
-          currentPage = 1; renderQuery();
-        }
-releaseFilterOn.addEventListener('change', ()=>{
-  releaseFilter.on = releaseFilterOn.checked;
-  if (releaseFilter.on) {
-    updateReleaseCutoff();         // compute cutoff, then render
+function updateReleaseCutoff() {
+  const y = +releaseYearSel.value, m = +releaseMonthSel.value;
+  releaseFilter.y = y; releaseFilter.m = m; releaseFilter.cutoff = firstOfMonthUTC(y, m);
+  currentPage = 1; renderQuery();
+}
+
+releaseFilterOn.addEventListener('change', () => {
+  // Trust the checkbox; render will re-sync too
+  if (releaseFilterOn.checked) {
+    updateReleaseCutoff();
   } else {
-    currentPage = 1;               // just re-render with cutoff disabled
+    releaseFilter.on = false; // explicit
+    currentPage = 1;
     renderQuery();
   }
 });
 
-        releaseMonthSel.addEventListener('change', updateReleaseCutoff);
-        releaseYearSel.addEventListener('change', updateReleaseCutoff);
+// Only recompute cutoff if the feature is ON
+releaseMonthSel.addEventListener('change', () => {
+  if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
+});
+releaseYearSel.addEventListener('change', () => {
+  if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
+});
+
 
         if (ignoreUnreleasedEl) {
           ignoreUnreleasedEl.addEventListener('change', () => { currentPage = 1; renderQuery(); });
