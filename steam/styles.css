@@ -402,6 +402,20 @@ fieldset:last-of-type .meta {
   opacity: 0.85;
 }
 
+/* Prevent unwanted text cursor / selection on empty spaces */
+html, body {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+/* Allow normal selection / typing in expected areas */
+input, textarea, button, select, label, a {
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: auto;
+}
+
 /* Focus outlines for a11y */
 a:focus-visible,
 .btn:focus-visible,
@@ -413,6 +427,7 @@ a:focus-visible,
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
   border-color: color-mix(in srgb, var(--accent) 60%, var(--outline));
 }
+
 /* Help panel polish */
 details.help {
   margin-top: 0.5rem;
