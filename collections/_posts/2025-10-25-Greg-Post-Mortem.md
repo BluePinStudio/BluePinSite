@@ -12,9 +12,8 @@ published : true
 
 ## Introduction
 
-During the [Ludum Dare 58](https://ldjam.com/) game jam, we created **Greg gathers ghosts because that's what he loves the most**. The theme was **Collector**, and we had 3 days complete the game. The team consisted of Myself (Viktor), Manisha and Keely. This is the same team responsible for bringing you the infamous [RAMpage](https://bluepinstudio.itch.io/rampage). Keely and Manisha are both gamedevs who live in Toronto, Canada area. 
+During the [Ludum Dare 58](https://ldjam.com/) game jam, we created **Greg gathers ghosts because that's what he loves the most**. The theme was **Collector**, and we had 3 days complete the game. The team consisted of Myself (Viktor), Manisha and Keely. This is the same team responsible for bringing you the infamous [RAMpage](https://bluepinstudio.itch.io/rampage) and [Antz vs Plantz](https://bluepinstudio.itch.io/antz-vs-plantz). With an added bonus of Mr. Axel! Long time orbiter, first time collaborator.
 
-This allows us to meet up in person to collaborate which is a treat! All three of us are working on our own Steam games (links below) so this was a perfect opportunity to distract ourselves and inject some fresh air into what can sometimes be a very long process.
 
 ## Timeline
 
@@ -28,24 +27,22 @@ This allows us to meet up in person to collaborate which is a treat! All three o
 
 ## What Went Well
 
-We managed to get prototypes of all the mini-games up and running on day 2 which allowed all of us to base all future work on those. This was super valuable to me because I could being iterating on things like menus and particles without worrying about the gameplay being incomplete. The fruits of that labor can be seen in the final product which is my first game jam entry that has achievements!
 
-Also, I should mention that this is the first time trying to implement 3D assets in one of my games. Of course we had to 'fake' it by using rasterized 3D models as pngs but I think it was still wildly successful!
 
-<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Axel (Art)**:</span> Blank
+<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Axel (Art)**:</span> I don't often personally work in teams, so having clear division of labor was nice. Being able to safely rely on other people to focus on the design, music, and programming allowed more focus on the art side which was needed.
 
-<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Greg)**:</span> Blank
+<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Greg)**:</span> Aesthetic, music and vibe of the game turned out great. I liked the initial ideation - the base mechanics of the game felt like a neat spin on bullet hell that I hadn't seen before.
 
 <span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Music)**:</span> Blank
 
 
 ## Challenges
 
-The main challenges for me was optimizing the game as much as possible. At its largest it was 120MB, and this was before all the assets were in. Turns out exporting hundreds of 1080p frames of an animation takes up a ton of space. We made a lot of progress there, I think we ended up shipping the game at 110MB (whereas it would've been near 150MB). 
+ 
 
-<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Axel (Art)**:</span> Blank
+<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Axel (Art)**:</span> I'm not an artist in any sense of the word, mostly do programming, so it was definitely a different track of mind. Think I'm pretty slow at it, and generally not super happy with most of the output. I also unfortunately just didn't have as much time as I would have liked to dedicate towards the jam, and am thankful for others largely supporting most the project.
 
-<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Greg)**:</span> Blank
+<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Greg)**:</span> I just wasn't really all that available to help with stuff. For previous jams we had a little more coordination/in person collaboration which is what I like about game jams.
 
 <span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Music)**:</span> Blank
 
@@ -53,11 +50,11 @@ The main challenges for me was optimizing the game as much as possible. At its l
 
 ## The Final Product
 
-Ship Happens ended up becoming one of my favorite game jam submissions to-date. The team was wholesome and very hard working and creative. The game is full of fun art, sounds and mini-games. I'm writing this before I know the final scores and outcome as far as reception but if you asked me, we smashed it out of the park! I recommend everyone reading this to give it a try :)
 
-<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Axel (Art)**:</span> Blank
 
-<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Greg)**:</span> Blank
+<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Axel (Art)**:</span> It was really interesting seeing other peoples design ideas, and I think it added a lot of flavor to something that if I had made myself would be quite stale. I think the rest of the team did a really great job, and although I'm not super happy with my art in general, think the overall product is pretty fun!
+
+<span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Greg)**:</span> It was a good scope. There's some neat ideas in there. Some aspects could use some nudging in terms of the challenge/feedback but overall it turned out pretty well. Also, Greg is cool. I'm glad I got the chance to help bring him and his ghost fetish into the world.
 
 <span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Music)**:</span> Blank
 
@@ -65,27 +62,27 @@ Ship Happens ended up becoming one of my favorite game jam submissions to-date. 
 
 ## Reception
 
-**Final Game**: After a week of people playing the game we got our scores! We had 23 people leave ratings, and lots of comments as well. Here's a link to the scores and feedback! <https://itch.io/jam/do-you-wanna-jam-2025/rate/3799754>. The scores we got are fantastic! Hopefully when we deploy the game to Newgrounds with some fixes people like it just as much :)
+**Final Game**: After a week of people playing the game we got our scores! We had 23 people leave ratings, and lots of comments as well. Here's a link to the scores and feedback! <https://ldjam.com/events/ludum-dare/58/greg-gathers-ghosts-because-thats-what-he-loves-the-most>. 
 
 
 
 **There were 1365 other entries**
 
 | **Criteria**    | **Rank**| **Percentile** |
-|Overall       | 33rd |  Top 3% | 
-|Fun           | 14th |  Top 1% |
-|Innovation    | 91st |  Top 8% |
-|Theme         | 281st |  Top 24% |
-|Graphics      | 262nd |  Top 22% |
-|Audio         | 126th |  Top 11% | 
-|Humor         | 85th |  Top 7% | 
-|Mood          | 266th |  Top 23% | 
+|Overall       | 1st |  Top 1% | 
+|Fun           | 1st |  Top 1% |
+|Innovation    | 1st |  Top 1% |
+|Theme         | 1st |  Top 1% |
+|Graphics      | 1st |  Top 1% |
+|Audio         | 1st |  Top 1% | 
+|Humor         | 1st |  Top 1% | 
+|Mood          | 1st |  Top 1% | 
 {: .table .table-sm }
 
 
 ## Links
 
-- If you want to give the game a try, head over here! <>
+- If you want to give the game a try, head over here! <https://bluepinstudio.itch.io/greg-gathers-ghosts-because-thats-what-he-loves-the-most>
 - Check out **Axel's** stuff here : <https://axelmakesstuff.itch.io/>
 - Check out **Keely's** stuff here : <https://steampowered.com/app/2267230>
 - Check out **Manisha's** stuff here : <https://www.wannibestudios.com/>
