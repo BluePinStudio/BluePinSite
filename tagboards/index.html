@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Steam Tag Revenue Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .dash { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(160px,1fr)); gap: .6rem; }
+    @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+    .kpi { background: color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--outline); border-radius: 14px; padding: .85rem 1rem; box-shadow: var(--shadow-1); }
+    .kpi .label { color: var(--muted); font-size: .85rem; margin-bottom: .15rem; }
+    .kpi .value { font-weight: 800; font-size: 1.15rem; }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th { text-align: left; font-size: .92rem; color: var(--muted); font-weight: 700; border-bottom: 1px solid var(--outline); padding: .5rem .4rem; white-space: nowrap; }
+    tbody td { border-bottom: 1px solid color-mix(in srgb, var(--outline) 60%, transparent); padding: .55rem .4rem; }
+    tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .table-wrap { overflow: auto; border: 1px solid var(--outline); border-radius: 12px; background: color-mix(in srgb, var(--card) 88%, transparent); }
+    .controls-slim { display: grid; grid-template-columns: 1fr; gap: .6rem; }
+    .hint { color: var(--muted); }
+    .pill { display:inline-block; padding:.18rem .5rem; border:1px solid var(--chip-border); border-radius:999px; font-size:.78rem; }
+    .muted { color: var(--muted); }
+    .sep { opacity:.6; padding:0 .35rem; }
+    .flex { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+    .grow { flex:1 1 auto; }
+    .small { font-size: .9rem; }
+    .chips-inline { display:inline-flex; gap:.35rem; flex-wrap:wrap; }
+    .search { max-width: 360px; }
+    .pointer { cursor: pointer; }
+    .nowrap { white-space: nowrap; }
+    .tags-cell { max-width: 520px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <h1>Steam Tag Revenue Explorer</h1>
+    <p class="sub">Explore count and revenue estimates by tag. Combine/ban tags, filter by date, and drill into matched games.</p>
+  </header>
+
+  <main class="container">
+    <section class="controls">
+      <div class="controls-slim">
+        <!-- Include & mode -->
+        <div class="input-row">
+          <input id="includeInput" class="input-main" type="text" placeholder="Include tags… (comma-separated)" />
+          <select id="includeMode" class="input-main nowrap" title="How to match multiple include tags" style="max-width:160px;">
+            <option value="all">Match ALL</option>
+            <option value="any">Match ANY</option>
+          </select>
+          <button id="includeAdd" class="btn btn-accent">Add include</button>
+          <button id="includeClear" class="btn btn-ghost">Clear</button>
+        </div>
+        <div id="includeChips" class="chips query-chips"></div>
+
+        <!-- Ban -->
+        <div class="input-row" style="margin-top:.2rem;">
+          <input id="banInput" class="input-main" type="text" placeholder="Ban tags… (comma-separated)" />
+          <button id="banAdd" class="btn">Add banned</button>
+          <button id="banClear" class="btn btn-ghost">Clear</button>
+        </div>
+        <div class="banned-label">Games with any banned tag will be excluded from combo stats and the matched list.</div>
+        <div id="banChips" class="chips banned-chips" style="margin-top:.25rem;"></div>
+
+        <!-- Date window -->
+        <div class="input-row" style="margin-top:.2rem; gap:.5rem; align-items:center;">
+          <label class="small" for="dateStart">Release date:</label>
+          <input id="dateStart" class="input-main" type="month" />
+          <span class="small">to</span>
+          <input id="dateEnd" class="input-main" type="month" />
+          <button id="dateClear" class="btn btn-ghost">Clear dates</button>
+          <span class="small muted">(filters both leaderboard + matched stats)</span>
+        </div>
+
+        <!-- Options -->
+        <div class="flex">
+          <label class="flex small"><input id="respectBansInTable" type="checkbox" /> <span>Hide banned tags in the leaderboard</span></label>
+          <span class="sep">|</span>
+          <label class="flex small"><input id="onlyPaid" type="checkbox" /> <span>Revenue stats use only paid games (price &gt; 0)</span></label>
+          <span class="sep">|</span>
+          <label class="flex small"><input id="hideZeroRev" type="checkbox" checked /> <span>Ignore zero/unknown revenue in averages/median</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="dash">
+      <article class="card">
+        <header class="flex" style="justify-content:space-between;">
+          <h3 style="margin:0;">Combination summary</h3>
+          <div class="chips-inline small" id="comboTagPreview"></div>
+        </header>
+        <div class="kpi-grid" style="margin-top:.6rem;">
+          <div class="kpi"><div class="label">Games matched</div><div class="value" id="kpiCount">—</div></div>
+          <div class="kpi"><div class="label">Total estimated revenue</div><div class="value" id="kpiTotal">—</div></div>
+          <div class="kpi"><div class="label">Average estimated revenue</div><div class="value" id="kpiAvg">—</div></div>
+          <div class="kpi"><div class="label">Median estimated revenue</div><div class="value" id="kpiMed">—</div></div>
+        </div>
+        <div class="meta" id="comboMeta" style="margin-top:.4rem;">—</div>
+      </article>
+
+      <article class="card">
+        <header class="flex" style="justify-content:space-between; align-items:center;">
+          <h3 style="margin:0;">Tag leaderboard</h3>
+          <div class="flex grow" style="justify-content:flex-end; gap:.5rem;">
+            <input id="tagSearch" class="input-main search" type="text" placeholder="Search tags…" />
+            <select id="sortSel" class="input-main" style="max-width:220px;">
+              <option value="count_desc">Sort: Count ↓</option>
+              <option value="total_desc">Sort: Total revenue ↓</option>
+              <option value="avg_desc">Sort: Average revenue ↓</option>
+              <option value="med_desc">Sort: Median revenue ↓</option>
+              <option value="tag_asc">Sort: Tag A→Z</option>
+            </select>
+          </div>
+        </header>
+        <div class="table-wrap" style="margin-top:.6rem;">
+          <table id="tagTable" aria-describedby="tableMeta">
+            <thead>
+              <tr>
+                <th style="min-width:200px;">Tag</th>
+                <th class="num">Games</th>
+                <th class="num">With rev</th>
+                <th class="num">Total</th>
+                <th class="num">Average</th>
+                <th class="num">Median</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="tableMeta" class="meta" style="margin-top:.45rem;">—</div>
+      </article>
+
+      <article class="card">
+        <header class="flex" style="justify-content:space-between; align-items:center;">
+          <h3 style="margin:0;">Matched games</h3>
+          <div class="flex grow" style="justify-content:flex-end; gap:.5rem;">
+            <input id="matchSearch" class="input-main search" type="text" placeholder="Search matched by name…" />
+            <select id="matchSort" class="input-main" style="max-width:240px;">
+              <option value="rev_desc">Sort: Est. revenue ↓</option>
+              <option value="rev_asc">Sort: Est. revenue ↑</option>
+              <option value="name_asc">Sort: Name A→Z</option>
+              <option value="price_desc">Sort: Price ↓</option>
+              <option value="reviews_desc">Sort: Reviews ↓</option>
+              <option value="release_desc">Sort: Newest ↓</option>
+            </select>
+          </div>
+        </header>
+        <div class="table-wrap" style="margin-top:.6rem;">
+          <table id="matchTable" aria-describedby="matchMeta">
+            <thead>
+              <tr>
+                <th style="min-width:220px;">Game</th>
+                <th class="num">Price</th>
+                <th class="num">Reviews</th>
+                <th class="num">Est. revenue</th>
+                <th class="tags-cell">Tags</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="matchMeta" class="meta" style="margin-top:.45rem;">—</div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const JSON_LINES_PATH = 'games.jsonl';
+
+    let games = [];
+    const includeTags = new Set();
+    const bannedTags = new Set();
+    let tagStats = new Map();
+    let matchedGames = [];
+
+    const includeInput = document.getElementById('includeInput');
+    const includeAdd = document.getElementById('includeAdd');
+    const includeClear = document.getElementById('includeClear');
+    const includeChips = document.getElementById('includeChips');
+    const includeModeSel = document.getElementById('includeMode');
+
+    const banInput = document.getElementById('banInput');
+    const banAdd = document.getElementById('banAdd');
+    const banClear = document.getElementById('banClear');
+    const banChips = document.getElementById('banChips');
+
+    const dateStartEl = document.getElementById('dateStart');
+    const dateEndEl = document.getElementById('dateEnd');
+    const dateClearBtn = document.getElementById('dateClear');
+
+    const respectBansInTable = document.getElementById('respectBansInTable');
+    const onlyPaidEl = document.getElementById('onlyPaid');
+    const hideZeroRevEl = document.getElementById('hideZeroRev');
+
+    const comboTagPreview = document.getElementById('comboTagPreview');
+    const kpiCount = document.getElementById('kpiCount');
+    const kpiTotal = document.getElementById('kpiTotal');
+    const kpiAvg   = document.getElementById('kpiAvg');
+    const kpiMed   = document.getElementById('kpiMed');
+    const comboMeta = document.getElementById('comboMeta');
+
+    const tagSearch = document.getElementById('tagSearch');
+    const sortSel = document.getElementById('sortSel');
+    const tagTable = document.getElementById('tagTable').querySelector('tbody');
+    const tableMeta = document.getElementById('tableMeta');
+
+    const matchSearch = document.getElementById('matchSearch');
+    const matchSort = document.getElementById('matchSort');
+    const matchTable = document.getElementById('matchTable').querySelector('tbody');
+    const matchMeta = document.getElementById('matchMeta');
+
+    const normTag = t => (t||'').trim().toLowerCase();
+    const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
+    const isFree = g => (g.is_free === true) || (g.price === 0);
+    const usd = n => (Number.isFinite(n) ? n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) : '—');
+    const median = list => {
+      if (!list.length) return NaN; const a = [...list].sort((x,y)=>x-y);
+      const mid = Math.floor(a.length/2);
+      return a.length % 2 ? a[mid] : (a[mid-1] + a[mid]) / 2;
+    };
+    const revenue = (g) => {
+      const r = g.reviews ?? 0; const p = isFree(g) ? 0 : (g.price ?? 0);
+      return (r > 0 && p > 0) ? r * p * 20 : 0;
+    };
+    const parseReleaseTs = raw => {
+      if (!raw) return null;
+      if (typeof raw === 'number') return raw < 1e12 ? raw*1000 : raw;
+      if (typeof raw === 'string') { const t = Date.parse(raw); if (!Number.isNaN(t)) return t; }
+      return null;
+    };
+    const fmtInt = n => Number.isFinite(n) ? n.toLocaleString() : '—';
+
+    function parseTagsFreeform(str){
+      return str.split(',').map(s=>s.trim()).filter(Boolean).map(s=>normTag(s.replace(/^['"](.*)['"]$/,'$1')));
+    }
+    function renderChips(set, host, klass='chip'){
+      host.innerHTML = '';
+      for(const t of set){
+        const span = document.createElement('span'); span.className = `${klass}`; span.textContent = t;
+        const x = document.createElement('button'); x.className='chip-x'; x.type='button'; x.textContent='×'; x.setAttribute('aria-label',`Remove ${t}`);
+        x.onclick = (e)=>{ e.stopPropagation(); set.delete(t); updateAll(); };
+        span.appendChild(x); host.appendChild(span);
+      }
+      if(!set.size){ host.innerHTML = '<div class="hint">None.</div>'; }
+    }
+
+    // ---- Date helpers ----
+    function monthInputToRange(value){
+      // value like "2021-07" -> [startTs, endTs]
+      if(!value) return null;
+      const [y, m] = value.split('-').map(Number);
+      if(!y || !m) return null;
+      const start = new Date(y, m-1, 1, 0,0,0,0).getTime();
+      const end   = new Date(y, m, 0, 23,59,59,999).getTime(); // day 0 of next month = last day of month
+      return [start, end];
+    }
+    function getDateBounds(){
+      const s = monthInputToRange(dateStartEl.value);
+      const e = monthInputToRange(dateEndEl.value);
+      let startTs = s ? s[0] : null;
+      let endTs   = e ? e[1] : null;
+      if(startTs && endTs && endTs < startTs){
+        // swap if user picks end before start
+        const tmp = startTs; startTs = endTs; endTs = tmp;
+      }
+      return [startTs, endTs];
+    }
+    function inDateRange(g, startTs, endTs){
+      if(!g.releaseTs) return true; // if unknown date, keep it (adjust if you’d rather exclude)
+      if(startTs && g.releaseTs < startTs) return false;
+      if(endTs && g.releaseTs > endTs) return false;
+      return true;
+    }
+    function fmtMonth(ts){
+      if(!ts) return null;
+      return new Date(ts).toLocaleString(undefined, { month:'short', year:'numeric' });
+    }
+
+    async function loadGames(){
+      const res = await fetch(JSON_LINES_PATH, { cache:'no-store' });
+      if(!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH} (HTTP ${res.status})`);
+      const text = await res.text();
+      const lines = text.split(/\r?\n/);
+
+      const parsed = [];
+      let badCount = 0;
+
+      for (let i = 0; i < lines.length; i++) {
+        const raw = lines[i].trim();
+        if (!raw) continue;
+        try {
+          const j = JSON.parse(raw);
+          if (j.release?.coming_soon === true) continue;
+          const id = j.identity||{}; const cls=j.classification||{}; const media=j.media||{};
+          parsed.push({
+            app_id: j.app_id,
+            name: id.name || `App ${j.app_id}`,
+            tags: arr(cls.tags).map(normTag),
+            genres: arr(cls.genres).map(normTag),
+            categories: arr(cls.categories).map(normTag),
+            price: j.pricing ? j.pricing.price_usd : null,
+            is_free: !!(j.pricing && j.pricing.is_free),
+            reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
+            header: media.header_image || null,
+            releaseTs: parseReleaseTs(j.release?.date_iso ?? j.release?.date_raw)
+          });
+        } catch (e) {
+          badCount++;
+          if (badCount === 1) console.warn(`JSONL parse error at line ${i+1}:`, e, lines[i]);
+        }
+      }
+      if (!parsed.length) {
+        throw new Error(`Parsed 0 games from ${JSON_LINES_PATH}${badCount ? ` (${badCount} malformed line(s))` : ''}`);
+      }
+      games = parsed;
+    }
+
+    function buildTagStats(){
+      tagStats = new Map();
+      const paidOnly = !!onlyPaidEl.checked;
+      const ignoreZeros = !!hideZeroRevEl.checked;
+      const [startTs, endTs] = getDateBounds();
+
+      for(const g of games){
+        if(!inDateRange(g, startTs, endTs)) continue;
+
+        const rev = revenue(g);
+        const qualifies = paidOnly ? (!isFree(g) && (g.price ?? 0) > 0) : true;
+        const revVal = qualifies ? rev : 0;
+        const hasRev = qualifies && revVal > 0;
+
+        for(const t of (g.tags || [])){
+          if(!tagStats.has(t)) tagStats.set(t,{tag:t,count:0,withRev:0,revList:[],total:0,avg:NaN,med:NaN});
+          const s = tagStats.get(t);
+          s.count += 1;
+          if(hasRev){ s.withRev += 1; s.revList.push(revVal); s.total += revVal; }
+        }
+      }
+      for(const s of tagStats.values()){
+        if(s.revList.length){
+          const list = ignoreZeros ? s.revList.filter(v=>v>0) : s.revList;
+          const denom = list.length || s.revList.length;
+          s.avg = denom ? (list.reduce((a,b)=>a+b,0) / denom) : NaN;
+          s.med = median(list);
+        } else { s.avg = NaN; s.med = NaN; }
+      }
+    }
+
+    function passesInclude(tset){
+      if(includeTags.size === 0) return true;
+      const mode = includeModeSel.value;
+      if(mode === 'all'){
+        for(const t of includeTags){ if(!tset.has(t)) return false; }
+        return true;
+      } else {
+        for(const t of includeTags){ if(tset.has(t)) return true; }
+        return false;
+      }
+    }
+    function passesBan(tset){
+      for(const b of bannedTags){ if(tset.has(b)) return false; }
+      return true;
+    }
+
+    function computeCombo(){
+      const paidOnly = !!onlyPaidEl.checked;
+      const ignoreZeros = !!hideZeroRevEl.checked;
+      const [startTs, endTs] = getDateBounds();
+
+      matchedGames = [];
+      for(const g of games){
+        if(!inDateRange(g, startTs, endTs)) continue;
+        const tset = new Set(g.tags||[]);
+        if(!passesInclude(tset)) continue;
+        if(!passesBan(tset)) continue;
+        matchedGames.push(g);
+      }
+
+      const count = matchedGames.length;
+      const revs = [];
+      for(const g of matchedGames){
+        if(paidOnly && (isFree(g) || (g.price ?? 0) === 0)) continue;
+        const r = revenue(g);
+        if(ignoreZeros){ if(r>0) revs.push(r); } else revs.push(r);
+      }
+      const total = revs.reduce((a,b)=>a+b,0);
+      const avg = revs.length ? (total / revs.length) : NaN;
+      const med = median(revs);
+
+      kpiCount.textContent = fmtInt(count);
+      kpiTotal.textContent = usd(total);
+      kpiAvg.textContent   = usd(avg);
+      kpiMed.textContent   = usd(med);
+
+      comboTagPreview.innerHTML = '';
+      const inc = [...includeTags];
+      for(const t of inc) { const s=document.createElement('span'); s.className='pill'; s.textContent=t; comboTagPreview.appendChild(s); }
+      if(!inc.length) comboTagPreview.innerHTML = '<span class="muted small">(no include tags)</span>';
+
+      const withRev = revs.length;
+      const modeTxt = includeTags.size ? ` • mode: ${includeModeSel.value.toUpperCase()}` : '';
+      const dateTxt = (() => {
+        const [s,e] = getDateBounds();
+        if(!s && !e) return '';
+        const left = s ? fmtMonth(s) : '…';
+        const right = e ? fmtMonth(e) : '…';
+        return ` • release: ${left}–${right}`;
+      })();
+      comboMeta.textContent = `${fmtInt(count)} matched • ${fmtInt(withRev)} with revenue considered${modeTxt}${dateTxt}` + (paidOnly? ' • paid-only' : '') + (hideZeroRevEl.checked? ' • ignoring zero/unknown' : '');
+    }
+
+    function renderTable(){
+      const q = (tagSearch.value || '').trim().toLowerCase();
+      const hideBanned = !!respectBansInTable.checked;
+
+      let rows = [];
+      if (includeTags.size) {
+        for (const tag of includeTags) {
+          const s = tagStats.get(tag);
+          if (!s) continue;
+          if (hideBanned && bannedTags.has(s.tag)) continue;
+          if (q && !s.tag.includes(q)) continue;
+          rows.push(s);
+        }
+      } else {
+        for (const s of tagStats.values()) {
+          if (hideBanned && bannedTags.has(s.tag)) continue;
+          if (q && !s.tag.includes(q)) continue;
+          rows.push(s);
+        }
+      }
+
+      const sortMode = sortSel.value;
+      rows.sort((a,b)=>{
+        const by = (k, dir='desc')=>{
+          const av = (k==='avg'||k==='med') ? (Number.isFinite(a[k])?a[k]:-1) : a[k];
+          const bv = (k==='avg'||k==='med') ? (Number.isFinite(b[k])?b[k]:-1) : b[k];
+          if(av===bv){ return a.tag.localeCompare(b.tag); }
+          return dir==='desc' ? (bv-av) : (av-bv);
+        };
+        if(sortMode==='count_desc') return by('count','desc');
+        if(sortMode==='total_desc') return by('total','desc');
+        if(sortMode==='avg_desc') return by('avg','desc');
+        if(sortMode==='med_desc') return by('med','desc');
+        return a.tag.localeCompare(b.tag);
+      });
+
+      tagTable.innerHTML = '';
+      for(const s of rows){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${s.tag}</td>
+          <td class="num">${fmtInt(s.count)}</td>
+          <td class="num">${fmtInt(s.withRev)}</td>
+          <td class="num">${usd(s.total)}</td>
+          <td class="num">${usd(s.avg)}</td>
+          <td class="num">${usd(s.med)}</td>
+        `;
+        tr.addEventListener('click', ()=>{ includeTags.clear(); includeTags.add(s.tag); updateAll(); });
+        tr.style.cursor='pointer';
+        tagTable.appendChild(tr);
+      }
+
+      const scopeNote = includeTags.size ? ` • filtered to ${includeTags.size} entered tag(s)` : '';
+      tableMeta.textContent = `${fmtInt(rows.length)} tag rows${scopeNote}`;
+    }
+
+    function renderMatched(){
+      const q = (matchSearch.value || '').trim().toLowerCase();
+      const paidOnly = !!onlyPaidEl.checked;
+
+      let rows = matchedGames.map(g=>({
+        g,
+        name: g.name || `App ${g.app_id}`,
+        price: Number.isFinite(g.price) ? g.price : 0,
+        reviews: g.reviews || 0,
+        rev: revenue(g),
+        releaseTs: g.releaseTs || 0,
+      }));
+
+      if(q){ rows = rows.filter(r => r.name.toLowerCase().includes(q)); }
+      if(paidOnly){ rows = rows.filter(r => !(isFree(r.g) || (r.price ?? 0) === 0)); }
+
+      const mode = matchSort.value;
+      rows.sort((a,b)=>{
+        if(mode==='rev_desc') return (b.rev - a.rev) || a.name.localeCompare(b.name);
+        if(mode==='rev_asc')  return (a.rev - b.rev) || a.name.localeCompare(b.name);
+        if(mode==='name_asc') return a.name.localeCompare(b.name);
+        if(mode==='price_desc') return (b.price - a.price) || a.name.localeCompare(b.name);
+        if(mode==='reviews_desc') return (b.reviews - a.reviews) || a.name.localeCompare(b.name);
+        if(mode==='release_desc') return (b.releaseTs - a.releaseTs) || a.name.localeCompare(b.name);
+        return 0;
+      });
+
+      const MAX_ROWS = 500;
+      const clipped = rows.length > MAX_ROWS;
+      const view = clipped ? rows.slice(0, MAX_ROWS) : rows;
+
+      matchTable.innerHTML = '';
+      for(const r of view){
+        const tlist = (r.g.tags||[]).slice(0,30).join(', ');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${r.name}</td>
+          <td class="num">${r.price ? ('$' + r.price.toFixed(2)) : '—'}</td>
+          <td class="num">${fmtInt(r.reviews)}</td>
+          <td class="num">${usd(r.rev)}</td>
+          <td class="tags-cell">${tlist}</td>
+        `;
+        matchTable.appendChild(tr);
+      }
+
+      matchMeta.textContent = `${fmtInt(rows.length)} matched games` + (clipped? ` (showing first ${MAX_ROWS})` : '');
+    }
+
+    function updateAll(){
+      renderChips(includeTags, includeChips, 'chip chip-query');
+      renderChips(bannedTags, banChips, 'chip');
+      buildTagStats();
+      computeCombo();
+      renderTable();
+      renderMatched();
+    }
+
+    function addFromInput(input, set){
+      parseTagsFreeform(input.value).forEach(t=> set.add(t));
+      input.value=''; updateAll();
+    }
+
+    includeAdd.onclick = ()=> addFromInput(includeInput, includeTags);
+    includeClear.onclick = ()=> { includeTags.clear(); updateAll(); };
+    includeInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); addFromInput(includeInput, includeTags); } });
+
+    banAdd.onclick = ()=> addFromInput(banInput, bannedTags);
+    banClear.onclick = ()=> { bannedTags.clear(); updateAll(); };
+    banInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); addFromInput(banInput, bannedTags); } });
+
+    [respectBansInTable, onlyPaidEl, hideZeroRevEl, sortSel, includeModeSel, matchSort].forEach(el=> el.addEventListener('change', updateAll));
+    tagSearch.addEventListener('input', renderTable);
+    matchSearch.addEventListener('input', renderMatched);
+
+    // Date listeners
+    [dateStartEl, dateEndEl].forEach(el => el.addEventListener('change', updateAll));
+    dateClearBtn.addEventListener('click', ()=>{ dateStartEl.value=''; dateEndEl.value=''; updateAll(); });
+
+    (async ()=>{
+      try {
+        await loadGames();
+        updateAll();
+      } catch (err){
+        document.querySelector('main').innerHTML = `<div class="card" style="padding:1rem;">${err.message}</div>`;
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>
