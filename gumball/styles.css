@@ -1,0 +1,222 @@
+/* =========================================================
+   Steam Gumball Machine — Polished (with Filters)
+   - Filters panel restored
+   - Bigger circle ball, no scrollbars (scaled content)
+   - Neutral graphite glass body (not blue)
+   - Top bowl uses ~20 animated capsule “marbles”
+   ========================================================= */
+
+/* ---------- Reset-ish ---------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 700px at 75% -200px, #ff66c4 0%, #7a39ff 40%, #0d0f13 75%);
+  color: #e9eef5;
+}
+
+/* ---------- Palette ---------- */
+:root{
+  --ink:#e9eef5;
+  --muted:#a8b2bf;
+  --panel:#12161b;
+  --panel-2:#0c1016;
+  --outline:#2a3440;
+}
+
+/* ---------- Header ---------- */
+.site-header { text-align: center; padding: 2.2rem 1rem 1.2rem; }
+.logo {
+  margin: 0;
+  font-size: clamp(1.8rem, 2.5vw + 1.2rem, 3rem);
+  letter-spacing: .4px;
+  text-shadow: 0 2px 0 #0006, 0 8px 30px #0008;
+}
+.sparkle { filter: drop-shadow(0 2px 8px #0008); }
+.sub { margin:.5rem auto 0; max-width: 60ch; color: var(--muted); }
+
+/* ---------- Layout ---------- */
+.layout {
+  display: grid; grid-template-columns: 340px 1fr; gap: 1.2rem;
+  padding: 1rem clamp(.75rem, 3vw, 2rem) 2rem;
+}
+@media (max-width: 980px){
+  .layout { grid-template-columns: 1fr; padding-bottom: 1rem; }
+}
+
+/* ---------- Panel (Filters) ---------- */
+.panel {
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid #000; border-radius: 16px;
+  box-shadow: 0 8px 40px #0007, inset 0 1px 0 #ffffff06;
+  padding: 1rem; position: sticky; top: .75rem; align-self: start;
+}
+.panel-title { margin: .25rem 0 1rem; font-size: 1.2rem; }
+.field { margin-bottom: .9rem; }
+.field-inline { display: flex; align-items: center; gap: .55rem; }
+.field label { display:block; font-weight: 600; margin-bottom: .3rem; }
+.meta { color: var(--muted); font-size: .85rem; }
+.row { display:flex; gap:.5rem; }
+.input {
+  flex:1; background:#0c1118; border:1px solid var(--outline);
+  color:var(--ink); border-radius:10px; padding:.55rem .7rem; outline: none;
+}
+.input:focus { border-color: #ff66c4; box-shadow: 0 0 0 3px #ff66c433; }
+.btn {
+  appearance:none; border:1px solid var(--outline); background:#151b24;
+  color:#fff; padding:.55rem .8rem; border-radius:10px; cursor:pointer;
+  transition: transform .06s ease, background .2s ease, border-color .2s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color:#6f7d8d; }
+.btn:active { transform: translateY(0); }
+.btn-ghost { background:transparent; }
+.divider { height:1px; background:linear-gradient(90deg, transparent, #fff3, transparent); margin:1rem 0; }
+
+/* ---------- Stage / Machine ---------- */
+.stage { display:grid; gap: .6rem; }
+.results-meta { text-align:center; color: var(--muted); margin: .25rem 0 0; }
+
+.machine {
+  width:min(1100px, 100%); border-radius: 20px; padding: 1rem 1rem 1.2rem;
+  background: linear-gradient(180deg, #0f1318, #0b0f14);
+  border:1px solid #000;
+  box-shadow: 0 12px 60px #0007, inset 0 1px 0 #ffffff0a;
+  overflow: visible; position: relative;
+}
+
+/* ---------- Bowl (top) ---------- */
+.bowl {
+  position: relative;
+  height: 340px;
+  background:
+    radial-gradient(160% 100% at 50% -30%, #ffffff18, transparent 60%),
+    radial-gradient(100% 140% at 50% 120%, #00000080, transparent 60%),
+    #171a1f;
+  border: 2px solid #000;
+  border-radius: 50% / 30%;
+  overflow: hidden;
+  box-shadow: inset 0 8px 40px #000a, 0 4px 12px #0008;
+}
+.gumballs { position:absolute; inset:0; }
+
+/* Mini gumballs made from capsule images */
+.marble {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 6px 16px #0008, inset 0 1px 0 #ffffff22;
+  border: 1px solid #000;
+  animation: floatY calc(6s + 4s * var(--r)) ease-in-out infinite alternate,
+             floatX calc(5s + 3s * var(--r)) ease-in-out infinite alternate-reverse;
+}
+.marble img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.08);
+  filter: saturate(1.03) contrast(1.04);
+}
+@keyframes floatY { from { transform: translateY(-6%); } to { transform: translateY(8%); } }
+@keyframes floatX { from { transform: translateX(-4%); } to { transform: translateX(6%); } }
+
+/* ---------- Controls ---------- */
+.machine-mid{
+  display:flex; align-items:center; justify-content:center; gap: 1rem;
+  margin: 1rem auto .6rem;
+}
+.crank.spin { animation: spin .4s ease; }
+@keyframes spin { to { transform: rotate(1turn); } }
+
+/* ---------- Chute + BIGGER BALL ---------- */
+.chute {
+  position: relative;
+  min-height: clamp(700px, 72vh, 980px);   /* more vertical room */
+  margin: .2rem auto 0;
+  background: linear-gradient(180deg, #0b0f13, #0b0f12);
+  border: 1px solid #000; border-radius: 14px;
+  box-shadow: inset 0 -12px 40px #0008, inset 0 1px 0 #ffffff0a;
+  overflow: visible; z-index: 2; padding-bottom: 24px;
+}
+
+/* Perfect circle; content scales to fit. Neutral graphite, not blue. */
+.ball {
+  --cap: #ff66c4; /* JS updates per roll */
+  position:absolute; left:50%; top:28px; transform: translateX(-50%);
+  width: min(92vmin, 780px);               /* BIGGER ball */
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
+  background:
+    radial-gradient(140% 120% at 28% 22%, #ffffff14 0%, transparent 55%),
+    radial-gradient(120% 140% at 50% 80%, #00000080 0%, transparent 65%),
+    linear-gradient(180deg, #14171c, #0c0f13);  /* neutral graphite */
+  border:2px solid #000;
+  box-shadow: 0 18px 60px #000a, inset 0 2px 0 #ffffff12;
+  display:grid; grid-template-rows: 14% 1fr;  /* smaller cap to free body space */
+  overflow: hidden;
+  opacity:0; pointer-events:none; z-index: 3;
+  max-width: calc(100% - 24px);
+}
+.ball.drop { animation: drop .55s ease forwards; }
+@keyframes drop {
+  0% { opacity:0; transform: translateX(-50%) translateY(-46px); }
+  100%{ opacity:1; transform: translateX(-50%) translateY(0); }
+}
+.ball.open { pointer-events:auto; }
+
+/* Cap uses CSS var set on .ball */
+.cap-top {
+  background:
+    radial-gradient(120% 120% at 50% -30%, #ffffff66, transparent 60%),
+    var(--cap);
+  border-bottom: 1px solid #000;
+  border-top-left-radius: 50% 140%;
+  border-top-right-radius: 50% 140%;
+}
+
+/* No scrollbars: we center one scalable card */
+.ball-body {
+  position: relative; display: grid; place-items: center;
+  padding: 10px; overflow: hidden;
+}
+
+/* Content card (design size; JS scales down as needed) */
+.result-card {
+  transform-origin: center center; will-change: transform;
+  width: 480px; max-width: 480px;  /* slightly smaller base => less downscale */
+  color: var(--ink);
+}
+.thumb {
+  width: 100%; height: auto; display:block;
+  border-radius: 12px; border:1px solid #000; box-shadow: 0 6px 18px #0006;
+  margin: 0 0 .6rem 0;
+}
+.card-head { display:grid; gap:.6rem; }
+.title { margin:.1rem 0 0; font-size: clamp(1.15rem, 1.8vmin + .85rem, 1.6rem); }
+.title-link { color:#cfe2ff; text-decoration:none; }
+.title-link:hover { text-decoration:underline; }
+.title-link .ext { opacity:.85; font-weight:700; margin-left:.15rem; }
+
+.sub-links { font-size:.96rem; color:#98a6b7; }
+.sub-links .dot { margin:0 .35rem; color:#90a1b6; }
+.appid { color:#98a6b7; }
+
+.meta-grid {
+  display:grid; grid-template-columns: repeat(2, 1fr); gap:.55rem 1rem;
+  margin:.2rem 0 .2rem;
+}
+.meta-grid .k { display:block; font-size:.8rem; color:#98a6b7; }
+.meta-grid .v { font-weight:700; color:#eef4ff; }
+
+.tags { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.2rem; }
+.tag {
+  background:#121a23; border:1px solid #2a3b4c; color:#d9e8fb;
+  padding:.22rem .5rem; border-radius:999px; font-size:.86rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer { text-align:center; padding: 1rem; color: var(--muted); }
+
+/* ---------- A11y focus ---------- */
+:focus-visible { outline: 3px solid #ff66c4; outline-offset: 2px; }
