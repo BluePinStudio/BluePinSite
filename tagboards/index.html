@@ -105,12 +105,23 @@
           <h3 style="margin:0;">Tag leaderboard</h3>
           <div class="flex grow" style="justify-content:flex-end; gap:.5rem;">
             <input id="tagSearch" class="input-main search" type="text" placeholder="Search tags…" />
+            <!-- Full asc/desc options -->
             <select id="sortSel" class="input-main" style="max-width:220px;">
+              <!-- Count -->
               <option value="count_desc">Sort: Count ↓</option>
+              <option value="count_asc">Sort: Count ↑</option>
+              <!-- Total -->
               <option value="total_desc">Sort: Total revenue ↓</option>
+              <option value="total_asc">Sort: Total revenue ↑</option>
+              <!-- Average -->
               <option value="avg_desc">Sort: Average revenue ↓</option>
+              <option value="avg_asc">Sort: Average revenue ↑</option>
+              <!-- Median -->
               <option value="med_desc">Sort: Median revenue ↓</option>
+              <option value="med_asc">Sort: Median revenue ↑</option>
+              <!-- Tag alphabetical -->
               <option value="tag_asc">Sort: Tag A→Z</option>
+              <option value="tag_desc">Sort: Tag Z→A</option>
             </select>
           </div>
         </header>
@@ -221,21 +232,33 @@
       return a.length % 2 ? a[mid] : (a[mid-1] + a[mid]) / 2;
     };
 
-    // ---- Boxleiter (conservative 0.75x) helpers ----
-    function boxleiterMultiplier(releaseTs) {
-      const y = releaseTs ? new Date(releaseTs).getFullYear() : null;
-      if (!y) return 35 * 0.75; // unknown date → default reduced
+    // ---- Refined sales-per-review model (year + review-volume) ----
+    // Returns 'sales per review' multiple, then revenue = reviews * multiple * price
+    function salesPerReviewMultiple(year, reviewCount) {
+      const y = year || new Date().getFullYear();
 
+      // Year baseline (medians; modern years lower post-2019)
       let base;
-      if (y <= 2014) base = 90;
-      else if (y <= 2016) base = 70;
-      else if (y <= 2018) base = 58;
-      else if (y <= 2020) base = 50;
-      else if (y <= 2022) base = 40;
-      else if (y === 2023) base = 35;
-      else base = 30;
+      if (y <= 2016) base = 74;       // pre-2017 median
+      else if (y <= 2018) base = 60;  // 2017–2018
+      else if (y === 2019) base = 51; // 2019
+      else if (y === 2020) base = 38; // 2020
+      else if (y === 2021) base = 36; // post-2019 decline
+      else if (y === 2022) base = 35; // modern median
+      else base = 33;                 // 2023+
 
-      return base * 0.75; // apply conservative scaling
+      // Review-count band adjustment
+      if (reviewCount != null) {
+        if (reviewCount < 100) {
+          base = Math.min(base, 36);         // small titles
+        } else if (reviewCount >= 1000 && reviewCount < 10000) {
+          base = Math.max(base, 52.8);       // 1k–10k reviews
+        } else if (reviewCount >= 10000) {
+          base = Math.max(base, 60);         // very large hits
+        }
+        // 100–999: leave base as-is
+      }
+      return base;
     }
 
     // Gross revenue estimate = reviews * (sales/review) * price
@@ -243,8 +266,9 @@
       const r = g.reviews ?? 0;
       const p = isFree(g) ? 0 : (g.price ?? 0);
       if (r <= 0 || p <= 0) return 0;
-      const mult = boxleiterMultiplier(g.releaseTs);
-      return r * mult * p;
+      const year = g.releaseTs ? new Date(g.releaseTs).getFullYear() : null;
+      const spr = salesPerReviewMultiple(year, r);
+      return r * spr * p;
     };
 
     const parseReleaseTs = raw => {
@@ -432,7 +456,7 @@
         return ` • release: ${left}–${right}`;
       })();
       comboMeta.textContent = `${fmtInt(count)} matched • ${fmtInt(withRev)} with revenue considered${modeTxt}${dateTxt}` + (paidOnly? ' • paid-only' : '') + (hideZeroRevEl.checked? ' • ignoring zero/unknown' : '');
-      comboMeta.textContent += ' • Boxleiter (0.75× year-weighted)';
+      comboMeta.textContent += ' • Year+volume review multiple model';
     }
 
     function renderTable(){
@@ -458,17 +482,27 @@
 
       const sortMode = sortSel.value;
       rows.sort((a,b)=>{
-        const by = (k, dir='desc')=>{
-          const av = (k==='avg'||k==='med') ? (Number.isFinite(a[k])?a[k]:-1) : a[k];
-          const bv = (k==='avg'||k==='med') ? (Number.isFinite(b[k])?b[k]:-1) : b[k];
-          if(av===bv){ return a.tag.localeCompare(b.tag); }
-          return dir==='desc' ? (bv-av) : (av-bv);
-        };
-        if(sortMode==='count_desc') return by('count','desc');
-        if(sortMode==='total_desc') return by('total','desc');
-        if(sortMode==='avg_desc') return by('avg','desc');
-        if(sortMode==='med_desc') return by('med','desc');
-        return a.tag.localeCompare(b.tag);
+        const val = (obj, key) => (key==='avg'||key==='med')
+          ? (Number.isFinite(obj[key]) ? obj[key] : -1)
+          : obj[key];
+
+        switch (sortMode) {
+          case 'count_desc': return (val(b,'count') - val(a,'count')) || a.tag.localeCompare(b.tag);
+          case 'count_asc':  return (val(a,'count') - val(b,'count')) || a.tag.localeCompare(b.tag);
+
+          case 'total_desc': return (val(b,'total') - val(a,'total')) || a.tag.localeCompare(b.tag);
+          case 'total_asc':  return (val(a,'total') - val(b,'total')) || a.tag.localeCompare(b.tag);
+
+          case 'avg_desc':   return (val(b,'avg') - val(a,'avg')) || a.tag.localeCompare(b.tag);
+          case 'avg_asc':    return (val(a,'avg') - val(b,'avg')) || a.tag.localeCompare(b.tag);
+
+          case 'med_desc':   return (val(b,'med') - val(a,'med')) || a.tag.localeCompare(b.tag);
+          case 'med_asc':    return (val(a,'med') - val(b,'med')) || a.tag.localeCompare(b.tag);
+
+          case 'tag_desc':   return b.tag.localeCompare(a.tag);
+          case 'tag_asc':
+          default:           return a.tag.localeCompare(b.tag);
+        }
       });
 
       tagTable.innerHTML = '';
