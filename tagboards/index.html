@@ -220,10 +220,33 @@
       const mid = Math.floor(a.length/2);
       return a.length % 2 ? a[mid] : (a[mid-1] + a[mid]) / 2;
     };
+
+    // ---- Boxleiter (conservative 0.75x) helpers ----
+    function boxleiterMultiplier(releaseTs) {
+      const y = releaseTs ? new Date(releaseTs).getFullYear() : null;
+      if (!y) return 35 * 0.75; // unknown date → default reduced
+
+      let base;
+      if (y <= 2014) base = 90;
+      else if (y <= 2016) base = 70;
+      else if (y <= 2018) base = 58;
+      else if (y <= 2020) base = 50;
+      else if (y <= 2022) base = 40;
+      else if (y === 2023) base = 35;
+      else base = 30;
+
+      return base * 0.75; // apply conservative scaling
+    }
+
+    // Gross revenue estimate = reviews * (sales/review) * price
     const revenue = (g) => {
-      const r = g.reviews ?? 0; const p = isFree(g) ? 0 : (g.price ?? 0);
-      return (r > 0 && p > 0) ? r * p * 20 : 0;
+      const r = g.reviews ?? 0;
+      const p = isFree(g) ? 0 : (g.price ?? 0);
+      if (r <= 0 || p <= 0) return 0;
+      const mult = boxleiterMultiplier(g.releaseTs);
+      return r * mult * p;
     };
+
     const parseReleaseTs = raw => {
       if (!raw) return null;
       if (typeof raw === 'number') return raw < 1e12 ? raw*1000 : raw;
@@ -248,12 +271,11 @@
 
     // ---- Date helpers ----
     function monthInputToRange(value){
-      // value like "2021-07" -> [startTs, endTs]
       if(!value) return null;
       const [y, m] = value.split('-').map(Number);
       if(!y || !m) return null;
       const start = new Date(y, m-1, 1, 0,0,0,0).getTime();
-      const end   = new Date(y, m, 0, 23,59,59,999).getTime(); // day 0 of next month = last day of month
+      const end   = new Date(y, m, 0, 23,59,59,999).getTime();
       return [start, end];
     }
     function getDateBounds(){
@@ -262,13 +284,12 @@
       let startTs = s ? s[0] : null;
       let endTs   = e ? e[1] : null;
       if(startTs && endTs && endTs < startTs){
-        // swap if user picks end before start
         const tmp = startTs; startTs = endTs; endTs = tmp;
       }
       return [startTs, endTs];
     }
     function inDateRange(g, startTs, endTs){
-      if(!g.releaseTs) return true; // if unknown date, keep it (adjust if you’d rather exclude)
+      if(!g.releaseTs) return true;
       if(startTs && g.releaseTs < startTs) return false;
       if(endTs && g.releaseTs > endTs) return false;
       return true;
@@ -292,7 +313,7 @@
         if (!raw) continue;
         try {
           const j = JSON.parse(raw);
-          if (j.release?.coming_soon === true) continue;
+          if (j.release?.coming_soon === true) continue; // ignore unreleased
           const id = j.identity||{}; const cls=j.classification||{}; const media=j.media||{};
           parsed.push({
             app_id: j.app_id,
@@ -323,28 +344,30 @@
       const ignoreZeros = !!hideZeroRevEl.checked;
       const [startTs, endTs] = getDateBounds();
 
-      for(const g of games){
-        if(!inDateRange(g, startTs, endTs)) continue;
+      for (const g of games) {
+        if (!inDateRange(g, startTs, endTs)) continue;
 
-        const rev = revenue(g);
         const qualifies = paidOnly ? (!isFree(g) && (g.price ?? 0) > 0) : true;
-        const revVal = qualifies ? rev : 0;
+        const revVal = qualifies ? revenue(g) : 0;
         const hasRev = qualifies && revVal > 0;
 
-        for(const t of (g.tags || [])){
-          if(!tagStats.has(t)) tagStats.set(t,{tag:t,count:0,withRev:0,revList:[],total:0,avg:NaN,med:NaN});
+        for (const t of (g.tags || [])) {
+          if (!tagStats.has(t)) tagStats.set(t, { tag:t, count:0, withRev:0, revList:[], total:0, avg:NaN, med:NaN });
           const s = tagStats.get(t);
           s.count += 1;
-          if(hasRev){ s.withRev += 1; s.revList.push(revVal); s.total += revVal; }
+          if (hasRev) { s.withRev += 1; s.revList.push(revVal); s.total += revVal; }
         }
       }
-      for(const s of tagStats.values()){
-        if(s.revList.length){
-          const list = ignoreZeros ? s.revList.filter(v=>v>0) : s.revList;
+
+      for (const s of tagStats.values()) {
+        if (s.revList.length) {
+          const list = ignoreZeros ? s.revList.filter(v => v > 0) : s.revList;
           const denom = list.length || s.revList.length;
           s.avg = denom ? (list.reduce((a,b)=>a+b,0) / denom) : NaN;
           s.med = median(list);
-        } else { s.avg = NaN; s.med = NaN; }
+        } else {
+          s.avg = NaN; s.med = NaN;
+        }
       }
     }
 
@@ -409,6 +432,7 @@
         return ` • release: ${left}–${right}`;
       })();
       comboMeta.textContent = `${fmtInt(count)} matched • ${fmtInt(withRev)} with revenue considered${modeTxt}${dateTxt}` + (paidOnly? ' • paid-only' : '') + (hideZeroRevEl.checked? ' • ignoring zero/unknown' : '');
+      comboMeta.textContent += ' • Boxleiter (0.75× year-weighted)';
     }
 
     function renderTable(){
