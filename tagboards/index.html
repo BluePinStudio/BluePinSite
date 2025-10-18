@@ -1,51 +1,203 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Steam Tag Revenue Explorer</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    .dash { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(160px,1fr)); gap: .6rem; }
-    @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
-    .kpi { background: color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--outline); border-radius: 14px; padding: .85rem 1rem; box-shadow: var(--shadow-1); }
-    .kpi .label { color: var(--muted); font-size: .85rem; margin-bottom: .15rem; }
-    .kpi .value { font-weight: 800; font-size: 1.15rem; }
+    .dash {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
 
-    table { width: 100%; border-collapse: collapse; }
-    thead th { text-align: left; font-size: .92rem; color: var(--muted); font-weight: 700; border-bottom: 1px solid var(--outline); padding: .5rem .4rem; white-space: nowrap; }
-    tbody td { border-bottom: 1px solid color-mix(in srgb, var(--outline) 60%, transparent); padding: .55rem .4rem; }
-    tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
-    .num { text-align: right; font-variant-numeric: tabular-nums; }
-    .table-wrap { overflow: auto; border: 1px solid var(--outline); border-radius: 12px; background: color-mix(in srgb, var(--card) 88%, transparent); }
-    .controls-slim { display: grid; grid-template-columns: 1fr; gap: .6rem; }
-    .hint { color: var(--muted); }
-    .pill { display:inline-block; padding:.18rem .5rem; border:1px solid var(--chip-border); border-radius:999px; font-size:.78rem; }
-    .muted { color: var(--muted); }
-    .sep { opacity:.6; padding:0 .35rem; }
-    .flex { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
-    .grow { flex:1 1 auto; }
-    .small { font-size: .9rem; }
-    .chips-inline { display:inline-flex; gap:.35rem; flex-wrap:wrap; }
-    .search { max-width: 360px; }
-    .pointer { cursor: pointer; }
-    .nowrap { white-space: nowrap; }
-    .tags-cell { max-width: 520px; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: .6rem;
+    }
+
+    @media (max-width: 900px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .kpi {
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--outline);
+      border-radius: 14px;
+      padding: .85rem 1rem;
+      box-shadow: var(--shadow-1);
+    }
+
+    .kpi .label {
+      color: var(--muted);
+      font-size: .85rem;
+      margin-bottom: .15rem;
+    }
+
+    .kpi .value {
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      text-align: left;
+      font-size: .92rem;
+      color: var(--muted);
+      font-weight: 700;
+      border-bottom: 1px solid var(--outline);
+      padding: .5rem .4rem;
+      white-space: nowrap;
+    }
+
+    tbody td {
+      border-bottom: 1px solid color-mix(in srgb, var(--outline) 60%, transparent);
+      padding: .55rem .4rem;
+    }
+
+    tbody tr:hover {
+      background: color-mix(in srgb, var(--accent) 6%, transparent);
+    }
+
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+    }
+
+    .controls-slim {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .6rem;
+    }
+
+    .hint {
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: .18rem .5rem;
+      border: 1px solid var(--chip-border);
+      border-radius: 999px;
+      font-size: .78rem;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .sep {
+      opacity: .6;
+      padding: 0 .35rem;
+    }
+
+    .flex {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .grow {
+      flex: 1 1 auto;
+    }
+
+    .small {
+      font-size: .9rem;
+    }
+
+    .chips-inline {
+      display: inline-flex;
+      gap: .35rem;
+      flex-wrap: wrap;
+    }
+
+    .search {
+      max-width: 360px;
+    }
+
+    .pointer {
+      cursor: pointer;
+    }
+
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    .tags-cell {
+      max-width: 520px;
+    }
 
     /* Tabs */
-    .tabs { display:flex; align-items:center; gap:.4rem; background: color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--outline); border-radius: 10px; padding:.25rem; }
-    .tab-btn { appearance:none; border:1px solid transparent; background: transparent; color: var(--muted); padding:.5rem .8rem; border-radius: 8px; font-weight:700; cursor:pointer; }
-    .tab-btn:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); color: var(--text); }
-    .tab-btn.active { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--text); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
-    .tab-panel { display:none; }
-    .tab-panel.active { display:block; }
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--outline);
+      border-radius: 10px;
+      padding: .25rem;
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      padding: .5rem .8rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab-btn:hover {
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      color: var(--text);
+      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
   </style>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-5TPPRZVDVF');
+  </script>
 </head>
+
 <body>
   <header class="site-header">
     <h1>Steam Tag Revenue Explorer</h1>
-    <p class="sub">Explore count and revenue estimates by tag. Combine/ban tags, filter by date, and drill into matched games.</p>
+    <p class="sub">Explore count and revenue estimates by tag. Combine/ban tags, filter by date, and drill into matched
+      games.</p>
   </header>
 
   <main class="container">
@@ -54,7 +206,8 @@
         <!-- Include & mode -->
         <div class="input-row">
           <input id="includeInput" class="input-main" type="text" placeholder="Include tags… (comma-separated)" />
-          <select id="includeMode" class="input-main nowrap" title="How to match multiple include tags" style="max-width:160px;">
+          <select id="includeMode" class="input-main nowrap" title="How to match multiple include tags"
+            style="max-width:160px;">
             <option value="all">Match ALL</option>
             <option value="any">Match ANY</option>
           </select>
@@ -69,7 +222,8 @@
           <button id="banAdd" class="btn">Add banned</button>
           <button id="banClear" class="btn btn-ghost">Clear</button>
         </div>
-        <div class="banned-label">Games with any banned tag will be excluded from combo stats and the matched list.</div>
+        <div class="banned-label">Games with any banned tag will be excluded from combo stats and the matched list.
+        </div>
         <div id="banChips" class="chips banned-chips" style="margin-top:.25rem;"></div>
 
         <!-- Date window -->
@@ -84,11 +238,14 @@
 
         <!-- Options -->
         <div class="flex">
-          <label class="flex small"><input id="respectBansInTable" type="checkbox" /> <span>Hide banned tags in the leaderboard</span></label>
+          <label class="flex small"><input id="respectBansInTable" type="checkbox" /> <span>Hide banned tags in the
+              leaderboard</span></label>
           <span class="sep">|</span>
-          <label class="flex small"><input id="onlyPaid" type="checkbox" /> <span>Revenue stats use only paid games (price &gt; 0)</span></label>
+          <label class="flex small"><input id="onlyPaid" type="checkbox" /> <span>Revenue stats use only paid games
+              (price &gt; 0)</span></label>
           <span class="sep">|</span>
-          <label class="flex small"><input id="hideZeroRev" type="checkbox" checked /> <span>Ignore zero/unknown revenue in averages/median</span></label>
+          <label class="flex small"><input id="hideZeroRev" type="checkbox" checked /> <span>Ignore zero/unknown revenue
+              in averages/median</span></label>
         </div>
       </div>
     </section>
@@ -101,18 +258,32 @@
           <div class="chips-inline small" id="comboTagPreview"></div>
         </header>
         <div class="kpi-grid" style="margin-top:.6rem;">
-          <div class="kpi"><div class="label">Games matched</div><div class="value" id="kpiCount">—</div></div>
-          <div class="kpi"><div class="label">Total estimated revenue</div><div class="value" id="kpiTotal">—</div></div>
-          <div class="kpi"><div class="label">Average estimated revenue</div><div class="value" id="kpiAvg">—</div></div>
-          <div class="kpi"><div class="label">Median estimated revenue</div><div class="value" id="kpiMed">—</div></div>
+          <div class="kpi">
+            <div class="label">Games matched</div>
+            <div class="value" id="kpiCount">—</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Total estimated revenue</div>
+            <div class="value" id="kpiTotal">—</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Average estimated revenue</div>
+            <div class="value" id="kpiAvg">—</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Median estimated revenue</div>
+            <div class="value" id="kpiMed">—</div>
+          </div>
         </div>
         <div class="meta" id="comboMeta" style="margin-top:.4rem;">—</div>
       </article>
 
       <!-- Tabs header -->
       <div class="tabs" role="tablist" aria-label="Data views" style="margin-top:.3rem;">
-        <button class="tab-btn active" id="tab-tags" role="tab" aria-controls="panel-tags" aria-selected="true" data-tab="tags">Tag leaderboard</button>
-        <button class="tab-btn" id="tab-games" role="tab" aria-controls="panel-games" aria-selected="false" data-tab="games">Matched games</button>
+        <button class="tab-btn active" id="tab-tags" role="tab" aria-controls="panel-tags" aria-selected="true"
+          data-tab="tags">Tag leaderboard</button>
+        <button class="tab-btn" id="tab-games" role="tab" aria-controls="panel-games" aria-selected="false"
+          data-tab="games">Matched games</button>
       </div>
 
       <!-- Tag leaderboard panel -->
@@ -223,8 +394,8 @@
     const comboTagPreview = document.getElementById('comboTagPreview');
     const kpiCount = document.getElementById('kpiCount');
     const kpiTotal = document.getElementById('kpiTotal');
-    const kpiAvg   = document.getElementById('kpiAvg');
-    const kpiMed   = document.getElementById('kpiMed');
+    const kpiAvg = document.getElementById('kpiAvg');
+    const kpiMed = document.getElementById('kpiMed');
     const comboMeta = document.getElementById('comboMeta');
 
     const tagSearch = document.getElementById('tagSearch');
@@ -256,16 +427,16 @@
       if (location.hash !== '#' + valid) history.replaceState(null, '', '#' + valid);
     }
     tabButtons.forEach(btn => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
-    window.addEventListener('hashchange', () => setTab((location.hash||'').replace('#','')));
+    window.addEventListener('hashchange', () => setTab((location.hash || '').replace('#', '')));
 
-    const normTag = t => (t||'').trim().toLowerCase();
+    const normTag = t => (t || '').trim().toLowerCase();
     const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
     const isFree = g => (g.is_free === true) || (g.price === 0);
     const usd = n => (Number.isFinite(n) ? n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) : '—');
     const median = list => {
-      if (!list.length) return NaN; const a = [...list].sort((x,y)=>x-y);
-      const mid = Math.floor(a.length/2);
-      return a.length % 2 ? a[mid] : (a[mid-1] + a[mid]) / 2;
+      if (!list.length) return NaN; const a = [...list].sort((x, y) => x - y);
+      const mid = Math.floor(a.length / 2);
+      return a.length % 2 ? a[mid] : (a[mid - 1] + a[mid]) / 2;
     };
 
     // ---- Refined sales-per-review model (year + review-volume) ----
@@ -298,59 +469,59 @@
 
     const parseReleaseTs = raw => {
       if (!raw) return null;
-      if (typeof raw === 'number') return raw < 1e12 ? raw*1000 : raw;
+      if (typeof raw === 'number') return raw < 1e12 ? raw * 1000 : raw;
       if (typeof raw === 'string') { const t = Date.parse(raw); if (!Number.isNaN(t)) return t; }
       return null;
     };
     const fmtInt = n => Number.isFinite(n) ? n.toLocaleString() : '—';
 
-    function parseTagsFreeform(str){
-      return str.split(',').map(s=>s.trim()).filter(Boolean).map(s=>normTag(s.replace(/^['"](.*)['"]$/,'$1')));
+    function parseTagsFreeform(str) {
+      return str.split(',').map(s => s.trim()).filter(Boolean).map(s => normTag(s.replace(/^['"](.*)['"]$/, '$1')));
     }
-    function renderChips(set, host, klass='chip'){
+    function renderChips(set, host, klass = 'chip') {
       host.innerHTML = '';
-      for(const t of set){
+      for (const t of set) {
         const span = document.createElement('span'); span.className = `${klass}`; span.textContent = t;
-        const x = document.createElement('button'); x.className='chip-x'; x.type='button'; x.textContent='×'; x.setAttribute('aria-label',`Remove ${t}`);
-        x.onclick = (e)=>{ e.stopPropagation(); set.delete(t); updateAll(); };
+        const x = document.createElement('button'); x.className = 'chip-x'; x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', `Remove ${t}`);
+        x.onclick = (e) => { e.stopPropagation(); set.delete(t); updateAll(); };
         span.appendChild(x); host.appendChild(span);
       }
-      if(!set.size){ host.innerHTML = '<div class="hint">None.</div>'; }
+      if (!set.size) { host.innerHTML = '<div class="hint">None.</div>'; }
     }
 
     // ---- Date helpers ----
-    function monthInputToRange(value){
-      if(!value) return null;
+    function monthInputToRange(value) {
+      if (!value) return null;
       const [y, m] = value.split('-').map(Number);
-      if(!y || !m) return null;
-      const start = new Date(y, m-1, 1, 0,0,0,0).getTime();
-      const end   = new Date(y, m, 0, 23,59,59,999).getTime();
+      if (!y || !m) return null;
+      const start = new Date(y, m - 1, 1, 0, 0, 0, 0).getTime();
+      const end = new Date(y, m, 0, 23, 59, 59, 999).getTime();
       return [start, end];
     }
-    function getDateBounds(){
+    function getDateBounds() {
       const s = monthInputToRange(dateStartEl.value);
       const e = monthInputToRange(dateEndEl.value);
       let startTs = s ? s[0] : null;
-      let endTs   = e ? e[1] : null;
-      if(startTs && endTs && endTs < startTs){
+      let endTs = e ? e[1] : null;
+      if (startTs && endTs && endTs < startTs) {
         const tmp = startTs; startTs = endTs; endTs = tmp;
       }
       return [startTs, endTs];
     }
-    function inDateRange(g, startTs, endTs){
-      if(!g.releaseTs) return true;
-      if(startTs && g.releaseTs < startTs) return false;
-      if(endTs && g.releaseTs > endTs) return false;
+    function inDateRange(g, startTs, endTs) {
+      if (!g.releaseTs) return true;
+      if (startTs && g.releaseTs < startTs) return false;
+      if (endTs && g.releaseTs > endTs) return false;
       return true;
     }
-    function fmtMonth(ts){
-      if(!ts) return null;
-      return new Date(ts).toLocaleString(undefined, { month:'short', year:'numeric' });
+    function fmtMonth(ts) {
+      if (!ts) return null;
+      return new Date(ts).toLocaleString(undefined, { month: 'short', year: 'numeric' });
     }
 
-    async function loadGames(){
-      const res = await fetch(JSON_LINES_PATH, { cache:'no-store' });
-      if(!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH} (HTTP ${res.status})`);
+    async function loadGames() {
+      const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH} (HTTP ${res.status})`);
       const text = await res.text();
       const lines = text.split(/\r?\n/);
 
@@ -363,7 +534,7 @@
         try {
           const j = JSON.parse(raw);
           if (j.release?.coming_soon === true) continue; // ignore unreleased
-          const id = j.identity||{}; const cls=j.classification||{}; const media=j.media||{};
+          const id = j.identity || {}; const cls = j.classification || {}; const media = j.media || {};
           parsed.push({
             app_id: j.app_id,
             name: id.name || `App ${j.app_id}`,
@@ -378,7 +549,7 @@
           });
         } catch (e) {
           badCount++;
-          if (badCount === 1) console.warn(`JSONL parse error at line ${i+1}:`, e, lines[i]);
+          if (badCount === 1) console.warn(`JSONL parse error at line ${i + 1}:`, e, lines[i]);
         }
       }
       if (!parsed.length) {
@@ -387,7 +558,7 @@
       games = parsed;
     }
 
-    function buildTagStats(){
+    function buildTagStats() {
       tagStats = new Map();
       const paidOnly = !!onlyPaidEl.checked;
       const ignoreZeros = !!hideZeroRevEl.checked;
@@ -401,7 +572,7 @@
         const hasRev = qualifies && revVal > 0;
 
         for (const t of (g.tags || [])) {
-          if (!tagStats.has(t)) tagStats.set(t, { tag:t, count:0, withRev:0, revList:[], total:0, avg:NaN, med:NaN });
+          if (!tagStats.has(t)) tagStats.set(t, { tag: t, count: 0, withRev: 0, revList: [], total: 0, avg: NaN, med: NaN });
           const s = tagStats.get(t);
           s.count += 1;
           if (hasRev) { s.withRev += 1; s.revList.push(revVal); s.total += revVal; }
@@ -412,7 +583,7 @@
         if (s.revList.length) {
           const list = ignoreZeros ? s.revList.filter(v => v > 0) : s.revList;
           const denom = list.length || s.revList.length;
-          s.avg = denom ? (list.reduce((a,b)=>a+b,0) / denom) : NaN;
+          s.avg = denom ? (list.reduce((a, b) => a + b, 0) / denom) : NaN;
           s.med = median(list);
         } else {
           s.avg = NaN; s.med = NaN;
@@ -420,71 +591,71 @@
       }
     }
 
-    function passesInclude(tset){
-      if(includeTags.size === 0) return true;
+    function passesInclude(tset) {
+      if (includeTags.size === 0) return true;
       const mode = includeModeSel.value;
-      if(mode === 'all'){
-        for(const t of includeTags){ if(!tset.has(t)) return false; }
+      if (mode === 'all') {
+        for (const t of includeTags) { if (!tset.has(t)) return false; }
         return true;
       } else {
-        for(const t of includeTags){ if(tset.has(t)) return true; }
+        for (const t of includeTags) { if (tset.has(t)) return true; }
         return false;
       }
     }
-    function passesBan(tset){
-      for(const b of bannedTags){ if(tset.has(b)) return false; }
+    function passesBan(tset) {
+      for (const b of bannedTags) { if (tset.has(b)) return false; }
       return true;
     }
 
-    function computeCombo(){
+    function computeCombo() {
       const paidOnly = !!onlyPaidEl.checked;
       const ignoreZeros = !!hideZeroRevEl.checked;
       const [startTs, endTs] = getDateBounds();
 
       matchedGames = [];
-      for(const g of games){
-        if(!inDateRange(g, startTs, endTs)) continue;
-        const tset = new Set(g.tags||[]);
-        if(!passesInclude(tset)) continue;
-        if(!passesBan(tset)) continue;
+      for (const g of games) {
+        if (!inDateRange(g, startTs, endTs)) continue;
+        const tset = new Set(g.tags || []);
+        if (!passesInclude(tset)) continue;
+        if (!passesBan(tset)) continue;
         matchedGames.push(g);
       }
 
       const count = matchedGames.length;
       const revs = [];
-      for(const g of matchedGames){
-        if(paidOnly && (isFree(g) || (g.price ?? 0) === 0)) continue;
+      for (const g of matchedGames) {
+        if (paidOnly && (isFree(g) || (g.price ?? 0) === 0)) continue;
         const r = revenue(g);
-        if(ignoreZeros){ if(r>0) revs.push(r); } else revs.push(r);
+        if (ignoreZeros) { if (r > 0) revs.push(r); } else revs.push(r);
       }
-      const total = revs.reduce((a,b)=>a+b,0);
+      const total = revs.reduce((a, b) => a + b, 0);
       const avg = revs.length ? (total / revs.length) : NaN;
       const med = median(revs);
 
       kpiCount.textContent = fmtInt(count);
       kpiTotal.textContent = usd(total);
-      kpiAvg.textContent   = usd(avg);
-      kpiMed.textContent   = usd(med);
+      kpiAvg.textContent = usd(avg);
+      kpiMed.textContent = usd(med);
 
       comboTagPreview.innerHTML = '';
       const inc = [...includeTags];
-      for(const t of inc) { const s=document.createElement('span'); s.className='pill'; s.textContent=t; comboTagPreview.appendChild(s); }
-      if(!inc.length) comboTagPreview.innerHTML = '<span class="muted small">(no include tags)</span>';
+      for (const t of inc) { const s = document.createElement('span'); s.className = 'pill'; s.textContent = t; comboTagPreview.appendChild(s); }
+      if (!inc.length) comboTagPreview.innerHTML = '<span class="muted small">(no include tags)</span>';
 
       const withRev = revs.length;
       const modeTxt = includeTags.size ? ` • mode: ${includeModeSel.value.toUpperCase()}` : '';
       const dateTxt = (() => {
-        const [s,e] = getDateBounds();
-        if(!s && !e) return '';
+        const [s, e] = getDateBounds();
+        if (!s && !e) return '';
         const left = s ? fmtMonth(s) : '…';
         const right = e ? fmtMonth(e) : '…';
         return ` • release: ${left}–${right}`;
       })();
-      comboMeta.textContent = `${fmtInt(count)} matched • ${fmtInt(withRev)} with revenue considered${modeTxt}${dateTxt}` + (paidOnly? ' • paid-only' : '') + (hideZeroRevEl.checked? ' • ignoring zero/unknown' : '');
+      comboMeta.textContent = `${fmtInt(count)} matched • ${fmtInt(withRev)} with revenue considered${modeTxt}${dateTxt}` + (paidOnly ? ' • paid-only' : '') + (hideZeroRevEl.checked ? ' • ignoring zero/unknown' : '');
       comboMeta.textContent += ' • Year+volume review multiple model';
     }
 
-    function renderTable(){
+    function renderTable() {
       const q = (tagSearch.value || '').trim().toLowerCase();
       const hideBanned = !!respectBansInTable.checked;
 
@@ -506,32 +677,32 @@
       }
 
       const sortMode = sortSel.value;
-      rows.sort((a,b)=>{
-        const val = (obj, key) => (key==='avg'||key==='med')
+      rows.sort((a, b) => {
+        const val = (obj, key) => (key === 'avg' || key === 'med')
           ? (Number.isFinite(obj[key]) ? obj[key] : -1)
           : obj[key];
 
         switch (sortMode) {
-          case 'count_desc': return (val(b,'count') - val(a,'count')) || a.tag.localeCompare(b.tag);
-          case 'count_asc':  return (val(a,'count') - val(b,'count')) || a.tag.localeCompare(b,'tag');
+          case 'count_desc': return (val(b, 'count') - val(a, 'count')) || a.tag.localeCompare(b.tag);
+          case 'count_asc': return (val(a, 'count') - val(b, 'count')) || a.tag.localeCompare(b, 'tag');
 
-          case 'total_desc': return (val(b,'total') - val(a,'total')) || a.tag.localeCompare(b.tag);
-          case 'total_asc':  return (val(a,'total') - val(b,'total')) || a.tag.localeCompare(b.tag);
+          case 'total_desc': return (val(b, 'total') - val(a, 'total')) || a.tag.localeCompare(b.tag);
+          case 'total_asc': return (val(a, 'total') - val(b, 'total')) || a.tag.localeCompare(b.tag);
 
-          case 'avg_desc':   return (val(b,'avg') - val(a,'avg')) || a.tag.localeCompare(b.tag);
-          case 'avg_asc':    return (val(a,'avg') - val(b,'avg')) || a.tag.localeCompare(b.tag);
+          case 'avg_desc': return (val(b, 'avg') - val(a, 'avg')) || a.tag.localeCompare(b.tag);
+          case 'avg_asc': return (val(a, 'avg') - val(b, 'avg')) || a.tag.localeCompare(b.tag);
 
-          case 'med_desc':   return (val(b,'med') - val(a,'med')) || a.tag.localeCompare(b.tag);
-          case 'med_asc':    return (val(a,'med') - val(b,'med')) || a.tag.localeCompare(b.tag);
+          case 'med_desc': return (val(b, 'med') - val(a, 'med')) || a.tag.localeCompare(b.tag);
+          case 'med_asc': return (val(a, 'med') - val(b, 'med')) || a.tag.localeCompare(b.tag);
 
-          case 'tag_desc':   return b.tag.localeCompare(a.tag);
+          case 'tag_desc': return b.tag.localeCompare(a.tag);
           case 'tag_asc':
-          default:           return a.tag.localeCompare(b.tag);
+          default: return a.tag.localeCompare(b.tag);
         }
       });
 
       tagTable.innerHTML = '';
-      for(const s of rows){
+      for (const s of rows) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${s.tag}</td>
@@ -541,8 +712,8 @@
           <td class="num">${usd(s.avg)}</td>
           <td class="num">${usd(s.med)}</td>
         `;
-        tr.addEventListener('click', ()=>{ includeTags.clear(); includeTags.add(s.tag); updateAll(); setTab('games'); });
-        tr.style.cursor='pointer';
+        tr.addEventListener('click', () => { includeTags.clear(); includeTags.add(s.tag); updateAll(); setTab('games'); });
+        tr.style.cursor = 'pointer';
         tagTable.appendChild(tr);
       }
 
@@ -550,11 +721,11 @@
       tableMeta.textContent = `${fmtInt(rows.length)} tag rows${scopeNote}`;
     }
 
-    function renderMatched(){
+    function renderMatched() {
       const q = (matchSearch.value || '').trim().toLowerCase();
       const paidOnly = !!onlyPaidEl.checked;
 
-      let rows = matchedGames.map(g=>({
+      let rows = matchedGames.map(g => ({
         g,
         name: g.name || `App ${g.app_id}`,
         price: Number.isFinite(g.price) ? g.price : 0,
@@ -563,17 +734,17 @@
         releaseTs: g.releaseTs || 0,
       }));
 
-      if(q){ rows = rows.filter(r => r.name.toLowerCase().includes(q)); }
-      if(paidOnly){ rows = rows.filter(r => !(isFree(r.g) || (r.price ?? 0) === 0)); }
+      if (q) { rows = rows.filter(r => r.name.toLowerCase().includes(q)); }
+      if (paidOnly) { rows = rows.filter(r => !(isFree(r.g) || (r.price ?? 0) === 0)); }
 
       const mode = matchSort.value;
-      rows.sort((a,b)=>{
-        if(mode==='rev_desc') return (b.rev - a.rev) || a.name.localeCompare(b.name);
-        if(mode==='rev_asc')  return (a.rev - b.rev) || a.name.localeCompare(b.name);
-        if(mode==='name_asc') return a.name.localeCompare(b.name);
-        if(mode==='price_desc') return (b.price - a.price) || a.name.localeCompare(b.name);
-        if(mode==='reviews_desc') return (b.reviews - a.reviews) || a.name.localeCompare(b.name);
-        if(mode==='release_desc') return (b.releaseTs - a.releaseTs) || a.name.localeCompare(b.name);
+      rows.sort((a, b) => {
+        if (mode === 'rev_desc') return (b.rev - a.rev) || a.name.localeCompare(b.name);
+        if (mode === 'rev_asc') return (a.rev - b.rev) || a.name.localeCompare(b.name);
+        if (mode === 'name_asc') return a.name.localeCompare(b.name);
+        if (mode === 'price_desc') return (b.price - a.price) || a.name.localeCompare(b.name);
+        if (mode === 'reviews_desc') return (b.reviews - a.reviews) || a.name.localeCompare(b.name);
+        if (mode === 'release_desc') return (b.releaseTs - a.releaseTs) || a.name.localeCompare(b.name);
         return 0;
       });
 
@@ -582,8 +753,8 @@
       const view = clipped ? rows.slice(0, MAX_ROWS) : rows;
 
       matchTable.innerHTML = '';
-      for(const r of view){
-        const tlist = (r.g.tags||[]).slice(0,30).join(', ');
+      for (const r of view) {
+        const tlist = (r.g.tags || []).slice(0, 30).join(', ');
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${r.name}</td>
@@ -595,10 +766,10 @@
         matchTable.appendChild(tr);
       }
 
-      matchMeta.textContent = `${fmtInt(rows.length)} matched games` + (clipped? ` (showing first ${MAX_ROWS})` : '');
+      matchMeta.textContent = `${fmtInt(rows.length)} matched games` + (clipped ? ` (showing first ${MAX_ROWS})` : '');
     }
 
-    function updateAll(){
+    function updateAll() {
       renderChips(includeTags, includeChips, 'chip chip-query');
       renderChips(bannedTags, banChips, 'chip');
       buildTagStats();
@@ -607,38 +778,39 @@
       renderMatched();
     }
 
-    function addFromInput(input, set){
-      parseTagsFreeform(input.value).forEach(t=> set.add(t));
-      input.value=''; updateAll();
+    function addFromInput(input, set) {
+      parseTagsFreeform(input.value).forEach(t => set.add(t));
+      input.value = ''; updateAll();
     }
 
-    includeAdd.onclick = ()=> addFromInput(includeInput, includeTags);
-    includeClear.onclick = ()=> { includeTags.clear(); updateAll(); };
-    includeInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); addFromInput(includeInput, includeTags); } });
+    includeAdd.onclick = () => addFromInput(includeInput, includeTags);
+    includeClear.onclick = () => { includeTags.clear(); updateAll(); };
+    includeInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addFromInput(includeInput, includeTags); } });
 
-    banAdd.onclick = ()=> addFromInput(banInput, bannedTags);
-    banClear.onclick = ()=> { bannedTags.clear(); updateAll(); };
-    banInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); addFromInput(banInput, bannedTags); } });
+    banAdd.onclick = () => addFromInput(banInput, bannedTags);
+    banClear.onclick = () => { bannedTags.clear(); updateAll(); };
+    banInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addFromInput(banInput, bannedTags); } });
 
-    [respectBansInTable, onlyPaidEl, hideZeroRevEl, sortSel, includeModeSel, matchSort].forEach(el=> el.addEventListener('change', updateAll));
+    [respectBansInTable, onlyPaidEl, hideZeroRevEl, sortSel, includeModeSel, matchSort].forEach(el => el.addEventListener('change', updateAll));
     tagSearch.addEventListener('input', renderTable);
     matchSearch.addEventListener('input', renderMatched);
 
     // Date listeners
     [dateStartEl, dateEndEl].forEach(el => el.addEventListener('change', updateAll));
-    dateClearBtn.addEventListener('click', ()=>{ dateStartEl.value=''; dateEndEl.value=''; updateAll(); });
+    dateClearBtn.addEventListener('click', () => { dateStartEl.value = ''; dateEndEl.value = ''; updateAll(); });
 
-    (async ()=>{
+    (async () => {
       try {
         await loadGames();
         updateAll();
         // initialize tab from hash
-        setTab((location.hash||'#tags').replace('#',''));
-      } catch (err){
+        setTab((location.hash || '#tags').replace('#', ''));
+      } catch (err) {
         document.querySelector('main').innerHTML = `<div class="card" style="padding:1rem;">${err.message}</div>`;
         console.error(err);
       }
     })();
   </script>
 </body>
+
 </html>

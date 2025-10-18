@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Steam Tag Hunter</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-5TPPRZVDVF');
+  </script>
 </head>
 
 <body>
@@ -162,23 +169,23 @@
         <fieldset>
           <legend>Filters</legend>
           <small class="meta">Leave blank to ignore a side. If any bound is set, unknown prices are excluded.</small>
-<div class="range-row">
-  <label class="range-label">Price (USD)</label>
-  <div class="range-inputs">
-    <input id="priceMin" class="range-input" type="number" step="0.01" min="0" placeholder="min" />
-    <span class="range-sep">–</span>
-    <input id="priceMax" class="range-input" type="number" step="0.01" min="0" placeholder="max" />
-  </div>
-</div>
+          <div class="range-row">
+            <label class="range-label">Price (USD)</label>
+            <div class="range-inputs">
+              <input id="priceMin" class="range-input" type="number" step="0.01" min="0" placeholder="min" />
+              <span class="range-sep">–</span>
+              <input id="priceMax" class="range-input" type="number" step="0.01" min="0" placeholder="max" />
+            </div>
+          </div>
 
-<div class="range-row">
-  <label class="range-label">Estimated Revenue</label>
-  <div class="range-inputs">
-    <input id="revMin" class="range-input" type="number" step="1" min="0" placeholder="min" />
-    <span class="range-sep">–</span>
-    <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
-  </div>
-</div>
+          <div class="range-row">
+            <label class="range-label">Estimated Revenue</label>
+            <div class="range-inputs">
+              <input id="revMin" class="range-input" type="number" step="1" min="0" placeholder="min" />
+              <span class="range-sep">–</span>
+              <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
+            </div>
+          </div>
 
         </fieldset>
 
@@ -423,22 +430,22 @@
       for (const bt of bannedTags) if (s.has(bt)) return true;
       return false;
     }
-function similarityScore(g, qSet, mode, pools) {
-  const gSet = buildTagSetFromPools(g, pools);
-  let inter = 0;
-  for (const t of qSet) if (gSet.has(t)) inter++;
+    function similarityScore(g, qSet, mode, pools) {
+      const gSet = buildTagSetFromPools(g, pools);
+      let inter = 0;
+      for (const t of qSet) if (gSet.has(t)) inter++;
 
-  const containsAll = inter === qSet.size;
-  const exactOnly = containsAll && gSet.size === qSet.size;
+      const containsAll = inter === qSet.size;
+      const exactOnly = containsAll && gSet.size === qSet.size;
 
-  if (inter === 0) return { score: 0, inter, gSize: gSet.size, containsAll, exactOnly };
+      if (inter === 0) return { score: 0, inter, gSize: gSet.size, containsAll, exactOnly };
 
-  const score = (mode === 'containment')
-    ? inter / Math.max(1, qSet.size)
-    : inter / Math.max(1, new Set([...qSet, ...gSet]).size);
+      const score = (mode === 'containment')
+        ? inter / Math.max(1, qSet.size)
+        : inter / Math.max(1, new Set([...qSet, ...gSet]).size);
 
-  return { score, inter, gSize: gSet.size, containsAll, exactOnly };
-}
+      return { score, inter, gSize: gSet.size, containsAll, exactOnly };
+    }
 
 
     // ---------- UI ----------
@@ -475,49 +482,49 @@ function similarityScore(g, qSet, mode, pools) {
       return s;
     }
 
-function renderPage() {
-  resultsEl.innerHTML = '';
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const slice = lastResults.slice(start, start + PAGE_SIZE);
+    function renderPage() {
+      resultsEl.innerHTML = '';
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const slice = lastResults.slice(start, start + PAGE_SIZE);
 
-  // Keep full query for highlighting matched vs not
-  const q = new Set(queryTags);
+      // Keep full query for highlighting matched vs not
+      const q = new Set(queryTags);
 
-  for (const item of slice) {
-    const g = games[item.gIdx];
-    const pct = Math.round(item.score * 100);
-    const color = similarityColor(pct);
-    const label = decileLabel(pct);
+      for (const item of slice) {
+        const g = games[item.gIdx];
+        const pct = Math.round(item.score * 100);
+        const color = similarityColor(pct);
+        const label = decileLabel(pct);
 
-    const card = document.createElement('article');
-    card.className = 'card';
-    if (!showThumbs) card.classList.add('minimal');
+        const card = document.createElement('article');
+        card.className = 'card';
+        if (!showThumbs) card.classList.add('minimal');
 
-    // Header
-    const header = document.createElement('div'); header.className = 'card-header';
-    if (showThumbs && g.header) {
-      const img = document.createElement('img'); img.className = 'thumb thumb-inline';
-      img.loading = 'lazy'; img.decoding = 'async'; img.alt = `${g.name} header image`; img.src = g.header;
-      header.appendChild(img);
-    }
-    const title = document.createElement('h3'); title.className = 'title';
-    const a = document.createElement('a'); a.href = `https://store.steampowered.com/app/${g.app_id}`; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = g.name;
-    title.appendChild(a); header.appendChild(title);
+        // Header
+        const header = document.createElement('div'); header.className = 'card-header';
+        if (showThumbs && g.header) {
+          const img = document.createElement('img'); img.className = 'thumb thumb-inline';
+          img.loading = 'lazy'; img.decoding = 'async'; img.alt = `${g.name} header image`; img.src = g.header;
+          header.appendChild(img);
+        }
+        const title = document.createElement('h3'); title.className = 'title';
+        const a = document.createElement('a'); a.href = `https://store.steampowered.com/app/${g.app_id}`; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = g.name;
+        title.appendChild(a); header.appendChild(title);
 
-    const pill = document.createElement('span'); pill.className = 'sim-pill';
-    // Use requiredCount (effective query size for current pools) in the tooltip
-    pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
-    pill.textContent = `${pct}%`; pill.style.borderColor = color; pill.style.color = color;
-    header.appendChild(pill);
-    card.appendChild(header);
+        const pill = document.createElement('span'); pill.className = 'sim-pill';
+        // Use requiredCount (effective query size for current pools) in the tooltip
+        pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
+        pill.textContent = `${pct}%`; pill.style.borderColor = color; pill.style.color = color;
+        header.appendChild(pill);
+        card.appendChild(header);
 
-    // Meta row
-    const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
-    const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
-    const estimate = estimateSalesUSD(g);
+        // Meta row
+        const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
+        const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
+        const estimate = estimateSalesUSD(g);
 
-    const meta = document.createElement('div'); meta.className = 'meta-row';
-    meta.innerHTML = `
+        const meta = document.createElement('div'); meta.className = 'meta-row';
+        meta.innerHTML = `
       <span class="meta">Developer: ${devs}</span>
       <span class="meta">Publisher: ${pubs}</span>
       <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
@@ -525,173 +532,173 @@ function renderPage() {
       <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
       <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
     `;
-    card.appendChild(meta);
+        card.appendChild(meta);
 
-    // Similarity bar
-    const barWrap = document.createElement('div'); barWrap.className = 'bar-wrap';
-    const bar = document.createElement('div'); bar.className = 'bar'; bar.style.width = pct + '%'; bar.style.background = color;
-    barWrap.appendChild(bar); card.appendChild(barWrap);
+        // Similarity bar
+        const barWrap = document.createElement('div'); barWrap.className = 'bar-wrap';
+        const bar = document.createElement('div'); bar.className = 'bar'; bar.style.width = pct + '%'; bar.style.background = color;
+        barWrap.appendChild(bar); card.appendChild(barWrap);
 
-    // Tags
-    const tagsDiv = document.createElement('div'); tagsDiv.className = 'tags';
-    const pools = [];
-    if (useTags) pools.push('tags');
-    if (useGenres) pools.push('genres');
-    if (useCategories) pools.push('categories');
+        // Tags
+        const tagsDiv = document.createElement('div'); tagsDiv.className = 'tags';
+        const pools = [];
+        if (useTags) pools.push('tags');
+        if (useGenres) pools.push('genres');
+        if (useCategories) pools.push('categories');
 
-    const show = [];
-    if (pools.includes('tags')) show.push(...(g.tags || []));
-    if (pools.includes('genres')) show.push(...(g.genres || []));
-    if (pools.includes('categories')) show.push(...(g.categories || []));
+        const show = [];
+        if (pools.includes('tags')) show.push(...(g.tags || []));
+        if (pools.includes('genres')) show.push(...(g.genres || []));
+        if (pools.includes('categories')) show.push(...(g.categories || []));
 
-    show.forEach(t => {
-      const s = document.createElement('span');
-      s.className = q.has(t) ? 'tag matched' : 'tag';
-      s.textContent = t;
-      tagsDiv.appendChild(s);
-    });
-    card.appendChild(tagsDiv);
+        show.forEach(t => {
+          const s = document.createElement('span');
+          s.className = q.has(t) ? 'tag matched' : 'tag';
+          s.textContent = t;
+          tagsDiv.appendChild(s);
+        });
+        card.appendChild(tagsDiv);
 
-    resultsEl.appendChild(card);
-  }
+        resultsEl.appendChild(card);
+      }
 
-  pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
-  prevBtn.disabled = currentPage <= 1;
-  nextBtn.disabled = currentPage >= totalPages;
-  pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
-}
+      pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+      pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
+    }
 
 
-function renderQuery() {
-  const hideUnreleased = !!(ignoreUnreleasedEl && ignoreUnreleasedEl.checked);
-  const dateOn = !!(releaseFilterOn && releaseFilterOn.checked);
-  releaseFilter.on = dateOn;
+    function renderQuery() {
+      const hideUnreleased = !!(ignoreUnreleasedEl && ignoreUnreleasedEl.checked);
+      const dateOn = !!(releaseFilterOn && releaseFilterOn.checked);
+      releaseFilter.on = dateOn;
 
-  const q = new Set(queryTags);
-  if (q.size === 0) { resultsEl.innerHTML = ''; pagerEl.style.display = 'none'; return; }
+      const q = new Set(queryTags);
+      if (q.size === 0) { resultsEl.innerHTML = ''; pagerEl.style.display = 'none'; return; }
 
-  const pools = [];
-  if (useTags) pools.push('tags');
-  if (useGenres) pools.push('genres');
-  if (useCategories) pools.push('categories');
+      const pools = [];
+      if (useTags) pools.push('tags');
+      if (useGenres) pools.push('genres');
+      if (useCategories) pools.push('categories');
 
-  if (pools.length === 0) {
-    resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>';
-    pagerEl.style.display = 'none';
-    return;
-  }
+      if (pools.length === 0) {
+        resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>';
+        pagerEl.style.display = 'none';
+        return;
+      }
 
-  const tags = [...q];
-  const lists = tags.map(t => ({ tag: t, docs: postingsFor(t, pools) }));
-  const nonEmpty = lists.filter(x => x.docs.length > 0);
+      const tags = [...q];
+      const lists = tags.map(t => ({ tag: t, docs: postingsFor(t, pools) }));
+      const nonEmpty = lists.filter(x => x.docs.length > 0);
 
-  if (nonEmpty.length === 0) {
-    resultsEl.innerHTML = `
+      if (nonEmpty.length === 0) {
+        resultsEl.innerHTML = `
       <div class="card">
         None of your query tags exist in the enabled pools (${pools.join(', ') || '—'}).
         Try enabling a different pool or adjust your tags.
       </div>`;
-    pagerEl.style.display = 'none';
-    return;
-  }
+        pagerEl.style.display = 'none';
+        return;
+      }
 
-  const qEff = new Set(nonEmpty.map(x => x.tag));
-  requiredCount = qEff.size;
+      const qEff = new Set(nonEmpty.map(x => x.tag));
+      requiredCount = qEff.size;
 
-  const requireAll = !!(requireAllEl && requireAllEl.checked);
+      const requireAll = !!(requireAllEl && requireAllEl.checked);
 
-  // candidate set (union vs intersection) is just a prefilter; exactness is enforced later
-  nonEmpty.sort((a, b) => a.docs.length - b.docs.length);
-  let candidates = nonEmpty[0].docs.slice();
+      // candidate set (union vs intersection) is just a prefilter; exactness is enforced later
+      nonEmpty.sort((a, b) => a.docs.length - b.docs.length);
+      let candidates = nonEmpty[0].docs.slice();
 
-  const union = (a, b) => {
-    const out = []; let i = 0, j = 0, last = null;
-    while (i < a.length || j < b.length) {
-      const va = i < a.length ? a[i] : Infinity;
-      const vb = j < b.length ? b[j] : Infinity;
-      let v;
-      if (va < vb) { v = va; i++; }
-      else if (vb < va) { v = vb; j++; }
-      else { v = va; i++; j++; }
-      if (v !== last) { out.push(v); last = v; }
+      const union = (a, b) => {
+        const out = []; let i = 0, j = 0, last = null;
+        while (i < a.length || j < b.length) {
+          const va = i < a.length ? a[i] : Infinity;
+          const vb = j < b.length ? b[j] : Infinity;
+          let v;
+          if (va < vb) { v = va; i++; }
+          else if (vb < va) { v = vb; j++; }
+          else { v = va; i++; j++; }
+          if (v !== last) { out.push(v); last = v; }
+        }
+        return out;
+      };
+
+      for (let i = 1; i < nonEmpty.length; i++) {
+        candidates = requireAll
+          ? intersectSorted(candidates, nonEmpty[i].docs)
+          : union(candidates, nonEmpty[i].docs);
+        if (requireAll && candidates.length === 0) break;
+      }
+
+      const mode = [...scoreModeEls].find(r => r.checked)?.value || 'containment';
+      const results = [];
+
+      for (const gi of candidates) {
+        const g = games[gi];
+
+        if (seedExclude && (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) continue;
+        if (hideUnreleased && g.comingSoon) continue;
+
+        if (dateOn && !g.comingSoon) {
+          if (!(typeof g.releaseTs === 'number')) continue;
+          if (g.releaseTs < releaseFilter.cutoff) continue;
+        }
+
+        if (hasAnyBanned(g, pools)) continue;
+
+        const pMin = readNum(priceMinEl), pMax = readNum(priceMaxEl);
+        if (pMin !== null || pMax !== null) {
+          const price = g.price;
+          if (price == null) continue;
+          if (pMin !== null && price < pMin) continue;
+          if (pMax !== null && price > pMax) continue;
+        }
+
+        const rMin = readNum(revMinEl), rMax = readNum(revMaxEl);
+        if (rMin !== null || rMax !== null) {
+          const rev = estimateSalesUSD(g);
+          if (!Number.isFinite(rev) || rev <= 0) continue;
+          if (rMin !== null && rev < rMin) continue;
+          if (rMax !== null && rev > rMax) continue;
+        }
+
+        // --- core fix: "Require all" means EXACT tag set in enabled pools ---
+        const sc = similarityScore(g, qEff, mode, pools);
+        if (requireAll) {
+          if (!sc.exactOnly) continue; // must contain all AND have no extra tags (in enabled pools)
+        } else {
+          if (sc.score <= 0) continue;
+        }
+
+        results.push({ gIdx: gi, score: sc.score, interCount: sc.inter });
+      }
+
+      results.sort((a, b) => {
+        const ga = games[a.gIdx], gb = games[b.gIdx];
+        if (b.score !== a.score) return b.score - a.score;
+        const ar = ga.reviews || 0, br = gb.reviews || 0;
+        if (br !== ar) return br - ar;
+        const at = ga.releaseTs || 0, bt = gb.releaseTs || 0;
+        if (bt !== at) return bt - at;
+        const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
+        if (aSoon !== bSoon) return aSoon ? 1 : -1;
+        return normName(ga.name).localeCompare(normName(gb.name));
+      });
+
+      const seen = new Set();
+      lastResults = results.filter(r => {
+        const g = games[r.gIdx];
+        const key = `${normName(g.name)}::${g.comingSoon ? 'soon' : 'released'}`;
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+      });
+
+      totalPages = Math.max(1, Math.ceil(lastResults.length / PAGE_SIZE));
+      currentPage = Math.min(currentPage, totalPages);
+      renderPage();
     }
-    return out;
-  };
-
-  for (let i = 1; i < nonEmpty.length; i++) {
-    candidates = requireAll
-      ? intersectSorted(candidates, nonEmpty[i].docs)
-      : union(candidates, nonEmpty[i].docs);
-    if (requireAll && candidates.length === 0) break;
-  }
-
-  const mode = [...scoreModeEls].find(r => r.checked)?.value || 'containment';
-  const results = [];
-
-  for (const gi of candidates) {
-    const g = games[gi];
-
-    if (seedExclude && (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) continue;
-    if (hideUnreleased && g.comingSoon) continue;
-
-    if (dateOn && !g.comingSoon) {
-      if (!(typeof g.releaseTs === 'number')) continue;
-      if (g.releaseTs < releaseFilter.cutoff) continue;
-    }
-
-    if (hasAnyBanned(g, pools)) continue;
-
-    const pMin = readNum(priceMinEl), pMax = readNum(priceMaxEl);
-    if (pMin !== null || pMax !== null) {
-      const price = g.price;
-      if (price == null) continue;
-      if (pMin !== null && price < pMin) continue;
-      if (pMax !== null && price > pMax) continue;
-    }
-
-    const rMin = readNum(revMinEl), rMax = readNum(revMaxEl);
-    if (rMin !== null || rMax !== null) {
-      const rev = estimateSalesUSD(g);
-      if (!Number.isFinite(rev) || rev <= 0) continue;
-      if (rMin !== null && rev < rMin) continue;
-      if (rMax !== null && rev > rMax) continue;
-    }
-
-    // --- core fix: "Require all" means EXACT tag set in enabled pools ---
-    const sc = similarityScore(g, qEff, mode, pools);
-    if (requireAll) {
-      if (!sc.exactOnly) continue; // must contain all AND have no extra tags (in enabled pools)
-    } else {
-      if (sc.score <= 0) continue;
-    }
-
-    results.push({ gIdx: gi, score: sc.score, interCount: sc.inter });
-  }
-
-  results.sort((a, b) => {
-    const ga = games[a.gIdx], gb = games[b.gIdx];
-    if (b.score !== a.score) return b.score - a.score;
-    const ar = ga.reviews || 0, br = gb.reviews || 0;
-    if (br !== ar) return br - ar;
-    const at = ga.releaseTs || 0, bt = gb.releaseTs || 0;
-    if (bt !== at) return bt - at;
-    const aSoon = !!ga.comingSoon, bSoon = !!gb.comingSoon;
-    if (aSoon !== bSoon) return aSoon ? 1 : -1;
-    return normName(ga.name).localeCompare(normName(gb.name));
-  });
-
-  const seen = new Set();
-  lastResults = results.filter(r => {
-    const g = games[r.gIdx];
-    const key = `${normName(g.name)}::${g.comingSoon ? 'soon' : 'released'}`;
-    if (seen.has(key)) return false;
-    seen.add(key); return true;
-  });
-
-  totalPages = Math.max(1, Math.ceil(lastResults.length / PAGE_SIZE));
-  currentPage = Math.min(currentPage, totalPages);
-  renderPage();
-}
 
 
 
