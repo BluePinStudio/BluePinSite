@@ -32,6 +32,14 @@
     .pointer { cursor: pointer; }
     .nowrap { white-space: nowrap; }
     .tags-cell { max-width: 520px; }
+
+    /* Tabs */
+    .tabs { display:flex; align-items:center; gap:.4rem; background: color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--outline); border-radius: 10px; padding:.25rem; }
+    .tab-btn { appearance:none; border:1px solid transparent; background: transparent; color: var(--muted); padding:.5rem .8rem; border-radius: 8px; font-weight:700; cursor:pointer; }
+    .tab-btn:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); color: var(--text); }
+    .tab-btn.active { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--text); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
   </style>
 </head>
 <body>
@@ -85,6 +93,7 @@
       </div>
     </section>
 
+    <!-- Shared KPIs -->
     <section class="dash">
       <article class="card">
         <header class="flex" style="justify-content:space-between;">
@@ -100,80 +109,86 @@
         <div class="meta" id="comboMeta" style="margin-top:.4rem;">—</div>
       </article>
 
-      <article class="card">
-        <header class="flex" style="justify-content:space-between; align-items:center;">
-          <h3 style="margin:0;">Tag leaderboard</h3>
-          <div class="flex grow" style="justify-content:flex-end; gap:.5rem;">
-            <input id="tagSearch" class="input-main search" type="text" placeholder="Search tags…" />
-            <!-- Full asc/desc options -->
-            <select id="sortSel" class="input-main" style="max-width:220px;">
-              <!-- Count -->
-              <option value="count_desc">Sort: Count ↓</option>
-              <option value="count_asc">Sort: Count ↑</option>
-              <!-- Total -->
-              <option value="total_desc">Sort: Total revenue ↓</option>
-              <option value="total_asc">Sort: Total revenue ↑</option>
-              <!-- Average -->
-              <option value="avg_desc">Sort: Average revenue ↓</option>
-              <option value="avg_asc">Sort: Average revenue ↑</option>
-              <!-- Median -->
-              <option value="med_desc">Sort: Median revenue ↓</option>
-              <option value="med_asc">Sort: Median revenue ↑</option>
-              <!-- Tag alphabetical -->
-              <option value="tag_asc">Sort: Tag A→Z</option>
-              <option value="tag_desc">Sort: Tag Z→A</option>
-            </select>
-          </div>
-        </header>
-        <div class="table-wrap" style="margin-top:.6rem;">
-          <table id="tagTable" aria-describedby="tableMeta">
-            <thead>
-              <tr>
-                <th style="min-width:200px;">Tag</th>
-                <th class="num">Games</th>
-                <th class="num">With rev</th>
-                <th class="num">Total</th>
-                <th class="num">Average</th>
-                <th class="num">Median</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div id="tableMeta" class="meta" style="margin-top:.45rem;">—</div>
-      </article>
+      <!-- Tabs header -->
+      <div class="tabs" role="tablist" aria-label="Data views" style="margin-top:.3rem;">
+        <button class="tab-btn active" id="tab-tags" role="tab" aria-controls="panel-tags" aria-selected="true" data-tab="tags">Tag leaderboard</button>
+        <button class="tab-btn" id="tab-games" role="tab" aria-controls="panel-games" aria-selected="false" data-tab="games">Matched games</button>
+      </div>
 
-      <article class="card">
-        <header class="flex" style="justify-content:space-between; align-items:center;">
-          <h3 style="margin:0;">Matched games</h3>
-          <div class="flex grow" style="justify-content:flex-end; gap:.5rem;">
-            <input id="matchSearch" class="input-main search" type="text" placeholder="Search matched by name…" />
-            <select id="matchSort" class="input-main" style="max-width:240px;">
-              <option value="rev_desc">Sort: Est. revenue ↓</option>
-              <option value="rev_asc">Sort: Est. revenue ↑</option>
-              <option value="name_asc">Sort: Name A→Z</option>
-              <option value="price_desc">Sort: Price ↓</option>
-              <option value="reviews_desc">Sort: Reviews ↓</option>
-              <option value="release_desc">Sort: Newest ↓</option>
-            </select>
+      <!-- Tag leaderboard panel -->
+      <section id="panel-tags" class="tab-panel active" role="tabpanel" aria-labelledby="tab-tags">
+        <article class="card">
+          <header class="flex" style="justify-content:space-between; align-items:center;">
+            <h3 style="margin:0;">Tag leaderboard</h3>
+            <div class="flex grow" style="justify-content:flex-end; gap:.5rem;">
+              <input id="tagSearch" class="input-main search" type="text" placeholder="Search tags…" />
+              <select id="sortSel" class="input-main" style="max-width:220px;">
+                <option value="count_desc">Sort: Count ↓</option>
+                <option value="count_asc">Sort: Count ↑</option>
+                <option value="total_desc">Sort: Total revenue ↓</option>
+                <option value="total_asc">Sort: Total revenue ↑</option>
+                <option value="avg_desc">Sort: Average revenue ↓</option>
+                <option value="avg_asc">Sort: Average revenue ↑</option>
+                <option value="med_desc">Sort: Median revenue ↓</option>
+                <option value="med_asc">Sort: Median revenue ↑</option>
+                <option value="tag_asc">Sort: Tag A→Z</option>
+                <option value="tag_desc">Sort: Tag Z→A</option>
+              </select>
+            </div>
+          </header>
+          <div class="table-wrap" style="margin-top:.6rem;">
+            <table id="tagTable" aria-describedby="tableMeta">
+              <thead>
+                <tr>
+                  <th style="min-width:200px;">Tag</th>
+                  <th class="num">Games</th>
+                  <th class="num">With rev</th>
+                  <th class="num">Total</th>
+                  <th class="num">Average</th>
+                  <th class="num">Median</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
-        </header>
-        <div class="table-wrap" style="margin-top:.6rem;">
-          <table id="matchTable" aria-describedby="matchMeta">
-            <thead>
-              <tr>
-                <th style="min-width:220px;">Game</th>
-                <th class="num">Price</th>
-                <th class="num">Reviews</th>
-                <th class="num">Est. revenue</th>
-                <th class="tags-cell">Tags</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div id="matchMeta" class="meta" style="margin-top:.45rem;">—</div>
-      </article>
+          <div id="tableMeta" class="meta" style="margin-top:.45rem;">—</div>
+        </article>
+      </section>
+
+      <!-- Matched games panel -->
+      <section id="panel-games" class="tab-panel" role="tabpanel" aria-labelledby="tab-games">
+        <article class="card">
+          <header class="flex" style="justify-content:space-between; align-items:center;">
+            <h3 style="margin:0;">Matched games</h3>
+            <div class="flex grow" style="justify-content:flex-end; gap:.5rem;">
+              <input id="matchSearch" class="input-main search" type="text" placeholder="Search matched by name…" />
+              <select id="matchSort" class="input-main" style="max-width:240px;">
+                <option value="rev_desc">Sort: Est. revenue ↓</option>
+                <option value="rev_asc">Sort: Est. revenue ↑</option>
+                <option value="name_asc">Sort: Name A→Z</option>
+                <option value="price_desc">Sort: Price ↓</option>
+                <option value="reviews_desc">Sort: Reviews ↓</option>
+                <option value="release_desc">Sort: Newest ↓</option>
+              </select>
+            </div>
+          </header>
+          <div class="table-wrap" style="margin-top:.6rem;">
+            <table id="matchTable" aria-describedby="matchMeta">
+              <thead>
+                <tr>
+                  <th style="min-width:220px;">Game</th>
+                  <th class="num">Price</th>
+                  <th class="num">Reviews</th>
+                  <th class="num">Est. revenue</th>
+                  <th class="tags-cell">Tags</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="matchMeta" class="meta" style="margin-top:.45rem;">—</div>
+        </article>
+      </section>
     </section>
   </main>
 
@@ -222,6 +237,27 @@
     const matchTable = document.getElementById('matchTable').querySelector('tbody');
     const matchMeta = document.getElementById('matchMeta');
 
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const panels = {
+      tags: document.getElementById('panel-tags'),
+      games: document.getElementById('panel-games'),
+    };
+    function setTab(name) {
+      const valid = name === 'games' ? 'games' : 'tags';
+      for (const btn of tabButtons) {
+        const active = btn.dataset.tab === valid;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+      }
+      panels.tags.classList.toggle('active', valid === 'tags');
+      panels.games.classList.toggle('active', valid === 'games');
+      // update URL hash without scrolling
+      if (location.hash !== '#' + valid) history.replaceState(null, '', '#' + valid);
+    }
+    tabButtons.forEach(btn => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
+    window.addEventListener('hashchange', () => setTab((location.hash||'').replace('#','')));
+
     const normTag = t => (t||'').trim().toLowerCase();
     const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
     const isFree = g => (g.is_free === true) || (g.price === 0);
@@ -233,35 +269,24 @@
     };
 
     // ---- Refined sales-per-review model (year + review-volume) ----
-    // Returns 'sales per review' multiple, then revenue = reviews * multiple * price
     function salesPerReviewMultiple(year, reviewCount) {
       const y = year || new Date().getFullYear();
-
-      // Year baseline (medians; modern years lower post-2019)
       let base;
-      if (y <= 2016) base = 74;       // pre-2017 median
-      else if (y <= 2018) base = 60;  // 2017–2018
-      else if (y === 2019) base = 51; // 2019
-      else if (y === 2020) base = 38; // 2020
-      else if (y === 2021) base = 36; // post-2019 decline
-      else if (y === 2022) base = 35; // modern median
-      else base = 33;                 // 2023+
-
-      // Review-count band adjustment
+      if (y <= 2016) base = 74;
+      else if (y <= 2018) base = 60;
+      else if (y === 2019) base = 51;
+      else if (y === 2020) base = 38;
+      else if (y === 2021) base = 36;
+      else if (y === 2022) base = 35;
+      else base = 33;
       if (reviewCount != null) {
-        if (reviewCount < 100) {
-          base = Math.min(base, 36);         // small titles
-        } else if (reviewCount >= 1000 && reviewCount < 10000) {
-          base = Math.max(base, 52.8);       // 1k–10k reviews
-        } else if (reviewCount >= 10000) {
-          base = Math.max(base, 60);         // very large hits
-        }
-        // 100–999: leave base as-is
+        if (reviewCount < 100) base = Math.min(base, 36);
+        else if (reviewCount >= 1000 && reviewCount < 10000) base = Math.max(base, 52.8);
+        else if (reviewCount >= 10000) base = Math.max(base, 60);
       }
       return base;
     }
 
-    // Gross revenue estimate = reviews * (sales/review) * price
     const revenue = (g) => {
       const r = g.reviews ?? 0;
       const p = isFree(g) ? 0 : (g.price ?? 0);
@@ -488,7 +513,7 @@
 
         switch (sortMode) {
           case 'count_desc': return (val(b,'count') - val(a,'count')) || a.tag.localeCompare(b.tag);
-          case 'count_asc':  return (val(a,'count') - val(b,'count')) || a.tag.localeCompare(b.tag);
+          case 'count_asc':  return (val(a,'count') - val(b,'count')) || a.tag.localeCompare(b,'tag');
 
           case 'total_desc': return (val(b,'total') - val(a,'total')) || a.tag.localeCompare(b.tag);
           case 'total_asc':  return (val(a,'total') - val(b,'total')) || a.tag.localeCompare(b.tag);
@@ -516,7 +541,7 @@
           <td class="num">${usd(s.avg)}</td>
           <td class="num">${usd(s.med)}</td>
         `;
-        tr.addEventListener('click', ()=>{ includeTags.clear(); includeTags.add(s.tag); updateAll(); });
+        tr.addEventListener('click', ()=>{ includeTags.clear(); includeTags.add(s.tag); updateAll(); setTab('games'); });
         tr.style.cursor='pointer';
         tagTable.appendChild(tr);
       }
@@ -607,6 +632,8 @@
       try {
         await loadGames();
         updateAll();
+        // initialize tab from hash
+        setTab((location.hash||'#tags').replace('#',''));
       } catch (err){
         document.querySelector('main').innerHTML = `<div class="card" style="padding:1rem;">${err.message}</div>`;
         console.error(err);
