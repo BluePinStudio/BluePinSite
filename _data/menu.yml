@@ -42,6 +42,26 @@ main:
   - name: Blog
     url: /blog/
     weight: 4    
+  - name: Tools
+    url: /tools/
+    weight: 4   
+    child:
+      - name: "Productivtree"
+        icon: "/assets/images/games/fallingthingiesheader.jpg"
+        icon_darkmode: "/assets/images/games/fallingthingiesheader.jpg"
+        url: /404/              
+      - name: "Steam Tag Hunter"
+        icon: "/assets/images/games/exploryheader.jpg"
+        icon_darkmode: "/assets/images/games/exploryheader.jpg"
+        url: /404/  
+      - name: "Steam Tag Boards"
+        icon: "/assets/images/games/charlesheader.jpg"
+        icon_darkmode: "/assets/images/games/charlesheader.jpg"
+        url: /404/  
+      - name: "Steam Gumball Machine"
+        icon: "/assets/images/games/pixelheader.jpg"
+        icon_darkmode: "/assets/images/games/pixelheader.jpg"
+        url: /404/  
 footer_primary:
   - name: Blog
     url: /posts/

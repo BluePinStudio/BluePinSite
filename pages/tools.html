@@ -1,0 +1,380 @@
+---
+layout: default
+title: "Tools"
+description: "Minimal, interactive, VMAX-style holographic cards."
+permalink: /tools/
+body_classes: page-tools
+---
+
+<style>
+  /* ===========================
+   Page scaffolding (light)
+   =========================== */
+  .page-tools .wrap {
+    max-width: 1180px;
+    margin: 1rem auto;
+    padding-inline: .25rem;
+  }
+
+  .page-tools .intro {
+    color: var(--muted, #9fb0c0);
+    margin: .4rem 0 1.1rem;
+    font-size: 1.05rem;
+    max-width: 72ch;
+  }
+
+  .page-tools .grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .page-tools .block {
+    display: grid;
+    gap: .55rem;
+  }
+
+  .page-tools .desc {
+    color: var(--muted, #9fb0c0);
+    font-size: .95rem;
+    margin: 0;
+  }
+
+  .page-tools a.card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .page-tools a.card-link:focus-visible {
+    outline: 2px solid var(--accent, #64d2ff);
+    outline-offset: 6px;
+    border-radius: 18px;
+  }
+
+  /* =====================================
+   CARD BASE (container + media layers)
+   ===================================== */
+  .page-tools .card {
+    --pointer-x: 50%;
+    --pointer-y: 50%;
+    --background-x: 50%;
+    --background-y: 50%;
+    --pointer-from-center: 0.0;
+    --card-opacity: 1;
+    /* default sunpillar palette (you can tweak) */
+    --sunpillar-clr-1: hsla(189, 76%, 77%, 0.7);
+    --sunpillar-clr-2: hsla(147, 59%, 77%, 0.7);
+    --sunpillar-clr-3: hsla(271, 55%, 69%, 0.7);
+    --sunpillar-clr-4: hsla(355, 56%, 72%, 0.7);
+    --sunpillar-clr-5: hsla(46, 92%, 72%, 0.7);
+    --sunpillar-clr-6: hsla(200, 86%, 66%, 0.7);
+
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--outline, #2a3440);
+    background: #0e1116;
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform .12s ease, border-color .2s ease, box-shadow .2s ease;
+    will-change: transform;
+  }
+
+  .page-tools .card:hover {
+    border-color: color-mix(in srgb, var(--accent, #64d2ff) 40%, var(--outline, #2a3440));
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .35), inset 0 0 0 1px color-mix(in srgb, var(--accent, #64d2ff) 18%, var(--outline, #2a3440));
+  }
+
+  /* MEDIA IMAGE (your tool artwork) */
+  .page-tools .card__media {
+    position: absolute;
+    inset: 0;
+    background: #000 url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1578290/header.jpg?t=1747311960') center/cover no-repeat;
+    filter: saturate(1.06) contrast(1.03);
+  }
+
+  /* =====================================
+   YOUR VMAX CSS (scoped + adjusted)
+   ===================================== */
+
+  /*
+
+  V MAX
+
+*/
+
+  .page-tools .card:not(.masked)[data-rarity="rare holo vmax"][data-supertype="pokémon"] .card__shine,
+  .page-tools .card:not(.masked)[data-rarity="rare holo vmax"][data-supertype="pokémon"] .card__shine:after {
+    --mask: none;
+    /* Fallback if /img/vmaxbg.jpg isn't present: it will just use gradients */
+    --foil: url("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1578290/header.jpg?t=1747311960");
+    --imgsize: 60% 30%;
+  }
+
+  /*
+
+  SHINE LAYERS
+
+*/
+
+  .page-tools .card[data-rarity="rare holo vmax"] .card__shine {
+    --space: 6%;
+    --angle: 133deg;
+    --imgsize: cover;
+
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+      var(--foil),
+      repeating-linear-gradient(-33deg,
+        hsl(2, 70%, 47%) calc(var(--space)*1),
+        hsl(228, 60%, 64%) calc(var(--space)*2),
+        hsl(176, 55%, 39%) calc(var(--space)*3),
+        hsl(123, 68%, 35%) calc(var(--space)*4),
+        hsl(283, 75%, 57%) calc(var(--space)*5),
+        hsl(2, 70%, 47%) calc(var(--space)*6)),
+      repeating-linear-gradient(var(--angle),
+        hsla(227, 53%, 12%, 0.5) 0%,
+        hsl(180, 10%, 50%) 2.5%,
+        hsl(83, 50%, 35%) 5%,
+        hsl(180, 10%, 50%) 7.5%,
+        hsla(227, 53%, 12%, 0.5) 10%,
+        hsla(227, 53%, 12%, 0.5) 15%),
+      radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
+        hsla(189, 76%, 77%, 0.6) 0%,
+        hsla(147, 59%, 77%, 0.6) 25%,
+        hsla(271, 55%, 69%, 0.6) 50%,
+        hsla(355, 56%, 72%, 0.6) 75%);
+
+    background-blend-mode: difference, luminosity, soft-light;
+    background-size: var(--imgsize), 1100% 1100%, 600% 600%, 200% 200%;
+    background-position:
+      center,
+      var(--background-x) var(--background-y),
+      var(--background-x) var(--background-y),
+      var(--background-x) var(--background-y);
+
+    filter: brightness(calc((var(--pointer-from-center) * .4) + .4)) contrast(2) saturate(1);
+  }
+
+  /* overlay pseudo-element */
+  .page-tools .card[data-rarity="rare holo vmax"] .card__shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+      repeating-linear-gradient(0deg,
+        var(--sunpillar-clr-1) calc(var(--space)*1),
+        var(--sunpillar-clr-2) calc(var(--space)*2),
+        var(--sunpillar-clr-3) calc(var(--space)*3),
+        var(--sunpillar-clr-4) calc(var(--space)*4),
+        var(--sunpillar-clr-5) calc(var(--space)*5),
+        var(--sunpillar-clr-6) calc(var(--space)*6),
+        var(--sunpillar-clr-1) calc(var(--space)*7)),
+      repeating-linear-gradient(var(--angle),
+        #0e152e 0%,
+        hsl(180, 10%, 60%) 3.8%,
+        hsl(180, 29%, 66%) 4.5%,
+        hsl(180, 10%, 60%) 5.2%,
+        #0e152e 10%,
+        #0e152e 12%);
+
+    background-blend-mode: hue, hard-light;
+    background-size: 200% 700%, 300% 100%;
+    background-position: 0% var(--background-y), var(--background-x) var(--background-y);
+
+    mix-blend-mode: lighten;
+    opacity: calc((0.3 * var(--card-opacity)) + var(--card-opacity) * var(--pointer-from-center) * 0.5);
+    filter: saturate(1.5);
+  }
+
+  /*
+
+  GLARE LAYERS
+
+*/
+
+  .page-tools .card[data-rarity="rare holo vmax"] .card__glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: hard-light;
+    filter: brightness(1) contrast(1);
+
+    background-image: radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
+        hsla(0, 0%, 100%, 0.75) 0%,
+        hsl(0, 0%, 0%) 120%);
+
+    opacity: calc((0.2 * var(--card-opacity)) + var(--card-opacity) * var(--pointer-from-center) * 0.8);
+  }
+
+  /* NO MASK fallback (keep your original intent) */
+  .page-tools .card:not(.masked) [data-rarity="rare holo vmax"] .card__shine {
+    filter: brightness(calc((var(--pointer-from-center) * .4) + .4)) contrast(2) saturate(1);
+  }
+
+  /* Optional: slight lift on hover so it feels responsive */
+  @media (prefers-reduced-motion: no-preference) {
+    .page-tools .card:hover {
+      transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-2px);
+    }
+  }
+</style>
+
+<main class="container wrap">
+  <h1 class="h1" style="margin:0 0 .3rem"> This page is still under construction. Check back in November!</h1>
+  <p class="intro">
+  </p>
+
+  <section class="grid" id="tools">
+    <!-- Card 0 -->
+    <div class="block">
+      <a class="card-link" href="/productivitree/">
+        <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon">
+          <div class="card__media"
+            style="background-image:url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1578290/header.jpg?t=1747311960')">
+          </div>
+          <div class="card__shine"></div>
+          <div class="card__glare"></div>
+        </div>
+      </a>
+      <p class="desc">ProduciviTree</p>
+    </div>
+
+    <!-- Card 1 -->
+    <div class="block">
+      <a class="card-link" href="/tag-hunter/">
+        <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon">
+          <div class="card__media"
+            style="background-image:url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1578290/header.jpg?t=1747311960')">
+          </div>
+          <div class="card__shine"></div>
+          <div class="card__glare"></div>
+        </div>
+      </a>
+      <p class="desc">Steam Tag Hunter</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="block">
+      <a class="card-link" href="/tag-revenue/">
+        <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon">
+          <div class="card__media"
+            style="background-image:url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1578290/header.jpg?t=1747311960')">
+          </div>
+          <div class="card__shine"></div>
+          <div class="card__glare"></div>
+        </div>
+      </a>
+      <p class="desc">Steam Tag Boards</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="block">
+      <a class="card-link" href="/gumball/">
+        <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon">
+          <div class="card__media"
+            style="background-image:url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1578290/header.jpg?t=1747311960')">
+          </div>
+          <div class="card__shine"></div>
+          <div class="card__glare"></div>
+        </div>
+      </a>
+      <p class="desc">Steam Gumball Machine</p>
+    </div>
+  </section>
+</main>
+
+<script>
+  /* =========================================================
+     VMAX pointer engine:
+     - Sets CSS vars your CSS relies on:
+       --pointer-x / --pointer-y           (in %, for radial gradients)
+       --background-x / --background-y     (in %, for repeating gradients)
+       --pointer-from-center               (0..1 strength)
+       --rx / --ry                         (tilt)
+       --card-opacity                      (fade on hover/leave)
+     ========================================================= */
+  (function () {
+    const cards = document.querySelectorAll('.page-tools .card[data-rarity="rare holo vmax"]');
+
+    const clamp = (n, min, max) => Math.max(min, Math.min(n, max));
+
+    cards.forEach(card => {
+      let rect = null, raf = null;
+
+      function setVars(e) {
+        rect = rect || card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;   // 0..1
+        const py = (e.clientY - rect.top) / rect.height;  // 0..1
+
+        // Hotspot positions in %
+        const pxx = clamp(px * 100, 0, 100);
+        const pyy = clamp(py * 100, 0, 100);
+        card.style.setProperty('--pointer-x', pxx + '%');
+        card.style.setProperty('--pointer-y', pyy + '%');
+
+        // Move background grids in tandem
+        const bgx = clamp((px * 120) - 10, 0, 100);
+        const bgy = clamp((py * 120) - 10, 0, 100);
+        card.style.setProperty('--background-x', bgx + '%');
+        card.style.setProperty('--background-y', bgy + '%');
+
+        // Strength from center (0..1)
+        const dx = (px - 0.5), dy = (py - 0.5);
+        const dist = Math.sqrt(dx * dx + dy * dy) * 2; // ~0..1.4
+        const strength = clamp(dist, 0, 1);
+        card.style.setProperty('--pointer-from-center', strength.toFixed(3));
+
+        // Tilt
+        const rx = (py - 0.5) * -10;    // X-tilt (up/down)
+        const ry = (px - 0.5) * 10;     // Y-tilt (left/right)
+        card.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+        card.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+
+        // Visible state
+        card.style.setProperty('--card-opacity', '1');
+      }
+
+      function onMove(e) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => setVars(e));
+      }
+
+      function onEnter(e) {
+        rect = null;
+        onMove(e);
+        card.style.setProperty('--card-opacity', '1');
+      }
+
+      function onLeave() {
+        rect = null;
+        card.style.setProperty('--pointer-x', '50%');
+        card.style.setProperty('--pointer-y', '50%');
+        card.style.setProperty('--background-x', '50%');
+        card.style.setProperty('--background-y', '50%');
+        card.style.setProperty('--pointer-from-center', '0');
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--card-opacity', '0.85');
+      }
+
+      card.addEventListener('pointerenter', onEnter);
+      card.addEventListener('pointermove', onMove);
+      card.addEventListener('pointerleave', onLeave);
+      card.addEventListener('blur', onLeave);
+
+      // Touch shimmer ping (quick glance)
+      card.addEventListener('pointerdown', () => {
+        card.style.setProperty('--pointer-x', '70%');
+        card.style.setProperty('--pointer-y', '30%');
+        card.style.setProperty('--card-opacity', '1');
+        setTimeout(onLeave, 240);
+      }, { passive: true });
+    });
+  })();
+</script>
