@@ -42,8 +42,8 @@ For me personally, like i mentioned above, I've been going to the gym every day 
 
 At the moment the name of the game is personal development and enriching my friendships and personal life. Here's another fantastic song, as is customary at the end of the blog posts. See y'all in a month!
 
-{% include framework/shortcodes/youtube.html id='aKaS5ytrSxQ' %}
-_ego talkin' by Saint Harrison_
+{% include framework/shortcodes/youtube.html id='an8FoBrJzS8' %}
+_NEIGHBORS by Dyce_
 
 ## Comments & Reactions
 
