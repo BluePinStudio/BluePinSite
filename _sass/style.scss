@@ -141,3 +141,61 @@ noscript #follower-gif {
   font-style: italic; /* italic */
   margin-top: 0.4em; /* spacing from the image */
 }
+.longdesc {
+  color: var(--muted, #9fb0c0);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0.3rem 0 1rem;
+  max-width: 60ch;
+}
+/* Long description styling (if not already present) */
+.page-tools .longdesc {
+  color: var(--muted, #9fb0c0);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0.25rem 0 0.9rem;
+  max-width: 65ch;
+}
+
+/* Donate banner */
+.page-tools .donate {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: .6rem;
+  margin: 1.4rem auto 2rem;
+  padding: 1rem 1.2rem;
+  max-width: 800px;
+  border: 1px solid var(--outline, #2a3440);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card, #0e1116) 92%, transparent);
+  box-shadow: var(--shadow-1, 0 6px 20px rgba(0,0,0,.25));
+}
+
+.page-tools .donate p {
+  margin: 0;
+  color: var(--muted, #9fb0c0);
+  font-size: .98rem;
+}
+
+.page-tools .donate .btn {
+  display: inline-block;
+  padding: .6rem 1rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent, #64d2ff) 60%, var(--outline, #2a3440));
+  background: color-mix(in srgb, var(--accent, #64d2ff) 12%, transparent);
+  color: var(--text, #e6eef7);
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform .08s ease, background .15s ease, border-color .15s ease;
+}
+
+.page-tools .donate .btn:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--accent, #64d2ff) 18%, transparent);
+}
+
+.page-tools .donate .btn:focus-visible {
+  outline: 2px solid var(--accent, #64d2ff);
+  outline-offset: 3px;
+}
