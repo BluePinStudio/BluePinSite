@@ -57,9 +57,19 @@
         </div>
       </div>
 
-      <!-- Row B: full-width search -->
+      <!-- Row B: global search (ignored when Compare list is enabled) -->
       <div class="row row-b">
         <input id="search" type="text" class="input input-search" placeholder="Search studio/company name…" />
+      </div>
+
+      <!-- Row C: Compare list -->
+      <div class="row row-c">
+        <input id="compareInput" type="text" class="input input-search"
+               placeholder="Compare multiple names: comma or newline separated (works for current tab only)" />
+        <div class="checks-inline">
+          <label class="check"><input id="enableCompare" type="checkbox" /> <span>Compare list only</span></label>
+          <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative ranks</span></label>
+        </div>
       </div>
 
       <small class="meta">
@@ -203,32 +213,24 @@
       return base;
     }
 
-// ---------- Hardened revenue (keep free games when allowed) ----------
-function revenueUSD(game, { ignoreFree = false } = {}) {
-  const reviews = toPosNum(game.review_count);
-  const rawPrice = Number(game.price_usd);
-  const isFree = game.is_free === true || rawPrice === 0;
+    // ---------- Hardened revenue (keep free games when allowed) ----------
+    function revenueUSD(game, { ignoreFree = false } = {}) {
+      const reviews = toPosNum(game.review_count);
+      const rawPrice = Number(game.price_usd);
+      const isFree = game.is_free === true || rawPrice === 0;
 
-  // If user wants to ignore free games, signal exclusion
-  if (ignoreFree && isFree) return null;
+      if (ignoreFree && isFree) return null;
+      if (!reviews) return null;
 
-  // Need reviews to estimate anything
-  if (!reviews) return null;
+      const price = isFree ? 0 : toPosNum(rawPrice);
+      if (!isFree && !price) return null;
 
-  // Price handling:
-  // - Free games: price used in revenue calc is 0, but we still include them when allowed
-  // - Paid games: require a positive price
-  const price = isFree ? 0 : toPosNum(rawPrice);
-  if (!isFree && !price) return null;
+      const year = game.release_year ?? null;
+      const spr = salesPerReviewMultiple(year, reviews);
+      const rev = reviews * spr * price;
 
-  const year = game.release_year ?? null;
-  const spr = salesPerReviewMultiple(year, reviews);
-  const rev = reviews * spr * price;
-
-  // For free games, rev will be 0 (included when allowed). For paid, must be finite >= 0.
-  return Number.isFinite(rev) && rev >= 0 ? rev : null;
-}
-
+      return Number.isFinite(rev) && rev >= 0 ? rev : null;
+    }
 
     // ---------------- State & DOM ----------------
     const tabDevs = document.getElementById('tab-devs');
@@ -243,6 +245,11 @@ function revenueUSD(game, { ignoreFree = false } = {}) {
 
     const ignoreFreeEl = document.getElementById('ignoreFree');
     const ignoreComingSoonEl = document.getElementById('ignoreComingSoon');
+
+    // Compare controls
+    const compareInput = document.getElementById('compareInput');
+    const enableCompareEl = document.getElementById('enableCompare');
+    const relativeRankEl = document.getElementById('relativeRank');
 
     const devTableBody = document.querySelector('#devTable tbody');
     const pubTableBody = document.querySelector('#pubTable tbody');
@@ -275,6 +282,10 @@ function revenueUSD(game, { ignoreFree = false } = {}) {
     let memoDevs = [];
     let memoPubs = [];
 
+    // complete, globally ranked rows (per tab) for reference
+    let allDevs = [];
+    let allPubs = [];
+
     // pagination state
     const pager = {
       dev: { page: 1, size: 50 },
@@ -305,6 +316,14 @@ function revenueUSD(game, { ignoreFree = false } = {}) {
     searchEl.addEventListener('input', debounce(rebuildViews, 120));
     [ignoreFreeEl, ignoreComingSoonEl].forEach(el => el.addEventListener('change', rebuildViews));
 
+    // compare event wiring
+    compareInput.addEventListener('input', debounce(rebuildViews, 150));
+    enableCompareEl.addEventListener('change', rebuildViews);
+    relativeRankEl.addEventListener('change', () => {
+      // only affects rank display; re-render current page
+      if (currentTab === 'devs') renderDevPage(); else renderPubPage();
+    });
+
     devPageSizeEl.addEventListener('change', () => { pager.dev.size = +devPageSizeEl.value; pager.dev.page = 1; renderDevPage(); });
     devPrev.addEventListener('click', () => { if (pager.dev.page > 1) { pager.dev.page--; renderDevPage(); } });
     devNext.addEventListener('click', () => { const pages = Math.max(1, Math.ceil(memoDevs.length / pager.dev.size)); if (pager.dev.page < pages) { pager.dev.page++; renderDevPage(); } });
@@ -333,41 +352,40 @@ function revenueUSD(game, { ignoreFree = false } = {}) {
       return rows;
     }
 
-function collectOrgStats(role){
-  const ignoreComingSoon = !!ignoreComingSoonEl.checked;
-  const ignoreFree = !!ignoreFreeEl.checked;
+    function collectOrgStats(role){
+      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+      const ignoreFree = !!ignoreFreeEl.checked;
 
-  const map = new Map(); // name -> { name, revs: [] }
+      const map = new Map(); // name -> { name, revs: [] }
 
-  for (const g of RAW_MIN){
-    if (ignoreComingSoon && g.coming_soon) continue;
+      for (const g of RAW_MIN){
+        if (ignoreComingSoon && g.coming_soon) continue;
 
-    const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
-    if (!names.length) continue;
+        const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
+        if (!names.length) continue;
 
-    const rev = revenueUSD(g, { ignoreFree });
-    if (rev === null) continue; // excluded or not estimable (no reviews, missing data)
+        const rev = revenueUSD(g, { ignoreFree });
+        if (rev === null) continue;
 
-    for (const raw of names){
-      const name = norm(raw);
-      if (!name) continue;
-      if (!map.has(name)) map.set(name, { name, revs: [] });
-      map.get(name).revs.push(rev); // includes 0 for free games when not ignored
+        for (const raw of names){
+          const name = norm(raw);
+          if (!name) continue;
+          if (!map.has(name)) map.set(name, { name, revs: [] });
+          map.get(name).revs.push(rev);
+        }
+      }
+
+      const rows = [];
+      for (const { name, revs } of map.values()){
+        if (!revs.length) continue;
+        const total = sumStable(revs);
+        const count = revs.length;
+        const avg = total / count;
+        const med = arrayMedian(revs);
+        rows.push({ name, total, median: med, avg, count });
+      }
+      return rows;
     }
-  }
-
-  const rows = [];
-  for (const { name, revs } of map.values()){
-    if (!revs.length) continue;
-    const total = sumStable(revs);
-    const count = revs.length;
-    const avg = total / count;
-    const med = arrayMedian(revs);
-    rows.push({ name, total, median: med, avg, count });
-  }
-  return rows;
-}
-
 
     function summarize(rows){
       const total = rows.reduce((a,r)=>a+r.total,0);
@@ -375,18 +393,35 @@ function collectOrgStats(role){
       return { orgs: rows.length, games, total };
     }
 
+    // Compare helpers
+    function parseCompareSet(){
+      const raw = compareInput.value || '';
+      const tokens = raw.split(/[\n,]+/).map(s => norm(s)).filter(Boolean);
+      const set = new Set(tokens.map(s => s.toLowerCase()));
+      return { set, original: tokens };
+    }
+
+    function annotateGlobalRank(rows){
+      rows.forEach((r, i) => r.globalRank = i + 1);
+      return rows;
+    }
+
     // ----- render (paginated)
-    function renderPage(tbody, rows, page, size){
+    function renderPage(tbody, rows, page, size, opts){
+      const { compareOn, relativeRanks } = opts || { compareOn:false, relativeRanks:false };
       tbody.innerHTML = '';
       const start = (page-1)*size;
       const end = Math.min(rows.length, start+size);
       const frag = document.createDocumentFragment();
       for (let i=start;i<end;i++){
         const r = rows[i];
+        const displayRank = compareOn
+          ? (relativeRanks ? r.relRank : r.globalRank ?? (i+1))
+          : (i+1);
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td class="rank">${i+1}</td>
-          <td class="name">${r.name}</td>
+          <td class="rank">${displayRank}</td>
+          <td class="name">${r.name}${(!relativeRanks && compareOn && r.relRank!=null ? ` <span class="meta small">(rel ${r.relRank})</span>` : '')}</td>
           <td class="num">${r.count.toLocaleString()}</td>
           <td class="num strong">${fmtUSD(r.total)}</td>
           <td class="num">${fmtUSD(r.median)}</td>
@@ -400,34 +435,63 @@ function collectOrgStats(role){
 
     function renderDevPage(){
       const { page, size } = pager.dev;
-      const {start,end,total} = renderPage(devTableBody, memoDevs, page, size);
+      const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
+      const {start,end,total} = renderPage(devTableBody, memoDevs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked });
       const pages = Math.max(1, Math.ceil(memoDevs.length / size));
       devPrev.disabled = page <= 1;
       devNext.disabled = page >= pages;
       devPageMeta.textContent = `Page ${page} / ${pages}`;
       devRange.textContent = total ? `Showing ${start}–${end} of ${fmtInt(total)}` : '';
       const s = summarize(memoDevs);
-      devSummary.textContent = `${fmtInt(s.orgs)} developers • ${fmtInt(s.games)} games • ${fmtUSD(s.total)} total`;
+      const base = `${fmtInt(s.orgs)} developers • ${fmtInt(s.games)} games • ${fmtUSD(s.total)} total`;
+      devSummary.textContent = base + (compareOn ? ' • Compare mode' : '');
     }
     function renderPubPage(){
       const { page, size } = pager.pub;
-      const {start,end,total} = renderPage(pubTableBody, memoPubs, page, size);
+      const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
+      const {start,end,total} = renderPage(pubTableBody, memoPubs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked });
       const pages = Math.max(1, Math.ceil(memoPubs.length / size));
       pubPrev.disabled = page <= 1;
       pubNext.disabled = page >= pages;
       pubPageMeta.textContent = `Page ${page} / ${pages}`;
       pubRange.textContent = total ? `Showing ${start}–${end} of ${fmtInt(total)}` : '';
       const s = summarize(memoPubs);
-      pubSummary.textContent = `${fmtInt(s.orgs)} publishers • ${fmtInt(s.games)} games • ${fmtUSD(s.total)} total`;
+      const base = `${fmtInt(s.orgs)} publishers • ${fmtInt(s.games)} games • ${fmtUSD(s.total)} total`;
+      pubSummary.textContent = base + (compareOn ? ' • Compare mode' : '');
     }
 
     function rebuildViews(){
       const by = sortByEl.value;
       const minCount = Number(minCountEl.value || 0);
       const search = searchEl.value;
+      const { set: cmpSet, original: cmpOrig } = parseCompareSet();
+      const compareOn = enableCompareEl.checked && cmpSet.size > 0;
 
-      const devRows = sortRows(applyFilters(collectOrgStats('developers'), search, minCount), by, desc);
-      const pubRows = sortRows(applyFilters(collectOrgStats('publishers'), search, minCount), by, desc);
+      // Build ALL rows (no search/minCount yet), sort, annotate global rank
+      allDevs = annotateGlobalRank(sortRows(collectOrgStats('developers'), by, desc));
+      allPubs = annotateGlobalRank(sortRows(collectOrgStats('publishers'), by, desc));
+
+      // Regular filtering
+      let devRows = allDevs;
+      let pubRows = allPubs;
+
+      if (compareOn){
+        // Compare list ignores search/minCount; show exactly the names found (maintain global order)
+        const hasName = r => cmpSet.has(r.name.toLowerCase());
+        devRows = allDevs.filter(hasName);
+        pubRows = allPubs.filter(hasName);
+
+        // Add relative rank (position within the visible compare list)
+        devRows.forEach((r,i)=> r.relRank = i+1);
+        pubRows.forEach((r,i)=> r.relRank = i+1);
+      } else {
+        // Normal global browsing
+        devRows = applyFilters(allDevs, search, minCount);
+        pubRows = applyFilters(allPubs, search, minCount);
+        // No relative ranks in normal mode
+        devRows.forEach(r => r.relRank = undefined);
+        pubRows.forEach(r => r.relRank = undefined);
+      }
 
       memoDevs = devRows;
       memoPubs = pubRows;
