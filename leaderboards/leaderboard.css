@@ -190,3 +190,31 @@ h1 { margin: 0 0 .2rem; font-size: 1.35rem; letter-spacing: .2px; }
   .row-a { grid-template-columns: 1fr 1fr; }
   .checks-inline { justify-self: start; }
 }
+.org-open-btn{
+  margin-left: .45rem;
+  padding: .2rem .45rem;
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  color: var(--text);
+  line-height: 1;
+  cursor: pointer;
+}
+.org-open-btn:hover{
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  box-shadow: var(--shadow-1);
+}
+.org-open-btn:active{
+  transform: translateY(1px);
+}
+/* Fix double scrollbars in org modal */
+.org-drawer {
+  overflow: hidden;          /* prevent dialog itself from scrolling */
+}
+
+.org-body {
+  overflow-y: auto;          /* only inner body scrolls */
+  max-height: calc(85vh - 58px);
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;  /* keeps layout from jumping */
+}

@@ -5,6 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Game Dev / Publisher Leaderboards</title>
   <link rel="stylesheet" href="leaderboard.css" />
+  <style>
+    /* Minimal styles for the details drawer */
+    dialog.org-drawer {
+      border: 1px solid var(--outline);
+      background: var(--bg-elev);
+      color: var(--text);
+      border-radius: 14px;
+      box-shadow: var(--shadow-2);
+      width: min(960px, 92vw);
+      max-height: 85vh;
+      padding: 0;
+    }
+    .org-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 1rem; border-bottom: 1px solid var(--outline);
+      position: sticky; top: 0; background: color-mix(in srgb, var(--bg-elev) 98%, transparent);
+      z-index: 2;
+    }
+    .org-head h3 { margin: 0; font-size: 1.05rem; }
+    .org-body { padding: .9rem 1rem; overflow: auto; max-height: calc(85vh - 58px); }
+    .org-meta { color: var(--muted); margin-top: .2rem; font-size: .95rem; }
+    .org-close { border: 1px solid var(--outline); background: var(--card); color: var(--text); border-radius: 10px; padding: .4rem .7rem; cursor: pointer; }
+    .games-grid { display: grid; grid-template-columns: 1fr; gap: .6rem; margin-top: .6rem; }
+    .gcard {
+      display: grid; grid-template-columns: 110px 1fr; gap: .7rem;
+      padding: .6rem; border: 1px solid var(--outline); border-radius: 12px;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      align-items: center;
+    }
+    .gthumb { width: 100%; height: auto; border-radius: 8px; display: block; }
+    .gtitle { margin: 0 0 .25rem; font-size: 1rem; }
+    .gtitle a { color: inherit; text-decoration: none; }
+    .gmeta { display: flex; flex-wrap: wrap; gap: .6rem; color: var(--muted); font-size: .92rem; }
+    .gmeta .num { font-variant-numeric: tabular-nums; }
+    .gnums { margin-top: .25rem; display: grid; grid-auto-flow: column; justify-content: start; gap: 1rem; font-variant-numeric: tabular-nums; }
+    .pill { border: 1px solid var(--outline); padding: .15rem .45rem; border-radius: 999px; background: color-mix(in srgb, var(--bg-elev) 92%, transparent); }
+    .clickable { cursor: pointer; }
+    @media (max-width: 680px) {
+      .gcard { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -37,7 +78,7 @@
     <!-- Controls -->
     <section class="controls" aria-label="Leaderboard controls">
       <!-- Row A -->
-      <div class="row row-a">
+      <div class="row-a">
         <label class="label">Sort by</label>
         <select id="sortBy" class="input">
           <option value="total" selected>Total revenue</option>
@@ -57,19 +98,14 @@
         </div>
       </div>
 
-      <!-- Row B: global search (ignored when Compare list is enabled) -->
-      <div class="row row-b">
-        <input id="search" type="text" class="input input-search" placeholder="Search studio/company name…" />
-      </div>
+      <!-- Row B removed (old global search) -->
 
       <!-- Row C: Compare list -->
-      <div class="row row-c">
+      <div class="row-c" style="display:grid; grid-template-columns: 1fr auto auto; gap:.6rem; align-items:center;">
         <input id="compareInput" type="text" class="input input-search"
                placeholder="Compare multiple names: comma or newline separated (works for current tab only)" />
-        <div class="checks-inline">
-          <label class="check"><input id="enableCompare" type="checkbox" /> <span>Compare list only</span></label>
-          <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative ranks</span></label>
-        </div>
+        <label class="check"><input id="enableCompare" type="checkbox" /> <span>Compare list only</span></label>
+        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative ranks</span></label>
       </div>
 
       <small class="meta">
@@ -145,6 +181,20 @@
       </div>
     </section>
 
+    <!-- Details Drawer -->
+    <dialog id="orgDialog" class="org-drawer">
+      <div class="org-head">
+        <div>
+          <h3 id="orgTitle">Org</h3>
+          <div id="orgMeta" class="org-meta"></div>
+        </div>
+        <button class="org-close" id="orgClose">Close</button>
+      </div>
+      <div class="org-body">
+        <div id="gamesList" class="games-grid"></div>
+      </div>
+    </dialog>
+
   </main>
 
   <script>
@@ -158,14 +208,13 @@
     const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
     const norm = s => String(s ?? '').trim();
     const idle = () => new Promise(r => setTimeout(r, 0));
+    const fmtMonYear = ts => ts ? new Date(ts).toLocaleString(undefined, { month: 'short', year: 'numeric' }) : '—';
 
     // numeric helpers
     const isFiniteNum = v => Number.isFinite(v);
-    const toPosNum = v => {
-      const n = Number(v);
-      return Number.isFinite(n) && n > 0 ? n : null;
-    };
-    // Kahan summation for stability on big totals
+    const toPosNum = v => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : null; };
+
+    // Kahan summation
     function sumStable(values) {
       let sum = 0, c = 0;
       for (let i = 0; i < values.length; i++) {
@@ -176,14 +225,12 @@
       }
       return sum;
     }
-
     function arrayMedian(values){
       if(!values || !values.length) return NaN;
       const a = values.slice().sort((x,y)=>x-y);
       const m = Math.floor(a.length/2);
       return a.length%2 ? a[m] : (a[m-1]+a[m])/2;
     }
-
     function parseReleaseTs(raw){
       if(!raw) return null;
       if(raw==='Coming soon') return null;
@@ -241,7 +288,6 @@
     const sortByEl = document.getElementById('sortBy');
     const orderBtn = document.getElementById('orderBtn');
     const minCountEl = document.getElementById('minCount');
-    const searchEl = document.getElementById('search');
 
     const ignoreFreeEl = document.getElementById('ignoreFree');
     const ignoreComingSoonEl = document.getElementById('ignoreComingSoon');
@@ -273,6 +319,13 @@
     const loaderBar = document.getElementById('loaderBar');
     const loaderPct = document.getElementById('loaderPct');
     const loaderMeta = document.getElementById('loaderMeta');
+
+    // Drawer DOM
+    const orgDialog = document.getElementById('orgDialog');
+    const orgTitle = document.getElementById('orgTitle');
+    const orgMeta = document.getElementById('orgMeta');
+    const orgClose = document.getElementById('orgClose');
+    const gamesList = document.getElementById('gamesList');
 
     let RAW_MIN = [];
     let currentTab = 'devs';
@@ -313,14 +366,12 @@
     sortByEl.addEventListener('change', rebuildViews);
     orderBtn.addEventListener('click', () => { desc = !desc; orderBtn.textContent = desc ? '↓ Desc' : '↑ Asc'; rebuildViews(); });
     minCountEl.addEventListener('input', debounce(rebuildViews, 120));
-    searchEl.addEventListener('input', debounce(rebuildViews, 120));
-    [ignoreFreeEl, ignoreComingSoonEl].forEach(el => el.addEventListener('change', rebuildViews));
+    [ignoreFreeEl, ignoreComingSoonEl].forEach(el => el.addEventListener('change', () => { rebuildViews(); if (orgDialog.open) refreshOpenDrawer(); }));
 
     // compare event wiring
     compareInput.addEventListener('input', debounce(rebuildViews, 150));
     enableCompareEl.addEventListener('change', rebuildViews);
     relativeRankEl.addEventListener('change', () => {
-      // only affects rank display; re-render current page
       if (currentTab === 'devs') renderDevPage(); else renderPubPage();
     });
 
@@ -335,12 +386,8 @@
     function debounce(fn, ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); }; }
 
     // ----- core compute
-    function applyFilters(rows, searchStr, minCount){
-      const s = (searchStr || '').trim().toLowerCase();
-      return rows.filter(r =>
-        (s ? r.name.toLowerCase().includes(s) : true) &&
-        (minCount ? r.count >= minCount : true)
-      );
+    function applyFilters(rows, minCount){
+      return rows.filter(r => (minCount ? r.count >= minCount : true));
     }
 
     function sortRows(rows, by, descFlag){
@@ -408,7 +455,7 @@
 
     // ----- render (paginated)
     function renderPage(tbody, rows, page, size, opts){
-      const { compareOn, relativeRanks } = opts || { compareOn:false, relativeRanks:false };
+      const { compareOn, relativeRanks, role } = opts || { compareOn:false, relativeRanks:false, role:'developers' };
       tbody.innerHTML = '';
       const start = (page-1)*size;
       const end = Math.min(rows.length, start+size);
@@ -421,7 +468,15 @@
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td class="rank">${displayRank}</td>
-          <td class="name">${r.name}${(!relativeRanks && compareOn && r.relRank!=null ? ` <span class="meta small">(rel ${r.relRank})</span>` : '')}</td>
+<td class="name">
+  <span class="org-name">${r.name}</span>
+  <button class="org-open-btn"
+          data-role="${role}"
+          data-name="${r.name}"
+          aria-label="View games for ${r.name}"
+          title="View games">🔎</button>
+</td>
+
           <td class="num">${r.count.toLocaleString()}</td>
           <td class="num strong">${fmtUSD(r.total)}</td>
           <td class="num">${fmtUSD(r.median)}</td>
@@ -436,7 +491,7 @@
     function renderDevPage(){
       const { page, size } = pager.dev;
       const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
-      const {start,end,total} = renderPage(devTableBody, memoDevs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked });
+      const {start,end,total} = renderPage(devTableBody, memoDevs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role:'developers' });
       const pages = Math.max(1, Math.ceil(memoDevs.length / size));
       devPrev.disabled = page <= 1;
       devNext.disabled = page >= pages;
@@ -449,7 +504,7 @@
     function renderPubPage(){
       const { page, size } = pager.pub;
       const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
-      const {start,end,total} = renderPage(pubTableBody, memoPubs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked });
+      const {start,end,total} = renderPage(pubTableBody, memoPubs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role:'publishers' });
       const pages = Math.max(1, Math.ceil(memoPubs.length / size));
       pubPrev.disabled = page <= 1;
       pubNext.disabled = page >= pages;
@@ -463,11 +518,10 @@
     function rebuildViews(){
       const by = sortByEl.value;
       const minCount = Number(minCountEl.value || 0);
-      const search = searchEl.value;
-      const { set: cmpSet, original: cmpOrig } = parseCompareSet();
+      const { set: cmpSet } = parseCompareSet();
       const compareOn = enableCompareEl.checked && cmpSet.size > 0;
 
-      // Build ALL rows (no search/minCount yet), sort, annotate global rank
+      // Build ALL rows (no minCount yet), sort, annotate global rank
       allDevs = annotateGlobalRank(sortRows(collectOrgStats('developers'), by, desc));
       allPubs = annotateGlobalRank(sortRows(collectOrgStats('publishers'), by, desc));
 
@@ -476,19 +530,14 @@
       let pubRows = allPubs;
 
       if (compareOn){
-        // Compare list ignores search/minCount; show exactly the names found (maintain global order)
         const hasName = r => cmpSet.has(r.name.toLowerCase());
         devRows = allDevs.filter(hasName);
         pubRows = allPubs.filter(hasName);
-
-        // Add relative rank (position within the visible compare list)
         devRows.forEach((r,i)=> r.relRank = i+1);
         pubRows.forEach((r,i)=> r.relRank = i+1);
       } else {
-        // Normal global browsing
-        devRows = applyFilters(allDevs, search, minCount);
-        pubRows = applyFilters(allPubs, search, minCount);
-        // No relative ranks in normal mode
+        devRows = applyFilters(allDevs, minCount);
+        pubRows = applyFilters(allPubs, minCount);
         devRows.forEach(r => r.relRank = undefined);
         pubRows.forEach(r => r.relRank = undefined);
       }
@@ -548,16 +597,19 @@
     }
 
     function pushMinimal(j){
-      const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {};
+      const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {}, media = j.media || {};
+      const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
       RAW_MIN.push({
         app_id: j.app_id,
+        name: id.name || `App ${j.app_id}`,
+        header_image: media.header_image || null,
         developers: arr(id.developers),
         publishers: arr(id.publishers),
         price_usd: pricing.price_usd ?? null,
         is_free: !!pricing.is_free,
         review_count: (reviews.review_count) ?? (reviews.total_reviews) ?? 0,
-        release_ts: parseReleaseTs(rel.date_iso ?? rel.date_raw),
-        release_year: (() => { const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw); return ts ? new Date(ts).getFullYear() : null; })(),
+        release_ts: ts,
+        release_year: ts ? new Date(ts).getFullYear() : null,
         coming_soon: !!rel.coming_soon
       });
     }
@@ -576,6 +628,91 @@
       }, 350);
     }
 
+    // --------- Org details drawer ---------
+    function openOrgDetails(role, name){
+      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+      const ignoreFree = !!ignoreFreeEl.checked;
+
+      const games = RAW_MIN.filter(g => {
+        if (ignoreComingSoon && g.coming_soon) return false;
+        const pool = (role === 'developers') ? g.developers : g.publishers;
+        return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
+      }).map(g => {
+        const rev = revenueUSD(g, { ignoreFree });
+        return { g, rev };
+      }).filter(x => x.rev !== null);
+
+      games.sort((a,b) => (b.rev - a.rev) || ((b.g.review_count||0)-(a.g.review_count||0)));
+
+      const total = sumStable(games.map(x=>x.rev));
+      const count = games.length;
+
+      orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
+      orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
+
+      gamesList.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (const { g, rev } of games){
+        const card = document.createElement('div');
+        card.className = 'gcard';
+        const img = document.createElement('img');
+        img.className = 'gthumb';
+        img.loading = 'lazy'; img.decoding = 'async';
+        img.alt = `${g.name} header`; img.src = g.header_image || '';
+        const left = document.createElement('div');
+        if (g.header_image) left.appendChild(img);
+
+        const right = document.createElement('div');
+        right.innerHTML = `
+          <h4 class="gtitle"><a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a></h4>
+          <div class="gmeta">
+            <span class="pill">${g.coming_soon ? 'Coming soon' : (g.release_ts ? fmtMonYear(g.release_ts) : '—')}</span>
+            <span class="pill">Reviews: <span class="num">${fmtInt(g.review_count)}</span></span>
+            <span class="pill">Price: ${g.is_free || g.price_usd === 0 ? 'Free' : (g.price_usd==null?'—':('$'+Number(g.price_usd).toFixed(2)))}</span>
+          </div>
+          <div class="gnums">
+            <span><strong>Estimated revenue:</strong> ${fmtUSD(rev)}</span>
+          </div>
+        `;
+        card.appendChild(left); card.appendChild(right);
+        frag.appendChild(card);
+      }
+      gamesList.appendChild(frag);
+
+      if (typeof orgDialog.showModal === 'function') orgDialog.showModal();
+      else orgDialog.setAttribute('open','');
+    }
+
+    function refreshOpenDrawer(){
+      const head = orgTitle.textContent || '';
+      const m = head.match(/^(.*)\s—\s(Developer|Publisher)$/);
+      if (!m) return;
+      const name = m[1]; const role = (m[2] === 'Developer') ? 'developers' : 'publishers';
+      openOrgDetails(role, name);
+    }
+
+    orgClose.addEventListener('click', () => orgDialog.close());
+    orgDialog.addEventListener('click', (e) => {
+      const rect = orgDialog.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+        orgDialog.close();
+      }
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && orgDialog.open) orgDialog.close(); });
+
+// delegate clicks on the small "open" button
+devTableBody.addEventListener('click', (e) => {
+  const btn = e.target.closest('.org-open-btn');
+  if (!btn) return;
+  openOrgDetails(btn.dataset.role, btn.dataset.name);
+});
+
+pubTableBody.addEventListener('click', (e) => {
+  const btn = e.target.closest('.org-open-btn');
+  if (!btn) return;
+  openOrgDetails(btn.dataset.role, btn.dataset.name);
+});
+
     // ---------------- Init ----------------
     (async () => {
       try {
@@ -584,10 +721,10 @@
         console.warn(err);
         // tiny fallback
         RAW_MIN = [
-          {app_id:1, developers:['Studio One'], publishers:['Pub X'], price_usd:19.99, is_free:false, review_count:1200, release_ts:Date.parse('2022-05-01'), release_year:2022, coming_soon:false},
-          {app_id:2, developers:['Studio One','Studio Two'], publishers:['Pub Y'], price_usd:9.99, is_free:false, review_count:300, release_ts:Date.parse('2021-11-13'), release_year:2021, coming_soon:false},
-          {app_id:3, developers:['Studio Two'], publishers:['Pub X'], price_usd:0, is_free:true, review_count:5000, release_ts:Date.parse('2023-08-18'), release_year:2023, coming_soon:false},
-          {app_id:4, developers:['Solo Dev'], publishers:['Pub Z'], price_usd:14.99, is_free:false, review_count:50, release_ts:null, release_year:null, coming_soon:true}
+          {app_id:1, name:'Alpha', header_image:null, developers:['Studio One'], publishers:['Pub X'], price_usd:19.99, is_free:false, review_count:1200, release_ts:Date.parse('2022-05-01'), release_year:2022, coming_soon:false},
+          {app_id:2, name:'Beta', header_image:null, developers:['Studio One','Studio Two'], publishers:['Pub Y'], price_usd:9.99, is_free:false, review_count:300, release_ts:Date.parse('2021-11-13'), release_year:2021, coming_soon:false},
+          {app_id:3, name:'Gamma', header_image:null, developers:['Studio Two'], publishers:['Pub X'], price_usd:0, is_free:true, review_count:5000, release_ts:Date.parse('2023-08-18'), release_year:2023, coming_soon:false},
+          {app_id:4, name:'Delta', header_image:null, developers:['Solo Dev'], publishers:['Pub Z'], price_usd:14.99, is_free:false, review_count:50, release_ts:null, release_year:null, coming_soon:true}
         ];
       } finally {
         hideLoader();
