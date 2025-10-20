@@ -45,7 +45,6 @@ main:
   - name: Tools
     url: /tools/
     weight: 4   
-    child:
 footer_primary:
   - name: Blog
     url: /posts/
