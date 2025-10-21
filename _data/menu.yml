@@ -45,16 +45,6 @@ main:
   - name: Tools
     url: /tools/
     weight: 4   
-footer_primary:
-  - name: Blog
-    url: /posts/
-    weight: 1
-  - name: About
-    url: /about/
-    weight: 2
-  - name: Contact
-    url: /contact/
-    weight: 3
 bottom:
   - name: Privacy Policy
     url: /privacy-policy/
