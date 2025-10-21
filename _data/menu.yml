@@ -11,16 +11,16 @@ main:
 ##        icon_darkmode: "/assets/images/games/trashforce.jpg"
 ##        description: "2025"
 ##        url: /trash-force/
+##      - name: "Explory Story"
+##        icon: "/assets/images/games/exploryheader.jpg"
+##        icon_darkmode: "/assets/images/games/exploryheader.jpg"
+##        description: "2025"
+##        url: /explory-story/
       - name: "Falling Thingies"
         icon: "/assets/images/games/fallingthingiesheader.jpg"
         icon_darkmode: "/assets/images/games/fallingthingiesheader.jpg"
         description: "2025"
         url: /falling-thingies/              
-      - name: "Explory Story"
-        icon: "/assets/images/games/exploryheader.jpg"
-        icon_darkmode: "/assets/images/games/exploryheader.jpg"
-        description: "2025"
-        url: /explory-story/
       - name: "Charles the Bee"
         icon: "/assets/images/games/charlesheader.jpg"
         icon_darkmode: "/assets/images/games/charlesheader.jpg"
@@ -45,23 +45,6 @@ main:
   - name: Tools
     url: /tools/
     weight: 4   
-    child:
-      - name: "Productivtree"
-        icon: "/assets/images/games/fallingthingiesheader.jpg"
-        icon_darkmode: "/assets/images/games/fallingthingiesheader.jpg"
-        url: /404/              
-      - name: "Steam Tag Hunter"
-        icon: "/assets/images/games/exploryheader.jpg"
-        icon_darkmode: "/assets/images/games/exploryheader.jpg"
-        url: /404/  
-      - name: "Steam Tag Boards"
-        icon: "/assets/images/games/charlesheader.jpg"
-        icon_darkmode: "/assets/images/games/charlesheader.jpg"
-        url: /404/  
-      - name: "Steam Gumball Machine"
-        icon: "/assets/images/games/pixelheader.jpg"
-        icon_darkmode: "/assets/images/games/pixelheader.jpg"
-        url: /404/  
 footer_primary:
   - name: Blog
     url: /posts/
