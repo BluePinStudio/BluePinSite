@@ -7,12 +7,26 @@ permalink: pretty
 markdown: kramdown
 highlighter: rouge
 show_announcement: true
+incremental: true 
+livereload: true
+safe: false
 
 # Plugins
 plugins:
   - jekyll-environment-variables
   - jekyll-paginate
   - jekyll-sitemap
+  - jekyll-include-cache
+
+watch_exclude:
+- node_modules
+- vendor
+- .sass-cache
+- tmp
+- scripts
+- .git
+- package-lock.json
+- yarn.lock
 
 paginate: 9
 paginate_path: "/blog/page/:num"
@@ -56,6 +70,19 @@ exclude:
   - README.md
   - LICENSE
   - netlify.toml
+  - node_modules
+  - vendor
+  - .sass-cache
+  - tmp
+  - scripts
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - package.json
+  - package-lock.json
+  - yarn.lock
+  - .vscode
+  - .idea
 
 
 # -------------------
@@ -171,3 +198,5 @@ bottom:
 
 sass:
   quiet_deps: true
+  style: expanded
+  sourcemap: never

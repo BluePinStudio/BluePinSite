@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,41 +18,126 @@
       max-height: 85vh;
       padding: 0;
     }
+
     .org-head {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: .9rem 1rem; border-bottom: 1px solid var(--outline);
-      position: sticky; top: 0; background: color-mix(in srgb, var(--bg-elev) 98%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .9rem 1rem;
+      border-bottom: 1px solid var(--outline);
+      position: sticky;
+      top: 0;
+      background: color-mix(in srgb, var(--bg-elev) 98%, transparent);
       z-index: 2;
     }
-    .org-head h3 { margin: 0; font-size: 1.05rem; }
-    .org-body { padding: .9rem 1rem; overflow: auto; max-height: calc(85vh - 58px); }
-    .org-meta { color: var(--muted); margin-top: .2rem; font-size: .95rem; }
-    .org-close { border: 1px solid var(--outline); background: var(--card); color: var(--text); border-radius: 10px; padding: .4rem .7rem; cursor: pointer; }
-    .games-grid { display: grid; grid-template-columns: 1fr; gap: .6rem; margin-top: .6rem; }
+
+    .org-head h3 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .org-body {
+      padding: .9rem 1rem;
+      overflow: auto;
+      max-height: calc(85vh - 58px);
+    }
+
+    .org-meta {
+      color: var(--muted);
+      margin-top: .2rem;
+      font-size: .95rem;
+    }
+
+    .org-close {
+      border: 1px solid var(--outline);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 10px;
+      padding: .4rem .7rem;
+      cursor: pointer;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .6rem;
+      margin-top: .6rem;
+    }
+
     .gcard {
-      display: grid; grid-template-columns: 110px 1fr; gap: .7rem;
-      padding: .6rem; border: 1px solid var(--outline); border-radius: 12px;
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: .7rem;
+      padding: .6rem;
+      border: 1px solid var(--outline);
+      border-radius: 12px;
       background: color-mix(in srgb, var(--card) 90%, transparent);
       align-items: center;
     }
-    .gthumb { width: 100%; height: auto; border-radius: 8px; display: block; }
-    .gtitle { margin: 0 0 .25rem; font-size: 1rem; }
-    .gtitle a { color: inherit; text-decoration: none; }
-    .gmeta { display: flex; flex-wrap: wrap; gap: .6rem; color: var(--muted); font-size: .92rem; }
-    .gmeta .num { font-variant-numeric: tabular-nums; }
-    .gnums { margin-top: .25rem; display: grid; grid-auto-flow: column; justify-content: start; gap: 1rem; font-variant-numeric: tabular-nums; }
-    .pill { border: 1px solid var(--outline); padding: .15rem .45rem; border-radius: 999px; background: color-mix(in srgb, var(--bg-elev) 92%, transparent); }
-    .clickable { cursor: pointer; }
+
+    .gthumb {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .gtitle {
+      margin: 0 0 .25rem;
+      font-size: 1rem;
+    }
+
+    .gtitle a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .gmeta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .gmeta .num {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .gnums {
+      margin-top: .25rem;
+      display: grid;
+      grid-auto-flow: column;
+      justify-content: start;
+      gap: 1rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pill {
+      border: 1px solid var(--outline);
+      padding: .15rem .45rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
+    }
+
+    .clickable {
+      cursor: pointer;
+    }
+
     @media (max-width: 680px) {
-      .gcard { grid-template-columns: 1fr; }
+      .gcard {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="site-header">
     <div class="wrap">
       <h1>Game Dev / Publisher Leaderboards</h1>
-      <p class="sub">Ranked by total revenue, median revenue, average revenue, and game count. Uses a year+volume sales-per-review model.</p>
+      <p class="sub">Ranked by total revenue, median revenue, average revenue, and game count. Uses a year+volume
+        sales-per-review model.</p>
     </div>
   </header>
 
@@ -62,7 +148,9 @@
         <strong>Loading games…</strong>
         <span id="loaderPct" class="muted">0%</span>
       </div>
-      <div class="bar"><div id="loaderBar" class="bar-fill" style="width:0%"></div></div>
+      <div class="bar">
+        <div id="loaderBar" class="bar-fill" style="width:0%"></div>
+      </div>
       <div id="loaderMeta" class="muted small">0 parsed</div>
       <div class="loader-hint">Streaming JSONL + chunked parsing keeps the UI responsive.</div>
     </div>
@@ -71,8 +159,10 @@
   <main class="wrap">
     <!-- Tabs -->
     <nav class="tabs" role="tablist" aria-label="Leaderboard entity">
-      <button class="tab active" id="tab-devs" role="tab" aria-selected="true" aria-controls="panel-devs" disabled>Developers</button>
-      <button class="tab" id="tab-pubs" role="tab" aria-selected="false" aria-controls="panel-pubs" disabled>Publishers</button>
+      <button class="tab active" id="tab-devs" role="tab" aria-selected="true" aria-controls="panel-devs"
+        disabled>Developers</button>
+      <button class="tab" id="tab-pubs" role="tab" aria-selected="false" aria-controls="panel-pubs"
+        disabled>Publishers</button>
     </nav>
 
     <!-- Controls -->
@@ -94,7 +184,8 @@
 
         <div class="checks-inline">
           <label class="check"><input id="ignoreFree" type="checkbox" /> <span>Ignore free games</span></label>
-          <label class="check"><input id="ignoreComingSoon" type="checkbox" checked /> <span>Ignore coming soon</span></label>
+          <label class="check"><input id="ignoreComingSoon" type="checkbox" checked /> <span>Ignore coming
+              soon</span></label>
         </div>
       </div>
 
@@ -103,14 +194,16 @@
       <!-- Row C: Compare list -->
       <div class="row-c" style="display:grid; grid-template-columns: 1fr auto auto; gap:.6rem; align-items:center;">
         <input id="compareInput" type="text" class="input input-search"
-               placeholder="Compare multiple names: comma or newline separated (works for current tab only)" />
+          placeholder="Compare multiple names: comma or newline separated (works for current tab only)" />
         <label class="check"><input id="enableCompare" type="checkbox" /> <span>Compare list only</span></label>
-        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative ranks</span></label>
+        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative
+            ranks</span></label>
       </div>
 
       <small class="meta">
-        Revenue model: <code>rev = reviews × spr(year, volume) × price</code>.
+        Revenue model: <code>rev = max(reviews − 10, 0) × spr(year, volume) × price</code>.
       </small>
+
     </section>
 
     <!-- Developers -->
@@ -135,7 +228,10 @@
         <div class="pager-left">
           <label class="label">Rows per page</label>
           <select id="devPageSize" class="input pager-size">
-            <option>25</option><option selected>50</option><option>100</option><option>250</option>
+            <option>25</option>
+            <option selected>50</option>
+            <option>100</option>
+            <option>250</option>
           </select>
           <span id="devRange" class="meta"></span>
         </div>
@@ -169,7 +265,10 @@
         <div class="pager-left">
           <label class="label">Rows per page</label>
           <select id="pubPageSize" class="input pager-size">
-            <option>25</option><option selected>50</option><option>100</option><option>250</option>
+            <option>25</option>
+            <option selected>50</option>
+            <option>100</option>
+            <option>250</option>
           </select>
           <span id="pubRange" class="meta"></span>
         </div>
@@ -225,25 +324,25 @@
       }
       return sum;
     }
-    function arrayMedian(values){
-      if(!values || !values.length) return NaN;
-      const a = values.slice().sort((x,y)=>x-y);
-      const m = Math.floor(a.length/2);
-      return a.length%2 ? a[m] : (a[m-1]+a[m])/2;
+    function arrayMedian(values) {
+      if (!values || !values.length) return NaN;
+      const a = values.slice().sort((x, y) => x - y);
+      const m = Math.floor(a.length / 2);
+      return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
     }
-    function parseReleaseTs(raw){
-      if(!raw) return null;
-      if(raw==='Coming soon') return null;
-      if(typeof raw==='number') return raw<1e12?raw*1000:raw;
-      const t=Date.parse(raw);
-      if(!Number.isNaN(t)) return t;
-      const m=String(raw).match(/^(\d{4})(?:-(\d{2}))?/);
-      if(m){const y=+m[1],mo=m[2]?(+m[2]-1):0; return Date.UTC(y,mo,1);}
+    function parseReleaseTs(raw) {
+      if (!raw) return null;
+      if (raw === 'Coming soon') return null;
+      if (typeof raw === 'number') return raw < 1e12 ? raw * 1000 : raw;
+      const t = Date.parse(raw);
+      if (!Number.isNaN(t)) return t;
+      const m = String(raw).match(/^(\d{4})(?:-(\d{2}))?/);
+      if (m) { const y = +m[1], mo = m[2] ? (+m[2] - 1) : 0; return Date.UTC(y, mo, 1); }
       return null;
     }
 
     // ---- Year + review-volume sales-per-review
-    function salesPerReviewMultiple(year, reviewCount){
+    function salesPerReviewMultiple(year, reviewCount) {
       const y = year || new Date().getFullYear(); let base;
       if (y <= 2016) base = 74;
       else if (y <= 2018) base = 60;
@@ -252,7 +351,7 @@
       else if (y === 2021) base = 36;
       else if (y === 2022) base = 35;
       else base = 33;
-      if (reviewCount != null){
+      if (reviewCount != null) {
         if (reviewCount < 100) base = Math.min(base, 36);
         else if (reviewCount >= 1000 && reviewCount < 10000) base = Math.max(base, 52.8);
         else if (reviewCount >= 10000) base = Math.max(base, 60);
@@ -273,11 +372,15 @@
       if (!isFree && !price) return null;
 
       const year = game.release_year ?? null;
+      // Subtract 10 reviews, clamp at 0
+      const effectiveReviews = Math.max(0, reviews - 10);
+
       const spr = salesPerReviewMultiple(year, reviews);
-      const rev = reviews * spr * price;
+      const rev = effectiveReviews * spr * price;
 
       return Number.isFinite(rev) && rev >= 0 ? rev : null;
     }
+
 
     // ---------------- State & DOM ----------------
     const tabDevs = document.getElementById('tab-devs');
@@ -345,16 +448,16 @@
       pub: { page: 1, size: 50 }
     };
 
-    function setTab(which){
+    function setTab(which) {
       currentTab = which;
-      if (which === 'devs'){
-        tabDevs.classList.add('active'); tabDevs.setAttribute('aria-selected','true');
-        tabPubs.classList.remove('active'); tabPubs.setAttribute('aria-selected','false');
+      if (which === 'devs') {
+        tabDevs.classList.add('active'); tabDevs.setAttribute('aria-selected', 'true');
+        tabPubs.classList.remove('active'); tabPubs.setAttribute('aria-selected', 'false');
         panelDevs.classList.remove('hidden'); panelPubs.classList.add('hidden');
         renderDevPage();
       } else {
-        tabPubs.classList.add('active'); tabPubs.setAttribute('aria-selected','true');
-        tabDevs.classList.remove('active'); tabDevs.setAttribute('aria-selected','false');
+        tabPubs.classList.add('active'); tabPubs.setAttribute('aria-selected', 'true');
+        tabDevs.classList.remove('active'); tabDevs.setAttribute('aria-selected', 'false');
         panelPubs.classList.remove('hidden'); panelDevs.classList.add('hidden');
         renderPubPage();
       }
@@ -383,29 +486,29 @@
     pubPrev.addEventListener('click', () => { if (pager.pub.page > 1) { pager.pub.page--; renderPubPage(); } });
     pubNext.addEventListener('click', () => { const pages = Math.max(1, Math.ceil(memoPubs.length / pager.pub.size)); if (pager.pub.page < pages) { pager.pub.page++; renderPubPage(); } });
 
-    function debounce(fn, ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); }; }
+    function debounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
 
     // ----- core compute
-    function applyFilters(rows, minCount){
+    function applyFilters(rows, minCount) {
       return rows.filter(r => (minCount ? r.count >= minCount : true));
     }
 
-    function sortRows(rows, by, descFlag){
-      const key = { total:'total', median:'median', avg:'avg', count:'count' }[by] || 'total';
-      rows.sort((a,b) => {
+    function sortRows(rows, by, descFlag) {
+      const key = { total: 'total', median: 'median', avg: 'avg', count: 'count' }[by] || 'total';
+      rows.sort((a, b) => {
         const d = (b[key] - a[key]) || (b.total - a.total) || (b.count - a.count) || a.name.localeCompare(b.name);
         return descFlag ? d : -d;
       });
       return rows;
     }
 
-    function collectOrgStats(role){
+    function collectOrgStats(role) {
       const ignoreComingSoon = !!ignoreComingSoonEl.checked;
       const ignoreFree = !!ignoreFreeEl.checked;
 
       const map = new Map(); // name -> { name, revs: [] }
 
-      for (const g of RAW_MIN){
+      for (const g of RAW_MIN) {
         if (ignoreComingSoon && g.coming_soon) continue;
 
         const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
@@ -414,7 +517,7 @@
         const rev = revenueUSD(g, { ignoreFree });
         if (rev === null) continue;
 
-        for (const raw of names){
+        for (const raw of names) {
           const name = norm(raw);
           if (!name) continue;
           if (!map.has(name)) map.set(name, { name, revs: [] });
@@ -423,7 +526,7 @@
       }
 
       const rows = [];
-      for (const { name, revs } of map.values()){
+      for (const { name, revs } of map.values()) {
         if (!revs.length) continue;
         const total = sumStable(revs);
         const count = revs.length;
@@ -434,37 +537,37 @@
       return rows;
     }
 
-    function summarize(rows){
-      const total = rows.reduce((a,r)=>a+r.total,0);
-      const games = rows.reduce((a,r)=>a+r.count,0);
+    function summarize(rows) {
+      const total = rows.reduce((a, r) => a + r.total, 0);
+      const games = rows.reduce((a, r) => a + r.count, 0);
       return { orgs: rows.length, games, total };
     }
 
     // Compare helpers
-    function parseCompareSet(){
+    function parseCompareSet() {
       const raw = compareInput.value || '';
       const tokens = raw.split(/[\n,]+/).map(s => norm(s)).filter(Boolean);
       const set = new Set(tokens.map(s => s.toLowerCase()));
       return { set, original: tokens };
     }
 
-    function annotateGlobalRank(rows){
+    function annotateGlobalRank(rows) {
       rows.forEach((r, i) => r.globalRank = i + 1);
       return rows;
     }
 
     // ----- render (paginated)
-    function renderPage(tbody, rows, page, size, opts){
-      const { compareOn, relativeRanks, role } = opts || { compareOn:false, relativeRanks:false, role:'developers' };
+    function renderPage(tbody, rows, page, size, opts) {
+      const { compareOn, relativeRanks, role } = opts || { compareOn: false, relativeRanks: false, role: 'developers' };
       tbody.innerHTML = '';
-      const start = (page-1)*size;
-      const end = Math.min(rows.length, start+size);
+      const start = (page - 1) * size;
+      const end = Math.min(rows.length, start + size);
       const frag = document.createDocumentFragment();
-      for (let i=start;i<end;i++){
+      for (let i = start; i < end; i++) {
         const r = rows[i];
         const displayRank = compareOn
-          ? (relativeRanks ? r.relRank : r.globalRank ?? (i+1))
-          : (i+1);
+          ? (relativeRanks ? r.relRank : r.globalRank ?? (i + 1))
+          : (i + 1);
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td class="rank">${displayRank}</td>
@@ -485,13 +588,13 @@
         frag.appendChild(tr);
       }
       tbody.appendChild(frag);
-      return {start: start+1, end, total: rows.length};
+      return { start: start + 1, end, total: rows.length };
     }
 
-    function renderDevPage(){
+    function renderDevPage() {
       const { page, size } = pager.dev;
       const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
-      const {start,end,total} = renderPage(devTableBody, memoDevs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role:'developers' });
+      const { start, end, total } = renderPage(devTableBody, memoDevs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'developers' });
       const pages = Math.max(1, Math.ceil(memoDevs.length / size));
       devPrev.disabled = page <= 1;
       devNext.disabled = page >= pages;
@@ -501,10 +604,10 @@
       const base = `${fmtInt(s.orgs)} developers • ${fmtInt(s.games)} games • ${fmtUSD(s.total)} total`;
       devSummary.textContent = base + (compareOn ? ' • Compare mode' : '');
     }
-    function renderPubPage(){
+    function renderPubPage() {
       const { page, size } = pager.pub;
       const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
-      const {start,end,total} = renderPage(pubTableBody, memoPubs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role:'publishers' });
+      const { start, end, total } = renderPage(pubTableBody, memoPubs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'publishers' });
       const pages = Math.max(1, Math.ceil(memoPubs.length / size));
       pubPrev.disabled = page <= 1;
       pubNext.disabled = page >= pages;
@@ -515,7 +618,7 @@
       pubSummary.textContent = base + (compareOn ? ' • Compare mode' : '');
     }
 
-    function rebuildViews(){
+    function rebuildViews() {
       const by = sortByEl.value;
       const minCount = Number(minCountEl.value || 0);
       const { set: cmpSet } = parseCompareSet();
@@ -529,12 +632,12 @@
       let devRows = allDevs;
       let pubRows = allPubs;
 
-      if (compareOn){
+      if (compareOn) {
         const hasName = r => cmpSet.has(r.name.toLowerCase());
         devRows = allDevs.filter(hasName);
         pubRows = allPubs.filter(hasName);
-        devRows.forEach((r,i)=> r.relRank = i+1);
-        pubRows.forEach((r,i)=> r.relRank = i+1);
+        devRows.forEach((r, i) => r.relRank = i + 1);
+        pubRows.forEach((r, i) => r.relRank = i + 1);
       } else {
         devRows = applyFilters(allDevs, minCount);
         pubRows = applyFilters(allPubs, minCount);
@@ -550,13 +653,13 @@
     }
 
     // ---------------- Streaming JSONL loader with progress ----------------
-    async function loadJSONLStream(url){
+    async function loadJSONLStream(url) {
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error(`Failed to load ${url} (HTTP ${res.status})`);
 
       const contentLen = +res.headers.get('content-length') || 0;
       const reader = res.body?.getReader?.();
-      if (!reader){
+      if (!reader) {
         const text = await res.text();
         await parseTextInChunks(text, contentLen || text.length);
         return;
@@ -565,7 +668,7 @@
       const decoder = new TextDecoder();
       let received = 0, buffer = '', parsedCount = 0;
 
-      while (true){
+      while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         received += value.byteLength;
@@ -574,29 +677,29 @@
         let lines = buffer.split(/\r?\n/);
         buffer = lines.pop() ?? '';
 
-        for (let i=0;i<lines.length;i++){
+        for (let i = 0; i < lines.length; i++) {
           const raw = lines[i].trim(); if (!raw) continue;
-          try { pushMinimal(JSON.parse(raw)); parsedCount++; } catch {}
-          if (parsedCount % 2000 === 0){ updateLoader(received, contentLen, parsedCount); await idle(); }
+          try { pushMinimal(JSON.parse(raw)); parsedCount++; } catch { }
+          if (parsedCount % 2000 === 0) { updateLoader(received, contentLen, parsedCount); await idle(); }
         }
         updateLoader(received, contentLen, parsedCount);
       }
 
-      if (buffer.trim()){ try { pushMinimal(JSON.parse(buffer.trim())); parsedCount++; } catch {} }
+      if (buffer.trim()) { try { pushMinimal(JSON.parse(buffer.trim())); parsedCount++; } catch { } }
       updateLoader(contentLen || 1, contentLen || 1, parsedCount);
     }
 
-    async function parseTextInChunks(text, totalBytes){
+    async function parseTextInChunks(text, totalBytes) {
       const lines = text.split(/\r?\n/); let parsed = 0;
-      for (let i=0;i<lines.length;i++){
+      for (let i = 0; i < lines.length; i++) {
         const raw = lines[i].trim(); if (!raw) continue;
-        try { pushMinimal(JSON.parse(raw)); parsed++; } catch {}
-        if (i % 2000 === 0){ updateLoader(i, lines.length, parsed); await idle(); }
+        try { pushMinimal(JSON.parse(raw)); parsed++; } catch { }
+        if (i % 2000 === 0) { updateLoader(i, lines.length, parsed); await idle(); }
       }
       updateLoader(lines.length, lines.length, parsed);
     }
 
-    function pushMinimal(j){
+    function pushMinimal(j) {
       const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {}, media = j.media || {};
       const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
       RAW_MIN.push({
@@ -614,13 +717,13 @@
       });
     }
 
-    function updateLoader(received, total, parsedCount){
+    function updateLoader(received, total, parsedCount) {
       const pct = total ? Math.min(100, Math.round((received / total) * 100)) : (parsedCount ? 100 : 0);
       loaderBar.style.width = pct + '%';
       loaderPct.textContent = pct + '%';
       loaderMeta.textContent = `${fmtInt(parsedCount)} parsed`;
     }
-    function hideLoader(){
+    function hideLoader() {
       loader.classList.add('hide');
       setTimeout(() => {
         loader.remove();
@@ -629,7 +732,7 @@
     }
 
     // --------- Org details drawer ---------
-    function openOrgDetails(role, name){
+    function openOrgDetails(role, name) {
       const ignoreComingSoon = !!ignoreComingSoonEl.checked;
       const ignoreFree = !!ignoreFreeEl.checked;
 
@@ -642,9 +745,9 @@
         return { g, rev };
       }).filter(x => x.rev !== null);
 
-      games.sort((a,b) => (b.rev - a.rev) || ((b.g.review_count||0)-(a.g.review_count||0)));
+      games.sort((a, b) => (b.rev - a.rev) || ((b.g.review_count || 0) - (a.g.review_count || 0)));
 
-      const total = sumStable(games.map(x=>x.rev));
+      const total = sumStable(games.map(x => x.rev));
       const count = games.length;
 
       orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
@@ -652,7 +755,7 @@
 
       gamesList.innerHTML = '';
       const frag = document.createDocumentFragment();
-      for (const { g, rev } of games){
+      for (const { g, rev } of games) {
         const card = document.createElement('div');
         card.className = 'gcard';
         const img = document.createElement('img');
@@ -668,7 +771,7 @@
           <div class="gmeta">
             <span class="pill">${g.coming_soon ? 'Coming soon' : (g.release_ts ? fmtMonYear(g.release_ts) : '—')}</span>
             <span class="pill">Reviews: <span class="num">${fmtInt(g.review_count)}</span></span>
-            <span class="pill">Price: ${g.is_free || g.price_usd === 0 ? 'Free' : (g.price_usd==null?'—':('$'+Number(g.price_usd).toFixed(2)))}</span>
+            <span class="pill">Price: ${g.is_free || g.price_usd === 0 ? 'Free' : (g.price_usd == null ? '—' : ('$' + Number(g.price_usd).toFixed(2)))}</span>
           </div>
           <div class="gnums">
             <span><strong>Estimated revenue:</strong> ${fmtUSD(rev)}</span>
@@ -680,10 +783,10 @@
       gamesList.appendChild(frag);
 
       if (typeof orgDialog.showModal === 'function') orgDialog.showModal();
-      else orgDialog.setAttribute('open','');
+      else orgDialog.setAttribute('open', '');
     }
 
-    function refreshOpenDrawer(){
+    function refreshOpenDrawer() {
       const head = orgTitle.textContent || '';
       const m = head.match(/^(.*)\s—\s(Developer|Publisher)$/);
       if (!m) return;
@@ -700,18 +803,18 @@
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && orgDialog.open) orgDialog.close(); });
 
-// delegate clicks on the small "open" button
-devTableBody.addEventListener('click', (e) => {
-  const btn = e.target.closest('.org-open-btn');
-  if (!btn) return;
-  openOrgDetails(btn.dataset.role, btn.dataset.name);
-});
+    // delegate clicks on the small "open" button
+    devTableBody.addEventListener('click', (e) => {
+      const btn = e.target.closest('.org-open-btn');
+      if (!btn) return;
+      openOrgDetails(btn.dataset.role, btn.dataset.name);
+    });
 
-pubTableBody.addEventListener('click', (e) => {
-  const btn = e.target.closest('.org-open-btn');
-  if (!btn) return;
-  openOrgDetails(btn.dataset.role, btn.dataset.name);
-});
+    pubTableBody.addEventListener('click', (e) => {
+      const btn = e.target.closest('.org-open-btn');
+      if (!btn) return;
+      openOrgDetails(btn.dataset.role, btn.dataset.name);
+    });
 
     // ---------------- Init ----------------
     (async () => {
@@ -721,10 +824,10 @@ pubTableBody.addEventListener('click', (e) => {
         console.warn(err);
         // tiny fallback
         RAW_MIN = [
-          {app_id:1, name:'Alpha', header_image:null, developers:['Studio One'], publishers:['Pub X'], price_usd:19.99, is_free:false, review_count:1200, release_ts:Date.parse('2022-05-01'), release_year:2022, coming_soon:false},
-          {app_id:2, name:'Beta', header_image:null, developers:['Studio One','Studio Two'], publishers:['Pub Y'], price_usd:9.99, is_free:false, review_count:300, release_ts:Date.parse('2021-11-13'), release_year:2021, coming_soon:false},
-          {app_id:3, name:'Gamma', header_image:null, developers:['Studio Two'], publishers:['Pub X'], price_usd:0, is_free:true, review_count:5000, release_ts:Date.parse('2023-08-18'), release_year:2023, coming_soon:false},
-          {app_id:4, name:'Delta', header_image:null, developers:['Solo Dev'], publishers:['Pub Z'], price_usd:14.99, is_free:false, review_count:50, release_ts:null, release_year:null, coming_soon:true}
+          { app_id: 1, name: 'Alpha', header_image: null, developers: ['Studio One'], publishers: ['Pub X'], price_usd: 19.99, is_free: false, review_count: 1200, release_ts: Date.parse('2022-05-01'), release_year: 2022, coming_soon: false },
+          { app_id: 2, name: 'Beta', header_image: null, developers: ['Studio One', 'Studio Two'], publishers: ['Pub Y'], price_usd: 9.99, is_free: false, review_count: 300, release_ts: Date.parse('2021-11-13'), release_year: 2021, coming_soon: false },
+          { app_id: 3, name: 'Gamma', header_image: null, developers: ['Studio Two'], publishers: ['Pub X'], price_usd: 0, is_free: true, review_count: 5000, release_ts: Date.parse('2023-08-18'), release_year: 2023, coming_soon: false },
+          { app_id: 4, name: 'Delta', header_image: null, developers: ['Solo Dev'], publishers: ['Pub Z'], price_usd: 14.99, is_free: false, review_count: 50, release_ts: null, release_year: null, coming_soon: true }
         ];
       } finally {
         hideLoader();
@@ -734,4 +837,5 @@ pubTableBody.addEventListener('click', (e) => {
     })();
   </script>
 </body>
+
 </html>
