@@ -441,11 +441,17 @@
       const map = new Map();
 
       for (const g of RAW_MIN) {
+        // Respect "Ignore coming soon"
         if (ignoreComingSoon && g.coming_soon) continue;
+
+        // Respect "Ignore free games" for BOTH counts and lists
+        const isFreeGame = g.is_free === true || Number(g.price_usd) === 0;
+        if (ignoreFree && isFreeGame) continue;
 
         const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
         if (!names.length) continue;
 
+        // Revenue (already respects ignoreFree for calc safety)
         const rev = revenueUSD(g, { ignoreFree });
 
         for (const raw of names) {
@@ -458,28 +464,24 @@
             map.set(name, bucket);
           }
 
-          // Always count the game (coming soon included when not ignored)
+          // Count only if not filtered out above
           bucket.gameCount += 1;
 
-          // Only push revenue values when calculable
           if (rev !== null) bucket.revs.push(rev);
         }
       }
 
       const rows = [];
       for (const { name, revs, gameCount } of map.values()) {
-        // Even if no revenue-bearing games, we still surface the row so that
-        // the "Game count" reflects coming soon / non-revenue titles.
         const total = revs.length ? sumStable(revs) : 0;
         const count = gameCount;
         const avg = revs.length ? total / revs.length : 0;
         const med = revs.length ? arrayMedian(revs) : 0;
-
         rows.push({ name, total, median: med, avg, count });
       }
-
       return rows;
     }
+
 
 
     function summarize(rows) {
@@ -797,23 +799,24 @@
     }
 
 
-    // --------- Org details drawer ---------
     function openOrgDetails(role, name) {
       const ignoreComingSoon = !!ignoreComingSoonEl.checked;
       const ignoreFree = !!ignoreFreeEl.checked;
 
-      // All matching games for tag aggregation (respect Ignore coming soon, ignoreFree DOES NOT matter for tags)
+      // Respect BOTH toggles for the drawer list and tag aggregation
       const allMatching = RAW_MIN.filter(g => {
         if (ignoreComingSoon && g.coming_soon) return false;
+        if (ignoreFree && (g.is_free === true || Number(g.price_usd) === 0)) return false;
         const pool = (role === 'developers') ? g.developers : g.publishers;
         return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
       });
 
-      // Include all matching games; revenue may be null for coming-soon / no reviews
+      // Only included games show up in the drawer + count
       const games = allMatching.map(g => {
         const rev = revenueUSD(g, { ignoreFree });
         return { g, rev };
       });
+
 
 
       games.sort((a, b) => {
@@ -1102,4 +1105,4 @@
   </script>
 </body>
 
-</html> 
+</html>
