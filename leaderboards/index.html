@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,7 +11,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5TPPRZVDVF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-5TPPRZVDVF');
   </script>
@@ -20,7 +21,8 @@
   <header class="site-header">
     <div class="wrap">
       <h1>Game Dev / Publisher Leaderboards</h1>
-      <p class="sub">Ranked by total revenue, median revenue, average revenue, and game count. Uses a year+volume sales-per-review model.</p>
+      <p class="sub">Ranked by total revenue, median revenue, average revenue, and game count. Uses a year+volume
+        sales-per-review model.</p>
     </div>
   </header>
 
@@ -31,7 +33,9 @@
         <strong>Loading games…</strong>
         <span id="loaderPct" class="muted">0%</span>
       </div>
-      <div class="bar"><div id="loaderBar" class="bar-fill"></div></div>
+      <div class="bar">
+        <div id="loaderBar" class="bar-fill"></div>
+      </div>
       <div id="loaderMeta" class="muted small">0 parsed</div>
       <div class="loader-hint">Streaming JSONL + chunked parsing keeps the UI responsive.</div>
     </div>
@@ -40,8 +44,10 @@
   <main class="wrap">
     <!-- Tabs -->
     <nav class="tabs" role="tablist" aria-label="Leaderboard entity">
-      <button class="tab active" id="tab-devs" role="tab" aria-selected="true" aria-controls="panel-devs" disabled>Developers</button>
-      <button class="tab" id="tab-pubs" role="tab" aria-selected="false" aria-controls="panel-pubs" disabled>Publishers</button>
+      <button class="tab active" id="tab-devs" role="tab" aria-selected="true" aria-controls="panel-devs"
+        disabled>Developers</button>
+      <button class="tab" id="tab-pubs" role="tab" aria-selected="false" aria-controls="panel-pubs"
+        disabled>Publishers</button>
     </nav>
 
     <!-- Controls -->
@@ -63,7 +69,8 @@
 
         <div class="checks-inline">
           <label class="check"><input id="ignoreFree" type="checkbox" /> <span>Ignore free games</span></label>
-          <label class="check"><input id="ignoreComingSoon" type="checkbox" checked /> <span>Ignore coming soon</span></label>
+          <label class="check"><input id="ignoreComingSoon" type="checkbox" checked /> <span>Ignore coming
+              soon</span></label>
         </div>
       </div>
 
@@ -71,12 +78,14 @@
       <div class="row-c">
         <div id="compareBox" class="chipbox">
 
-          <input id="chipInput" type="text" class="chip-input" placeholder="Type a developer/publisher and press Enter…" autocomplete="off" />
+          <input id="chipInput" type="text" class="chip-input" placeholder="Type a developer/publisher and press Enter…"
+            autocomplete="off" />
           <ul id="chipList" class="chips"></ul>
           <div id="acList" class="ac-list" hidden></div>
         </div>
         <label class="check"><input id="enableCompare" type="checkbox" /> <span>Compare list only</span></label>
-        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative ranks</span></label>
+        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative
+            ranks</span></label>
       </div>
 
       <small class="meta">
@@ -235,36 +244,36 @@
       return base;
     }
 
-// Hardened revenue with tiered early-review deduction
-function revenueUSD(game, { ignoreFree = false } = {}) {
-  const reviewsRaw = toPosNum(game.review_count);
-  const rawPrice = Number(game.price_usd);
-  const isFree = game.is_free === true || rawPrice === 0;
+    // Hardened revenue with tiered early-review deduction
+    function revenueUSD(game, { ignoreFree = false } = {}) {
+      const reviewsRaw = toPosNum(game.review_count);
+      const rawPrice = Number(game.price_usd);
+      const isFree = game.is_free === true || rawPrice === 0;
 
-  if (ignoreFree && isFree) return null;
-  if (!reviewsRaw) return null;
+      if (ignoreFree && isFree) return null;
+      if (!reviewsRaw) return null;
 
-  const price = isFree ? 0 : toPosNum(rawPrice);
-  if (!isFree && !price) return null;
+      const price = isFree ? 0 : toPosNum(rawPrice);
+      if (!isFree && !price) return null;
 
-  // Tiered deduction:
-  // 5–10: −3, 10–20: −6, 20–30: −9, >30: −12
-  const r = reviewsRaw;
-  let deduct = 0;
-  if (r >= 5 && r <= 10) deduct = 3;
-  else if (r > 10 && r <= 20) deduct = 6;
-  else if (r > 20 && r <= 30) deduct = 9;
-  else if (r > 30) deduct = 12;
+      // Tiered deduction:
+      // 5–10: −3, 10–20: −6, 20–30: −9, >30: −12
+      const r = reviewsRaw;
+      let deduct = 0;
+      if (r >= 5 && r <= 10) deduct = 3;
+      else if (r > 10 && r <= 20) deduct = 6;
+      else if (r > 20 && r <= 30) deduct = 9;
+      else if (r > 30) deduct = 12;
 
-  const effectiveReviews = Math.max(0, r - deduct);
+      const effectiveReviews = Math.max(0, r - deduct);
 
-  const year = game.release_year ?? null;
-  // keep SPR logic "as is" (based on original review count + year)
-  const spr = salesPerReviewMultiple(year, r);
-  const rev = effectiveReviews * spr * (price || 0);
+      const year = game.release_year ?? null;
+      // keep SPR logic "as is" (based on original review count + year)
+      const spr = salesPerReviewMultiple(year, r);
+      const rev = effectiveReviews * spr * (price || 0);
 
-  return Number.isFinite(rev) && rev >= 0 ? rev : null;
-}
+      return Number.isFinite(rev) && rev >= 0 ? rev : null;
+    }
 
 
     // ---------------- State & DOM ----------------
@@ -363,9 +372,9 @@ function revenueUSD(game, { ignoreFree = false } = {}) {
     minCountEl.addEventListener('input', debounce(rebuildViews, 120));
     [ignoreFreeEl, ignoreComingSoonEl].forEach(el => el.addEventListener('change', () => { rebuildViews(); if (orgDialog.open) refreshOpenDrawer(); }));
 
-enableCompareEl.addEventListener('change', () => {
-  rebuildViews();       // ensures relRank is computed or cleared properly
-});
+    enableCompareEl.addEventListener('change', () => {
+      rebuildViews();       // ensures relRank is computed or cleared properly
+    });
 
     relativeRankEl.addEventListener('change', () => {
       if (currentTab === 'devs') renderDevPage(); else renderPubPage();
@@ -456,9 +465,9 @@ enableCompareEl.addEventListener('change', () => {
       const frag = document.createDocumentFragment();
       for (let i = start; i < end; i++) {
         const r = rows[i];
-const displayRank = compareOn
-  ? (relativeRanks && r.relRank != null ? r.relRank : (r.globalRank ?? (i + 1)))
-  : (i + 1);
+        const displayRank = compareOn
+          ? (relativeRanks && r.relRank != null ? r.relRank : (r.globalRank ?? (i + 1)))
+          : (i + 1);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -515,26 +524,26 @@ const displayRank = compareOn
       allDevs = annotateGlobalRank(sortRows(collectOrgStats('developers'), by, desc));
       allPubs = annotateGlobalRank(sortRows(collectOrgStats('publishers'), by, desc));
 
-// Regular filtering vs compare
-let devRows = allDevs;
-let pubRows = allPubs;
+      // Regular filtering vs compare
+      let devRows = allDevs;
+      let pubRows = allPubs;
 
-if (enableCompareEl.checked && cmpSet.size === 0) {
-  // User wants compare-only but list is empty → show nothing
-  devRows = [];
-  pubRows = [];
-} else if (compareOn) {
-  const hasName = r => cmpSet.has(r.name.toLowerCase());
-  devRows = allDevs.filter(hasName);
-  pubRows = allPubs.filter(hasName);
-  devRows.forEach((r, i) => r.relRank = i + 1);
-  pubRows.forEach((r, i) => r.relRank = i + 1);
-} else {
-  devRows = applyFilters(allDevs, minCount);
-  pubRows = applyFilters(allPubs, minCount);
-  devRows.forEach(r => r.relRank = undefined);
-  pubRows.forEach(r => r.relRank = undefined);
-}
+      if (enableCompareEl.checked && cmpSet.size === 0) {
+        // User wants compare-only but list is empty → show nothing
+        devRows = [];
+        pubRows = [];
+      } else if (compareOn) {
+        const hasName = r => cmpSet.has(r.name.toLowerCase());
+        devRows = allDevs.filter(hasName);
+        pubRows = allPubs.filter(hasName);
+        devRows.forEach((r, i) => r.relRank = i + 1);
+        pubRows.forEach((r, i) => r.relRank = i + 1);
+      } else {
+        devRows = applyFilters(allDevs, minCount);
+        pubRows = applyFilters(allPubs, minCount);
+        devRows.forEach(r => r.relRank = undefined);
+        pubRows.forEach(r => r.relRank = undefined);
+      }
 
 
       memoDevs = devRows;
@@ -591,23 +600,26 @@ if (enableCompareEl.checked && cmpSet.size === 0) {
       updateLoader(lines.length, lines.length, parsed);
     }
 
-    function pushMinimal(j) {
-      const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {}, media = j.media || {};
-      const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
-      RAW_MIN.push({
-        app_id: j.app_id,
-        name: id.name || `App ${j.app_id}`,
-        header_image: media.header_image || null,
-        developers: arr(id.developers),
-        publishers: arr(id.publishers),
-        price_usd: pricing.price_usd ?? null,
-        is_free: !!pricing.is_free,
-        review_count: (reviews.review_count) ?? (reviews.total_reviews) ?? 0,
-        release_ts: ts,
-        release_year: ts ? new Date(ts).getFullYear() : null,
-        coming_soon: !!rel.coming_soon
-      });
-    }
+function pushMinimal(j) {
+  const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {}, media = j.media || {};
+  const cls = j.classification || {};                              // <-- add this
+  const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
+  RAW_MIN.push({
+    app_id: j.app_id,
+    name: id.name || `App ${j.app_id}`,
+    header_image: media.header_image || null,
+    developers: arr(id.developers),
+    publishers: arr(id.publishers),
+    price_usd: pricing.price_usd ?? null,
+    is_free: !!pricing.is_free,
+    review_count: (reviews.review_count) ?? (reviews.total_reviews) ?? 0,
+    release_ts: ts,
+    release_year: ts ? new Date(ts).getFullYear() : null,
+    coming_soon: !!rel.coming_soon,
+    tags: arr(cls.tags).map(norm).filter(Boolean)                  // <-- add this
+  });
+}
+
 
     function updateLoader(received, total, parsedCount) {
       const pct = total ? Math.min(100, Math.round((received / total) * 100)) : (parsedCount ? 100 : 0);
@@ -624,60 +636,101 @@ if (enableCompareEl.checked && cmpSet.size === 0) {
     }
 
     // --------- Org details drawer ---------
-    function openOrgDetails(role, name) {
-      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
-      const ignoreFree = !!ignoreFreeEl.checked;
+function openOrgDetails(role, name) {
+  const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+  const ignoreFree = !!ignoreFreeEl.checked;
 
-      const games = RAW_MIN.filter(g => {
-        if (ignoreComingSoon && g.coming_soon) return false;
-        const pool = (role === 'developers') ? g.developers : g.publishers;
-        return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
-      }).map(g => {
-        const rev = revenueUSD(g, { ignoreFree });
-        return { g, rev };
-      }).filter(x => x.rev !== null);
+  // All matching games for tag aggregation (respect Ignore coming soon, ignoreFree DOES NOT matter for tags)
+  const allMatching = RAW_MIN.filter(g => {
+    if (ignoreComingSoon && g.coming_soon) return false;
+    const pool = (role === 'developers') ? g.developers : g.publishers;
+    return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
+  });
 
-      games.sort((a, b) => (b.rev - a.rev) || ((b.g.review_count || 0) - (a.g.review_count || 0)));
+  // Games shown in list (same as before, respects ignoreFree for revenue)
+  const games = allMatching.map(g => {
+    const rev = revenueUSD(g, { ignoreFree });
+    return { g, rev };
+  }).filter(x => x.rev !== null);
 
-      const total = sumStable(games.map(x => x.rev));
-      const count = games.length;
+  games.sort((a, b) => (b.rev - a.rev) || ((b.g.review_count || 0) - (a.g.review_count || 0)));
 
-      orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
-      orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
+  const total = sumStable(games.map(x => x.rev));
+  const count = games.length;
 
-      gamesList.innerHTML = '';
-      const frag = document.createDocumentFragment();
-      for (const { g, rev } of games) {
-        const card = document.createElement('div');
-        card.className = 'gcard';
-        const left = document.createElement('div');
-        if (g.header_image) {
-          const img = document.createElement('img');
-          img.className = 'gthumb';
-          img.loading = 'lazy'; img.decoding = 'async';
-          img.alt = `${g.name} header`; img.src = g.header_image || '';
-          left.appendChild(img);
-        }
-        const right = document.createElement('div');
-        right.innerHTML = `
-          <h4 class="gtitle"><a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a></h4>
-          <div class="gmeta">
-            <span class="pill">${g.coming_soon ? 'Coming soon' : (g.release_ts ? fmtMonYear(g.release_ts) : '—')}</span>
-            <span class="pill">Reviews: <span class="num">${fmtInt(g.review_count)}</span></span>
-            <span class="pill">Price: ${g.is_free || g.price_usd === 0 ? 'Free' : (g.price_usd == null ? '—' : ('$' + Number(g.price_usd).toFixed(2)))}</span>
-          </div>
-          <div class="gnums">
-            <span><strong>Estimated revenue:</strong> ${fmtUSD(rev)}</span>
-          </div>
-        `;
-        card.appendChild(left); card.appendChild(right);
-        frag.appendChild(card);
-      }
-      gamesList.appendChild(frag);
+  orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
+  orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
 
-      if (typeof orgDialog.showModal === 'function') orgDialog.showModal();
-      else orgDialog.setAttribute('open', '');
+  /* ---------- NEW: Top tags aggregation & render ---------- */
+  // Build frequency map (case-insensitive, but preserve first-seen casing for display)
+  const tagMap = new Map(); // lower -> {name, count}
+  for (const g of allMatching) {
+    const tags = Array.isArray(g.tags) ? g.tags : [];
+    for (const t of tags) {
+      const key = String(t || '').toLowerCase();
+      if (!key) continue;
+      const cur = tagMap.get(key);
+      if (cur) cur.count += 1;
+      else tagMap.set(key, { name: t, count: 1 });
     }
+  }
+
+  const topTags = Array.from(tagMap.values())
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+    .slice(0, 10);
+
+  // Render (reuse .gmeta + .pill styles you already have)
+  let tagBar = document.getElementById('orgTags');
+  if (!tagBar) {
+    tagBar = document.createElement('div');
+    tagBar.id = 'orgTags';
+    tagBar.className = 'gmeta';
+    // insert above the games list
+    gamesList.parentElement.insertBefore(tagBar, gamesList);
+  }
+  if (topTags.length) {
+    tagBar.innerHTML = `<strong>Top 10 tags:</strong> ` + topTags
+      .map(t => `<span class="pill">${t.name} <span class="num">(${fmtInt(t.count)})</span></span>`)
+      .join(' ');
+  } else {
+    tagBar.innerHTML = ''; // no tags available
+  }
+  /* ---------- END NEW ---------- */
+
+  // (existing cards render)
+  gamesList.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  for (const { g, rev } of games) {
+    const card = document.createElement('div');
+    card.className = 'gcard';
+    const left = document.createElement('div');
+    if (g.header_image) {
+      const img = document.createElement('img');
+      img.className = 'gthumb';
+      img.loading = 'lazy'; img.decoding = 'async';
+      img.alt = `${g.name} header`; img.src = g.header_image || '';
+      left.appendChild(img);
+    }
+    const right = document.createElement('div');
+    right.innerHTML = `
+      <h4 class="gtitle"><a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a></h4>
+      <div class="gmeta">
+        <span class="pill">${g.coming_soon ? 'Coming soon' : (g.release_ts ? fmtMonYear(g.release_ts) : '—')}</span>
+        <span class="pill">Reviews: <span class="num">${fmtInt(g.review_count)}</span></span>
+        <span class="pill">Price: ${g.is_free || g.price_usd === 0 ? 'Free' : (g.price_usd == null ? '—' : ('$' + Number(g.price_usd).toFixed(2)))}</span>
+      </div>
+      <div class="gnums">
+        <span><strong>Estimated revenue:</strong> ${fmtUSD(rev)}</span>
+      </div>
+    `;
+    card.appendChild(left); card.appendChild(right);
+    frag.appendChild(card);
+  }
+  gamesList.appendChild(frag);
+
+  if (typeof orgDialog.showModal === 'function') orgDialog.showModal();
+  else orgDialog.setAttribute('open', '');
+}
 
     function refreshOpenDrawer() {
       const head = orgTitle.textContent || '';
@@ -879,4 +932,5 @@ if (enableCompareEl.checked && cmpSet.size === 0) {
     })();
   </script>
 </body>
+
 </html>
