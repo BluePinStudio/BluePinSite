@@ -404,40 +404,54 @@
       return rows;
     }
 
-    function collectOrgStats(role) {
-      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
-      const ignoreFree = !!ignoreFreeEl.checked;
+function collectOrgStats(role) {
+  const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+  const ignoreFree = !!ignoreFreeEl.checked;
 
-      const map = new Map(); // name -> { name, revs: [] }
+  // name -> { name, revs: [], gameCount: 0 }
+  const map = new Map();
 
-      for (const g of RAW_MIN) {
-        if (ignoreComingSoon && g.coming_soon) continue;
+  for (const g of RAW_MIN) {
+    if (ignoreComingSoon && g.coming_soon) continue;
 
-        const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
-        if (!names.length) continue;
+    const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
+    if (!names.length) continue;
 
-        const rev = revenueUSD(g, { ignoreFree });
-        if (rev === null) continue;
+    const rev = revenueUSD(g, { ignoreFree });
 
-        for (const raw of names) {
-          const name = norm(raw);
-          if (!name) continue;
-          if (!map.has(name)) map.set(name, { name, revs: [] });
-          map.get(name).revs.push(rev);
-        }
+    for (const raw of names) {
+      const name = norm(raw);
+      if (!name) continue;
+
+      let bucket = map.get(name);
+      if (!bucket) {
+        bucket = { name, revs: [], gameCount: 0 };
+        map.set(name, bucket);
       }
 
-      const rows = [];
-      for (const { name, revs } of map.values()) {
-        if (!revs.length) continue;
-        const total = sumStable(revs);
-        const count = revs.length;
-        const avg = total / count;
-        const med = arrayMedian(revs);
-        rows.push({ name, total, median: med, avg, count });
-      }
-      return rows;
+      // Always count the game (coming soon included when not ignored)
+      bucket.gameCount += 1;
+
+      // Only push revenue values when calculable
+      if (rev !== null) bucket.revs.push(rev);
     }
+  }
+
+  const rows = [];
+  for (const { name, revs, gameCount } of map.values()) {
+    // Even if no revenue-bearing games, we still surface the row so that
+    // the "Game count" reflects coming soon / non-revenue titles.
+    const total = revs.length ? sumStable(revs) : 0;
+    const count = gameCount;
+    const avg = revs.length ? total / revs.length : 0;
+    const med = revs.length ? arrayMedian(revs) : 0;
+
+    rows.push({ name, total, median: med, avg, count });
+  }
+
+  return rows;
+}
+
 
     function summarize(rows) {
       const total = rows.reduce((a, r) => a + r.total, 0);
@@ -647,16 +661,23 @@ function openOrgDetails(role, name) {
     return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
   });
 
-  // Games shown in list (same as before, respects ignoreFree for revenue)
-  const games = allMatching.map(g => {
-    const rev = revenueUSD(g, { ignoreFree });
-    return { g, rev };
-  }).filter(x => x.rev !== null);
+// Include all matching games; revenue may be null for coming-soon / no reviews
+const games = allMatching.map(g => {
+  const rev = revenueUSD(g, { ignoreFree });
+  return { g, rev };
+});
 
-  games.sort((a, b) => (b.rev - a.rev) || ((b.g.review_count || 0) - (a.g.review_count || 0)));
 
-  const total = sumStable(games.map(x => x.rev));
-  const count = games.length;
+games.sort((a, b) => {
+  const ra = Number.isFinite(a.rev) ? a.rev : -1; // nulls go last
+  const rb = Number.isFinite(b.rev) ? b.rev : -1;
+  return (rb - ra) || ((b.g.review_count || 0) - (a.g.review_count || 0));
+});
+
+
+const total = sumStable(games.map(x => Number.isFinite(x.rev) ? x.rev : 0));
+const count = games.length;
+
 
   orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
   orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
