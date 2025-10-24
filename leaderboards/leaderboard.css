@@ -1,386 +1,172 @@
 /* =========================================================
-   Game Dev / Publisher Leaderboards — merged & deduped CSS
+   Game Dev / Publisher Leaderboards — mobile-first refresh
    ========================================================= */
 
-/* ---------- Color System ---------- */
-:root {
-  --bg: #0b0d10;
-  --bg-elev: #12161b;
-  --card: #11151a;
-  --text: #e6eef7;
-  --muted: #9fb0c0;
-  --accent: #64d2ff;
-  --accent-2: #49ffa3;
-  --outline: #2a3440;
-  --shadow-1: 0 6px 18px rgba(0,0,0,.22);
-  --shadow-2: 0 18px 36px rgba(0,0,0,.28);
+/* ---------- Color System (unchanged palette) ---------- */
+:root{
+  --bg:#0b0d10; --bg-elev:#12161b; --card:#11151a; --text:#e6eef7; --muted:#9fb0c0;
+  --accent:#64d2ff; --accent-2:#49ffa3; --outline:#2a3440;
+  --shadow-1:0 6px 18px rgba(0,0,0,.22); --shadow-2:0 18px 36px rgba(0,0,0,.28);
+  /* Fluid type scale for mobile → desktop */
+  --fs-0:clamp(.9rem, .88rem + .2vw, 1rem);
+  --fs-1:clamp(1.05rem, 1rem + .6vw, 1.35rem);
+  --radius:14px;
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #f6f9fc;
-    --bg-elev: #ffffff;
-    --card: #ffffff;
-    --text: #0b0d10;
-    --muted: #556270;
-    --accent: #086dd8;
-    --accent-2: #1fb874;
-    --outline: #d8e2ee;
-    --shadow-1: 0 10px 24px rgba(17,24,39,.08);
-    --shadow-2: 0 28px 52px rgba(17,24,39,.12);
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f6f9fc; --bg-elev:#fff; --card:#fff; --text:#0b0d10; --muted:#556270;
+    --accent:#086dd8; --accent-2:#1fb874; --outline:#d8e2ee;
+    --shadow-1:0 10px 24px rgba(17,24,39,.08); --shadow-2:0 28px 52px rgba(17,24,39,.12);
   }
 }
 
 /* ---------- Base ---------- */
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+@supports (padding:max(0px)) {
+  body{padding-bottom: max(0px, env(safe-area-inset-bottom))}
+}
+body{
+  font: 400 var(--fs-0)/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Cantarell,Noto Sans,Arial,sans-serif;
   background:
     radial-gradient(1200px 1200px at 12% -10%, rgba(100,210,255,.07), transparent 60%)
     var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
 }
-.wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.1rem; }
+.wrap{max-width:1200px;margin:0 auto;padding:0 1rem}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset:2px}
 
-a { color: var(--accent); }
-:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent) 60%, transparent);
-  outline-offset: 2px;
+/* Utilities */
+.hidden{display:none!important}
+.small{font-size:.9em}
+.muted{color:var(--muted)}
+.num{ text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums }
+.strong{font-weight:700}
+.clickable{cursor:pointer}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important; scroll-behavior:auto!important}
 }
 
-/* utilities */
-.hidden { display: none !important; }
-.small { font-size: .9rem; }
-.muted { color: var(--muted); }
-.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.strong { font-weight: 700; }
-.clickable { cursor: pointer; }
-
-/* ---------- Header / Footer ---------- */
-.site-header, .site-footer {
+/* ---------- Header ---------- */
+.site-header{
   background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
-  border-bottom: 1px solid var(--outline);
+  border-bottom:1px solid var(--outline);
 }
-.site-footer { border-top: 1px solid var(--outline); border-bottom: 0; }
-.site-header .wrap, .site-footer .wrap { padding: .9rem 0; }
-h1 { margin: 0 0 .2rem; font-size: 1.35rem; letter-spacing: .2px; }
-.sub, .meta { color: var(--muted); }
+.site-header .wrap{padding:.9rem 1rem}
+h1{ margin:0 0 .25rem; font-size:var(--fs-1); letter-spacing:.2px }
+.sub{ color:var(--muted) }
 
 /* ---------- Loader ---------- */
-.loader {
-  position: fixed; inset: 0; display: grid; place-items: center;
+.loader{
+  position:fixed; inset:0; display:grid; place-items:center;
   background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.35));
   backdrop-filter: blur(2px);
-  z-index: 20;
-  transition: opacity .35s ease, visibility .35s ease;
+  z-index:20; transition:opacity .35s ease, visibility .35s ease;
 }
-.loader.hide { opacity: 0; visibility: hidden; }
-.loader-card {
-  width: min(680px, 90vw);
-  background: var(--bg-elev);
-  border: 1px solid var(--outline);
-  border-radius: 14px;
-  box-shadow: var(--shadow-2);
-  padding: 1rem;
+.loader.hide{opacity:0; visibility:hidden}
+.loader-card{
+  width:min(680px, 92vw);
+  background:var(--bg-elev); border:1px solid var(--outline); border-radius:var(--radius);
+  box-shadow:var(--shadow-2); padding:1rem
 }
-.loader-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; }
-.bar {
-  height: 12px; border-radius: 999px; overflow: hidden;
-  background: color-mix(in srgb, var(--card) 88%, transparent);
-  border: 1px solid var(--outline);
-}
-.bar-fill {
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  transition: width .12s ease-out;
-}
-.loader-hint { margin-top: .5rem; color: var(--muted); }
+.loader-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:.5rem}
+.bar{height:12px;border-radius:999px;overflow:hidden;background:color-mix(in srgb, var(--card) 88%, transparent);border:1px solid var(--outline)}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg, var(--accent), var(--accent-2));transition:width .12s ease-out}
+.loader-hint{margin-top:.5rem;color:var(--muted)}
 
 /* ---------- Tabs ---------- */
-.tabs {
-  display: inline-flex; gap: .4rem; margin: 1rem 0 .6rem;
+.tabs{
+  display:flex; gap:.4rem; margin:1rem 0 .6rem; padding:.35rem;
   background: color-mix(in srgb, var(--bg-elev) 96%, transparent);
-  padding: .35rem; border: 1px solid var(--outline); border-radius: 12px;
+  border:1px solid var(--outline); border-radius:12px; overflow:auto;
+  -webkit-overflow-scrolling:touch;
 }
-.tab {
-  appearance: none; border: 1px solid var(--outline); border-radius: 10px;
-  background: var(--card); color: var(--text); cursor: pointer;
-  padding: .5rem .8rem; font-weight: 600;
+.tab{
+  appearance:none; border:1px solid var(--outline); border-radius:10px;
+  background:var(--card); color:var(--text); cursor:pointer;
+  padding:.55rem .85rem; font-weight:600; flex:0 0 auto;
+  touch-action:manipulation;
 }
-.tab.active {
+.tab.active{
   border-color: color-mix(in srgb, var(--accent) 60%, var(--outline));
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
-.tab[disabled]{ opacity:.6; cursor:not-allowed; }
+.tab[disabled]{opacity:.6; cursor:not-allowed}
 
-/* ---------- Controls ---------- */
-.controls {
+/* ---------- Controls (mobile-first) ---------- */
+.controls{
   background: linear-gradient(180deg, color-mix(in srgb, var(--bg-elev) 94%, transparent), var(--bg-elev));
-  border: 1px solid var(--outline);
-  border-radius: 14px;
-  padding: .9rem;
-  box-shadow: var(--shadow-1);
-  margin-bottom: .9rem;
-  display: grid;
-  gap: .7rem;
+  border:1px solid var(--outline); border-radius:var(--radius);
+  padding:.9rem; box-shadow:var(--shadow-1); margin-bottom:.9rem;
+  display:grid; gap:.7rem;
 }
-.row-a {
-  display: grid;
-  grid-template-columns: auto minmax(160px, 220px) auto 110px 1fr;
-  gap: .6rem;
-  align-items: center;
+.label{color:var(--muted)}
+.input,.btn,.check input{accent-color:var(--accent)}
+.input{
+  background:var(--card); color:var(--text);
+  border:1px solid var(--outline); border-radius:10px; padding:.6rem .7rem; width:100%;
 }
-.checks-inline {
-  display: inline-flex; align-items: center; gap: .9rem; justify-self: end; flex-wrap: wrap;
-}
-.check { display: inline-flex; align-items: center; gap: .45rem; }
-.label { color: var(--muted); }
-.input, .btn, .check input { accent-color: var(--accent); }
-.input {
-  background: var(--card); color: var(--text);
-  border: 1px solid var(--outline); border-radius: 10px;
-  padding: .5rem .6rem; width: 100%;
-}
-.btn {
-  border: 1px solid var(--outline); border-radius: 10px;
+.btn{
+  border:1px solid var(--outline); border-radius:10px;
   background: linear-gradient(180deg, color-mix(in srgb, var(--card) 88%, transparent), var(--card));
-  color: var(--text); padding: .5rem .75rem; cursor: pointer;
+  color:var(--text); padding:.6rem .8rem; cursor:pointer; touch-action:manipulation;
 }
-.btn:hover { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
-.input-search { width: 100%; }
+.btn:hover{ border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent) }
 
-/* Row C layout (chips + toggles) */
-.row-c{
-  display:grid; grid-template-columns: 1fr auto auto;
-  align-items:center; gap:.6rem;
+/* Row A: stack on mobile */
+.row-a{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:.6rem; align-items:center;
+}
+.checks-inline{ display:flex; flex-wrap:wrap; gap:.7rem; grid-column:1 / -1 }
+.check{ display:inline-flex; align-items:center; gap:.45rem; }
+
+/* Row C: chips + toggles */
+.row-c{ display:grid; grid-template-columns:1fr; gap:.6rem; align-items:center }
+
+/* ≥ 720px: denser control grid */
+@media (min-width: 720px){
+  .row-a{ grid-template-columns:auto minmax(160px,220px) auto 120px 1fr }
+  .checks-inline{ justify-self:end }
+  .row-c{ grid-template-columns:1fr auto auto }
 }
 
 /* ---------- Panels ---------- */
-.panel { margin-top: .5rem; }
-.panel.hidden { display: none; }
-.summary { margin: .2rem 0 .2rem; color: var(--muted); }
+.panel{ margin-top:.5rem }
+.panel.hidden{ display:none }
+.summary{ margin:.2rem 0 .2rem; color:var(--muted) }
 
 /* ---------- Table ---------- */
-.table-wrap {
+.table-wrap{
   background: color-mix(in srgb, var(--card) 90%, transparent);
-  border: 1px solid var(--outline);
-  border-radius: 14px;
-  box-shadow: var(--shadow-1);
-  overflow: hidden;
+  border:1px solid var(--outline); border-radius:var(--radius);
+  box-shadow:var(--shadow-1);
+  /* Mobile: allow horizontal pan without breaking layout */
+  overflow:auto; -webkit-overflow-scrolling:touch; scrollbar-gutter: stable both-edges;
 }
-.table { width: 100%; border-collapse: collapse; }
-.table thead th {
-  text-align: left; font-weight: 700; font-size: .95rem;
+.table{ width:100%; border-collapse:collapse; min-width:720px } /* give columns room; scrolls on phones */
+.table thead th{
+  text-align:left; font-weight:700; font-size:.95rem;
   background: color-mix(in srgb, var(--bg-elev) 95%, transparent);
-  border-bottom: 1px solid var(--outline);
-  padding: .65rem .75rem; white-space: nowrap;
-}
-.table tbody td {
-  padding: .6rem .75rem;
-  border-top: 1px solid color-mix(in srgb, var(--outline) 70%, transparent);
-}
-.table tbody tr:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
-.rank { color: var(--muted); width: 56px; }
-.name { width: 44%; display:flex; align-items:center; gap:.5rem; }
-.table .num { text-align: right; }
-.org-open-btn{
-  margin-left: .45rem;
-  padding: .2rem .45rem;
-  border: 1px solid var(--outline);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--card) 92%, transparent);
-  color: var(--text);
-  line-height: 1;
-  cursor: pointer;
-}
-.org-open-btn:hover{
-  background: color-mix(in srgb, var(--card) 85%, transparent);
-  box-shadow: var(--shadow-1);
-}
-.org-open-btn:active{ transform: translateY(1px); }
-
-/* ---------- Pager ---------- */
-.pager {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: .6rem; padding: .6rem .2rem; margin-top: .4rem;
-}
-.pager-left, .pager-right { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
-.pager-size { max-width: 90px; }
-
-/* ---------- Modal: org drawer ---------- */
-dialog.org-drawer{
-  border:1px solid var(--outline);
-  background:var(--bg-elev);
-  color:var(--text);
-  border-radius:14px;
-  box-shadow:var(--shadow-2);
-  width:min(960px, 92vw);
-  max-height:85vh;
-  padding:0;
-}
-/* Fix double scrollbars in org modal */
-.org-drawer { overflow: hidden; }             /* prevent dialog itself from scrolling */
-.org-head{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:.9rem 1rem;
   border-bottom:1px solid var(--outline);
-  position:sticky; top:0; z-index:2;
-  background: color-mix(in srgb, var(--bg-elev) 98%, transparent);
+  padding:.65rem .75rem; white-space:nowrap; position:sticky; top:0; z-index:1;
 }
-.org-head h3{margin:0; font-size:1.05rem}
-.org-meta{color:var(--muted); margin-top:.2rem; font-size:.95rem}
-.org-close{
-  border:1px solid var(--outline);
-  background:var(--card);
-  color:var(--text);
-  border-radius:10px;
-  padding:.4rem .7rem;
-  cursor:pointer;
+.table tbody td{
+  padding:.6rem .75rem; border-top:1px solid color-mix(in srgb, var(--outline) 70%, transparent)
 }
-.org-body {
-  padding:.9rem 1rem;
-  overflow-y: auto;            /* only inner body scrolls */
-  max-height: calc(85vh - 58px);
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;    /* keeps layout from jumping */
-}
+.table tbody tr:hover{ background: color-mix(in srgb, var(--accent) 10%, transparent) }
+.rank{ color:var(--muted); width:56px }
+.name{ width:44%; display:flex; align-items:center; gap:.5rem; white-space:normal; word-break:break-word }
+.table .num{ text-align:right }
 
-/* Games grid/cards in drawer */
-.games-grid{display:grid; grid-template-columns:1fr; gap:.6rem; margin-top:.6rem}
-.gcard{
-  display:grid; grid-template-columns:110px 1fr;
-  gap:.7rem; padding:.6rem;
-  border:1px solid var(--outline);
-  border-radius:12px;
-  background: color-mix(in srgb, var(--card) 90%, transparent);
-  align-items:center;
-}
-.gthumb{width:100%; height:auto; border-radius:8px; display:block}
-.gtitle{margin:0 0 .25rem; font-size:1rem}
-.gtitle a{color:inherit; text-decoration:none}
-.gmeta{display:flex; flex-wrap:wrap; gap:.6rem; color:var(--muted); font-size:.92rem}
-.gnums{margin-top:.25rem; display:grid; grid-auto-flow:column; justify-content:start; gap:1rem; font-variant-numeric:tabular-nums}
-.pill{
-  border:1px solid var(--outline);
-  padding:.15rem .45rem;
-  border-radius:999px;
-  background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
-}
-@media (max-width:680px){
-  .gcard{grid-template-columns:1fr}
-}
-
-/* ---------- Chips + Autocomplete ---------- */
-.chipbox {
-  display: grid;
-  grid-template-columns: 1fr;
-  position: relative;
-  border: 1px solid var(--outline);
-  background: var(--card);
-  border-radius: 10px;
-  padding: .35rem .45rem .2rem;
-  min-height: 42px;
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .35rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  border: 1px solid var(--outline);
-  border-radius: 999px;
-  padding: .15rem .5rem;
-  background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
-  font-size: .95rem;
-}
-.chip-remove {
-  border: 0;
-  background: none;
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-  padding: 0 .1rem;
-  color: var(--muted);
-}
-.chip-input {
-  border: 0;
-  outline: none;
-  padding: .25rem .2rem .35rem;
-  background: transparent;
-  min-width: 120px;
-  font: inherit;
-  color: inherit;
-}
-.ac-list {
-  position: absolute;
-  left: 0; right: 0; top: calc(100% - .2rem);
-  border: 1px solid var(--outline);
-  background: var(--bg-elev);
-  border-radius: 10px;
-  box-shadow: var(--shadow-2);
-  padding: .25rem;
-  max-height: 260px;
-  overflow: auto;
-  z-index: 5;
-}
-.ac-item {
-  padding: .45rem .55rem;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.ac-item:hover, .ac-item[aria-selected="true"] {
-  background: color-mix(in srgb, var(--card) 88%, transparent);
-}
-
-/* ---------- Responsive tweaks ---------- */
-@media (max-width: 900px){
-  .row-a { grid-template-columns: 1fr 1fr; }
-  .checks-inline { justify-self: start; }
-}
-
-.compare-chips {
-  margin-top: 1rem;
-  padding: .5rem .6rem;
-}
-
-.chip {
-  background: color-mix(in srgb, gold 25%, var(--bg-elev));
-  border-color: color-mix(in srgb, gold 40%, var(--outline));
-}
-.chip-remove {
-  color: color-mix(in srgb, gold 50%, var(--muted));
-}
-
-.chip:hover {
-  box-shadow: 0 0 4px color-mix(in srgb, gold 40%, transparent);
-}
-
-/* Free the name column and allow wrapping */
-.table td.name { 
-  width: auto !important;
-  white-space: normal;         /* allow multi-line names */
-  word-break: break-word;      /* in case of very long tokens */
-  display: flex; 
-  align-items: center; 
-  gap: .5rem;
-}
-
-/* Rank column */
-.table thead th:nth-child(1),
-.table tbody td.rank {
-  width: 6ch;                  /* ~2–3 digits comfortably */
-}
-
-/* Games / Total / Median / Average */
+/* compact numeric column widths */
 .table thead th:nth-child(3),
 .table thead th:nth-child(4),
 .table thead th:nth-child(5),
@@ -388,17 +174,10 @@ dialog.org-drawer{
 .table tbody td:nth-child(3),
 .table tbody td:nth-child(4),
 .table tbody td:nth-child(5),
-.table tbody td:nth-child(6) {
-  width: 12ch;                 /* numeric cols use a fixed, small width */
-  white-space: nowrap;
+.table tbody td:nth-child(6){
+  width:12ch; white-space:nowrap;
 }
-
-/* Let the header label wrap if needed */
-.table thead th:nth-child(2) {
-  white-space: normal;
-}
-
-@media (max-width: 900px) {
+@media (max-width: 900px){
   .table thead th:nth-child(3),
   .table thead th:nth-child(4),
   .table thead th:nth-child(5),
@@ -406,8 +185,529 @@ dialog.org-drawer{
   .table tbody td:nth-child(3),
   .table tbody td:nth-child(4),
   .table tbody td:nth-child(5),
-  .table tbody td:nth-child(6) {
-    width: 10ch;
-  }
+  .table tbody td:nth-child(6){ width:10ch }
 }
 
+/* View button in name cell */
+.org-open-btn{
+  margin-left:.25rem; padding:.35rem .5rem; border:1px solid var(--outline);
+  border-radius:8px; background: color-mix(in srgb, var(--card) 92%, transparent);
+  color:var(--text); line-height:1; cursor:pointer; flex:0 0 auto;
+}
+.org-open-btn:hover{ background: color-mix(in srgb, var(--card) 85%, transparent); box-shadow:var(--shadow-1) }
+.org-open-btn:active{ transform: translateY(1px) }
+
+/* ---------- Pager ---------- */
+.pager{
+  display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+  padding:.6rem .2rem; margin-top:.4rem; flex-wrap:wrap;
+}
+.pager-left,.pager-right{ display:flex; align-items:center; gap:.5rem; flex-wrap:wrap }
+.pager-size{ max-width:90px }
+
+/* ---------- Drawer (org details) ---------- */
+dialog.org-drawer{
+  border:1px solid var(--outline); background:var(--bg-elev); color:var(--text);
+  border-radius:var(--radius); box-shadow:var(--shadow-2);
+  width:min(960px, 92vw); max-height:85vh; padding:0; overflow:hidden;
+}
+.org-head{
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  padding:.9rem 1rem; border-bottom:1px solid var(--outline);
+  position:sticky; top:0; z-index:2; background: color-mix(in srgb, var(--bg-elev) 98%, transparent);
+}
+.org-head h3{margin:0; font-size:1.05rem}
+.org-meta{color:var(--muted); margin-top:.2rem; font-size:.95rem}
+.org-close{ border:1px solid var(--outline); background:var(--card); color:var(--text);
+  border-radius:10px; padding:.5rem .8rem; cursor:pointer }
+
+.org-body{
+  padding:.9rem 1rem; overflow-y:auto; max-height:calc(85vh - 58px);
+  overscroll-behavior:contain; scrollbar-gutter:stable
+}
+
+/* Mobile: drawer behaves like a full-height sheet */
+@media (max-width: 560px){
+  dialog.org-drawer{ width:100vw; max-height:100vh; height:100dvh; border-radius:0 }
+  .org-body{ max-height:calc(100dvh - 58px) }
+}
+
+/* Games grid/cards */
+.games-grid{ display:grid; grid-template-columns:1fr; gap:.6rem; margin-top:.6rem }
+.gcard{
+  display:grid; grid-template-columns:110px 1fr; gap:.7rem; padding:.6rem;
+  border:1px solid var(--outline); border-radius:12px;
+  background: color-mix(in srgb, var(--card) 90%, transparent); align-items:center;
+}
+@media (max-width:680px){ .gcard{ grid-template-columns:1fr } }
+.gthumb{ width:100%; height:auto; border-radius:8px; display:block }
+.gtitle{ margin:0 0 .25rem; font-size:1rem }
+.gtitle a{ color:inherit; text-decoration:none }
+.gmeta{ display:flex; flex-wrap:wrap; gap:.6rem; color:var(--muted); font-size:.92rem }
+.gnums{ margin-top:.25rem; display:grid; grid-auto-flow:column; justify-content:start; gap:1rem; font-variant-numeric:tabular-nums }
+.pill{ border:1px solid var(--outline); padding:.15rem .45rem; border-radius:999px;
+  background: color-mix(in srgb, var(--bg-elev) 92%, transparent) }
+
+/* ---------- Chips + Autocomplete ---------- */
+.chipbox{
+  display:grid; grid-template-columns:1fr; position:relative;
+  border:1px solid var(--outline); background:var(--card); border-radius:10px;
+  padding:.35rem .45rem .2rem; min-height:44px
+}
+.chips{ display:flex; flex-wrap:wrap; gap:.35rem; margin:0; padding:0; list-style:none }
+.chip{
+  display:inline-flex; align-items:center; gap:.4rem;
+  border:1px solid var(--outline); border-radius:999px; padding:.2rem .6rem;
+  background: color-mix(in srgb, gold 25%, var(--bg-elev));
+  border-color: color-mix(in srgb, gold 40%, var(--outline));
+  font-size:.95rem
+}
+.chip:hover{ box-shadow:0 0 4px color-mix(in srgb, gold 40%, transparent) }
+.chip-remove{ border:0; background:none; cursor:pointer; font-size:1.05rem; line-height:1; padding:0 .1rem; color: color-mix(in srgb, gold 50%, var(--muted)) }
+.chip-input{ border:0; outline:none; padding:.25rem .2rem .35rem; background:transparent; min-width:120px; font:inherit; color:inherit }
+
+.ac-list{
+  position:absolute; left:0; right:0; top:calc(100% - .2rem);
+  border:1px solid var(--outline); background:var(--bg-elev); border-radius:10px;
+  box-shadow:var(--shadow-2); padding:.25rem; max-height:260px; overflow:auto; z-index:5
+}
+.ac-item{ padding:.45rem .55rem; border-radius:8px; cursor:pointer }
+.ac-item:hover, .ac-item[aria-selected="true"]{ background: color-mix(in srgb, var(--card) 88%, transparent) }
+
+/* ================================
+   MOBILE FIXES: controls + table
+   ================================ */
+
+/* --- Controls: tight label/input pairs --- */
+.controls { gap:.55rem }
+.controls .row-a,
+.controls .row-c { gap:.5rem }
+
+/* Wrap each label+input as .field (see tiny HTML patch below) */
+.field{ display:grid; grid-auto-flow:column; align-items:center; gap:.45rem; width:100% }
+.field .label{ white-space:nowrap }
+.field .input, .field select, .field .btn{ min-height:40px }
+
+/* Layout on narrow screens: two columns of fields */
+@media (max-width: 560px){
+  .row-a{ display:grid; grid-template-columns:1fr 1fr; gap:.55rem }
+  .row-c{ display:grid; grid-template-columns:1fr auto; gap:.55rem }
+  .checks-inline{ grid-column:1 / -1; justify-content:flex-start }
+}
+
+/* ≥ 720px keep things neat but inline */
+@media (min-width: 561px){
+  .row-a{ display:grid; grid-template-columns:auto auto auto 1fr; gap:.6rem; align-items:center }
+  .row-c{ display:grid; grid-template-columns:1fr auto auto; gap:.6rem }
+}
+
+/* Nudge the “Sort by” label right beside its select */
+.field--sort .label{ margin-right:.1rem }
+
+/* --- Table: stacked 2-line rows on phones --- */
+@media (max-width: 560px){
+  .table-wrap{ overflow:visible }          /* no need to pan sideways */
+  .table{ min-width:0; width:100% }
+  .table thead{ display:none }
+  .table tbody tr{
+    display:grid;
+    grid-template-columns: auto 1fr auto;  /* rank | name | games */
+    grid-auto-rows:auto;
+    row-gap:.25rem;
+    padding:.55rem .6rem;
+    border-bottom:1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+  }
+  .table tbody td{ border:0; padding:.2rem .25rem }
+  /* Line 1 */
+  .table tbody td.rank{ grid-column:1; grid-row:1; color:var(--muted); min-width:2.5ch }
+  .table tbody td.name{ grid-column:2; grid-row:1; margin-left:.1rem; display:block }
+  .table tbody td.games{ grid-column:3; grid-row:1; justify-self:end; font-variant-numeric:tabular-nums }
+  /* Line 2 (revenues) — assumes: total=col3, median=col4, average=col5 in desktop table */
+  .table tbody td:nth-child(3){ grid-column:1; grid-row:2; }
+  .table tbody td:nth-child(4){ grid-column:2; grid-row:2; justify-self:start }
+  .table tbody td:nth-child(5){ grid-column:3; grid-row:2; justify-self:end }
+  /* Make the second line compact pills */
+  .table tbody td:nth-child(3),
+  .table tbody td:nth-child(4),
+  .table tbody td:nth-child(5){
+    background: color-mix(in srgb, var(--card) 90%, transparent);
+    border:1px solid var(--outline);
+    border-radius:999px;
+    padding:.2rem .5rem;
+    font-size:.95em;
+  }
+  /* Remove hover banding noise on mobile */
+  .table tbody tr:hover{ background:transparent }
+  /* Avoid big gap caused by fixed column widths */
+  .table thead th, .table tbody td{ width:auto!important; white-space:nowrap }
+  .name{ white-space:normal } /* allow wrapping without forcing a giant middle gap */
+}
+
+/* Slightly tighten tab spacing on phones */
+@media (max-width:560px){
+  .tabs{ gap:.3rem; padding:.3rem }
+  .tab{ padding:.5rem .65rem }
+}
+
+/* Ensure the “Sort mode” area doesn’t hug “Min games” */
+.field--mode{ justify-self:end }
+
+/* ================================
+   ULTRA-TIGHT MOBILE PATCH
+   ================================ */
+
+/* --- Controls: make label+input tight and aligned --- */
+.field{
+  display:inline-grid;
+  grid-auto-flow:column;
+  grid-template-columns:auto auto;
+  align-items:center;
+  gap:.25rem;      /* tighter gap */
+}
+.field .label{ white-space:nowrap; margin:0 }
+.field .input, .field select{ min-height:40px }
+
+/* Keep selects narrow (don’t stretch full-width) */
+.controls .field select,
+.controls .field .input[type="number"]{
+  width:auto;      /* break the earlier 100% */
+}
+.field--sort select{ min-width:140px }
+.field--mode select{ min-width:130px }
+.field--min input{ width:7ch } /* keeps label+input on one line */
+
+/* Phone layout: Sort + Min on first row, Mode below, checks last */
+@media (max-width:560px){
+  .row-a{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "sort  min"
+      "mode  mode"
+      "checks checks";
+    gap:.45rem;
+    align-items:center;
+  }
+  .field--sort{ grid-area:sort }
+  .field--min{  grid-area:min }
+  .field--mode{ grid-area:mode; justify-self:start }
+  .checks-inline{ grid-area:checks; justify-content:flex-start }
+}
+
+/* Desktop/tablet: keep three fields inline, checks to the right */
+@media (min-width:561px){
+  .row-a{
+    display:grid;
+    grid-template-columns:auto auto auto 1fr;
+    gap:.6rem;
+    align-items:center;
+  }
+  .checks-inline{ justify-self:end }
+}
+
+/* Pull the "Sort by" label closer to the dropdown */
+.field--sort .label{ margin-right:.1rem }
+
+/* --- Table: stacked rows + inline labels on phones --- */
+@media (max-width:560px){
+  .table-wrap{ overflow:visible }
+  .table{ min-width:0; width:100% }
+  .table thead{ display:none }
+
+  .table tbody tr{
+    display:grid;
+    grid-template-columns:auto 1fr auto; /* rank | name | games */
+    row-gap:.28rem;
+    padding:.55rem .6rem;
+    border-bottom:1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+  }
+  .table tbody td{ border:0; padding:.18rem .22rem }
+  .table tbody tr:hover{ background:transparent }
+
+  /* Line 1 */
+  .table tbody td.rank{ grid-column:1; grid-row:1; color:var(--muted) }
+  .table tbody td.name{ grid-column:2; grid-row:1; white-space:normal }
+  .table tbody td.games{ grid-column:3; grid-row:1; justify-self:end; font-variant-numeric:tabular-nums }
+
+  /* Label "Games" inline */
+  .table tbody td.games::before{
+    content:"Games ";
+    color:var(--muted);
+    margin-right:.35rem;
+  }
+
+  /* Line 2 (numeric pills) – assumes desktop order:
+     [1] Rank, [2] Name, [3] Total, [4] Median, [5] Average, [6] Games */
+  .table tbody td:nth-child(3){ grid-column:1; grid-row:2 }
+  .table tbody td:nth-child(4){ grid-column:2; grid-row:2 }
+  .table tbody td:nth-child(5){ grid-column:3; grid-row:2; justify-self:end }
+
+  /* Add short labels to each pill */
+  .table tbody td:nth-child(3)::before{ content:"Total ";  color:var(--muted); margin-right:.35rem }
+  .table tbody td:nth-child(4)::before{ content:"Median "; color:var(--muted); margin-right:.35rem }
+  .table tbody td:nth-child(5)::before{ content:"Average ";color:var(--muted); margin-right:.35rem }
+
+  /* Pill styling */
+  .table tbody td:nth-child(3),
+  .table tbody td:nth-child(4),
+  .table tbody td:nth-child(5){
+    background: color-mix(in srgb, var(--card) 90%, transparent);
+    border:1px solid var(--outline);
+    border-radius:999px;
+    padding:.22rem .55rem;
+    font-size:.95em;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+
+  /* Kill any fixed widths that create middle gaps */
+  .table thead th, .table tbody td{ width:auto!important; white-space:nowrap }
+}
+
+/* Slight visual tighten for tabs on phones */
+@media (max-width:560px){
+  .tabs{ gap:.3rem; padding:.3rem }
+  .tab{ padding:.5rem .65rem }
+}
+/* ---------- CONTROLS (single source of truth) ---------- */
+.controls{
+  background:linear-gradient(180deg, color-mix(in srgb, var(--bg-elev) 94%, transparent), var(--bg-elev));
+  border:1px solid var(--outline); border-radius:var(--radius);
+  padding:.9rem; box-shadow:var(--shadow-1); margin-bottom:.9rem;
+  display:grid; gap:.65rem;
+}
+
+/* label/control pair */
+.field{
+  display:inline-grid; grid-auto-flow:column;
+  grid-template-columns:auto auto; align-items:center;
+  gap:.28rem;
+}
+.label{ color:var(--muted); white-space:nowrap; margin:0 }
+.input,.btn,.check input{ accent-color:var(--accent) }
+.input{
+  background:var(--card); color:var(--text);
+  border:1px solid var(--outline); border-radius:10px;
+  padding:.55rem .7rem; min-height:40px; width:auto; /* prevent 100% stretch */
+}
+select.input{ padding-right:2rem } /* room for arrow */
+.btn{
+  border:1px solid var(--outline); border-radius:10px;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--card) 88%, transparent), var(--card));
+  color:var(--text); padding:.6rem .8rem; cursor:pointer; touch-action:manipulation;
+}
+.btn:hover{ border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent) }
+
+/* specific widths to keep a tidy single row on desktop */
+.field--sort  select{ min-width:200px }
+.field--mode  select{ min-width:180px }
+.field--min   input { width:10ch }  /* keeps "Min games" on one line */
+
+/* Toggles */
+.checks-inline{ display:flex; flex-wrap:wrap; gap:.7rem; align-items:center }
+.check{ display:inline-flex; align-items:center; gap:.45rem }
+
+/* Group rows */
+.row-a{ display:grid; gap:.55rem; align-items:center }
+.row-c{ display:grid; grid-template-columns:1fr; gap:.55rem; align-items:center }
+
+/* ===== Mobile (≤560px) ===== */
+@media (max-width:560px){
+  .row-a{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "sort  min"
+      "mode  mode"
+      "checks checks";
+    gap:.5rem;
+  }
+  .field--sort{ grid-area:sort }
+  .field--min{  grid-area:min }
+  .field--mode{ grid-area:mode }
+  .checks-inline{ grid-area:checks; justify-content:flex-start }
+  .field .label{ margin-right:.15rem } /* tighten label gap on phones */
+  .field--sort select{ min-width:160px }
+  .field--mode select{ min-width:150px }
+  .field--min  input { width:8ch }
+}
+
+/* ===== Tablet (561–899px) ===== */
+@media (min-width:561px) and (max-width:899px){
+  .row-a{ display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1rem }
+  .checks-inline{ margin-left:auto }
+  .field .label{ margin-right:.25rem }
+  .field--sort select{ min-width:190px }
+  .field--mode select{ min-width:170px }
+  .field--min  input { width:9ch }
+}
+
+/* ===== Desktop (≥900px) ===== */
+@media (min-width:900px){
+  .row-a{
+    display:grid; align-items:center; column-gap:1rem;
+    grid-template-columns:auto auto auto 1fr; /* Sort | Mode | Min | [toggles] */
+  }
+  .checks-inline{ justify-self:end; gap:1rem; flex-wrap:nowrap }
+  .field .label{ margin-right:.35rem }
+}
+
+/* ---------- TABLE (aligned on desktop, readable on mobile) ---------- */
+.table-wrap{
+  background:color-mix(in srgb, var(--card) 90%, transparent);
+  border:1px solid var(--outline); border-radius:var(--radius); box-shadow:var(--shadow-1);
+  overflow:auto; -webkit-overflow-scrolling:touch; scrollbar-gutter:stable both-edges;
+}
+
+/* Use classic (auto) layout; constrain non-name cols so "Name" can auto-fill */
+.table{ width:100%; border-collapse:collapse }
+.table thead th,
+.table tbody td{ vertical-align:middle } /* fix misaligned baselines */
+
+.table thead th{
+  text-align:left; font-weight:700; font-size:.95rem;
+  background:color-mix(in srgb, var(--bg-elev) 95%, transparent);
+  border-bottom:1px solid var(--outline);
+  padding:.65rem .75rem; white-space:nowrap; position:sticky; top:0; z-index:1;
+}
+
+/* Cells */
+.table tbody td{
+  padding:.6rem .75rem; border-top:1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+}
+.table tbody tr:hover{ background: color-mix(in srgb, var(--accent) 10%, transparent) }
+
+/* Columns: keep rank + numeric columns narrow; let name breathe */
+.rank{ color:var(--muted); width:4.5ch }         /* tighter rank */
+.name{
+  /* remove width:44%; that was causing misalignment */
+  width:auto; white-space:normal; word-break:break-word;
+  display:flex; align-items:center; gap:.5rem;
+}
+.table .num{ text-align:right }
+
+/* numeric columns (assumes columns: 1=Rank, 2=Name, 3=Total, 4=Median, 5=Average, 6=Games) */
+.table thead th:nth-child(3),
+.table thead th:nth-child(4),
+.table thead th:nth-child(5),
+.table thead th:nth-child(6),
+.table tbody td:nth-child(3),
+.table tbody td:nth-child(4),
+.table tbody td:nth-child(5),
+.table tbody td:nth-child(6){
+  width:12ch; white-space:nowrap;
+}
+
+/* Slightly narrower on small desktops */
+@media (max-width:900px){
+  .table thead th:nth-child(3),
+  .table thead th:nth-child(4),
+  .table thead th:nth-child(5),
+  .table thead th:nth-child(6),
+  .table tbody td:nth-child(3),
+  .table tbody td:nth-child(4),
+  .table tbody td:nth-child(5),
+  .table tbody td:nth-child(6){ width:10ch }
+}
+
+/* View button in name cell */
+.org-open-btn{
+  margin-left:.25rem; padding:.35rem .5rem; border:1px solid var(--outline);
+  border-radius:8px; background:color-mix(in srgb, var(--card) 92%, transparent);
+  color:var(--text); line-height:1; cursor:pointer; flex:0 0 auto;
+}
+.org-open-btn:hover{ background:color-mix(in srgb, var(--card) 85%, transparent); box-shadow:var(--shadow-1) }
+.org-open-btn:active{ transform:translateY(1px) }
+
+/* ===== Mobile (≤560px): two-line rows + inline labels ===== */
+@media (max-width:560px){
+  .table-wrap{ overflow:visible }
+  .table thead{ display:none }
+
+  .table tbody tr{
+    display:grid;
+    grid-template-columns:auto 1fr auto; /* rank | name | games */
+    row-gap:.28rem;
+    padding:.55rem .6rem;
+    border-bottom:1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+  }
+  .table tbody td{ border:0; padding:.18rem .22rem }
+  .table tbody tr:hover{ background:transparent }
+
+  /* Line 1 */
+  .table tbody td.rank { grid-column:1; grid-row:1; color:var(--muted) }
+  .table tbody td.name { grid-column:2; grid-row:1 }
+  .table tbody td.games{ grid-column:3; grid-row:1; justify-self:end; font-variant-numeric:tabular-nums }
+  .table tbody td.games::before{ content:"Games "; color:var(--muted); margin-right:.35rem }
+
+  /* Line 2 (Total, Median, Average) – adjust nth-child if your order differs */
+  .table tbody td:nth-child(3){ grid-column:1; grid-row:2 }                 /* Total */
+  .table tbody td:nth-child(4){ grid-column:2; grid-row:2 }                 /* Median */
+  .table tbody td:nth-child(5){ grid-column:3; grid-row:2; justify-self:end }/* Average */
+
+  /* Pills */
+  .table tbody td:nth-child(3),
+  .table tbody td:nth-child(4),
+  .table tbody td:nth-child(5){
+    background:color-mix(in srgb, var(--card) 90%, transparent);
+    border:1px solid var(--outline); border-radius:999px;
+    padding:.22rem .55rem; font-size:.95em; font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+
+  /* kill fixed widths on mobile to avoid gaps */
+  .table thead th, .table tbody td{ width:auto!important; white-space:nowrap }
+}
+
+.field--sort select{ min-width:200px }     /* 160–200px on smaller screens */
+.field--mode select{ min-width:190px }     /* not used here */
+.field--min  input { width:10ch }          /* keeps Min games on one line */
+.field .label{ margin-right:.35rem }       /* reduced on mobile via media query */
+
+/* ===== MOBILE CONTAINMENT PATCH (controls) ===== */
+@media (max-width:560px){
+  /* Contain the section and allow children to shrink */
+  .controls{ overflow:hidden }
+
+  /* Let columns actually shrink to the viewport */
+  .row-a{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  }
+
+  /* Make label | control pairs shrink and wrap correctly */
+  .field{
+    grid-template-columns:auto 1fr; /* label | control fills */
+    min-width:0;
+  }
+  .field .label{ margin-right:.15rem }
+  .field .input,
+  .field select,
+  .field .btn{
+    width:100%;                /* no overflow from intrinsic width */
+    min-width:0;               /* allow shrinking */
+  }
+
+  /* Remove desktop min-widths that force overflow on phones */
+  .field--sort select,
+  .field--mode select{ min-width:0 }
+  .field--min input{ width:100% }
+
+  /* Keep toggles on new line when needed */
+  .checks-inline{
+    min-width:0;
+    flex-wrap:wrap;
+    gap:.55rem;
+  }
+
+  /* Chips area must be allowed to shrink */
+  .chipbox{
+    min-width:0; overflow:hidden;
+  }
+  .chips{ min-width:0; flex-wrap:wrap }
+  .chip-input{
+    min-width:0; width:100%;
+  }
+
+  /* Autocomplete must not exceed viewport */
+  .ac-list{
+    left:0; right:0; max-width:100%;
+  }
+}

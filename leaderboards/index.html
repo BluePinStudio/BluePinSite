@@ -21,8 +21,6 @@
   <header class="site-header">
     <div class="wrap">
       <h1>Game Dev / Publisher Leaderboards</h1>
-      <p class="sub">Ranked by total revenue, median revenue, average revenue, and game count. Uses a year+volume
-        sales-per-review model.</p>
     </div>
   </header>
 
@@ -52,46 +50,61 @@
 
     <!-- Controls -->
     <section class="controls" aria-label="Leaderboard controls">
-      <!-- Row A -->
+      <!-- Row A: sort + order + min games + toggles -->
       <div class="row-a">
-        <label class="label">Sort by</label>
-        <select id="sortBy" class="input">
-          <option value="total" selected>Total revenue</option>
-          <option value="median">Median revenue</option>
-          <option value="avg">Average revenue</option>
-          <option value="count">Game count</option>
-        </select>
+        <div class="field field--sort">
+          <label for="sortBy" class="label">Sort by</label>
+          <select id="sortBy" class="input">
+            <option value="total" selected>Total revenue</option>
+            <option value="median">Median revenue</option>
+            <option value="avg">Average revenue</option>
+            <option value="count">Game count</option>
+          </select>
+        </div>
 
-        <button id="orderBtn" class="btn" title="Toggle sort order">↓ Desc</button>
+        <div class="field field--mode">
+          <label for="orderBtn" class="label">Order</label>
+          <button id="orderBtn" class="btn" title="Toggle sort order">↓ Desc</button>
+        </div>
 
-        <label class="label">Min games</label>
-        <input id="minCount" type="number" class="input" min="1" step="1" placeholder="1" />
+        <div class="field field--min">
+          <label for="minCount" class="label">Min games</label>
+          <input id="minCount" type="number" class="input" min="1" step="1" placeholder="1" />
+        </div>
 
         <div class="checks-inline">
-          <label class="check"><input id="ignoreFree" type="checkbox" /> <span>Ignore free games</span></label>
-          <label class="check"><input id="ignoreComingSoon" type="checkbox" checked /> <span>Ignore coming
-              soon</span></label>
+          <label class="check">
+            <input id="ignoreFree" type="checkbox" />
+            <span>Ignore free games</span>
+          </label>
+          <label class="check">
+            <input id="ignoreComingSoon" type="checkbox" checked />
+            <span>Ignore coming soon</span>
+          </label>
         </div>
       </div>
 
       <!-- Row C: Compare list (chips + autocomplete) -->
       <div class="row-c">
         <div id="compareBox" class="chipbox">
-
+          <ul id="chipList" class="chips"></ul>
           <input id="chipInput" type="text" class="chip-input" placeholder="Type a developer/publisher and press Enter…"
             autocomplete="off" />
-          <ul id="chipList" class="chips"></ul>
           <div id="acList" class="ac-list" hidden></div>
         </div>
-        <label class="check"><input id="enableCompare" type="checkbox" /> <span>Compare list only</span></label>
-        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative
-            ranks</span></label>
-      </div>
 
-      <small class="meta">
-        Revenue model: <code>rev = max(reviews − 10, 0) × spr(year, volume) × price</code>.
-      </small>
+        <label class="check">
+          <input id="enableCompare" type="checkbox" />
+          <span>Compare list only</span>
+        </label>
+
+        <label class="check">
+          <input id="relativeRank" type="checkbox" checked />
+          <span>Show relative ranks</span>
+        </label>
+      </div>
     </section>
+
 
     <!-- Developers -->
     <section id="panel-devs" class="panel" role="tabpanel" aria-labelledby="tab-devs">
@@ -186,6 +199,7 @@
     // ---------------- Config ----------------
     const JSON_LINES_PATH = 'games.jsonl';
     const CURRENCY = 'USD';
+    const EXPECTED_TOTAL_GAMES_HINT = null;
 
     // ---------------- Utilities ----------------
     const fmtUSD = n => (Number.isFinite(n) ? n.toLocaleString(undefined, { style: 'currency', currency: CURRENCY, maximumFractionDigits: 0 }) : '—');
@@ -348,6 +362,21 @@
     // Compare chips state
     let compareNames = [];
 
+    // --- Loader helpers (restore) ---
+    function hideLoader() {
+      if (!loader) return;
+      loader.classList.add('hide');
+      // ensure it fully fades before enabling UI
+      setTimeout(() => {
+        try { loader.remove(); } catch { }
+        if (tabDevs) tabDevs.disabled = false;
+        if (tabPubs) tabPubs.disabled = false;
+      }, 350);
+    }
+    // (optional) also expose on window, in case other modules call it
+    window.hideLoader = hideLoader;
+
+
     function setTab(which) {
       currentTab = which;
       if (which === 'devs') {
@@ -404,53 +433,53 @@
       return rows;
     }
 
-function collectOrgStats(role) {
-  const ignoreComingSoon = !!ignoreComingSoonEl.checked;
-  const ignoreFree = !!ignoreFreeEl.checked;
+    function collectOrgStats(role) {
+      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+      const ignoreFree = !!ignoreFreeEl.checked;
 
-  // name -> { name, revs: [], gameCount: 0 }
-  const map = new Map();
+      // name -> { name, revs: [], gameCount: 0 }
+      const map = new Map();
 
-  for (const g of RAW_MIN) {
-    if (ignoreComingSoon && g.coming_soon) continue;
+      for (const g of RAW_MIN) {
+        if (ignoreComingSoon && g.coming_soon) continue;
 
-    const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
-    if (!names.length) continue;
+        const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
+        if (!names.length) continue;
 
-    const rev = revenueUSD(g, { ignoreFree });
+        const rev = revenueUSD(g, { ignoreFree });
 
-    for (const raw of names) {
-      const name = norm(raw);
-      if (!name) continue;
+        for (const raw of names) {
+          const name = norm(raw);
+          if (!name) continue;
 
-      let bucket = map.get(name);
-      if (!bucket) {
-        bucket = { name, revs: [], gameCount: 0 };
-        map.set(name, bucket);
+          let bucket = map.get(name);
+          if (!bucket) {
+            bucket = { name, revs: [], gameCount: 0 };
+            map.set(name, bucket);
+          }
+
+          // Always count the game (coming soon included when not ignored)
+          bucket.gameCount += 1;
+
+          // Only push revenue values when calculable
+          if (rev !== null) bucket.revs.push(rev);
+        }
       }
 
-      // Always count the game (coming soon included when not ignored)
-      bucket.gameCount += 1;
+      const rows = [];
+      for (const { name, revs, gameCount } of map.values()) {
+        // Even if no revenue-bearing games, we still surface the row so that
+        // the "Game count" reflects coming soon / non-revenue titles.
+        const total = revs.length ? sumStable(revs) : 0;
+        const count = gameCount;
+        const avg = revs.length ? total / revs.length : 0;
+        const med = revs.length ? arrayMedian(revs) : 0;
 
-      // Only push revenue values when calculable
-      if (rev !== null) bucket.revs.push(rev);
+        rows.push({ name, total, median: med, avg, count });
+      }
+
+      return rows;
     }
-  }
-
-  const rows = [];
-  for (const { name, revs, gameCount } of map.values()) {
-    // Even if no revenue-bearing games, we still surface the row so that
-    // the "Game count" reflects coming soon / non-revenue titles.
-    const total = revs.length ? sumStable(revs) : 0;
-    const count = gameCount;
-    const avg = revs.length ? total / revs.length : 0;
-    const med = revs.length ? arrayMedian(revs) : 0;
-
-    rows.push({ name, total, median: med, avg, count });
-  }
-
-  return rows;
-}
 
 
     function summarize(rows) {
@@ -567,173 +596,292 @@ function collectOrgStats(role) {
       if (currentTab === 'devs') { renderDevPage(); } else { renderPubPage(); }
     }
 
-    // ---------------- Streaming JSONL loader with progress ----------------
     async function loadJSONLStream(url) {
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error(`Failed to load ${url} (HTTP ${res.status})`);
 
-      const contentLen = +res.headers.get('content-length') || 0;
+      const totalBytes = +res.headers.get('content-length') || 0;
       const reader = res.body?.getReader?.();
       if (!reader) {
         const text = await res.text();
-        await parseTextInChunks(text, contentLen || text.length);
+        await parseTextInChunks(text, totalBytes);
         return;
       }
 
       const decoder = new TextDecoder();
-      let received = 0, buffer = '', parsedCount = 0;
+      let receivedBytes = 0, buffer = '', parsedCount = 0;
+
+      // --- live estimator for total line count (games) ---
+      let estTotalCount = EXPECTED_TOTAL_GAMES_HINT || null;
+      let bytesForSamples = 0, linesInSamples = 0;
+
+      // If your first line can be a meta like: {"_meta":{"total":80000}}
+      // we’ll detect it and set an exact denom.
+      const tryMetaTotal = (obj) => {
+        const t = obj && (obj._meta?.total || obj.total || obj.count || obj.expected_total);
+        if (Number.isFinite(t) && t > 0) {
+          estTotalCount = t;
+          return true;
+        }
+        return false;
+      };
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        received += value.byteLength;
+
+        receivedBytes += value.byteLength;
         buffer += decoder.decode(value, { stream: true });
 
         let lines = buffer.split(/\r?\n/);
-        buffer = lines.pop() ?? '';
+        buffer = lines.pop() ?? ''; // keep last partial
 
         for (let i = 0; i < lines.length; i++) {
-          const raw = lines[i].trim(); if (!raw) continue;
-          try { pushMinimal(JSON.parse(raw)); parsedCount++; } catch { }
-          if (parsedCount % 2000 === 0) { updateLoader(received, contentLen, parsedCount); await idle(); }
+          const raw = lines[i].trim();
+          if (!raw) continue;
+
+          // Sample for estimator before JSON parse (length in bytes ~ chars for utf-8 ascii)
+          bytesForSamples += raw.length + 1; // + newline
+          linesInSamples += 1;
+
+          try {
+            const obj = JSON.parse(raw);
+            // Detect optional meta line and skip pushing it into RAW_MIN
+            if (!estTotalCount && tryMetaTotal(obj)) {
+              // skip counting this line as a game row if it's pure meta
+              if (obj._meta) continue;
+            }
+            pushMinimal(obj);
+            parsedCount++;
+          } catch { /* ignore bad JSON lines */ }
+
+          if (parsedCount % 2000 === 0) await idle();
         }
-        updateLoader(received, contentLen, parsedCount);
+
+        // Update estimator after chunk
+        if (!estTotalCount && totalBytes > 0 && linesInSamples > 0) {
+          const avgBytesPerLine = bytesForSamples / linesInSamples;
+          // Guard against tiny sample skew
+          if (avgBytesPerLine > 5) {
+            estTotalCount = Math.max(parsedCount, Math.floor(totalBytes / avgBytesPerLine));
+          }
+        }
+
+        updateLoaderProgress({
+          receivedBytes,
+          totalBytes,
+          parsedCount,
+          estTotalCount,
+          streamDone: false
+        });
       }
 
-      if (buffer.trim()) { try { pushMinimal(JSON.parse(buffer.trim())); parsedCount++; } catch { } }
-      updateLoader(contentLen || 1, contentLen || 1, parsedCount);
+      // Flush last partial line
+      if (buffer.trim()) {
+        try {
+          const obj = JSON.parse(buffer.trim());
+          if (!(estTotalCount && tryMetaTotal(obj) && obj._meta)) {
+            pushMinimal(obj);
+            parsedCount++;
+          }
+        } catch { }
+      }
+
+      // Final progress before returning (stream done, parsing done)
+      updateLoaderProgress({
+        receivedBytes: totalBytes || 1,
+        totalBytes: totalBytes || 1,
+        parsedCount,
+        estTotalCount,
+        streamDone: true
+      });
     }
+
 
     async function parseTextInChunks(text, totalBytes) {
-      const lines = text.split(/\r?\n/); let parsed = 0;
+      const lines = text.split(/\r?\n/);
+      const estTotalCount = EXPECTED_TOTAL_GAMES_HINT || lines.length;
+      let parsed = 0;
+
       for (let i = 0; i < lines.length; i++) {
         const raw = lines[i].trim(); if (!raw) continue;
-        try { pushMinimal(JSON.parse(raw)); parsed++; } catch { }
-        if (i % 2000 === 0) { updateLoader(i, lines.length, parsed); await idle(); }
+        try {
+          const obj = JSON.parse(raw);
+          // optional meta detection here too
+          if (!(obj && obj._meta)) {
+            pushMinimal(obj);
+            parsed++;
+          }
+        } catch { }
+        if (i % 2000 === 0) {
+          updateLoaderProgress({
+            receivedBytes: Math.min(totalBytes || i, totalBytes || lines.length),
+            totalBytes: totalBytes || lines.length,
+            parsedCount: parsed,
+            estTotalCount,
+            streamDone: false
+          });
+          await idle();
+        }
       }
-      updateLoader(lines.length, lines.length, parsed);
+
+      updateLoaderProgress({
+        receivedBytes: totalBytes || lines.length,
+        totalBytes: totalBytes || lines.length,
+        parsedCount: parsed,
+        estTotalCount,
+        streamDone: true
+      });
     }
 
-function pushMinimal(j) {
-  const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {}, media = j.media || {};
-  const cls = j.classification || {};                              // <-- add this
-  const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
-  RAW_MIN.push({
-    app_id: j.app_id,
-    name: id.name || `App ${j.app_id}`,
-    header_image: media.header_image || null,
-    developers: arr(id.developers),
-    publishers: arr(id.publishers),
-    price_usd: pricing.price_usd ?? null,
-    is_free: !!pricing.is_free,
-    review_count: (reviews.review_count) ?? (reviews.total_reviews) ?? 0,
-    release_ts: ts,
-    release_year: ts ? new Date(ts).getFullYear() : null,
-    coming_soon: !!rel.coming_soon,
-    tags: arr(cls.tags).map(norm).filter(Boolean)                  // <-- add this
-  });
-}
+
+    function pushMinimal(j) {
+      const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {}, media = j.media || {};
+      const cls = j.classification || {};                              // <-- add this
+      const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
+      RAW_MIN.push({
+        app_id: j.app_id,
+        name: id.name || `App ${j.app_id}`,
+        header_image: media.header_image || null,
+        developers: arr(id.developers),
+        publishers: arr(id.publishers),
+        price_usd: pricing.price_usd ?? null,
+        is_free: !!pricing.is_free,
+        review_count: (reviews.review_count) ?? (reviews.total_reviews) ?? 0,
+        release_ts: ts,
+        release_year: ts ? new Date(ts).getFullYear() : null,
+        coming_soon: !!rel.coming_soon,
+        tags: arr(cls.tags).map(norm).filter(Boolean)                  // <-- add this
+      });
+    }
 
 
-    function updateLoader(received, total, parsedCount) {
-      const pct = total ? Math.min(100, Math.round((received / total) * 100)) : (parsedCount ? 100 : 0);
-      loaderBar.style.width = (pct || 0) + '%';
-      loaderPct.textContent = pct + '%';
-      loaderMeta.textContent = `${fmtInt(parsedCount)} parsed`;
+    function updateLoaderProgress({ receivedBytes = 0, totalBytes = 0, parsedCount = 0, estTotalCount = null, streamDone = false }) {
+      // Choose the best denominator for "games"
+      const denom = Number.isFinite(estTotalCount) && estTotalCount > 0
+        ? estTotalCount
+        : (EXPECTED_TOTAL_GAMES_HINT || null);
+
+      // Game-based % (preferred)
+      const pctGames = (denom && denom > 0)
+        ? Math.max(0, Math.min(1, parsedCount / denom))
+        : null;
+
+      // Byte-based % (fallback)
+      const pctBytes = (totalBytes > 0)
+        ? Math.max(0, Math.min(1, receivedBytes / totalBytes))
+        : null;
+
+      // Blend: use min of available signals so we never overshoot
+      let pct = null;
+      if (pctGames != null && pctBytes != null) pct = Math.min(pctGames, pctBytes);
+      else pct = (pctGames ?? pctBytes ?? 0);
+
+      // If stream is done but we still have parsing to finish, cap at 0.98
+      if (streamDone && pct < 0.98 && (denom || pctGames != null)) {
+        pct = Math.min(pct, 0.98);
+      }
+
+      const pctDisplay = Math.round(pct * 100);
+      loaderBar.style.width = pctDisplay + '%';
+      loaderPct.textContent = pctDisplay + '%';
+
+      // Meta text: prefer "X of Y parsed" when we have a denom
+      if (denom) {
+        loaderMeta.textContent = `${fmtInt(parsedCount)} of ${fmtInt(denom)} parsed`;
+      } else if (totalBytes) {
+        loaderMeta.textContent = `${fmtInt(parsedCount)} parsed • ${fmtInt(receivedBytes)} / ${fmtInt(totalBytes)} bytes`;
+      } else {
+        loaderMeta.textContent = `${fmtInt(parsedCount)} parsed`;
+      }
     }
-    function hideLoader() {
-      loader.classList.add('hide');
-      setTimeout(() => {
-        loader.remove();
-        tabDevs.disabled = false; tabPubs.disabled = false;
-      }, 350);
-    }
+
 
     // --------- Org details drawer ---------
-function openOrgDetails(role, name) {
-  const ignoreComingSoon = !!ignoreComingSoonEl.checked;
-  const ignoreFree = !!ignoreFreeEl.checked;
+    function openOrgDetails(role, name) {
+      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+      const ignoreFree = !!ignoreFreeEl.checked;
 
-  // All matching games for tag aggregation (respect Ignore coming soon, ignoreFree DOES NOT matter for tags)
-  const allMatching = RAW_MIN.filter(g => {
-    if (ignoreComingSoon && g.coming_soon) return false;
-    const pool = (role === 'developers') ? g.developers : g.publishers;
-    return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
-  });
+      // All matching games for tag aggregation (respect Ignore coming soon, ignoreFree DOES NOT matter for tags)
+      const allMatching = RAW_MIN.filter(g => {
+        if (ignoreComingSoon && g.coming_soon) return false;
+        const pool = (role === 'developers') ? g.developers : g.publishers;
+        return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
+      });
 
-// Include all matching games; revenue may be null for coming-soon / no reviews
-const games = allMatching.map(g => {
-  const rev = revenueUSD(g, { ignoreFree });
-  return { g, rev };
-});
-
-
-games.sort((a, b) => {
-  const ra = Number.isFinite(a.rev) ? a.rev : -1; // nulls go last
-  const rb = Number.isFinite(b.rev) ? b.rev : -1;
-  return (rb - ra) || ((b.g.review_count || 0) - (a.g.review_count || 0));
-});
+      // Include all matching games; revenue may be null for coming-soon / no reviews
+      const games = allMatching.map(g => {
+        const rev = revenueUSD(g, { ignoreFree });
+        return { g, rev };
+      });
 
 
-const total = sumStable(games.map(x => Number.isFinite(x.rev) ? x.rev : 0));
-const count = games.length;
+      games.sort((a, b) => {
+        const ra = Number.isFinite(a.rev) ? a.rev : -1; // nulls go last
+        const rb = Number.isFinite(b.rev) ? b.rev : -1;
+        return (rb - ra) || ((b.g.review_count || 0) - (a.g.review_count || 0));
+      });
 
 
-  orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
-  orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
+      const total = sumStable(games.map(x => Number.isFinite(x.rev) ? x.rev : 0));
+      const count = games.length;
 
-  /* ---------- NEW: Top tags aggregation & render ---------- */
-  // Build frequency map (case-insensitive, but preserve first-seen casing for display)
-  const tagMap = new Map(); // lower -> {name, count}
-  for (const g of allMatching) {
-    const tags = Array.isArray(g.tags) ? g.tags : [];
-    for (const t of tags) {
-      const key = String(t || '').toLowerCase();
-      if (!key) continue;
-      const cur = tagMap.get(key);
-      if (cur) cur.count += 1;
-      else tagMap.set(key, { name: t, count: 1 });
-    }
-  }
 
-  const topTags = Array.from(tagMap.values())
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
-    .slice(0, 10);
+      orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
+      orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
 
-  // Render (reuse .gmeta + .pill styles you already have)
-  let tagBar = document.getElementById('orgTags');
-  if (!tagBar) {
-    tagBar = document.createElement('div');
-    tagBar.id = 'orgTags';
-    tagBar.className = 'gmeta';
-    // insert above the games list
-    gamesList.parentElement.insertBefore(tagBar, gamesList);
-  }
-  if (topTags.length) {
-    tagBar.innerHTML = `<strong>Top 10 tags:</strong> ` + topTags
-      .map(t => `<span class="pill">${t.name} <span class="num">(${fmtInt(t.count)})</span></span>`)
-      .join(' ');
-  } else {
-    tagBar.innerHTML = ''; // no tags available
-  }
-  /* ---------- END NEW ---------- */
+      /* ---------- NEW: Top tags aggregation & render ---------- */
+      // Build frequency map (case-insensitive, but preserve first-seen casing for display)
+      const tagMap = new Map(); // lower -> {name, count}
+      for (const g of allMatching) {
+        const tags = Array.isArray(g.tags) ? g.tags : [];
+        for (const t of tags) {
+          const key = String(t || '').toLowerCase();
+          if (!key) continue;
+          const cur = tagMap.get(key);
+          if (cur) cur.count += 1;
+          else tagMap.set(key, { name: t, count: 1 });
+        }
+      }
 
-  // (existing cards render)
-  gamesList.innerHTML = '';
-  const frag = document.createDocumentFragment();
-  for (const { g, rev } of games) {
-    const card = document.createElement('div');
-    card.className = 'gcard';
-    const left = document.createElement('div');
-    if (g.header_image) {
-      const img = document.createElement('img');
-      img.className = 'gthumb';
-      img.loading = 'lazy'; img.decoding = 'async';
-      img.alt = `${g.name} header`; img.src = g.header_image || '';
-      left.appendChild(img);
-    }
-    const right = document.createElement('div');
-    right.innerHTML = `
+      const topTags = Array.from(tagMap.values())
+        .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+        .slice(0, 10);
+
+      // Render (reuse .gmeta + .pill styles you already have)
+      let tagBar = document.getElementById('orgTags');
+      if (!tagBar) {
+        tagBar = document.createElement('div');
+        tagBar.id = 'orgTags';
+        tagBar.className = 'gmeta';
+        // insert above the games list
+        gamesList.parentElement.insertBefore(tagBar, gamesList);
+      }
+      if (topTags.length) {
+        tagBar.innerHTML = `<strong>Top 10 tags:</strong> ` + topTags
+          .map(t => `<span class="pill">${t.name} <span class="num">(${fmtInt(t.count)})</span></span>`)
+          .join(' ');
+      } else {
+        tagBar.innerHTML = ''; // no tags available
+      }
+      /* ---------- END NEW ---------- */
+
+      // (existing cards render)
+      gamesList.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (const { g, rev } of games) {
+        const card = document.createElement('div');
+        card.className = 'gcard';
+        const left = document.createElement('div');
+        if (g.header_image) {
+          const img = document.createElement('img');
+          img.className = 'gthumb';
+          img.loading = 'lazy'; img.decoding = 'async';
+          img.alt = `${g.name} header`; img.src = g.header_image || '';
+          left.appendChild(img);
+        }
+        const right = document.createElement('div');
+        right.innerHTML = `
       <h4 class="gtitle"><a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a></h4>
       <div class="gmeta">
         <span class="pill">${g.coming_soon ? 'Coming soon' : (g.release_ts ? fmtMonYear(g.release_ts) : '—')}</span>
@@ -744,14 +892,14 @@ const count = games.length;
         <span><strong>Estimated revenue:</strong> ${fmtUSD(rev)}</span>
       </div>
     `;
-    card.appendChild(left); card.appendChild(right);
-    frag.appendChild(card);
-  }
-  gamesList.appendChild(frag);
+        card.appendChild(left); card.appendChild(right);
+        frag.appendChild(card);
+      }
+      gamesList.appendChild(frag);
 
-  if (typeof orgDialog.showModal === 'function') orgDialog.showModal();
-  else orgDialog.setAttribute('open', '');
-}
+      if (typeof orgDialog.showModal === 'function') orgDialog.showModal();
+      else orgDialog.setAttribute('open', '');
+    }
 
     function refreshOpenDrawer() {
       const head = orgTitle.textContent || '';
@@ -954,4 +1102,4 @@ const count = games.length;
   </script>
 </body>
 
-</html>
+</html> 
