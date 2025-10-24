@@ -1,140 +1,16 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Game Dev / Publisher Leaderboards</title>
   <link rel="stylesheet" href="leaderboard.css" />
-  <style>
-    /* Minimal styles for the details drawer */
-    dialog.org-drawer {
-      border: 1px solid var(--outline);
-      background: var(--bg-elev);
-      color: var(--text);
-      border-radius: 14px;
-      box-shadow: var(--shadow-2);
-      width: min(960px, 92vw);
-      max-height: 85vh;
-      padding: 0;
-    }
 
-    .org-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: .9rem 1rem;
-      border-bottom: 1px solid var(--outline);
-      position: sticky;
-      top: 0;
-      background: color-mix(in srgb, var(--bg-elev) 98%, transparent);
-      z-index: 2;
-    }
-
-    .org-head h3 {
-      margin: 0;
-      font-size: 1.05rem;
-    }
-
-    .org-body {
-      padding: .9rem 1rem;
-      overflow: auto;
-      max-height: calc(85vh - 58px);
-    }
-
-    .org-meta {
-      color: var(--muted);
-      margin-top: .2rem;
-      font-size: .95rem;
-    }
-
-    .org-close {
-      border: 1px solid var(--outline);
-      background: var(--card);
-      color: var(--text);
-      border-radius: 10px;
-      padding: .4rem .7rem;
-      cursor: pointer;
-    }
-
-    .games-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: .6rem;
-      margin-top: .6rem;
-    }
-
-    .gcard {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: .7rem;
-      padding: .6rem;
-      border: 1px solid var(--outline);
-      border-radius: 12px;
-      background: color-mix(in srgb, var(--card) 90%, transparent);
-      align-items: center;
-    }
-
-    .gthumb {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      display: block;
-    }
-
-    .gtitle {
-      margin: 0 0 .25rem;
-      font-size: 1rem;
-    }
-
-    .gtitle a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .gmeta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .6rem;
-      color: var(--muted);
-      font-size: .92rem;
-    }
-
-    .gmeta .num {
-      font-variant-numeric: tabular-nums;
-    }
-
-    .gnums {
-      margin-top: .25rem;
-      display: grid;
-      grid-auto-flow: column;
-      justify-content: start;
-      gap: 1rem;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .pill {
-      border: 1px solid var(--outline);
-      padding: .15rem .45rem;
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
-    }
-
-    .clickable {
-      cursor: pointer;
-    }
-
-    @media (max-width: 680px) {
-      .gcard {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5TPPRZVDVF"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-5TPPRZVDVF');
   </script>
@@ -144,8 +20,7 @@
   <header class="site-header">
     <div class="wrap">
       <h1>Game Dev / Publisher Leaderboards</h1>
-      <p class="sub">Ranked by total revenue, median revenue, average revenue, and game count. Uses a year+volume
-        sales-per-review model.</p>
+      <p class="sub">Ranked by total revenue, median revenue, average revenue, and game count. Uses a year+volume sales-per-review model.</p>
     </div>
   </header>
 
@@ -156,9 +31,7 @@
         <strong>Loading games…</strong>
         <span id="loaderPct" class="muted">0%</span>
       </div>
-      <div class="bar">
-        <div id="loaderBar" class="bar-fill" style="width:0%"></div>
-      </div>
+      <div class="bar"><div id="loaderBar" class="bar-fill"></div></div>
       <div id="loaderMeta" class="muted small">0 parsed</div>
       <div class="loader-hint">Streaming JSONL + chunked parsing keeps the UI responsive.</div>
     </div>
@@ -167,10 +40,8 @@
   <main class="wrap">
     <!-- Tabs -->
     <nav class="tabs" role="tablist" aria-label="Leaderboard entity">
-      <button class="tab active" id="tab-devs" role="tab" aria-selected="true" aria-controls="panel-devs"
-        disabled>Developers</button>
-      <button class="tab" id="tab-pubs" role="tab" aria-selected="false" aria-controls="panel-pubs"
-        disabled>Publishers</button>
+      <button class="tab active" id="tab-devs" role="tab" aria-selected="true" aria-controls="panel-devs" disabled>Developers</button>
+      <button class="tab" id="tab-pubs" role="tab" aria-selected="false" aria-controls="panel-pubs" disabled>Publishers</button>
     </nav>
 
     <!-- Controls -->
@@ -192,26 +63,25 @@
 
         <div class="checks-inline">
           <label class="check"><input id="ignoreFree" type="checkbox" /> <span>Ignore free games</span></label>
-          <label class="check"><input id="ignoreComingSoon" type="checkbox" checked /> <span>Ignore coming
-              soon</span></label>
+          <label class="check"><input id="ignoreComingSoon" type="checkbox" checked /> <span>Ignore coming soon</span></label>
         </div>
       </div>
 
-      <!-- Row B removed (old global search) -->
+      <!-- Row C: Compare list (chips + autocomplete) -->
+      <div class="row-c">
+        <div id="compareBox" class="chipbox">
 
-      <!-- Row C: Compare list -->
-      <div class="row-c" style="display:grid; grid-template-columns: 1fr auto auto; gap:.6rem; align-items:center;">
-        <input id="compareInput" type="text" class="input input-search"
-          placeholder="Compare multiple names: comma or newline separated (works for current tab only)" />
+          <input id="chipInput" type="text" class="chip-input" placeholder="Type a developer/publisher and press Enter…" autocomplete="off" />
+          <ul id="chipList" class="chips"></ul>
+          <div id="acList" class="ac-list" hidden></div>
+        </div>
         <label class="check"><input id="enableCompare" type="checkbox" /> <span>Compare list only</span></label>
-        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative
-            ranks</span></label>
+        <label class="check"><input id="relativeRank" type="checkbox" checked /> <span>Show relative ranks</span></label>
       </div>
 
       <small class="meta">
         Revenue model: <code>rev = max(reviews − 10, 0) × spr(year, volume) × price</code>.
       </small>
-
     </section>
 
     <!-- Developers -->
@@ -301,7 +171,6 @@
         <div id="gamesList" class="games-grid"></div>
       </div>
     </dialog>
-
   </main>
 
   <script>
@@ -317,7 +186,6 @@
     const idle = () => new Promise(r => setTimeout(r, 0));
     const fmtMonYear = ts => ts ? new Date(ts).toLocaleString(undefined, { month: 'short', year: 'numeric' }) : '—';
 
-    // numeric helpers
     const isFiniteNum = v => Number.isFinite(v);
     const toPosNum = v => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : null; };
 
@@ -349,7 +217,7 @@
       return null;
     }
 
-    // ---- Year + review-volume sales-per-review
+    // Year + review-volume SPR
     function salesPerReviewMultiple(year, reviewCount) {
       const y = year || new Date().getFullYear(); let base;
       if (y <= 2016) base = 74;
@@ -367,27 +235,36 @@
       return base;
     }
 
-    // ---------- Hardened revenue (keep free games when allowed) ----------
-    function revenueUSD(game, { ignoreFree = false } = {}) {
-      const reviews = toPosNum(game.review_count);
-      const rawPrice = Number(game.price_usd);
-      const isFree = game.is_free === true || rawPrice === 0;
+// Hardened revenue with tiered early-review deduction
+function revenueUSD(game, { ignoreFree = false } = {}) {
+  const reviewsRaw = toPosNum(game.review_count);
+  const rawPrice = Number(game.price_usd);
+  const isFree = game.is_free === true || rawPrice === 0;
 
-      if (ignoreFree && isFree) return null;
-      if (!reviews) return null;
+  if (ignoreFree && isFree) return null;
+  if (!reviewsRaw) return null;
 
-      const price = isFree ? 0 : toPosNum(rawPrice);
-      if (!isFree && !price) return null;
+  const price = isFree ? 0 : toPosNum(rawPrice);
+  if (!isFree && !price) return null;
 
-      const year = game.release_year ?? null;
-      // Subtract 10 reviews, clamp at 0
-      const effectiveReviews = Math.max(0, reviews - 10);
+  // Tiered deduction:
+  // 5–10: −3, 10–20: −6, 20–30: −9, >30: −12
+  const r = reviewsRaw;
+  let deduct = 0;
+  if (r >= 5 && r <= 10) deduct = 3;
+  else if (r > 10 && r <= 20) deduct = 6;
+  else if (r > 20 && r <= 30) deduct = 9;
+  else if (r > 30) deduct = 12;
 
-      const spr = salesPerReviewMultiple(year, reviews);
-      const rev = effectiveReviews * spr * price;
+  const effectiveReviews = Math.max(0, r - deduct);
 
-      return Number.isFinite(rev) && rev >= 0 ? rev : null;
-    }
+  const year = game.release_year ?? null;
+  // keep SPR logic "as is" (based on original review count + year)
+  const spr = salesPerReviewMultiple(year, r);
+  const rev = effectiveReviews * spr * (price || 0);
+
+  return Number.isFinite(rev) && rev >= 0 ? rev : null;
+}
 
 
     // ---------------- State & DOM ----------------
@@ -403,8 +280,6 @@
     const ignoreFreeEl = document.getElementById('ignoreFree');
     const ignoreComingSoonEl = document.getElementById('ignoreComingSoon');
 
-    // Compare controls
-    const compareInput = document.getElementById('compareInput');
     const enableCompareEl = document.getElementById('enableCompare');
     const relativeRankEl = document.getElementById('relativeRank');
 
@@ -413,7 +288,6 @@
     const devSummary = document.getElementById('devSummary');
     const pubSummary = document.getElementById('pubSummary');
 
-    // pagination DOM
     const devPageSizeEl = document.getElementById('devPageSize');
     const devPrev = document.getElementById('devPrev');
     const devNext = document.getElementById('devNext');
@@ -438,6 +312,12 @@
     const orgClose = document.getElementById('orgClose');
     const gamesList = document.getElementById('gamesList');
 
+    // Chip/autocomplete DOM
+    const compareBox = document.getElementById('compareBox');
+    const chipList = document.getElementById('chipList');
+    const chipInput = document.getElementById('chipInput');
+    const acList = document.getElementById('acList');
+
     let RAW_MIN = [];
     let currentTab = 'devs';
     let desc = true;
@@ -446,7 +326,7 @@
     let memoDevs = [];
     let memoPubs = [];
 
-    // complete, globally ranked rows (per tab) for reference
+    // complete, globally ranked rows (per tab)
     let allDevs = [];
     let allPubs = [];
 
@@ -455,6 +335,9 @@
       dev: { page: 1, size: 50 },
       pub: { page: 1, size: 50 }
     };
+
+    // Compare chips state
+    let compareNames = [];
 
     function setTab(which) {
       currentTab = which;
@@ -469,6 +352,7 @@
         panelPubs.classList.remove('hidden'); panelDevs.classList.add('hidden');
         renderPubPage();
       }
+      clearAutocomplete();
     }
 
     tabDevs.addEventListener('click', () => setTab('devs'));
@@ -479,9 +363,10 @@
     minCountEl.addEventListener('input', debounce(rebuildViews, 120));
     [ignoreFreeEl, ignoreComingSoonEl].forEach(el => el.addEventListener('change', () => { rebuildViews(); if (orgDialog.open) refreshOpenDrawer(); }));
 
-    // compare event wiring
-    compareInput.addEventListener('input', debounce(rebuildViews, 150));
-    enableCompareEl.addEventListener('change', rebuildViews);
+enableCompareEl.addEventListener('change', () => {
+  rebuildViews();       // ensures relRank is computed or cleared properly
+});
+
     relativeRankEl.addEventListener('change', () => {
       if (currentTab === 'devs') renderDevPage(); else renderPubPage();
     });
@@ -551,12 +436,10 @@
       return { orgs: rows.length, games, total };
     }
 
-    // Compare helpers
+    // ---- Compare (chips) helpers
     function parseCompareSet() {
-      const raw = compareInput.value || '';
-      const tokens = raw.split(/[\n,]+/).map(s => norm(s)).filter(Boolean);
-      const set = new Set(tokens.map(s => s.toLowerCase()));
-      return { set, original: tokens };
+      const set = new Set(compareNames.map(s => s.toLowerCase()));
+      return { set, original: compareNames.slice() };
     }
 
     function annotateGlobalRank(rows) {
@@ -573,21 +456,17 @@
       const frag = document.createDocumentFragment();
       for (let i = start; i < end; i++) {
         const r = rows[i];
-        const displayRank = compareOn
-          ? (relativeRanks ? r.relRank : r.globalRank ?? (i + 1))
-          : (i + 1);
+const displayRank = compareOn
+  ? (relativeRanks && r.relRank != null ? r.relRank : (r.globalRank ?? (i + 1)))
+  : (i + 1);
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td class="rank">${displayRank}</td>
-<td class="name">
-  <span class="org-name">${r.name}</span>
-  <button class="org-open-btn"
-          data-role="${role}"
-          data-name="${r.name}"
-          aria-label="View games for ${r.name}"
-          title="View games">🔎</button>
-</td>
-
+          <td class="name">
+            <span class="org-name">${r.name}</span>
+            <button class="org-open-btn" data-role="${role}" data-name="${r.name}" aria-label="View games for ${r.name}" title="View games">🔎</button>
+          </td>
           <td class="num">${r.count.toLocaleString()}</td>
           <td class="num strong">${fmtUSD(r.total)}</td>
           <td class="num">${fmtUSD(r.median)}</td>
@@ -601,7 +480,7 @@
 
     function renderDevPage() {
       const { page, size } = pager.dev;
-      const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
+      const compareOn = enableCompareEl.checked && (compareNames.length > 0);
       const { start, end, total } = renderPage(devTableBody, memoDevs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'developers' });
       const pages = Math.max(1, Math.ceil(memoDevs.length / size));
       devPrev.disabled = page <= 1;
@@ -614,7 +493,7 @@
     }
     function renderPubPage() {
       const { page, size } = pager.pub;
-      const compareOn = enableCompareEl.checked && (compareInput.value.trim().length > 0);
+      const compareOn = enableCompareEl.checked && (compareNames.length > 0);
       const { start, end, total } = renderPage(pubTableBody, memoPubs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'publishers' });
       const pages = Math.max(1, Math.ceil(memoPubs.length / size));
       pubPrev.disabled = page <= 1;
@@ -636,22 +515,27 @@
       allDevs = annotateGlobalRank(sortRows(collectOrgStats('developers'), by, desc));
       allPubs = annotateGlobalRank(sortRows(collectOrgStats('publishers'), by, desc));
 
-      // Regular filtering
-      let devRows = allDevs;
-      let pubRows = allPubs;
+// Regular filtering vs compare
+let devRows = allDevs;
+let pubRows = allPubs;
 
-      if (compareOn) {
-        const hasName = r => cmpSet.has(r.name.toLowerCase());
-        devRows = allDevs.filter(hasName);
-        pubRows = allPubs.filter(hasName);
-        devRows.forEach((r, i) => r.relRank = i + 1);
-        pubRows.forEach((r, i) => r.relRank = i + 1);
-      } else {
-        devRows = applyFilters(allDevs, minCount);
-        pubRows = applyFilters(allPubs, minCount);
-        devRows.forEach(r => r.relRank = undefined);
-        pubRows.forEach(r => r.relRank = undefined);
-      }
+if (enableCompareEl.checked && cmpSet.size === 0) {
+  // User wants compare-only but list is empty → show nothing
+  devRows = [];
+  pubRows = [];
+} else if (compareOn) {
+  const hasName = r => cmpSet.has(r.name.toLowerCase());
+  devRows = allDevs.filter(hasName);
+  pubRows = allPubs.filter(hasName);
+  devRows.forEach((r, i) => r.relRank = i + 1);
+  pubRows.forEach((r, i) => r.relRank = i + 1);
+} else {
+  devRows = applyFilters(allDevs, minCount);
+  pubRows = applyFilters(allPubs, minCount);
+  devRows.forEach(r => r.relRank = undefined);
+  pubRows.forEach(r => r.relRank = undefined);
+}
+
 
       memoDevs = devRows;
       memoPubs = pubRows;
@@ -727,7 +611,7 @@
 
     function updateLoader(received, total, parsedCount) {
       const pct = total ? Math.min(100, Math.round((received / total) * 100)) : (parsedCount ? 100 : 0);
-      loaderBar.style.width = pct + '%';
+      loaderBar.style.width = (pct || 0) + '%';
       loaderPct.textContent = pct + '%';
       loaderMeta.textContent = `${fmtInt(parsedCount)} parsed`;
     }
@@ -735,7 +619,7 @@
       loader.classList.add('hide');
       setTimeout(() => {
         loader.remove();
-        tabDevs.disabled = false; tabPubs.disabled = false; // enable tabs
+        tabDevs.disabled = false; tabPubs.disabled = false;
       }, 350);
     }
 
@@ -766,13 +650,14 @@
       for (const { g, rev } of games) {
         const card = document.createElement('div');
         card.className = 'gcard';
-        const img = document.createElement('img');
-        img.className = 'gthumb';
-        img.loading = 'lazy'; img.decoding = 'async';
-        img.alt = `${g.name} header`; img.src = g.header_image || '';
         const left = document.createElement('div');
-        if (g.header_image) left.appendChild(img);
-
+        if (g.header_image) {
+          const img = document.createElement('img');
+          img.className = 'gthumb';
+          img.loading = 'lazy'; img.decoding = 'async';
+          img.alt = `${g.name} header`; img.src = g.header_image || '';
+          left.appendChild(img);
+        }
         const right = document.createElement('div');
         right.innerHTML = `
           <h4 class="gtitle"><a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a></h4>
@@ -811,17 +696,165 @@
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && orgDialog.open) orgDialog.close(); });
 
-    // delegate clicks on the small "open" button
-    devTableBody.addEventListener('click', (e) => {
+    // delegate clicks on the small "open" button (Alt+Click to add chip)
+    function handleOrgButton(e) {
       const btn = e.target.closest('.org-open-btn');
       if (!btn) return;
-      openOrgDetails(btn.dataset.role, btn.dataset.name);
+      const role = btn.dataset.role;
+      const name = btn.dataset.name;
+      if (e.altKey) {
+        addChip(name);
+      } else {
+        openOrgDetails(role, name);
+      }
+    }
+    devTableBody.addEventListener('click', handleOrgButton);
+    pubTableBody.addEventListener('click', handleOrgButton);
+
+    // ---------- Chips + Autocomplete ----------
+    function renderChips() {
+      chipList.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (const name of compareNames) {
+        const li = document.createElement('li');
+        li.className = 'chip';
+        li.innerHTML = `
+          <span class="chip-text">${name}</span>
+          <button class="chip-remove" aria-label="Remove ${name}" title="Remove">×</button>
+        `;
+        li.querySelector('.chip-remove').addEventListener('click', () => {
+          removeChip(name);
+        });
+        frag.appendChild(li);
+      }
+      chipList.appendChild(frag);
+    }
+
+    function getCurrentPoolNames() {
+      const rows = (currentTab === 'devs') ? allDevs : allPubs;
+      return rows.map(r => r.name);
+    }
+
+    function getCanonicalOrgName(raw) {
+      const q = norm(raw).toLowerCase();
+      if (!q) return null;
+      const pool = getCurrentPoolNames();
+      const exact = pool.find(n => n.toLowerCase() === q);
+      if (exact) return exact;
+      return norm(raw);
+    }
+
+    function addChip(name) {
+      const canonical = getCanonicalOrgName(name);
+      if (!canonical) return;
+      const has = compareNames.some(n => n.toLowerCase() === canonical.toLowerCase());
+      if (!has) {
+        compareNames.push(canonical);
+        renderChips();
+        rebuildViews();
+      }
+    }
+
+    function removeChip(name) {
+      compareNames = compareNames.filter(n => n.toLowerCase() !== name.toLowerCase());
+      renderChips();
+      rebuildViews();
+    }
+
+    function clearAutocomplete() {
+      acList.innerHTML = '';
+      acList.hidden = true;
+    }
+
+    function fuzzySuggest(query, pool, max = 8) {
+      const q = norm(query).toLowerCase();
+      if (!q) return [];
+      const scored = [];
+      for (const name of pool) {
+        const n = name.toLowerCase();
+        const idx = n.indexOf(q);
+        if (idx === -1) continue;
+        const starts = n.startsWith(q) ? 0 : 1;
+        scored.push({ name, score: starts * 100 + idx });
+      }
+      scored.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name));
+      return scored.slice(0, max).map(s => s.name);
+    }
+
+    function renderAutocomplete(list) {
+      if (!list.length) { clearAutocomplete(); return; }
+      acList.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      list.forEach((name, i) => {
+        const div = document.createElement('div');
+        div.className = 'ac-item';
+        div.setAttribute('role', 'option');
+        if (i === 0) div.setAttribute('aria-selected', 'true');
+        div.textContent = name;
+        div.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          addChip(name);
+          chipInput.value = '';
+          clearAutocomplete();
+          chipInput.focus();
+        });
+        frag.appendChild(div);
+      });
+      acList.appendChild(frag);
+      acList.hidden = false;
+    }
+
+    const updateAutocomplete = debounce(() => {
+      const q = chipInput.value;
+      if (!q) { clearAutocomplete(); return; }
+      const pool = getCurrentPoolNames();
+      const suggestions = fuzzySuggest(q, pool);
+      renderAutocomplete(suggestions);
+    }, 80);
+
+    compareBox.addEventListener('click', () => chipInput.focus());
+    chipInput.addEventListener('input', () => updateAutocomplete());
+
+    chipInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const first = acList.querySelector('.ac-item');
+        if (first) {
+          addChip(first.textContent);
+        } else {
+          addChip(chipInput.value);
+        }
+        chipInput.value = '';
+        clearAutocomplete();
+      } else if (e.key === 'Backspace' && !chipInput.value) {
+        const last = compareNames[compareNames.length - 1];
+        if (last) removeChip(last);
+      } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !acList.hidden) {
+        e.preventDefault();
+        const items = Array.from(acList.querySelectorAll('.ac-item'));
+        if (!items.length) return;
+        let idx = items.findIndex(it => it.getAttribute('aria-selected') === 'true');
+        if (idx < 0) idx = 0;
+        items[idx].removeAttribute('aria-selected');
+        idx = e.key === 'ArrowDown' ? Math.min(idx + 1, items.length - 1) : Math.max(idx - 1, 0);
+        items[idx].setAttribute('aria-selected', 'true');
+        items[idx].scrollIntoView({ block: 'nearest' });
+      }
     });
 
-    pubTableBody.addEventListener('click', (e) => {
-      const btn = e.target.closest('.org-open-btn');
-      if (!btn) return;
-      openOrgDetails(btn.dataset.role, btn.dataset.name);
+    chipInput.addEventListener('blur', () => setTimeout(clearAutocomplete, 120));
+
+    // Paste: split by newline/tab only (NOT commas—commas inside names are preserved)
+    chipInput.addEventListener('paste', (e) => {
+      const txt = (e.clipboardData || window.clipboardData).getData('text');
+      if (!txt) return;
+      const parts = txt.split(/[\n\t]+/).map(s => norm(s)).filter(Boolean);
+      if (parts.length > 1) {
+        e.preventDefault();
+        parts.forEach(addChip);
+        chipInput.value = '';
+        clearAutocomplete();
+      }
     });
 
     // ---------------- Init ----------------
@@ -841,9 +874,9 @@
         hideLoader();
         rebuildViews();
         setTab('devs');
+        renderChips();
       }
     })();
   </script>
 </body>
-
 </html>
