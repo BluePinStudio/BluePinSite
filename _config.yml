@@ -7,9 +7,7 @@ permalink: pretty
 markdown: kramdown
 highlighter: rouge
 show_announcement: true
-incremental: true 
-livereload: true
-safe: false
+
 
 # Plugins
 plugins:
