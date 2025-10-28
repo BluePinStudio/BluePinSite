@@ -170,3 +170,41 @@
     }
   }
 }
+
+/* Subtle, theme-safe link that isn't blue or underlined */
+.table .postmortem-link {
+  /* size + tone */
+  font-size: 0.82em;
+  color: var(--text-muted, #6b7280);     /* neutral gray that works in both modes */
+  text-decoration: none !important;      /* beat global underline rules */
+  opacity: 0.9;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+/* Keep visited looking the same (no purple) */
+.table .postmortem-link:visited {
+  color: var(--text-muted, #6b7280);
+}
+
+/* Hover/focus: sharp, no glow, no blur, still not blue */
+.table .postmortem-link:hover,
+.table .postmortem-link:focus-visible {
+  color: var(--text, #2c6fff);           /* bumps contrast a bit on hover/focus */
+  text-decoration: underline;            /* clean underline only on interaction */
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  outline: none;
+}
+
+/* Keyboard accessibility without visual noise */
+.table .postmortem-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  text-decoration: none;                 /* rely on outline instead of underline */
+}
+
+/* Center text and inline elements vertically in table cells */
+.table > :not(caption) > * > * {
+  vertical-align: middle !important;
+}
