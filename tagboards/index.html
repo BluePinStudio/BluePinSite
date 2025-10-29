@@ -366,7 +366,7 @@
   </main>
 
   <script>
-    const JSON_LINES_PATH = '/assets/games/games.jsonl';
+    const JSON_LINES_PATH = '/assets/games/games.compact.jsonl';
 
     let games = [];
     const includeTags = new Set();
@@ -521,44 +521,89 @@
       return new Date(ts).toLocaleString(undefined, { month: 'short', year: 'numeric' });
     }
 
-    async function loadGames() {
-      const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
-      if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH} (HTTP ${res.status})`);
-      const text = await res.text();
-      const lines = text.split(/\r?\n/);
+async function loadGames() {
+  const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH} (HTTP ${res.status})`);
+  const text = await res.text();
+  const lines = text.split(/\r?\n/);
 
-      const parsed = [];
-      let badCount = 0;
+  const parsed = [];
+  let badCount = 0;
 
-      for (let i = 0; i < lines.length; i++) {
-        const raw = lines[i].trim();
-        if (!raw) continue;
-        try {
-          const j = JSON.parse(raw);
-          if (j.release?.coming_soon === true) continue; // ignore unreleased
-          const id = j.identity || {}; const cls = j.classification || {}; const media = j.media || {};
-          parsed.push({
-            app_id: j.app_id,
-            name: id.name || `App ${j.app_id}`,
-            tags: arr(cls.tags).map(normTag),
-            genres: arr(cls.genres).map(normTag),
-            categories: arr(cls.categories).map(normTag),
-            price: j.pricing ? j.pricing.price_usd : null,
-            is_free: !!(j.pricing && j.pricing.is_free),
-            reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
-            header: media.header_image || null,
-            releaseTs: parseReleaseTs(j.release?.date_iso ?? j.release?.date_raw)
-          });
-        } catch (e) {
-          badCount++;
-          if (badCount === 1) console.warn(`JSONL parse error at line ${i + 1}:`, e, lines[i]);
-        }
+  const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
+  const normTag = t => (t ?? '').trim().toLowerCase();
+  const fmtMonYear = ts => new Date(ts).toLocaleString(undefined, { month: 'short', year: 'numeric' });
+
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i].trim();
+    if (!raw) continue;
+    try {
+      const j = JSON.parse(raw);
+
+      // ---------- Compact schema ----------
+      // { a, n, d, p, u, f, r, y, cs, h, t }
+      if (Object.prototype.hasOwnProperty.call(j, 'a')) {
+        // Skip unreleased if you want to keep parity with old behavior:
+        if (j.cs === true) continue;
+
+        const y = (typeof j.y === 'number' && j.y > 0) ? j.y : null;
+        const relTs = y != null ? Date.UTC(y, 0, 1) : null; // Jan 1 of year for monthly filters
+
+        parsed.push({
+          app_id: j.a,
+          name: j.n || `App ${j.a}`,
+          tags: arr(j.t).map(normTag),
+          genres: [],         // not provided in compact
+          categories: [],     // not provided in compact
+          price: (j.u ?? null),
+          is_free: !!j.f,
+          reviews: (j.r ?? 0),
+          header: j.h || null,
+          releaseTs: relTs
+        });
+        continue;
       }
-      if (!parsed.length) {
-        throw new Error(`Parsed 0 games from ${JSON_LINES_PATH}${badCount ? ` (${badCount} malformed line(s))` : ''}`);
-      }
-      games = parsed;
+
+      // ---------- Verbose fallback ----------
+      const id = j.identity || {};
+      const cls = j.classification || {};
+      const media = j.media || {};
+      const relRaw = j.release?.date_iso ?? j.release?.date_raw ?? id.release_date ?? j.release_date ?? j.meta?.release_date;
+      const relTs = (() => {
+        if (!relRaw) return null;
+        if (typeof relRaw === 'number') return relRaw < 1e12 ? relRaw * 1000 : relRaw;
+        const t = Date.parse(relRaw);
+        return Number.isNaN(t) ? null : t;
+      })();
+
+      // Keep ignoring unreleased as before:
+      if (j.release?.coming_soon === true) continue;
+
+      parsed.push({
+        app_id: j.app_id,
+        name: id.name || `App ${j.app_id}`,
+        tags: arr(cls.tags).map(normTag),
+        genres: arr(cls.genres).map(normTag),
+        categories: arr(cls.categories).map(normTag),
+        price: j.pricing ? j.pricing.price_usd : null,
+        is_free: !!(j.pricing && j.pricing.is_free),
+        reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
+        header: media.header_image || null,
+        releaseTs: relTs
+      });
+
+    } catch (e) {
+      badCount++;
+      if (badCount === 1) console.warn(`JSONL parse error at line ${i + 1}:`, e, lines[i]);
     }
+  }
+
+  if (!parsed.length) {
+    throw new Error(`Parsed 0 games from ${JSON_LINES_PATH}${badCount ? ` (${badCount} malformed line(s))` : ''}`);
+  }
+  games = parsed;
+}
+
 
     function buildTagStats() {
       tagStats = new Map();

@@ -816,45 +816,35 @@
       try {
         const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
         if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH}`);
-        const text = await res.text();
-
-        const text = await res.text();
+        const text = await res.text(); // keep only this one
 
         function parseRow(line) {
           const j = JSON.parse(line);
           const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
 
-          // --- Compact schema: {a,n,d,p,u,f,r,y,cs,h,t}
+          // Compact schema: {a,n,d,p,u,f,r,y,cs,h,t}
           if (Object.prototype.hasOwnProperty.call(j, 'a')) {
             const y = (typeof j.y === 'number' && j.y > 0) ? j.y : null;
-            const relTs = y != null ? Date.UTC(y, 0, 1) : null; // month = Jan for filtering to work
+            const relTs = y != null ? Date.UTC(y, 0, 1) : null;
             return {
               app_id: j.a,
               name: j.n || `App ${j.a}`,
-
-              // classification pools (normalized & lowercased)
               tags: arr(j.t).map(t => (t ?? '').trim().toLowerCase()),
-              genres: [],           // not in compact; keep empty to preserve UI logic
+              genres: [],
               categories: [],
-
-              // credits (keep their casing)
               developers: arr(j.d),
               publishers: arr(j.p),
-
               price: j.u ?? null,
               is_free: !!j.f,
-
               reviews: j.r ?? 0,
-
               header: j.h || null,
-
               releaseTs: relTs,
               releaseFmt: relTs ? fmtMonYear(relTs) : (y ? String(y) : null),
               comingSoon: !!j.cs
             };
           }
 
-          // --- Verbose (fallback)
+          // Verbose fallback
           const cls = j.classification || {};
           const id = j.identity || {};
           const media = j.media || {};
@@ -870,21 +860,15 @@
           return {
             app_id: j.app_id,
             name: id.name || `App ${j.app_id}`,
-
             tags: arr(cls.tags).map(t => (t ?? '').trim().toLowerCase()),
             genres: arr(cls.genres).map(t => (t ?? '').trim().toLowerCase()),
             categories: arr(cls.categories).map(t => (t ?? '').trim().toLowerCase()),
-
             developers: arr(id.developers),
             publishers: arr(id.publishers),
-
             price: j.pricing ? j.pricing.price_usd : null,
             is_free: !!(j.pricing && j.pricing.is_free),
-
             reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
-
             header: media.header_image || null,
-
             releaseTs: relTs,
             releaseFmt: relTs ? fmtMonYear(relTs) : null,
             comingSoon: !!(j.release && j.release.coming_soon)
@@ -897,9 +881,9 @@
           .filter(Boolean)
           .map(parseRow);
 
-
         buildIndices();
         buildLookups();
+
 
         // Populate release selects
         const yearsInData = games.map(g => g.releaseTs).filter(Boolean).map(ts => new Date(ts).getUTCFullYear());
