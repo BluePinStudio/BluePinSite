@@ -197,7 +197,7 @@
 
   <script>
     // ---------------- Config ----------------
-    const JSON_LINES_PATH = '/assets/games/games.jsonl';
+    const JSON_LINES_PATH = '/assets/games/games.compact.jsonl';
     const CURRENCY = 'USD';
     const EXPECTED_TOTAL_GAMES_HINT = 90000;
 
@@ -738,8 +738,28 @@
 
 
     function pushMinimal(j) {
-      const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {}, reviews = j.reviews || {}, media = j.media || {};
-      const cls = j.classification || {};                              // <-- add this
+      // Compact schema: {a,n,d,p,u,f,r,y,cs,h,t}
+      if (j && Object.prototype.hasOwnProperty.call(j, 'a')) {
+        RAW_MIN.push({
+          app_id: j.a,
+          name: j.n || `App ${j.a}`,
+          header_image: j.h || null,
+          developers: Array.isArray(j.d) ? j.d : (j.d ? [j.d] : []),
+          publishers: Array.isArray(j.p) ? j.p : (j.p ? [j.p] : []),
+          price_usd: j.u ?? null,
+          is_free: !!j.f,
+          review_count: j.r ?? 0,
+          release_ts: null,                 // compact only keeps year
+          release_year: j.y ?? null,
+          coming_soon: !!j.cs,
+          tags: (Array.isArray(j.t) ? j.t : []).map(norm).filter(Boolean),
+        });
+        return;
+      }
+
+      // Fallback: original verbose schema
+      const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {},
+        reviews = j.reviews || {}, media = j.media || {}, cls = j.classification || {};
       const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
       RAW_MIN.push({
         app_id: j.app_id,
@@ -753,9 +773,10 @@
         release_ts: ts,
         release_year: ts ? new Date(ts).getFullYear() : null,
         coming_soon: !!rel.coming_soon,
-        tags: arr(cls.tags).map(norm).filter(Boolean)                  // <-- add this
+        tags: arr(cls.tags).map(norm).filter(Boolean)
       });
     }
+
 
 
     function updateLoaderProgress({ receivedBytes = 0, totalBytes = 0, parsedCount = 0, estTotalCount = null, streamDone = false }) {
@@ -887,7 +908,13 @@
         right.innerHTML = `
       <h4 class="gtitle"><a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a></h4>
       <div class="gmeta">
-        <span class="pill">${g.coming_soon ? 'Coming soon' : (g.release_ts ? fmtMonYear(g.release_ts) : '—')}</span>
+        <span class="pill">${g.coming_soon
+            ? 'Coming soon'
+            : (g.release_ts
+              ? fmtMonYear(g.release_ts)
+              : (g.release_year ? String(g.release_year) : '—'))
+          }</span>
+
         <span class="pill">Reviews: <span class="num">${fmtInt(g.review_count)}</span></span>
         <span class="pill">Price: ${g.is_free || g.price_usd === 0 ? 'Free' : (g.price_usd == null ? '—' : ('$' + Number(g.price_usd).toFixed(2)))}</span>
       </div>
