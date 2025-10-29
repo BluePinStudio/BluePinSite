@@ -366,7 +366,7 @@
   </main>
 
   <script>
-    const JSON_LINES_PATH = '/assets/games/games.jsonl';
+    const JSON_LINES_PATH = '{{ "/assets/games/games.jsonl" | relative_url }}';
 
     let games = [];
     const includeTags = new Set();
