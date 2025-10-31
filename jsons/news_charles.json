@@ -4,19 +4,110 @@
       "version": "1.40",
       "title": "Multiplayer Update",
       "date": "2025-11-01",
-      "changes": ["Added 12 cozy levels and a new chill track", "Introduced online multiplayer with 2–4 players", "Improved connection stability and invite system"]
+      "changes": ["Overhauled Arcade and added a new type of arcade game mode", "Added online multiplayer"]
     },
     {
       "version": "1.25",
-      "title": "Post Launch Patch 4",
-      "date": "2024-08-26",
-      "changes": ["Polished UI edges and fixed color picker jitter", "Optimized save data handling", "Improved controller vibration feedback"]
+      "title": "Quality of Life Update",
+      "date": "2025-11-01",
+      "changes": [
+        "Added 'Quick Restart' button in options menu (esc or p) for dance battles. Now you can quickly restart mid-song",
+        "Changed note offset slider to move in increments of 15ms instead of 20ms",
+        "Changed note offset slider to have higher minimum and maximum offset values by 50%",
+        "Worldmap music doesn't get restarted everytime you go back and forth to shop",
+        "Fixed a really problematic bug that was causing everyone to have issues with progressing, this one is a major fix.",
+        "Added cute Charles art for the sleeping cutscene (more of that stuff coming soon!)",
+        "decorated various areas more and improved performance of VFX"
+      ]
     },
     {
       "version": "1.20",
+      "title": "Post Launch Patch 4",
+      "date": "2024-08-26",
+      "changes": [
+        "removed the note ID numbers, oops!",
+        "added text to clarify stuff on the world map",
+        "moved custom mode to Extras",
+        "added more fan art! Thank you",
+        "fixed Stingmis in her cutscene",
+        "improved performance on laptops that have two graphics cards by a lot"
+      ]
+    },
+    {
+      "version": "1.15",
       "title": "Post Launch Patch 3",
       "date": "2024-08-24",
-      "changes": ["Added extra palettes to free mode", "Rebalanced scoring system", "Improved tooltips for new players"]
+      "changes": [
+        "fixed steam achievements again...",
+        "fixed custom songs not starting, caused by Note Per Minute value not having a default",
+        "fixed note offset not saving to hard drive and cloud saves",
+        "fixed more gamestate issues, mort will now appear properly and there should be no remaining sequence breaking between cutscenes",
+        "Efixed missing Devious Mort visual effects",
+        "refactored the World Map a bit to be more clear"
+      ]
+    },
+    {
+      "version": "1.10",
+      "title": "Post Launch Patch 1",
+      "date": "2024-08-21",
+      "changes": [
+        "fixed steam achievements and fixed free roam mode when going back somewhere you already completed",
+        "cleaned up unused files for smaller download size",
+        "fixed a blocker that prevented people who own the dlc from playing the dlc content",
+        "Fixed music bugs, damage bugs, smoke bugs, text box bugs, and many more!",
+        "added some sounds"
+      ]
+    },
+    {
+      "version": "0.9",
+      "title": "Pre-Launch Preparation",
+      "date": "2023-11-21",
+      "changes": [
+        "Changed how sensitive the note timings are. There is a 33% more generous margin of error!",
+        "Overhauled arcade menu, added lots of opponents and changed how the decoration works",
+        "Added keyboard scrolling for the arcade menu",
+        "Revamped the cutscenes and dialogue potions of the game to look better",
+        "Changed the night-time lighting outdoors",
+        "Added some functionality for Charles to steer better at night, as long as you're going in the right direction"
+      ]
+    },
+    {
+      "version": "0.8",
+      "title": "Demo Update 4",
+      "date": "2023-11-15",
+      "changes": ["Credits are more verbose", "Changed the 'Play' menu", "Fixed a bug where the wrong opponent would get chosen on Night 1"]
+    },
+    {
+      "version": "0.7",
+      "title": "Demo Update 3",
+      "date": "2023-11-07",
+      "changes": ["Switched Smooth Samuel and Rotten Roger in the story mode", "Added Dialogues with the random bees that fly around. Try talking to them by pressing 'E'"]
+    },
+    {
+      "version": "0.6",
+      "title": "Demo Update 2",
+      "date": "2023-10-31",
+      "changes": [
+        "Added hard mode and easy mode for Arcade and Story!",
+        "Changed the scoring system. Streaks/Combos shouldn't matter as much as before (they used to be the only thing that mattered basically)",
+        "Changed the letter grade system on the recap screen",
+        "Changed art on the title screen for better contrast with interactive elements",
+        "Added a 'quit to title' button in the options menu"
+      ]
+    },
+    {
+      "version": "0.5",
+      "title": "Demo Update 1",
+      "date": "2023-10-23",
+      "changes": [
+        "Reduced CPU usage of the game by 50%",
+        "Shrunk the overworld levels by 20%. This will make it seem like there are more bees and hazards without increasing the amounts.",
+        "Added recap screen that shows the breakdown of your performance and your opponent's performance",
+        "Changed how wrong-notes are displayed",
+        "Added more flowers and pollen to all overworld levels",
+        "Added a small cutscene when going into the hive after gathering pollen",
+        "Fixed a bug with loading day 3 night time"
+      ]
     }
   ]
 }
