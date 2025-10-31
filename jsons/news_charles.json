@@ -1,0 +1,14 @@
+{
+  "entries": [
+    ["0.5", "Demo Update 1", "Added 12 cozy levels and a new chill track.", "2023-10-23"],
+    ["0.6", "Demo Update 2", "Polished UI edges and fixed color picker jitter.", "2023-10-31"],
+    ["0.7", "Demo Update 3", "New palette presets and controller hints.", "2023-11-07"],
+    ["0.8", "Demo Update 4", "Added 12 cozy levels and a new chill track.", "2023-11-15"],
+    ["0.9", "Pre-Launch Preparation", "New palette presets and controller hints.", "2023-11-21"],
+    ["1.10", "Post Launch Patch 1", "Polished UI edges and fixed color picker jitter.", "2024-08-21"],
+    ["1.15", "Post Launch Patch 2", "Added 12 cozy levels and a new chill track..", "2024-08-22"],
+    ["1.20", "Post Launch Patch 3", "New palette presets and controller hints.", "2024-08-24"],
+    ["1.25", "Post Launch Patch 4", "Polished UI edges and fixed color picker jitter..", "2024-08-26"],
+    ["1.40", "Multiplayer Update", "Added 12 cozy levels and a new chill track.", "2025-11-01"]
+  ]
+}
