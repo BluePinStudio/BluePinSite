@@ -15,7 +15,7 @@
     {
       "version": "1.25",
       "title": "Quality of Life Update",
-      "date": "2025-11-01",
+      "date": "2024-08-26",
       "changes": [
         "Added 'Quick Restart' button in options menu (esc or p) for dance battles. Now you can quickly restart mid-song",
         "Changed note offset slider to move in increments of 15ms instead of 20ms",
@@ -29,7 +29,7 @@
     {
       "version": "1.20",
       "title": "Post Launch Patch 4",
-      "date": "2024-08-26",
+      "date": "2024-08-24",
       "changes": [
         "removed the note ID numbers, oops!",
         "added text to clarify stuff on the world map",
@@ -42,7 +42,7 @@
     {
       "version": "1.15",
       "title": "Post Launch Patch 3",
-      "date": "2024-08-24",
+      "date": "2024-08-22",
       "changes": [
         "fixed steam achievements again...",
         "fixed custom songs not starting, caused by Note Per Minute value not having a default",
