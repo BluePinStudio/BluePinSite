@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "1.5",
+      "title": "Future Plans",
+      "date": "2026",
+      "changes": ["Charles is going to Japan and Brazil! The airport in the world map will finally be used..."]
+    },
+    {
       "version": "1.40",
       "title": "Multiplayer Update",
       "date": "2025-11-01",
