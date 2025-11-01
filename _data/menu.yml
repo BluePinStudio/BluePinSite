@@ -42,9 +42,9 @@ main:
   - name: Blog
     url: /blog/
     weight: 4    
-  - name: Tools
-    url: /tools/
-    weight: 4   
+##  - name: Tools
+##    url: /tools/
+##    weight: 4   
 bottom:
   - name: Privacy Policy
     url: /privacy-policy/
