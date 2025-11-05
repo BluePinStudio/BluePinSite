@@ -9,8 +9,14 @@
     {
       "version": "1.40",
       "title": "Multiplayer Update",
-      "date": "2025-11-01",
-      "changes": ["Overhauled Arcade and added a new type of arcade game mode", "Added online multiplayer"]
+      "date": "2025-11-05",
+      "changes": [
+        "Overhauled Arcade and added a new type of arcade game mode",
+        "Added online multiplayer",
+        "Added more hazards to Act 3 & 4",
+        "Added this news page",
+        "Tons of small fixes and upgrades everywhere in the game, too many to list here."
+      ]
     },
     {
       "version": "1.25",
