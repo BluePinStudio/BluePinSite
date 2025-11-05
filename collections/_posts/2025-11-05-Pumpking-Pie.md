@@ -32,6 +32,7 @@ Oof! Not a lot of goals met this time around. I had a lot of stuff pop up IRL wi
 
 - [x] Visit Montreal
 - [x] Website tweaks, a new tools section with more tools coming soon!
+- [x] 35hrs of [Twitch Streaming](https://www.twitch.tv/bluepinstudio)
 
 On the bright side, I visited Montreal for the first time in my life! It was a quick bus ride down so it wasn't too expensive. Who knew you could go from Toronto to Montreal for merely $15!?
 
