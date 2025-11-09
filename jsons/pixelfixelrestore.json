@@ -1,5 +1,9 @@
 {
   "codes": {
+    "empty": {
+      "level completion": 1,
+      "challenge completion": 0
+    },
     "ivkhnva": {
       "level completion": 96,
       "challenge completion": 71
