@@ -8,53 +8,175 @@ body_classes: page-blog
     <div class="row">
       <div class="col-12">
         {% include framework/title.html
-        title=page.title
-        description=page.description
-        image=page.image
+          title=page.title
+          description=page.description
+          image=page.image
         %}
       </div>
     </div>
   </div>
 </div>
 
+{%- comment -%}
+  Compute sticky post (most recent with sticky: true).
+  Only render it on page 1 if using paginator.
+{%- endcomment -%}
+{%- assign all_posts = site.posts -%}
+{%- assign sticky_posts = all_posts | where_exp: "p", "p.sticky == true" -%}
+{%- assign sticky_post = sticky_posts | first -%}
+{%- assign show_sticky = true -%}
+{%- if paginator and paginator.page != 1 -%}{% assign show_sticky = false %}{% endif %}
+
 <div class="section pt-0">
   <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-12">
-          <div class="row">
-            {% assign posts = site.posts %}
-            {% if paginator %}{% assign posts = paginator.posts %}{% endif %}
-            
-              {% if paginator %}
-                <div class="col-12">
-                  {% include framework/paginator-count.html %}
-                </div>
-              {% endif %}
 
-              {% for post in posts %}
-                <div class="col-12 col-lg-4 mb-3">
-                  {% include theme/cards/card-post.html
-                    date=post.date
-                    title=post.title
-                    description=post.description 
-                    thumbnail=post.thumbnail 
-                    url=post.url
-                    authors=post.authors
-                    categories=post.categories
-                    show_read_more=false
-                  %}
-                </div>
-              {% endfor %}
+    {%- if sticky_post and show_sticky -%}
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <article class="sticky-post card border-0 overflow-hidden">
+          <div class="sticky-post__inner">
+            {%- if sticky_post.thumbnail -%}
+            <a class="sticky-post__media" href="{{ sticky_post.url | relative_url }}" aria-label="{{ sticky_post.title | escape }}">
+              <img src="{{ sticky_post.thumbnail | relative_url }}" alt="{{ sticky_post.title | escape }}">
+            </a>
+            {%- endif -%}
+
+            <div class="sticky-post__body">
+              <div class="sticky-post__eyebrow">
+                <span class="badge">Sticky</span>
+                <time datetime="{{ sticky_post.date | date_to_xmlschema }}">
+                  {{ sticky_post.date | date: "%b %-d, %Y" }}
+                </time>
+              </div>
+
+              <h2 class="sticky-post__title">
+                <a href="{{ sticky_post.url | relative_url }}">{{ sticky_post.title }}</a>
+              </h2>
+
+              {%- if sticky_post.description -%}
+              <p class="sticky-post__desc">{{ sticky_post.description }}</p>
+              {%- endif -%}
+
+              <div class="sticky-post__meta">
+                {%- if sticky_post.authors -%}
+                  <span class="sticky-post__authors">
+                    {{ sticky_post.authors | array_to_sentence_string }}
+                  </span>
+                {%- endif -%}
+                {%- if sticky_post.categories -%}
+                  <span class="sticky-post__cats">
+                    {{ sticky_post.categories | array_to_sentence_string }}
+                  </span>
+                {%- endif -%}
+              </div>
+
+              <a class="sticky-post__cta" href="{{ sticky_post.url | relative_url }}">Read more →</a>
+            </div>
           </div>
+        </article>
+      </div>
+    </div>
+    {%- endif -%}
+
+    <div class="row justify-content-center mt-4">
+      <div class="col-12 col-md-12">
+        {%- assign posts = site.posts -%}
+        {%- if paginator -%}{% assign posts = paginator.posts %}{% endif %}
+
+        {%- comment -%}
+          Exclude the sticky post from the grid when it’s shown on this page.
+          If paginator is on a later page, the sticky post can appear in normal flow there.
+        {%- endcomment -%}
+        {%- assign listing_posts = posts -%}
+        {%- if sticky_post and show_sticky -%}
+          {%- assign listing_posts = posts | where_exp: "p", "p.url != sticky_post.url" -%}
+        {%- endif -%}
+
+        {%- if paginator -%}
+          <div class="col-12 mb-2">
+            {% include framework/paginator-count.html %}
+          </div>
+        {%- endif -%}
+
+        <div class="row">
+          {%- for post in listing_posts -%}
+            <div class="col-12 col-lg-4 mb-3">
+              {% include theme/cards/card-post.html
+                date=post.date
+                title=post.title
+                description=post.description
+                thumbnail=post.thumbnail
+                url=post.url
+                authors=post.authors
+                categories=post.categories
+                show_read_more=false
+              %}
+            </div>
+          {%- endfor -%}
         </div>
       </div>
-      {% if paginator %}
-      <div class="row justify-content-center">
-        <div class="col-auto">
-          {% include framework/paginator.html %}
-        </div>
+    </div>
+
+    {%- if paginator -%}
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        {% include framework/paginator.html %}
       </div>
-      {% endif %}
+    </div>
+    {%- endif -%}
   </div>
 </div>
 
+<style>
+/* ---------- Sticky post styling ---------- */
+.sticky-post {
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(130, 200, 255, .14), rgba(130, 200, 255, 0));
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+}
+.sticky-post__inner {
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1.2fr 1fr;
+}
+@media (max-width: 992px) {
+  .sticky-post__inner { grid-template-columns: 1fr; }
+}
+.sticky-post__media {
+  display: block;
+  overflow: hidden;
+}
+.sticky-post__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.002);
+  transition: transform .35s ease;
+}
+.sticky-post:hover .sticky-post__media img { transform: scale(1.02); }
+
+.sticky-post__body {
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+.sticky-post__eyebrow {
+  display: flex; gap: .6rem; align-items: center; color: var(--muted, #8aa0b4);
+  font-size: .9rem; margin-bottom: .25rem;
+}
+.sticky-post__eyebrow .badge {
+  font-size: .72rem; letter-spacing: .02em;
+  padding: .2rem .5rem; border-radius: 999px;
+  background: #ffd166; color: #222; font-weight: 600;
+}
+.sticky-post__title {
+  margin: .2rem 0 .4rem; line-height: 1.15; font-size: clamp(1.25rem, 2.2vw, 2rem);
+}
+.sticky-post__title a { text-decoration: none; }
+.sticky-post__desc { margin: 0 0 .75rem; color: var(--muted, #9fb0c0); }
+.sticky-post__meta { font-size: .9rem; color: var(--muted, #8aa0b4); display: flex; gap: .75rem; flex-wrap: wrap; }
+.sticky-post__cta {
+  display: inline-block; margin-top: .9rem; font-weight: 600; text-decoration: none;
+  border: 1px solid rgba(255,255,255,.16); padding: .5rem .8rem; border-radius: 10px;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.sticky-post__cta:hover { transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.24); }
+</style>

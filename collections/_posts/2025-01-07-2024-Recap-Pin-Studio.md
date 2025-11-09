@@ -7,6 +7,7 @@ tags: [charles the bee, pixel fixel]
 thumbnail: /assets/images/posts/2024recap.png
 image: /assets/images/posts/2024recap.png
 published : true
+sticky: true
 ---
 
 ## Welcome!
