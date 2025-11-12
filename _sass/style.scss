@@ -302,3 +302,9 @@ body::before {
   opacity: 0.4; /* dimmed look when off */
 }
 
+@media (hover: none), (pointer: coarse) {
+  /* Hide on touch / mobile devices */
+  #toggleFollower {
+    display: none !important;
+  }
+}
