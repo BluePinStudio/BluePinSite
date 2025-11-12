@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kickstarter External Goal Estimator</title>
+<style>
+  :root { --bg:#0e1116; --panel:#151a23; --text:#e6edf3; --muted:#9fb0c0; --accent:#6ea8fe; --ok:#8ce99a; --warn:#ffd43b; --bad:#ffa8a8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:linear-gradient(180deg,#0b0f14,#0f141d); color:var(--text); }
+  .wrap { max-width:820px; margin:24px auto 80px; padding:0 16px; }
+  .card { background:var(--panel); border:1px solid #1f2632; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.25); padding:20px; }
+  h1 { margin:0 0 8px; font-weight:800; letter-spacing:.2px; }
+  p.lead { margin:0 0 18px; color:var(--muted); }
+  .step-title { font-weight:700; margin:0 0 8px; }
+  .input { display:flex; gap:10px; align-items:center; background:#0f131b; border:1px solid #20293a; border-radius:12px; padding:12px 14px; }
+  .input input[type="number"], .input input[type="text"] { flex:1; background:transparent; border:0; color:var(--text); font-size:16px; outline:none; }
+  .hint { color:var(--muted); font-size:13px; margin:8px 0 0; }
+  .controls { display:flex; gap:8px; margin-top:16px; }
+  button { appearance:none; border:1px solid #2a3447; background:#182031; color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:700; }
+  button.primary { background:linear-gradient(180deg,#2a6df6,#2456c8); border-color:#2456c8; }
+  button.ghost { background:transparent; }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+  .progress { height:8px; background:#121722; border:1px solid #1f2838; border-radius:999px; overflow:hidden; margin:14px 0 6px; }
+  .bar { height:100%; width:0%; background:linear-gradient(90deg,#6ea8fe,#8ce99a); }
+  .small { font-size:12px; color:var(--muted); }
+  .kpi { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:16px; }
+  .kpi .box { background:#0f131b; border:1px solid #1f2632; border-radius:12px; padding:12px; }
+  .kpi .label { color:var(--muted); font-size:12px; }
+  .kpi .value { font-size:22px; font-weight:800; margin-top:4px; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .pill { display:inline-block; background:#0b1220; color:#b8cdfc; border:1px solid #20305a; padding:2px 8px; border-radius:999px; font-size:12px; margin:2px 6px 0 0; }
+  .grid { display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; }
+  .list { margin:10px 0 0; padding:0; list-style:none; max-height:180px; overflow:auto; }
+  .list li { display:flex; justify-content:space-between; gap:8px; padding:8px 10px; border-bottom:1px dashed #22304a; }
+  .list .nm { color:#c8d5e7; }
+  .right { text-align:right; }
+  .muty { color:var(--muted); }
+  .hr { height:1px; background:linear-gradient(90deg,transparent,#22304a,transparent); margin:14px 0; border:0; }
+  .center { text-align:center; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Kickstarter External Goal Estimator</h1>
+      <p class="lead">Answer a few quick prompts (one at a time). We’ll estimate your backers and external funding goal using your price tiers, ad spend, and social reach.</p>
+
+      <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+      <div class="small" id="stepCounter">Step 1</div>
+
+      <div id="stage">
+        <!-- dynamic content goes here -->
+      </div>
+
+      <div class="controls">
+        <button id="backBtn" class="ghost">Back</button>
+        <button id="nextBtn" class="primary">Next</button>
+      </div>
+      <div class="small">Formulas: 
+        <span class="pill mono">Estimated Backers = Social Reach × 0.02 + Ad Clicks × 0.0075</span>
+        <span class="pill mono">Average Pledge = (70×Base + 25×Mid + 5×Premium)/100</span>
+        <span class="pill mono">External Goal = Estimated Backers × Avg Pledge × 0.9</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const $ = (sel, el=document) => el.querySelector(sel);
+  const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+  const fmtInt = n => Number.isFinite(n) ? Math.round(n).toLocaleString() : '—';
+  const money = n => Number.isFinite(n) ? '$' + n.toFixed(2) : '—';
+  const num = v => {
+    const x = parseFloat(String(v).replace(/,/g,''));
+    return Number.isFinite(x) ? x : 0;
+  };
+
+  // ----------------- Model -----------------
+  const model = {
+    // pledge tiers (blank by default)
+    price_base: '',
+    price_mid: '',
+    price_premium: '',
+    // ads
+    ad_spend: '',
+    // KS Coming Soon followers
+    ks_has_prelaunch: null,   // true | false | null (not answered yet)
+    ks_prelaunch_count: '',   // number-ish, blank by default
+    // socials list
+    socials: [
+      {key:'discord',   label:'Discord members',                         value:''},
+      {key:'twitter',   label:'Twitter/X followers',                     value:''},
+      {key:'youtube',   label:'YouTube subscribers',                     value:''},
+      {key:'bluesky',   label:'Bluesky followers',                       value:''},
+      {key:'steamdev',  label:'Steam Developer page followers',          value:''},
+      {key:'tiktok',    label:'TikTok followers',                         value:''},
+      {key:'instagram', label:'Instagram followers',                      value:''},
+      {key:'facebook',  label:'Facebook page followers',                  value:''},
+      {key:'reddit',    label:'Reddit community subscribers',             value:''},
+      {key:'linkedin',  label:'LinkedIn followers',                       value:''},
+      {key:'email',     label:'Email newsletter subscribers',             value:''},
+      {key:'itch',      label:'itch.io followers',                         value:''},
+      {key:'newgrounds',label:'Newgrounds fans',                           value:''},
+      {key:'twitch',    label:'Twitch followers',                          value:''}
+    ],
+    customSocials: []
+  };
+
+  // ----------------- Steps -----------------
+  let steps = [];
+  const baseSteps = [
+    { type:'price', key:'price_base',    label:'Base Pledge Amount',     hint:'Typical entry pledge tier (e.g. $20–$30)' },
+    { type:'price', key:'price_mid',     label:'Mid-Tier Pledge Amount', hint:'Includes extras such as soundtrack/artbook (e.g. $30–$50)' },
+    { type:'price', key:'price_premium', label:'Premium Pledge Amount',  hint:'Highest tier with deluxe/physical rewards (e.g. $50–$80+)' },
+    { type:'ad',    key:'ad_spend',      label:'Estimated Ad Spend (USD)', hint:'We assume $1.50 per click → Ad Clicks = Ad Spend / 1.5' }
+  ];
+
+  function rebuildSteps(){
+    steps = [];
+    // prices + ads
+    steps.push(...baseSteps);
+
+    // NEW: Kickstarter Coming Soon followers (before socials)
+    steps.push({ type:'ks_prelaunch_yesno' });   // yes/no
+    if (model.ks_has_prelaunch === true) {
+      steps.push({ type:'ks_prelaunch_count' }); // only ask count if yes
+    }
+
+    // socials one-by-one
+    model.socials.forEach(s => steps.push({ type:'social', social:s }));
+
+    // custom manager + custom socials one-by-one
+    steps.push({ type:'customManager' });
+    model.customSocials.forEach(s => steps.push({ type:'socialCustom', social:s }));
+
+    // summary
+    steps.push({ type:'summary' });
+  }
+  rebuildSteps();
+
+  let idx = 0;
+
+  // ----------------- Calculations -----------------
+  function totals(){
+    const base = num(model.price_base);
+    const mid  = num(model.price_mid);
+    const prem = num(model.price_premium);
+    const avgPledge = ((70*base) + (25*mid) + (5*prem)) / 100;
+
+    // Social Reach = sum of all channels + (optional) KS prelaunch followers
+    const socialCore = [...model.socials, ...model.customSocials]
+      .reduce((sum,s)=> sum + num(s.value||0), 0);
+    const ksPre = num(model.ks_prelaunch_count || 0);
+    const socialReach = socialCore + ksPre;
+
+    const adClicks = num(model.ad_spend) / 1.5;
+    const estBackers = (socialReach * 0.02) + (adClicks * 0.0075);
+    const extGoal = estBackers * avgPledge * 0.9;
+
+    return { base, mid, prem, avgPledge, socialReach, adClicks, estBackers, extGoal, ksPre };
+  }
+
+  // ----------------- UI wiring -----------------
+  const stage = $('#stage');
+  const bar = $('#bar');
+  const stepCounter = $('#stepCounter');
+  const backBtn = $('#backBtn');
+  const nextBtn = $('#nextBtn');
+
+  function setProgress(){
+    const pct = (idx / (steps.length - 1)) * 100;
+    bar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+    stepCounter.textContent = `Step ${Math.min(idx+1, steps.length)} of ${steps.length}`;
+    backBtn.disabled = idx === 0;
+    nextBtn.textContent = (steps[idx] && steps[idx].type === 'summary') ? 'Recalculate' : 'Next';
+  }
+
+  function render(){
+    const step = steps[idx];
+    setProgress();
+    if(!step){ stage.innerHTML = '<p>Done.</p>'; return; }
+
+    function renderInput(label, val, hint, prefix=''){
+      const prefixSpan = prefix ? `<span class="mono">${prefix}</span>` : '';
+      return `
+        <div class="step">
+          <div class="step-title">${label}</div>
+          <div class="input">
+            ${prefixSpan}
+            <input id="val" type="number" min="0" step="any" inputmode="decimal" placeholder="Enter a number" value="${val || ''}"/>
+          </div>
+          <div class="hint">${hint||''}</div>
+        </div>`;
+    }
+
+    // Price, Ads
+    if(step.type === 'price')        stage.innerHTML = renderInput(step.label, model[step.key], step.hint, '$');
+    if(step.type === 'ad')           stage.innerHTML = renderInput(step.label, model.ad_spend, step.hint, '$');
+
+    // NEW: KS Coming Soon followers (yes/no)
+    if(step.type === 'ks_prelaunch_yesno'){
+      stage.innerHTML = `
+        <div class="step">
+          <div class="step-title">Do you have a <strong>Kickstarter “Coming Soon”</strong> page with followers?</div>
+          <div class="controls" style="margin-top:10px">
+            <button class="primary" id="ksYes">Yes</button>
+            <button class="ghost"   id="ksNo">No</button>
+          </div>
+          <div class="hint">These are users who clicked <em>“Notify me on launch.”</em> We’ll include them in Social Reach.</div>
+        </div>
+      `;
+      $('#ksYes').onclick = ()=>{
+        model.ks_has_prelaunch = true;
+        // ensure count step exists next
+        rebuildSteps();
+        // jump forward to count
+        const t = steps.findIndex(s => s.type==='ks_prelaunch_count');
+        idx = (t>-1)? t : Math.min(idx+1, steps.length-1);
+        render();
+        return;
+      };
+      $('#ksNo').onclick = ()=>{
+        model.ks_has_prelaunch = false;
+        model.ks_prelaunch_count = '';
+        rebuildSteps();
+        idx = Math.min(idx+1, steps.length-1);
+        render();
+        return;
+      };
+    }
+
+    // NEW: KS Coming Soon followers count (only if yes)
+    if(step.type === 'ks_prelaunch_count'){
+      stage.innerHTML = renderInput('How many Kickstarter “Coming Soon” followers?', model.ks_prelaunch_count, 'People who clicked “Notify me on launch”.');
+    }
+
+    // Socials one-by-one
+    if(step.type === 'social')       stage.innerHTML = renderInput(`How many ${step.social.label}?`, step.social.value, 'Followers/members you can reasonably reach');
+    if(step.type === 'socialCustom') stage.innerHTML = renderInput(`How many ${step.social.label}?`, step.social.value, 'Followers/members you can reasonably reach');
+
+    // Custom manager
+    if(step.type === 'customManager'){
+      const items = model.customSocials.map((c,i)=>`
+        <li>
+          <span class="nm">${c.label}</span>
+          <span>
+            <button data-ed="${i}" class="ghost">Edit</button>
+            <button data-rm="${i}" class="ghost">Remove</button>
+          </span>
+        </li>
+      `).join('');
+      stage.innerHTML = `
+        <div class="step">
+          <div class="step-title">Add any other channels?</div>
+          <div class="grid">
+            <div class="input"><input id="customName" type="text" placeholder="e.g. Threads, Mastodon, WhatsApp community" /></div>
+            <button id="addCustom">Add</button>
+          </div>
+          <ul class="list">${items || '<li class="muty">No custom channels yet.</li>'}</ul>
+          <div class="hint">After adding, we’ll ask for each custom channel’s reach on the next steps.</div>
+        </div>
+      `;
+      $('#addCustom')?.addEventListener('click', ()=>{
+        const name = $('#customName').value.trim();
+        if(!name) return;
+        model.customSocials.push({key:'custom_'+Date.now(), label:name, value:''});
+        rebuildSteps();
+        render();
+      });
+      $$('#stage button[data-rm]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const i = +btn.getAttribute('data-rm');
+          model.customSocials.splice(i,1);
+          rebuildSteps();
+          render();
+        });
+      });
+      $$('#stage button[data-ed]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const i = +btn.getAttribute('data-ed');
+          const key = model.customSocials[i].key;
+          const targetIndex = steps.findIndex(s => s.type==='socialCustom' && s.social.key===key);
+          if(targetIndex !== -1){ idx = targetIndex; render(); }
+        });
+      });
+    }
+
+    // Summary
+    if(step.type === 'summary'){
+      const t = totals();
+      stage.innerHTML = `
+        <div class="step">
+          <div class="step-title">Estimate & Breakdown</div>
+
+          <div class="kpi">
+            <div class="box">
+              <div class="label">Average Pledge</div>
+              <div class="value">${money(t.avgPledge)}</div>
+              <div class="small muty">Weighted by Base/Mid/Premium pledge tiers</div>
+            </div>
+            <div class="box">
+              <div class="label">Social Reach</div>
+              <div class="value">${fmtInt(t.socialReach)}</div>
+              <div class="small muty">Includes all channels${t.ksPre ? ' + KS Coming Soon' : ''}</div>
+            </div>
+            <div class="box">
+              <div class="label">Ad Clicks (est.)</div>
+              <div class="value">${fmtInt(t.adClicks)}</div>
+              <div class="small muty">Ad Spend ${money(num(model.ad_spend))} ÷ 1.5</div>
+            </div>
+            <div class="box">
+              <div class="label">Estimated Backers</div>
+              <div class="value">${fmtInt(t.estBackers)}</div>
+              <div class="small muty">= Social × 0.02 + Ad × 0.0075</div>
+            </div>
+          </div>
+
+          <hr class="hr" />
+
+          <div class="kpi">
+            <div class="box" style="grid-column:1/-1">
+              <div class="label">External Kickstarter Goal (after 10% haircut)</div>
+              <div class="value" style="font-size:28px">${money(t.extGoal)}</div>
+              <div class="small muty">= Estimated Backers × Average Pledge × 0.9</div>
+            </div>
+          </div>
+
+          <hr class="hr" />
+
+          <div class="grid">
+            <div>
+              <div class="small muty">Channels Included</div>
+              <div id="channels" style="margin-top:6px"></div>
+            </div>
+            <div class="right">
+              <button id="editPrices" class="ghost">Edit pledge tiers</button>
+              <button id="editAds" class="ghost">Edit ads</button>
+              <button id="editSocials" class="ghost">Edit socials</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Populate channel pills (include KS Coming Soon if provided)
+      const pillsSocials = [...model.socials, ...model.customSocials]
+        .filter(s => num(s.value) > 0)
+        .map(s => `<span class="pill">${s.label}: ${fmtInt(num(s.value))}</span>`);
+
+      const pillsKS = (model.ks_has_prelaunch && num(model.ks_prelaunch_count) > 0)
+        ? [`<span class="pill">Kickstarter Coming Soon: ${fmtInt(num(model.ks_prelaunch_count))}</span>`]
+        : [];
+
+      $('#channels').innerHTML = (pillsKS.concat(pillsSocials).join(' ') || '<span class="muty">No channels entered yet.</span>');
+
+      // Quick edit nav
+      $('#editPrices').onclick = ()=>{
+        const i = steps.findIndex(s=>s.type==='price' && s.key==='price_base');
+        if(i !== -1){ idx = i; render(); }
+      };
+      $('#editAds').onclick = ()=>{
+        const i = steps.findIndex(s=>s.type==='ad');
+        if(i !== -1){ idx = i; render(); }
+      };
+      $('#editSocials').onclick = ()=>{
+        // If they have KS yes, jump to KS count; else jump to first social
+        if (model.ks_has_prelaunch === true) {
+          const k = steps.findIndex(s=>s.type==='ks_prelaunch_count');
+          if(k !== -1){ idx = k; render(); return; }
+        }
+        const i = steps.findIndex(s=>s.type==='social');
+        if(i !== -1){ idx = i; render(); }
+      };
+    }
+
+    // Auto-focus the newly rendered field when present
+    $('#val')?.focus();
+  }
+
+  // ----------------- Commit current step -----------------
+  function commit(){
+    const step = steps[idx];
+    const valEl = $('#val');
+    if(!step) return;
+
+    if(step.type==='price' && valEl){
+      model[step.key] = valEl.value.trim();
+    }
+    if(step.type==='ad' && valEl){
+      model.ad_spend = valEl.value.trim();
+    }
+    if(step.type==='ks_prelaunch_count' && valEl){
+      model.ks_prelaunch_count = valEl.value.trim();
+    }
+    if(step.type==='social' && valEl){
+      step.social.value = valEl.value.trim();
+    }
+    if(step.type==='socialCustom' && valEl){
+      step.social.value = valEl.value.trim();
+    }
+  }
+
+  // ----------------- Navigation -----------------
+  $('#backBtn').onclick = ()=>{
+    commit();
+    idx = Math.max(0, idx - 1);
+    render();
+  };
+
+  $('#nextBtn').onclick = ()=>{
+    // On summary, just recompute
+    if(steps[idx]?.type === 'summary'){ render(); return; }
+    commit();
+    idx = Math.min(steps.length - 1, idx + 1);
+    render();
+  };
+
+  // Enter = Next (keeps flow quick); field re-focuses automatically on render()
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Enter' && document.activeElement?.id==='val'){
+      e.preventDefault();
+      $('#nextBtn').click();
+    }
+  });
+
+  // ----------------- Init -----------------
+  render();
+})();
+</script>
+
+
+</body>
+</html>
