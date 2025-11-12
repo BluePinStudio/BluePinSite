@@ -339,12 +339,9 @@ header {
 .board-wrap {
   width: 100%;
   height: calc(100vh - var(--headerH));
-  margin: 8px 0 0;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden; /* keeps nodes within the visible working area */
 }
+
 
 #stage {
   position: absolute;
@@ -1009,4 +1006,21 @@ header {
   border-radius: 4px;
   backdrop-filter: blur(2px);          /* only blurs the tiled background behind the nodes */
   z-index: -1;                         /* sit *behind* all stage content */
+}
+
+/* Ensure the node sidebar/popup has a solid backdrop */
+.sidebar,
+#sidebar {
+  background: var(--panel, rgba(14, 18, 24, 0.92));
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+/* If you’re showing an inline popup near the node, give it a panel too */
+.node-popover {
+  background: var(--panel, rgba(14, 18, 24, 0.92));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  border-radius: 12px;
 }
