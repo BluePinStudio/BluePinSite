@@ -533,3 +533,8 @@ label { display: inline-flex; gap: .5rem; align-items: center; margin: .1rem .75
   padding: 1rem;
 }
 
+.site-header .wrap{
+  max-width:1200px;
+  margin:0 auto;
+  padding:.9rem 1rem; /* match your site gutter */
+}

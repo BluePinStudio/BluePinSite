@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Kickstarter Goal Estimator"
+title: "Steam Developer/Publisher Leaderboards"
 permalink: /steamboards/
 body_classes: page-tools
 ---
@@ -13,15 +13,6 @@ body_classes: page-tools
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Steam Game Developer & Publisher Leaderboards</title>
   <link rel="stylesheet" href="leaderboard.css" />
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5TPPRZVDVF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-5TPPRZVDVF');
-  </script>
 </head>
 
 <body>
@@ -55,10 +46,9 @@ body_classes: page-tools
         disabled>Publishers</button>
     </nav>
 
-    <!-- Controls -->
     <section class="controls" aria-label="Leaderboard controls">
-      <!-- Row A: sort + order + min games + toggles -->
-      <div class="row-a">
+      <!-- ROW 1: sort + order + min games -->
+      <div class="controls-row row-1">
         <div class="field field--sort">
           <label for="sortBy" class="label">Sort by</label>
           <select id="sortBy" class="input">
@@ -78,11 +68,39 @@ body_classes: page-tools
           <label for="minCount" class="label">Min games</label>
           <input id="minCount" type="number" class="input" min="1" step="1" placeholder="1" />
         </div>
+      </div>
 
-        <div class="checks-inline">
+      <!-- ROW 2: full-width name input (compare chipbox) -->
+      <div class="controls-row row-2">
+        <div id="compareBox" class="chipbox" aria-label="Developer/Publisher name input">
+          <ul id="chipList" class="chips"></ul>
+          <input id="chipInput" type="text" class="chip-input" placeholder="Type a developer/publisher and press Enter…"
+            autocomplete="off" />
+          <div id="acList" class="ac-list" hidden></div>
+        </div>
+      </div>
+
+      <!-- ROW 3: compare toggles (left) + filters (right), justified -->
+      <div class="controls-row row-3">
+        <div class="group group-left">
+          <label class="check">
+            <input id="enableCompare" type="checkbox" />
+            <span>Compare list only</span>
+          </label>
+          <label class="check">
+            <input id="relativeRank" type="checkbox" checked />
+            <span>Show relative ranks</span>
+          </label>
+        </div>
+
+        <div class="group group-right">
           <label class="check">
             <input id="ignoreFree" type="checkbox" />
             <span>Ignore free games</span>
+          </label>
+          <label class="check">
+            <input id="hideZeroRevenue" type="checkbox" />
+            <span>Hide $0 revenue orgs</span>
           </label>
           <label class="check">
             <input id="ignoreComingSoon" type="checkbox" checked />
@@ -90,27 +108,8 @@ body_classes: page-tools
           </label>
         </div>
       </div>
-
-      <!-- Row C: Compare list (chips + autocomplete) -->
-      <div class="row-c">
-        <div id="compareBox" class="chipbox">
-          <ul id="chipList" class="chips"></ul>
-          <input id="chipInput" type="text" class="chip-input" placeholder="Type a developer/publisher and press Enter…"
-            autocomplete="off" />
-          <div id="acList" class="ac-list" hidden></div>
-        </div>
-
-        <label class="check">
-          <input id="enableCompare" type="checkbox" />
-          <span>Compare list only</span>
-        </label>
-
-        <label class="check">
-          <input id="relativeRank" type="checkbox" checked />
-          <span>Show relative ranks</span>
-        </label>
-      </div>
     </section>
+
 
 
     <!-- Developers -->
@@ -206,7 +205,7 @@ body_classes: page-tools
     // ---------------- Config ----------------
     const JSON_LINES_PATH = '/assets/games/games.compact.jsonl';
     const CURRENCY = 'USD';
-    const EXPECTED_TOTAL_GAMES_HINT = 90000;
+    const EXPECTED_TOTAL_GAMES_HINT = 163000;
 
     // ---------------- Utilities ----------------
     const fmtUSD = n => (Number.isFinite(n) ? n.toLocaleString(undefined, { style: 'currency', currency: CURRENCY, maximumFractionDigits: 0 }) : '—');
@@ -335,6 +334,9 @@ body_classes: page-tools
     const loaderPct = document.getElementById('loaderPct');
     const loaderMeta = document.getElementById('loaderMeta');
 
+    const hideZeroRevenueEl = document.getElementById('hideZeroRevenue');
+
+
     // Drawer DOM
     const orgDialog = document.getElementById('orgDialog');
     const orgTitle = document.getElementById('orgTitle');
@@ -423,6 +425,12 @@ body_classes: page-tools
     pubPageSizeEl.addEventListener('change', () => { pager.pub.size = +pubPageSizeEl.value; pager.pub.page = 1; renderPubPage(); });
     pubPrev.addEventListener('click', () => { if (pager.pub.page > 1) { pager.pub.page--; renderPubPage(); } });
     pubNext.addEventListener('click', () => { const pages = Math.max(1, Math.ceil(memoPubs.length / pager.pub.size)); if (pager.pub.page < pages) { pager.pub.page++; renderPubPage(); } });
+
+    hideZeroRevenueEl.addEventListener('change', () => {
+      rebuildViews();
+      if (orgDialog.open) refreshOpenDrawer();
+    });
+
 
     function debounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
 
@@ -571,17 +579,16 @@ body_classes: page-tools
       const minCount = Number(minCountEl.value || 0);
       const { set: cmpSet } = parseCompareSet();
       const compareOn = enableCompareEl.checked && cmpSet.size > 0;
+      const hideZero = !!hideZeroRevenueEl.checked; // <- NEW
 
       // Build ALL rows (no minCount yet), sort, annotate global rank
       allDevs = annotateGlobalRank(sortRows(collectOrgStats('developers'), by, desc));
       allPubs = annotateGlobalRank(sortRows(collectOrgStats('publishers'), by, desc));
 
-      // Regular filtering vs compare
       let devRows = allDevs;
       let pubRows = allPubs;
 
       if (enableCompareEl.checked && cmpSet.size === 0) {
-        // User wants compare-only but list is empty → show nothing
         devRows = [];
         pubRows = [];
       } else if (compareOn) {
@@ -597,13 +604,20 @@ body_classes: page-tools
         pubRows.forEach(r => r.relRank = undefined);
       }
 
+      // ---- NEW: hide $0 revenue orgs
+      if (hideZero) {
+        devRows = devRows.filter(r => r.total > 0);
+        pubRows = pubRows.filter(r => r.total > 0);
+      }
 
       memoDevs = devRows;
       memoPubs = pubRows;
-      pager.dev.page = 1; pager.pub.page = 1;
+      pager.dev.page = 1;
+      pager.pub.page = 1;
 
       if (currentTab === 'devs') { renderDevPage(); } else { renderPubPage(); }
     }
+
 
     async function loadJSONLStream(url) {
       const res = await fetch(url, { cache: 'no-store' });

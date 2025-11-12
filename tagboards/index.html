@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Kickstarter Goal Estimator"
+title: "Steam Tag Leaderboards"
 permalink: /tagboards/
 body_classes: page-tools
 ---
@@ -25,6 +25,18 @@ body_classes: page-tools
       grid-template-columns: repeat(4, minmax(160px, 1fr));
       gap: .6rem;
     }
+    /* Put this in tagboards/styles.css (or the page <style>) */
+.site-header {
+  background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
+  border-bottom: 1px solid var(--outline);
+}
+
+.site-header .wrap {
+  max-width: 1200px;        /* same width you use elsewhere */
+  margin: 0 auto;           /* center it */
+  padding: .9rem 1rem;      /* the missing gutter that aligns with your main header */
+}
+
 
     @media (max-width: 900px) {
       .kpi-grid {
@@ -192,21 +204,14 @@ body_classes: page-tools
       display: block;
     }
   </style>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5TPPRZVDVF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-5TPPRZVDVF');
-  </script>
 </head>
 
 <body>
   <header class="site-header">
-    <h1>Steam Tag Revenue Explorer</h1>
-    <p class="sub">Explore count and revenue estimates by tag. Combine/ban tags, filter by date, and drill into matched
-      games.</p>
+    <div class="wrap">
+      <h1>Steam Tag Revenue Explorer</h1>
+        <p class="sub">Explore count and revenue estimates by tag. Combine/ban tags, filter by date, and drill into matched games.</p>
+    </div>
   </header>
 
   <main class="container">

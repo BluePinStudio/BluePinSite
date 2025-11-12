@@ -6,440 +6,516 @@ permalink: /tools/
 body_classes: page-tools
 ---
 
-<style>
-  /* ===========================
-     Page scaffolding
-     =========================== */
-  .page-tools .wrap {
-    max-width: 1180px;
-    margin: 1.25rem auto 2.25rem;
-    padding-inline: .75rem;
-    overflow-x: auto;
-  }
-  .page-tools .h1 { margin: 0 0 .35rem; line-height: 1.25; }
-  .page-tools .intro { color: var(--muted, #9fb0c0); margin: .2rem 0 1.2rem; font-size: 1.02rem; max-width: 72ch; }
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tools</title>
 
-  /* ===========================
-     Grid: always 4 columns in one line
-     =========================== */
-  .page-tools .grid {
-    display: grid;
-    gap: 1.1rem;
-    grid-template-columns: repeat(4, minmax(260px, 1fr));
-    min-width: calc(4 * 260px + 3 * 1.1rem);
-  }
-  .page-tools .block { display: grid; grid-template-rows: auto min-content auto; gap: .55rem; align-content: start; }
-  .page-tools .desc { color: var(--text, #e6eef7); font-weight: 700; letter-spacing: .2px; font-size: 1.02rem; line-height: 1.25; margin: .1rem 0 0; }
-  .page-tools .longdesc { color: var(--muted, #9fb0c0); font-size: .96rem; line-height: 1.55; margin: .25rem 0 .2rem; max-width: 65ch; }
-  .page-tools a.card-link { text-decoration: none; color: inherit; display: block; }
-  .page-tools a.card-link:focus-visible { outline: 2px solid var(--accent, #64d2ff); outline-offset: 6px; border-radius: 18px; }
+  <style>
+    /* ===========================
+       Page scaffolding
+       =========================== */
+    .page-tools .wrap{
+      max-width:1180px;
+      margin:1.25rem auto 2.25rem;
+      padding-inline:1rem;      /* friendlier phone gutters */
+      overflow-x:clip;          /* prevent stray horizontal scroll */
+    }
 
-  /* ===========================
-     CARD BASE (container + layers)
-     =========================== */
-  .page-tools .card {
-    --pointer-x: 50%;
-    --pointer-y: 50%;
-    --background-x: 50%;
-    --background-y: 50%;
-    --pointer-from-center: 0.0;
-    --card-opacity: 1;
-    --twinkle: 0; /* driven by JS on hover */
+    .page-tools .h1{
+      margin:0 0 .35rem;
+      line-height:1.25;
+    }
 
-    /* per-card overridable sources */
-    --image-src: url('{{ "/assets/images/productivitree_image.png" | relative_url }}');
-    --foil-src:  url('{{ "/assets/images/productivitree_bot.png"   | relative_url }}');
-    --mid-src:   url('{{ "/assets/images/productivitree_mid.png"   | relative_url }}');
-    --top-src:   url('{{ "/assets/images/productivitree_top.png"   | relative_url }}');
+    .page-tools .intro{
+      color:var(--muted, #9fb0c0);
+      margin:.2rem 0 1.2rem;
+      font-size:1.02rem;
+      max-width:72ch;
+    }
 
-    position: relative;
-    aspect-ratio: 24/35;        /* 600x875 */
-    border-radius: 18px;
-    overflow: hidden;
-    border: 1px solid var(--outline, #2a3440);
-    background: #0e1116;
-    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-    transition: transform .12s ease, border-color .2s ease, box-shadow .2s ease;
-    will-change: transform;
-    isolation: isolate;         /* contain blend modes */
-  }
-  .page-tools .card:hover {
-    border-color: color-mix(in srgb, var(--accent, #64d2ff) 40%, var(--outline, #2a3440));
-    box-shadow: 0 18px 50px rgba(0,0,0,.35), inset 0 0 0 1px color-mix(in srgb, var(--accent, #64d2ff) 18%, var(--outline, #2a3440));
-  }
+    /* ===========================
+       Responsive grid
+       - Mobile: 1–2 columns
+       - Desktop: exactly 4 columns (matches old look)
+       - Centered by container
+       =========================== */
+    .page-tools .grid{
+      display:grid;
+      gap:1.1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items:start;
+    }
+    @media (min-width:1200px){
+      .page-tools .grid{
+        grid-template-columns:repeat(4, 1fr);
+      }
+    }
 
-  /* --- Layer 1: IMAGE (base art that will receive shimmer) --- */
-  .page-tools .card__image {
-    position: absolute; inset: 0; z-index: 1;
-    background-image: var(--image-src);
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: saturate(1.05) contrast(1.03);
-  }
+    .page-tools .block{
+      display:grid;
+      grid-template-rows:auto min-content auto;
+      gap:.55rem;
+      align-content:start;
+    }
 
-  /* --- Layer 2: FOIL (classic transparent holo over image) --- */
-  .page-tools .card__foil {
-    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    .page-tools .desc{
+      color:var(--text, #e6eef7);
+      font-weight:700;
+      letter-spacing:.2px;
+      font-size:1.02rem;
+      line-height:1.25;
+      margin:.1rem 0 0;
+    }
 
-    /* classic 4-layer interference stack + foil texture */
-    --space: 6%;
-    --angle: 133deg;
-    background-image:
-      var(--foil-src),
-      repeating-linear-gradient(-33deg,
-        hsl(2, 70%, 47%) calc(var(--space)*1),
-        hsl(228, 60%, 64%) calc(var(--space)*2),
-        hsl(176, 55%, 39%) calc(var(--space)*3),
-        hsl(123, 68%, 35%) calc(var(--space)*4),
-        hsl(283, 75%, 57%) calc(var(--space)*5),
-        hsl(2, 70%, 47%) calc(var(--space)*6)),
-      repeating-linear-gradient(var(--angle),
-        hsla(227, 53%, 12%, 0.5) 0%,
-        hsl(180, 10%, 50%) 2.5%,
-        hsl(83, 50%, 35%) 5%,
-        hsl(180, 10%, 50%) 7.5%,
-        hsla(227, 53%, 12%, 0.5) 10%,
-        hsla(227, 53%, 12%, 0.5) 15%),
-      radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
-        hsla(189, 76%, 77%, 0.6) 0%,
-        hsla(147, 59%, 77%, 0.6) 25%,
-        hsla(271, 55%, 69%, 0.6) 50%,
-        hsla(355, 56%, 72%, 0.6) 75%);
-    background-blend-mode: difference, luminosity, soft-light;
-    background-size: cover, 1100% 1100%, 600% 600%, 200% 200%;
-    background-position:
-      center,
-      var(--background-x) var(--background-y),
-      var(--background-x) var(--background-y),
-      var(--background-x) var(--background-y);
+    .page-tools .longdesc{
+      color:var(--muted, #9fb0c0);
+      font-size:.96rem;
+      line-height:1.55;
+      margin:.25rem 0 .2rem;
+      max-width:65ch;
+    }
 
-    mix-blend-mode: screen;
-    opacity: .55;
-    filter: brightness(calc((var(--pointer-from-center) * .4) + .9)) contrast(1.4) saturate(1.0);
-  }
+    .page-tools a.card-link{
+      text-decoration:none;
+      color:inherit;
+      display:block;
+    }
 
-  /* --- Glitter specks BETWEEN base foil and banding --- */
-  .page-tools .card__foil::before {
-    content: "";
-    position: absolute; inset: 0; pointer-events: none;
+    .page-tools a.card-link:focus-visible{
+      outline:2px solid var(--accent, #64d2ff);
+      outline-offset:6px;
+      border-radius:10px; /* focus ring niceness; not the card shape */
+    }
 
-    /* very bright additive math so stars "ping" */
-    mix-blend-mode: color-dodge;
-    opacity: .28;
+    /* ===========================
+       CARD BASE (container + layers)
+       =========================== */
+    .page-tools .card{
+      --pointer-x:50%;
+      --pointer-y:50%;
+      --background-x:50%;
+      --background-y:50%;
+      --pointer-from-center:0.0;
+      --card-opacity:1;
+      --twinkle:0; /* driven by JS on hover */
 
-    /* 3 micro-speck passes */
-    background-image:
-      radial-gradient(circle, rgba(255,255,255,.95) 0 1.15px, transparent 1.3px),
-      radial-gradient(circle, rgba(190,240,255,.75) 0 1.1px,  transparent 1.25px),
-      radial-gradient(circle, rgba(255,210,255,.72) 0 1.05px, transparent 1.2px);
-    background-size: 6px 6px, 7px 7px, 5px 5px;
-    background-position:
-    var(--background-x) var(--background-y),
-    var(--background-x) var(--background-y),
-    var(--background-x) var(--background-y);
-    background-repeat: repeat;
+      /* per-card overridable sources */
+      --image-src: url('{{ "/assets/images/productivitree_image.png" | relative_url }}');
+      --foil-src:  url('{{ "/assets/images/productivitree_bot.png"   | relative_url }}');
+      --mid-src:   url('{{ "/assets/images/productivitree_mid.png"   | relative_url }}');
 
-    /* hotspot mask so glitter pops under the glare */
-    --glitter-hotspot: radial-gradient(
-      circle at var(--pointer-x) var(--pointer-y),
-      rgba(255,255,255,1) 0%,
-      rgba(255,255,255,.85) 12%,
-      rgba(255,255,255,.55) 28%,
-      rgba(255,255,255,.12) 48%,
-      rgba(255,255,255,0) 62%
-    );
-    mask-image:
-      radial-gradient(circle, rgba(0,0,0,.65), rgba(0,0,0,.65)),
-      var(--glitter-hotspot);
-    mask-composite: add;
-    -webkit-mask-image:
-      radial-gradient(circle, rgba(0,0,0,.65), rgba(0,0,0,.65)),
-      var(--glitter-hotspot);
-    -webkit-mask-composite: source-over;
+      position:relative;
+      aspect-ratio:24/35;      /* 600x875 */
+      border-radius:2px;        /* pointier look */
+      overflow:hidden;
+      border:1px solid var(--outline, #2a3440);
+      background:#0e1116;
+      transform:perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition:transform .12s ease, border-color .2s ease, box-shadow .2s ease;
+      will-change:transform;
+      isolation:isolate;        /* contain blend modes */
+    }
 
-    opacity: calc(.22 + var(--pointer-from-center) * .55);
-    filter: brightness(1.05) contrast(1.2);
-    animation: none; /* no autonomous motion by default */
-  }
+    .page-tools .card:hover{
+      border-color:color-mix(in srgb, var(--accent, #64d2ff) 40%, var(--outline, #2a3440));
+      box-shadow:0 18px 50px rgba(0,0,0,.35),
+                 inset 0 0 0 1px color-mix(in srgb, var(--accent, #64d2ff) 18%, var(--outline, #2a3440));
+    }
 
-  /* --- Banding/columns OVER specks, still under the frame/text --- */
-  .page-tools .card__foil::after {
-    content: "";
-    position: absolute; inset: 0; pointer-events: none;
-    background-image:
-      repeating-linear-gradient(0deg,
-        hsla(189, 76%, 77%, 0.7) calc(var(--space)*1),
-        hsla(147, 59%, 77%, 0.7) calc(var(--space)*2),
-        hsla(271, 55%, 69%, 0.7) calc(var(--space)*3),
-        hsla(355, 56%, 72%, 0.7) calc(var(--space)*4),
-        hsla(46, 92%, 72%, 0.7)  calc(var(--space)*5),
-        hsla(200, 86%, 66%, 0.7) calc(var(--space)*6),
-        hsla(189, 76%, 77%, 0.7) calc(var(--space)*7)),
-      repeating-linear-gradient(var(--angle),
-        #0e152e 0%,
-        hsl(180, 10%, 60%) 3.8%,
-        hsl(180, 29%, 66%) 4.5%,
-        hsl(180, 10%, 60%) 5.2%,
-        #0e152e 10%,
-        #0e152e 12%);
-    background-blend-mode: hue, hard-light;
-    background-size: 200% 700%, 300% 100%;
-    background-position: 0% var(--background-y), var(--background-x) var(--background-y);
-    mix-blend-mode: lighten;
-    opacity: .35;
-    filter: saturate(1.3);
-  }
+    /* --- Layer 1: IMAGE --- */
+    .page-tools .card__image{
+      position:absolute; inset:0; z-index:1;
+      background-image:var(--image-src);
+      background-size:100% 100%;
+      background-position:center;
+      background-repeat:no-repeat;
+      filter:saturate(1.05) contrast(1.03);
+    }
 
-  /* --- Layer 3: MID (frame/template) --- */
-  .page-tools .card__mid {
-    position: absolute; inset: 0; z-index: 3;
-    background-image: var(--mid-src);
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+    /* --- Layer 2: FOIL --- */
+    .page-tools .card__foil{
+      position:absolute; inset:0; z-index:2; pointer-events:none;
 
-  /* --- Layer 4: TOP (text/logo) --- */
-  .page-tools .card__top {
-    position: absolute; inset: 0; z-index: 4;
-    background-image: var(--top-src);
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    pointer-events: none;
-  }
+      /* classic interference + foil texture */
+      --space:6%;
+      --angle:133deg;
+      background-image:
+        var(--foil-src),
+        repeating-linear-gradient(-33deg,
+          hsl(2,70%,47%)   calc(var(--space)*1),
+          hsl(228,60%,64%) calc(var(--space)*2),
+          hsl(176,55%,39%) calc(var(--space)*3),
+          hsl(123,68%,35%) calc(var(--space)*4),
+          hsl(283,75%,57%) calc(var(--space)*5),
+          hsl(2,70%,47%)   calc(var(--space)*6)),
+        repeating-linear-gradient(var(--angle),
+          hsla(227,53%,12%,.5) 0%,
+          hsl(180,10%,50%) 2.5%,
+          hsl(83,50%,35%)  5%,
+          hsl(180,10%,50%) 7.5%,
+          hsla(227,53%,12%,.5) 10%,
+          hsla(227,53%,12%,.5) 15%),
+        radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
+          hsla(189,76%,77%,.6) 0%,
+          hsla(147,59%,77%,.6) 25%,
+          hsla(271,55%,69%,.6) 50%,
+          hsla(355,56%,72%,.6) 75%);
+      background-blend-mode:difference, luminosity, soft-light;
+      background-size:cover, 1100% 1100%, 600% 600%, 200% 200%;
+      background-position:
+        center,
+        var(--background-x) var(--background-y),
+        var(--background-x) var(--background-y),
+        var(--background-x) var(--background-y);
 
-  /* --- Layer 5: GLARE highlight (subtle, reacts to pointer) --- */
-  .page-tools .card__glare {
-    position: absolute; inset: 0; z-index: 5; pointer-events: none;
-    mix-blend-mode: screen;
-    background: radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
-      rgba(255,255,255,0.42) 0%, rgba(0,0,0,0) 120%);
-    opacity: calc((0.18 * var(--card-opacity)) + var(--card-opacity) * var(--pointer-from-center) * 0.7);
-  }
+      mix-blend-mode:screen;
+      opacity:.55;
+      filter:brightness(calc((var(--pointer-from-center)*.4)+.9)) contrast(1.4) saturate(1.0);
+    }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .page-tools .card:hover { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-2px); }
-  }
+    /* Glitter specks BETWEEN base foil and banding */
+    .page-tools .card__foil::before{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      mix-blend-mode:color-dodge; opacity:.28;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.95) 0 1.15px, transparent 1.3px),
+        radial-gradient(circle, rgba(190,240,255,.75) 0 1.1px,  transparent 1.25px),
+        radial-gradient(circle, rgba(255,210,255,.72) 0 1.05px, transparent 1.2px);
+      background-size:6px 6px, 7px 7px, 5px 5px;
+      background-position:
+        var(--background-x) var(--background-y),
+        var(--background-x) var(--background-y),
+        var(--background-x) var(--background-y);
+      background-repeat:repeat;
 
-  /* ===========================
-     Hover-only twinkle for glitter
-     =========================== */
-  .page-tools .card .card__foil::before { animation: none; }
-/* No animation by default */
-.page-tools .card .card__foil::before { animation: none; }
+      --glitter-hotspot: radial-gradient(circle at var(--pointer-x) var(--pointer-y),
+        rgba(255,255,255,1) 0%,
+        rgba(255,255,255,.85) 12%,
+        rgba(255,255,255,.55) 28%,
+        rgba(255,255,255,.12) 48%,
+        rgba(255,255,255,0) 62%);
+      mask-image:
+        radial-gradient(circle, rgba(0,0,0,.65), rgba(0,0,0,.65)),
+        var(--glitter-hotspot);
+      mask-composite:add;
+      -webkit-mask-image:
+        radial-gradient(circle, rgba(0,0,0,.65), rgba(0,0,0,.65)),
+        var(--glitter-hotspot);
+      -webkit-mask-composite:source-over;
 
-/* Animate only while JS marks the card as actively moving */
-.page-tools .card.twinkling .card__foil::before {
-  animation: glitter-twinkle calc(0.85s - var(--twinkle, 0) * 0.55s) steps(5, end) infinite;
-}
+      opacity:calc(.22 + var(--pointer-from-center)*.55);
+      filter:brightness(1.05) contrast(1.2);
+      animation:none;
+    }
 
-/* (keep your @keyframes glitter-twinkle as-is) */
+    /* Banding/columns OVER specks */
+    .page-tools .card__foil::after{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background-image:
+        repeating-linear-gradient(0deg,
+          hsla(189,76%,77%,.7) calc(var(--space)*1),
+          hsla(147,59%,77%,.7) calc(var(--space)*2),
+          hsla(271,55%,69%,.7) calc(var(--space)*3),
+          hsla(355,56%,72%,.7) calc(var(--space)*4),
+          hsla(46,92%,72%,.7)  calc(var(--space)*5),
+          hsla(200,86%,66%,.7) calc(var(--space)*6),
+          hsla(189,76%,77%,.7) calc(var(--space)*7)),
+        repeating-linear-gradient(var(--angle),
+          #0e152e 0%,
+          hsl(180,10%,60%) 3.8%,
+          hsl(180,29%,66%) 4.5%,
+          hsl(180,10%,60%) 5.2%,
+          #0e152e 10%,
+          #0e152e 12%);
+      background-blend-mode:hue, hard-light;
+      background-size:200% 700%, 300% 100%;
+      background-position:0% var(--background-y), var(--background-x) var(--background-y);
+      mix-blend-mode:lighten;
+      opacity:.35;
+      filter:saturate(1.3);
+    }
 
-@keyframes glitter-twinkle {
-  0% {
-    background-position:
-      var(--background-x) var(--background-y),
-      var(--background-x) var(--background-y),
-      var(--background-x) var(--background-y);
-  }
-  25% {
-    background-position:
-      calc(var(--background-x) + 0.6%) calc(var(--background-y) + 0.3%),
-      calc(var(--background-x) - 0.5%) calc(var(--background-y) + 0.4%),
-      calc(var(--background-x) + 0.4%) calc(var(--background-y) - 0.3%);
-  }
-  50% {
-    background-position:
-      calc(var(--background-x) - 0.7%) calc(var(--background-y) + 0.5%),
-      calc(var(--background-x) + 0.6%) calc(var(--background-y) + 0.6%),
-      calc(var(--background-x) - 0.5%) calc(var(--background-y) + 0.5%);
-  }
-  75% {
-    background-position:
-      calc(var(--background-x) + 0.3%) calc(var(--background-y) - 0.6%),
-      calc(var(--background-x) - 0.6%) calc(var(--background-y) - 0.5%),
-      calc(var(--background-x) + 0.6%) calc(var(--background-y) + 0.4%);
-  }
-  100% {
-    background-position:
-      var(--background-x) var(--background-y),
-      var(--background-x) var(--background-y),
-      var(--background-x) var(--background-y);
-  }
-}
+    /* --- Layer 3: MID (frame/template) --- */
+    .page-tools .card__mid{
+      position:absolute; inset:0; z-index:3;
+      background-image:var(--mid-src);
+      background-size:100% 100%;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
 
-  /* ===========================
-     Donate section
-     =========================== */
-  .page-tools .donate {
-    display: grid; place-items: center; text-align: center; gap: .6rem;
-    margin: 1.6rem auto 0; padding: 1rem 1.2rem; max-width: 760px;
-    border: 1px solid var(--outline, #2a3440); border-radius: 14px;
-    background: color-mix(in srgb, var(--card, #0e1116) 92%, transparent);
-    box-shadow: var(--shadow-1, 0 6px 20px rgba(0,0,0,.25));
-  }
-  .page-tools .donate p { margin: 0; color: var(--muted, #9fb0c0); font-size: .98rem; max-width: 72ch; }
-  .page-tools .donate .btn {
-    display: inline-block; padding: .6rem 1rem; border-radius: 10px;
-    border: 1px solid color-mix(in srgb, var(--accent, #64d2ff) 60%, var(--outline, #2a3440));
-    background: color-mix(in srgb, var(--accent, #64d2ff) 12%, transparent);
-    color: var(--text, #e6eef7); text-decoration: none; font-weight: 600;
-    transition: transform .08s ease, background .15s ease, border-color .15s ease; margin-top: .2rem;
-  }
-  .page-tools .donate .btn:hover { transform: translateY(-1px); background: color-mix(in srgb, var(--accent, #64d2ff) 18%, transparent); }
-  .page-tools .donate .btn:focus-visible { outline: 2px solid var(--accent, #64d2ff); outline-offset: 3px; }
+    /* --- Layer 4: GLARE (no TOP layer anymore) --- */
+    .page-tools .card__glare{
+      position:absolute; inset:0; z-index:5;
+      pointer-events:none;
+      mix-blend-mode:screen;
+      background:radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
+        rgba(255,255,255,.42) 0%, rgba(0,0,0,0) 120%);
+      opacity:calc((0.18 * var(--card-opacity)) + var(--card-opacity) * var(--pointer-from-center) * 0.7);
+    }
 
-  .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (prefers-reduced-motion: no-preference){
+      .page-tools .card:hover{
+        transform:perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-2px);
+      }
+    }
 
-  /* Layer order (explicit, for clarity) */
-  .page-tools .card__image { z-index: 1; }
-  .page-tools .card__foil  { z-index: 2; } /* ::before specks / ::after banding live here */
-  .page-tools .card__mid   { z-index: 3; }
-  .page-tools .card__top   { z-index: 4; }
-  .page-tools .card__glare { z-index: 5; mix-blend-mode: screen; }
-</style>
+    /* Hover-only twinkle for glitter */
+    .page-tools .card .card__foil::before{ animation:none; }
+    .page-tools .card.twinkling .card__foil::before{
+      animation:glitter-twinkle calc(0.85s - var(--twinkle, 0) * 0.55s) steps(5, end) infinite;
+    }
+    @keyframes glitter-twinkle{
+      0%{   background-position: var(--background-x) var(--background-y), var(--background-x) var(--background-y), var(--background-x) var(--background-y); }
+      25%{  background-position: calc(var(--background-x) + .6%) calc(var(--background-y) + .3%), calc(var(--background-x) - .5%) calc(var(--background-y) + .4%), calc(var(--background-x) + .4%) calc(var(--background-y) - .3%); }
+      50%{  background-position: calc(var(--background-x) - .7%) calc(var(--background-y) + .5%), calc(var(--background-x) + .6%) calc(var(--background-y) + .6%), calc(var(--background-x) - .5%) calc(var(--background-y) + .5%); }
+      75%{  background-position: calc(var(--background-x) + .3%) calc(var(--background-y) - .6%), calc(var(--background-x) - .6%) calc(var(--background-y) - .5%), calc(var(--background-x) + .6%) calc(var(--background-y) + .4%); }
+      100%{ background-position: var(--background-x) var(--background-y), var(--background-x) var(--background-y), var(--background-x) var(--background-y); }
+    }
 
-<main class="container wrap">
-  <h1 class="h1">Tools</h1>
+    /* ===========================
+       Donate section
+       =========================== */
+    .page-tools .donate{
+      display:grid;
+      place-items:center;
+      text-align:center;
+      gap:.6rem;
+      margin:1.6rem auto 0;
+      padding:1rem 1.2rem;
+      max-width:760px;
+      border:1px solid var(--outline, #2a3440);
+      border-radius:14px;
+      background:color-mix(in srgb, var(--card, #0e1116) 92%, transparent);
+      box-shadow:var(--shadow-1, 0 6px 20px rgba(0,0,0,.25));
+    }
+    .page-tools .donate p{
+      margin:0;
+      color:var(--muted, #9fb0c0);
+      font-size:.98rem;
+      max-width:72ch;
+    }
+    .page-tools .donate .btn{
+      display:inline-block;
+      padding:.6rem 1rem;
+      border-radius:10px;
+      border:1px solid color-mix(in srgb, var(--accent, #64d2ff) 60%, var(--outline, #2a3440));
+      background:color-mix(in srgb, var(--accent, #64d2ff) 12%, transparent);
+      color:var(--text, #e6eef7);
+      text-decoration:none;
+      font-weight:600;
+      transition:transform .08s ease, background .15s ease, border-color .15s ease;
+      margin-top:.2rem;
+    }
+    .page-tools .donate .btn:hover{
+      transform:translateY(-1px);
+      background:color-mix(in srgb, var(--accent, #64d2ff) 18%, transparent);
+    }
+    .page-tools .donate .btn:focus-visible{
+      outline:2px solid var(--accent, #64d2ff);
+      outline-offset:3px;
+    }
 
-  <section class="grid" id="tools">
-    <!-- Card 1 -->
-    <div class="block">
-      <a class="card-link" href="/productivitree">
-        <div
-          class="card"
-          data-rarity="rare holo vmax"
-          data-supertype="pokémon"
-          style="
-            /* Per-card sources (change per card as needed) */
+    .sr-only{
+      position:absolute !important;
+      width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container wrap">
+    <h1 class="h1">Tools</h1>
+
+    <section class="grid" id="tools">
+      <!-- Card 1: Tag Hunter -->
+      <div class="block">
+        <a class="card-link" href="/taghunter">
+          <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon" style="
+            --image-src: url('{{ '/assets/images/taghunter_image.png' | relative_url }}');
+            --foil-src:  url('{{ '/assets/images/taghunter_bot.png'   | relative_url }}');
+            --mid-src:   url('{{ '/assets/images/taghunter_mid.png'   | relative_url }}');
+          ">
+            <div class="card__image"></div>
+            <div class="card__foil"></div>
+            <div class="card__mid"></div>
+            <div class="card__glare"></div>
+          </div>
+        </a>
+        <p class="desc">Tag Hunter</p>
+        <p class="longdesc">
+          Very powerful tool for finding lookalike games. Finds games that Valve themselves would never surface to you.
+          It can auto-populate tags from existing games or you can manually input tags to suit your needs.
+        </p>
+      </div>
+
+      <!-- Card 2: ProductiviTree -->
+      <div class="block">
+        <a class="card-link" href="/productivitree">
+          <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon" style="
             --image-src: url('{{ '/assets/images/productivitree_image.png' | relative_url }}');
             --foil-src:  url('{{ '/assets/images/productivitree_bot.png'   | relative_url }}');
             --mid-src:   url('{{ '/assets/images/productivitree_mid.png'   | relative_url }}');
-            --top-src:   url('{{ '/assets/images/productivitree_top.png'   | relative_url }}');
-          "
-        >
-          <div class="card__image"></div>  <!-- base art -->
-          <div class="card__foil"></div>   <!-- foil shimmer + glitter -->
-          <div class="card__mid"></div>    <!-- frame -->
-          <div class="card__top"></div>    <!-- text/logo -->
-          <div class="card__glare"></div>  <!-- interactive glare -->
-        </div>
-      </a>
-      <p class="desc">ProductiviTree</p>
-      <p class="longdesc">
-        A task tracker that resembles an RPG skill tree. Visualize dependencies and available tasks at a glance without digging through lists.
-      </p>
-    </div>
+          ">
+            <div class="card__image"></div>
+            <div class="card__foil"></div>
+            <div class="card__mid"></div>
+            <div class="card__glare"></div>
+          </div>
+        </a>
+        <p class="desc">ProductiviTree</p>
+        <p class="longdesc">
+          A task tracker that resembles an RPG skill tree. Visualize dependencies and available tasks at a glance
+          without digging through lists.
+        </p>
+      </div>
 
-    <!-- You can duplicate the block above for Card 2/3/4 and override the 4 vars. -->
-  </section>
+      <!-- Card 3: Steam Boards -->
+      <div class="block">
+        <a class="card-link" href="/steamboards">
+          <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon" style="
+            --image-src: url('{{ '/assets/images/steamboards_image.png' | relative_url }}');
+            --foil-src:  url('{{ '/assets/images/steamboards_bot.png'   | relative_url }}');
+            --mid-src:   url('{{ '/assets/images/steamboards_mid.png'   | relative_url }}');
+          ">
+            <div class="card__image"></div>
+            <div class="card__foil"></div>
+            <div class="card__mid"></div>
+            <div class="card__glare"></div>
+          </div>
+        </a>
+        <p class="desc">Steam Boards</p>
+        <p class="longdesc">
+          A powerful tool for researching Steam developers and publishers.
+        </p>
+      </div>
 
-  <section class="donate" aria-labelledby="donateTitle">
-    <h2 id="donateTitle" class="sr-only">Support these tools</h2>
-    <p>If you like these tools, please consider donating. I set out to make tools that are helpful, snappy, and not paywalled.</p>
-    <p>Every little bit helps!</p>
-    <a class="btn" href="https://ko-fi.com/bluepinstudio" target="_blank" rel="noopener">Support on Ko-fi</a>
-  </section>
-</main>
+      <!-- Card 4: Tag Boards -->
+      <div class="block">
+        <a class="card-link" href="/tagboards">
+          <div class="card" data-rarity="rare holo vmax" data-supertype="pokémon" style="
+            --image-src: url('{{ '/assets/images/tagboards_image.png' | relative_url }}');
+            --foil-src:  url('{{ '/assets/images/tagboards_bot.png'   | relative_url }}');
+            --mid-src:   url('{{ '/assets/images/tagboards_mid.png'   | relative_url }}');
+          ">
+            <div class="card__image"></div>
+            <div class="card__foil"></div>
+            <div class="card__mid"></div>
+            <div class="card__glare"></div>
+          </div>
+        </a>
+        <p class="desc">Tag Boards</p>
+        <p class="longdesc">
+          Look up Steam tags for insight regarding revenue by tag. Comes with 10 different sorting options and banned-tag capabilities!
+        </p>
+      </div>
+    </section>
 
-<script>
-  /* =========================================================
-     Pointer engine + twinkle driver
-     ========================================================= */
-(function () {
-  const cards = document.querySelectorAll('.page-tools .card[data-rarity="rare holo vmax"]');
-  const clamp = (n, min, max) => Math.max(min, Math.min(n, max));
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    <section class="donate" aria-labelledby="donateTitle">
+      <h2 id="donateTitle" class="sr-only">Support these tools</h2>
+      <p>If you like these tools, please consider donating. I set out to make tools that are helpful, snappy, and not paywalled.</p>
+      <p>Every little bit helps!</p>
+      <a class="btn" href="https://ko-fi.com/bluepinstudio" target="_blank" rel="noopener">Support on Ko-fi</a>
+    </section>
+  </main>
 
-  cards.forEach(card => {
-    let rect = null, raf = null;
-    let prevPX = 0.5, prevPY = 0.5, prevT = performance.now();
-    let twinkleTimer = null;
+  <script>
+    /* =========================================================
+       Pointer engine + twinkle driver
+       ========================================================= */
+    (function(){
+      const cards = document.querySelectorAll('.page-tools .card[data-rarity="rare holo vmax"]');
+      const clamp = (n,min,max)=>Math.max(min,Math.min(n,max));
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function setVars(e) {
-      rect = rect || card.getBoundingClientRect();
-      const px = (e.clientX - rect.left) / rect.width;
-      const py = (e.clientY - rect.top) / rect.height;
+      cards.forEach(card=>{
+        let rect=null, raf=null;
+        let prevPX=0.5, prevPY=0.5, prevT=performance.now();
+        let twinkleTimer=null;
 
-      const pxx = clamp(px * 100, 0, 100);
-      const pyy = clamp(py * 100, 0, 100);
-      card.style.setProperty('--pointer-x', pxx + '%');
-      card.style.setProperty('--pointer-y', pyy + '%');
+        function setVars(e){
+          rect = rect || card.getBoundingClientRect();
+          const px = (e.clientX - rect.left) / rect.width;
+          const py = (e.clientY - rect.top)  / rect.height;
 
-      const bgx = clamp((px * 120) - 10, 0, 100);
-      const bgy = clamp((py * 120) - 10, 0, 100);
-      card.style.setProperty('--background-x', bgx + '%');
-      card.style.setProperty('--background-y', bgy + '%');
+          const pxx = clamp(px*100,0,100);
+          const pyy = clamp(py*100,0,100);
+          card.style.setProperty('--pointer-x', pxx + '%');
+          card.style.setProperty('--pointer-y', pyy + '%');
 
-      const dx = (px - 0.5), dy = (py - 0.5);
-      const dist = Math.hypot(dx, dy) * 2;
-      const strength = clamp(dist, 0, 1);
-      card.style.setProperty('--pointer-from-center', strength.toFixed(3));
+          const bgx = clamp((px*120) - 10, 0, 100);
+          const bgy = clamp((py*120) - 10, 0, 100);
+          card.style.setProperty('--background-x', bgx + '%');
+          card.style.setProperty('--background-y', bgy + '%');
 
-      const rx = (py - 0.5) * -10;
-      const ry = (px - 0.5) * 10;
-      card.style.setProperty('--rx', rx.toFixed(2) + 'deg');
-      card.style.setProperty('--ry', ry.toFixed(2) + 'deg');
-      card.style.setProperty('--card-opacity', '1');
+          const dx = (px - 0.5), dy = (py - 0.5);
+          const dist = Math.hypot(dx,dy) * 2;
+          const strength = clamp(dist,0,1);
+          card.style.setProperty('--pointer-from-center', strength.toFixed(3));
 
-      // ---- NEW: motion → twinkle + moving-only animation ----
-      const now = performance.now();
-      const dt = Math.max(16, now - prevT);
-      const v = Math.hypot(px - prevPX, py - prevPY) / dt; // units per ms
-      const twinkle = clamp(v * 1600, 0, 1);               // tune scalar as desired
-      card.style.setProperty('--twinkle', twinkle.toFixed(3));
+          const rx = (py - 0.5) * -10;
+          const ry = (px - 0.5) * 10;
+          card.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+          card.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+          card.style.setProperty('--card-opacity', '1');
 
-      // Only animate while moving and not in reduced motion
-      if (!prefersReduced && twinkle > 0.02) {
-        card.classList.add('twinkling');
-        clearTimeout(twinkleTimer);
-        // stop anim shortly after movement stops
-        twinkleTimer = setTimeout(() => card.classList.remove('twinkling'), 120);
-      }
+          const now = performance.now();
+          const dt = Math.max(16, now - prevT);
+          const v  = Math.hypot(px - prevPX, py - prevPY) / dt; // units/ms
+          const twinkle = clamp(v * 1600, 0, 1);
+          card.style.setProperty('--twinkle', twinkle.toFixed(3));
 
-      prevPX = px; prevPY = py; prevT = now;
-      // -------------------------------------------------------
-    }
+          if(!prefersReduced && twinkle > 0.02){
+            card.classList.add('twinkling');
+            clearTimeout(twinkleTimer);
+            twinkleTimer = setTimeout(()=>card.classList.remove('twinkling'), 120);
+          }
 
-    function onMove(e) {
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => setVars(e));
-    }
+          prevPX = px; prevPY = py; prevT = now;
+        }
 
-    function onEnter(e) {
-      rect = null;
-      onMove(e);
-      card.style.setProperty('--card-opacity', '1');
-    }
+        function onMove(e){
+          if(raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(()=>setVars(e));
+        }
 
-    function onLeave() {
-      rect = null;
-      card.style.setProperty('--pointer-x', '50%');
-      card.style.setProperty('--pointer-y', '50%');
-      card.style.setProperty('--background-x', '50%');
-      card.style.setProperty('--background-y', '50%');
-      card.style.setProperty('--pointer-from-center', '0');
-      card.style.setProperty('--rx', '0deg');
-      card.style.setProperty('--ry', '0deg');
-      card.style.setProperty('--card-opacity', '0.85');
-      card.style.setProperty('--twinkle', '0');
-      card.classList.remove('twinkling');
-      clearTimeout(twinkleTimer);
-    }
+        function onEnter(e){
+          rect=null;
+          onMove(e);
+          card.style.setProperty('--card-opacity','1');
+        }
 
-    card.addEventListener('pointerenter', onEnter);
-    card.addEventListener('pointermove', onMove);
-    card.addEventListener('pointerleave', onLeave);
-    card.addEventListener('blur', onLeave);
-    card.addEventListener('pointerdown', () => {
-      card.style.setProperty('--pointer-x', '70%');
-      card.style.setProperty('--pointer-y', '30%');
-      card.style.setProperty('--card-opacity', '1');
-      setTimeout(onLeave, 240);
-    }, { passive: true });
-  });
-})();
+        function onLeave(){
+          rect=null;
+          card.style.setProperty('--pointer-x','50%');
+          card.style.setProperty('--pointer-y','50%');
+          card.style.setProperty('--background-x','50%');
+          card.style.setProperty('--background-y','50%');
+          card.style.setProperty('--pointer-from-center','0');
+          card.style.setProperty('--rx','0deg');
+          card.style.setProperty('--ry','0deg');
+          card.style.setProperty('--card-opacity','0.85');
+          card.style.setProperty('--twinkle','0');
+          card.classList.remove('twinkling');
+          clearTimeout(twinkleTimer);
+        }
 
-</script>
+        card.addEventListener('pointerenter', onEnter);
+        card.addEventListener('pointermove',  onMove);
+        card.addEventListener('pointerleave', onLeave);
+        card.addEventListener('blur', onLeave);
+        card.addEventListener('pointerdown', ()=>{
+          card.style.setProperty('--pointer-x','70%');
+          card.style.setProperty('--pointer-y','30%');
+          card.style.setProperty('--card-opacity','1');
+          setTimeout(onLeave, 240);
+        }, { passive:true });
+      });
+    })();
+  </script>
+</body>
+</html>
