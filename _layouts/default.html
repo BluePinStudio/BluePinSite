@@ -12,11 +12,10 @@
 
     <link href="{{ '/assets/css/main.css' | relative_url }}" rel="stylesheet">
 
-    {% if site.darkmode.enable_dark_mode != false %}
-      <script>
-          localStorage.getItem('darkMode') === 'true' && document.documentElement.setAttribute('data-bs-theme', 'dark');
-      </script>
-    {% endif %}
+    <!-- Force dark mode always -->
+    <script>
+      document.documentElement.setAttribute('data-bs-theme', 'dark');
+    </script>
 
     {% if site.cookie_banner.enabled %}
       {% include framework/cookie-consent.html %}
@@ -47,6 +46,7 @@
   <script type="text/javascript" src="{{ '/assets/js/header.js' | relative_url }}"></script>
 {% endif %}
 <script type="text/javascript" src="{{ '/assets/js/hamburger.js' | relative_url }}"></script>
+<!-- darkModeSwitch.js no longer needed for static dark mode, but kept for safety -->
 <script type="text/javascript" src="{{ '/assets/js/darkModeSwitch.js' | relative_url }}"></script>
 
 {% include framework/google-analytics.html %}
@@ -54,7 +54,6 @@
 {% include framework/umami-analytics.html %}
 
 <img id="follower-gif" src="{{ '/assets/images/Vinny_Small.gif' | relative_url }}" alt="Vinny" />
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -109,10 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-
-
-
-<img src="/assets/images/Vinny_Small.gif" id="follower-gif" alt="cursor follower">
 <noscript>
   <style>
     #follower-gif {
@@ -120,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   </style>
 </noscript>
-
 
 </body>
 </html>
