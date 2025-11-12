@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Kickstarter Goal Estimator"
+title: "ProductiviTree"
 permalink: /productivitree/
 body_classes: page-tools
 ---
@@ -44,78 +44,64 @@ body_classes: page-tools
 </head>
 
 <body class="theme-war">
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <h1>ProductiviTree 🌳</h1>
-        <span class="pill">Tech Tree Task Tracker</span>
-
-        <div class="theme-wrap" aria-label="Theme chooser">
-          <span class="theme-label">Theme</span>
-          <select id="themeSelect" class="theme-select">
-            <option value="war">War</option>
-            <option value="girly-pop">Girly Pop</option>
-            <option value="whacky-pomo">Wacky Pomo</option>
-            <option value="fruloo">Fruloo</option>
-          </select>
-        </div>
-
-        <button class="btn" id="fxToggleBtn" aria-pressed="true" title="Toggle background particles">
-          FX: On
-        </button>
+<header>
+  <div class="wrap compact-header">
+    <div class="brand">
+      <h1>ProductiviTree</h1>
+      <div class="theme-wrap" aria-label="Theme chooser">
+        <span class="theme-label">Theme</span>
+        <select id="themeSelect" class="theme-select small">
+          <option value="war">War</option>
+          <option value="girly-pop">Girly Pop</option>
+          <option value="whacky-pomo">Wacky Pomo</option>
+          <option value="fruloo">Fruloo</option>
+        </select>
       </div>
 
-      <div class="toolbar">
-        <button class="btn primary" id="addNodeBtn">+ Add Node (N)</button>
-        <button class="btn" id="linkBtn">Link Nodes (L)</button>
-
-        <div class="dropdown">
-          <button class="btn" id="gridBtn" title="Grid options">Grid ▾</button>
-          <div class="menu" id="gridMenu">
-            <div class="row">
-              <label for="gridVisible">Show grid</label>
-              <input type="checkbox" id="gridVisible" />
-            </div>
-            <div class="row">
-              <label for="gridSize">Grid size (px)</label>
-              <input type="number" id="gridSize" min="4" step="1" value="24" />
-            </div>
-            <div class="row">
-              <label for="gridSnap">Snap to grid</label>
-              <input type="checkbox" id="gridSnap" />
-            </div>
-          </div>
-        </div>
-
-        <button class="btn" id="zoomOutBtn">−</button>
-        <button class="btn" id="zoomResetBtn">100%</button>
-        <button class="btn" id="zoomInBtn">+</button>
-
-        <button class="btn danger" id="clearBtn">Clear</button>
-
-        <button class="btn" id="setExportFolderBtn" title="Choose a folder to save exports">
-          Set Export Folder
-        </button>
-
-        <button class="btn" id="exportWsBtn" title="Export all workspaces as JSON">Export JSON</button>
-        <button class="btn" id="importWsBtn" title="Import workspaces from JSON">Import JSON</button>
-        <input type="file" id="importFileInput" accept="application/json,.json" style="display:none" />
-      </div>
+      <button class="btn small" id="fxToggleBtn" aria-pressed="true" title="Toggle background particles">
+        FX
+      </button>
     </div>
 
-    <!-- Workspace ribbon bar -->
-    <div class="workspace-bar">
-      <div class="workspace-wrap">
-        <div class="ribbons" id="wsRibbons"></div>
-        <div class="ws-actions">
-          <button class="btn" id="wsNew">New Workspace</button>
-          <button class="btn" id="wsRename">Rename</button>
-          <button class="btn danger" id="wsDelete">Delete</button>
-          <button class="btn" id="wsColorBtn" title="Workspace color">🎨 Color</button>
+    <div class="toolbar">
+      <button class="btn small primary" id="addNodeBtn">+ Node</button>
+      <button class="btn small" id="linkBtn">Link</button>
+
+      <div class="dropdown">
+        <button class="btn small" id="gridBtn" title="Grid options">Grid ▾</button>
+        <div class="menu" id="gridMenu">
+          <div class="row"><label for="gridVisible">Show grid</label><input type="checkbox" id="gridVisible" /></div>
+          <div class="row"><label for="gridSize">Grid size (px)</label><input type="number" id="gridSize" min="4" step="1" value="24" /></div>
+          <div class="row"><label for="gridSnap">Snap to grid</label><input type="checkbox" id="gridSnap" /></div>
         </div>
       </div>
+
+      <button class="btn small" id="zoomOutBtn">−</button>
+      <button class="btn small" id="zoomResetBtn">100%</button>
+      <button class="btn small" id="zoomInBtn">+</button>
+
+      <button class="btn small danger" id="clearBtn">Clear</button>
+
+      <button class="btn small" id="setExportFolderBtn">Folder</button>
+      <button class="btn small" id="exportWsBtn">Export</button>
+      <button class="btn small" id="importWsBtn">Import</button>
+      <input type="file" id="importFileInput" accept="application/json,.json" style="display:none" />
     </div>
-  </header>
+  </div>
+
+  <div class="workspace-bar compact">
+    <div class="workspace-wrap">
+      <div class="ribbons" id="wsRibbons"></div>
+      <div class="ws-actions">
+        <button class="btn small" id="wsNew">New</button>
+        <button class="btn small" id="wsRename">Rename</button>
+        <button class="btn small danger" id="wsDelete">Delete</button>
+        <button class="btn small" id="wsColorBtn" title="Workspace color">🎨</button>
+      </div>
+    </div>
+  </div>
+</header>
+
 
   <section class="board-wrap panel" id="wrap">
     <div id="stage">
