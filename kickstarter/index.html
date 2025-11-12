@@ -40,6 +40,7 @@
   .center { text-align:center; }
 </style>
 </head>
+<body class="page {% if page.body_classes %}{{ page.body_classes }}{% elsif layout.body_classes %}{{ layout.body_classes }}{% endif %}{% if site.header.fixed %} has-fixed-header{% else %} has-static-header{% endif %}"></body>
 <body>
   <div class="wrap">
     <div class="card">
