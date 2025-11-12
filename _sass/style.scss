@@ -216,3 +216,89 @@ body::before {
   pointer-events: none; /* allows clicks through it */
   z-index: -1; /* ensures it stays behind content */
 }
+
+.follower-toggle {
+  background: none;
+  border: 1px solid var(--border, rgba(255,255,255,0.2));
+  border-radius: 8px;
+  color: var(--text, #fff);
+  font-size: 1.1rem;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.75rem;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.follower-toggle:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.follower-toggle.active {
+  color: var(--accent, #6cf);
+  border-color: var(--accent, #6cf);
+}
+
+.follower-toggle {
+  background: none;
+  border: 1px solid var(--border, rgba(255,255,255,0.2));
+  border-radius: 8px;
+  padding: 0.25rem;
+  margin-left: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.follower-toggle:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.follower-toggle.active {
+  border-color: var(--accent, #6cf);
+  background: rgba(108, 204, 255, 0.15);
+}
+
+.follower-icon {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.follower-toggle {
+  background: none;
+  border: 1px solid var(--border, rgba(255,255,255,0.2));
+  border-radius: 8px;
+  padding: 0.25rem;
+  margin-left: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.follower-toggle:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.follower-toggle.active {
+  border-color: var(--accent, #6cf);
+  background: rgba(108, 204, 255, 0.15);
+}
+
+.follower-icon {
+  height: 24px;
+  width: auto; /* keeps original aspect ratio */
+  pointer-events: none;
+  user-select: none;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+.follower-toggle:not(.active) .follower-icon {
+  opacity: 0.4; /* dimmed look when off */
+}
+

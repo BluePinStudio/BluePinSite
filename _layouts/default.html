@@ -57,39 +57,60 @@
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const follower = document.getElementById('follower-gif');
-    
-    // Exit and hide if mobile
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      follower.style.display = 'none';
-      return;
-    }
+document.addEventListener('DOMContentLoaded', function () {
+  const STORAGE_KEY = 'followerEnabled';
+  const follower = document.getElementById('follower-gif');
+  const toggle = document.getElementById('toggleFollower');
+  if (!follower || !toggle) return;
 
-    // Show follower for desktop users with JS enabled
-    follower.style.display = 'block';
+  // Hide on mobile/touch
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    follower.style.display = 'none';
+    toggle.style.display = 'none';
+    return;
+  }
 
-    let mouseX = 0, mouseY = 0, currentX = 0, currentY = 0;
+  // Default: ON, unless first visit with reduced motion preference
+  const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+  const stored = localStorage.getItem(STORAGE_KEY);
+  let enabled = stored === null ? !prefersReduced : stored === '1';
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+  function applyState() {
+    toggle.classList.toggle('active', enabled);
+    follower.style.display = enabled ? 'block' : 'none';
+  }
+  applyState();
 
-    function animate() {
-      const speed = 0.02;
-      currentX += (mouseX - currentX) * speed;
-      currentY += (mouseY - currentY) * speed;
-      
-      // Maintain your original transform-based positioning
-      follower.style.transform = `translate(-50%, 0%) translate(${currentX}px, ${currentY}px)`;
-      
-      requestAnimationFrame(animate);
-    }
-
-    animate();
+  toggle.addEventListener('click', () => {
+    enabled = !enabled;
+    localStorage.setItem(STORAGE_KEY, enabled ? '1' : '0');
+    applyState();
   });
+
+  let mouseX = 0, mouseY = 0, currentX = 0, currentY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    if (!enabled) return;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animate() {
+    const speed = 0.02;
+    currentX += (mouseX - currentX) * speed;
+    currentY += (mouseY - currentY) * speed;
+    if (enabled) {
+      follower.style.transform = `translate(-50%, 0%) translate(${currentX}px, ${currentY}px)`;
+    }
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});
 </script>
+
+
+
 
 <img src="/assets/images/Vinny_Small.gif" id="follower-gif" alt="cursor follower">
 <noscript>

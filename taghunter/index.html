@@ -18,18 +18,19 @@ body_classes: page-tools
 <body>
   <header class="site-header">
     <div class="wrap">
-    <h1>Steam Tag Hunter</h1>
-    <p class="sub">Find games based on tag similarity…</p>
+      <h1>Steam Tag Hunter</h1>
+      <p class="sub">Find games based on tag similarity…</p>
     </div>
   </header>
 
   <main class="container">
     <section class="controls controls-emphasis">
       <!-- Seed -->
-      <div class="input-row">
+      <div class="input-row seed-wrap">
         <input id="seedInput" class="input-main" type="text"
-          placeholder="Paste a Steam URL, AppID, or EXACT game name…" />
+          placeholder="Paste a Steam URL, AppID, or game name (2+ chars for fuzzy)…" autocomplete="off" />
         <button id="seedBtn" class="btn">Load tags</button>
+        <div id="seedSuggest" class="seed-suggest" role="listbox" aria-label="Game suggestions"></div>
       </div>
       <small id="seedStatus" class="meta" aria-live="polite"></small>
 
@@ -47,11 +48,11 @@ body_classes: page-tools
         <button id="banAddBtn" class="btn">Add banned</button>
         <button id="banClearBtn" class="btn btn-ghost">Clear banned</button>
       </div>
-      <div class="banned-label">Games that contain any banned tag (within enabled pools) will be excluded.</div>
+      <div class="banned-label">Games that contain any banned tag will be excluded.</div>
       <div id="bannedTags" class="chips banned-chips" style="margin-top:.25rem;"></div>
 
       <div class="options">
-        <!-- 1) Scoring (kept, help made leaner) -->
+        <!-- Scoring -->
         <fieldset>
           <legend>Scoring</legend>
           <label><input type="radio" name="scoreMode" value="containment" checked /> Containment</label>
@@ -86,18 +87,6 @@ body_classes: page-tools
                       <li>“Did it match the tags I care about?”</li>
                       <li>Extra tags on the game don’t hurt the score.</li>
                     </ul>
-
-                    <div class="modal__example">
-                      <div class="ex-row"><span class="ex-label">Your query</span><span class="chips-mini"><span
-                            class="chip-mini match">roguelike</span><span
-                            class="chip-mini match">deckbuilder</span><span class="chip-mini">pixel art</span></span>
-                      </div>
-                      <div class="ex-row"><span class="ex-label">Game</span><span class="chips-mini"><span
-                            class="chip-mini match">roguelike</span><span
-                            class="chip-mini match">deckbuilder</span><span class="chip-mini">strategy</span><span
-                            class="chip-mini">indie</span></span></div>
-                      <div class="ex-row ex-result">Overlap = 2 • Query size = 3 → <b>2/3 = 0.67</b></div>
-                    </div>
                   </article>
 
                   <article class="modal__card">
@@ -110,18 +99,6 @@ body_classes: page-tools
                       <li>Overall “vibe similarity.”</li>
                       <li>Unrelated extra tags reduce the score.</li>
                     </ul>
-
-                    <div class="modal__example">
-                      <div class="ex-row"><span class="ex-label">Your query</span><span class="chips-mini"><span
-                            class="chip-mini match">roguelike</span><span
-                            class="chip-mini match">deckbuilder</span><span class="chip-mini">pixel art</span></span>
-                      </div>
-                      <div class="ex-row"><span class="ex-label">Game</span><span class="chips-mini"><span
-                            class="chip-mini match">roguelike</span><span
-                            class="chip-mini match">deckbuilder</span><span class="chip-mini">strategy</span><span
-                            class="chip-mini">indie</span></span></div>
-                      <div class="ex-row ex-result">Overlap = 2 • Union = 5 → <b>2/5 = 0.40</b></div>
-                    </div>
                   </article>
                 </div>
               </section>
@@ -133,37 +110,43 @@ body_classes: page-tools
           </dialog>
         </fieldset>
 
-        <!-- 2) Match (trimmed down to “what to compare” + strictness) -->
+        <!-- Match & Release (tags-only now) -->
         <fieldset>
-          <legend>Match</legend>
-          <div class="toggle-row">
-            <button type="button" class="toggle active" id="tTags" aria-pressed="true">Tags</button>
-            <button type="button" class="toggle" id="tGenres" aria-pressed="false">Genres</button>
-            <button type="button" class="toggle" id="tCategories" aria-pressed="false">Categories</button>
-          </div>
+          <legend>Match & Release</legend>
 
           <label class="require-all"><input type="checkbox" id="requireAll" /> Require all query tags</label>
-
 
           <div class="toggle-row" style="margin-top:.25rem">
             <label class="require-all"><input type="checkbox" id="ignoreUnreleased" autocomplete="off" /> Hide
               unreleased</label>
           </div>
 
-          <div class="date-filter">
+          <!-- Release date RANGE -->
+          <div class="date-filter nowrap">
             <label class="date-filter-label">
-              <input type="checkbox" id="releaseFilterOn" autocomplete="off" />
-              <span>Exclude games released before</span>
+              <input type="checkbox" id="releaseRangeOn" autocomplete="off" />
+              <span>Filter by release date range</span>
             </label>
-            <select id="releaseMonth" aria-label="Release month"></select>
-            <select id="releaseYear" aria-label="Release year"></select>
+
+            <div class="date-group">
+              <span class="meta">From</span>
+              <select id="relStartMonth" aria-label="Start month"></select>
+              <select id="relStartYear" aria-label="Start year"></select>
+            </div>
+
+            <div class="date-group">
+              <span class="meta">to</span>
+              <select id="relEndMonth" aria-label="End month"></select>
+              <select id="relEndYear" aria-label="End year"></select>
+            </div>
           </div>
         </fieldset>
 
-        <!-- 3) Filters (split out of Match to reduce clutter) -->
+        <!-- Filters -->
         <fieldset>
           <legend>Filters</legend>
           <small class="meta">Leave blank to ignore a side. If any bound is set, unknown prices are excluded.</small>
+
           <div class="range-row">
             <label class="range-label">Price (USD)</label>
             <div class="range-inputs">
@@ -181,18 +164,7 @@ body_classes: page-tools
               <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
             </div>
           </div>
-
         </fieldset>
-
-        <!-- 4) View (beefed up) -->
-        <fieldset>
-          <legend>View</legend>
-          <div class="toggle-row">
-            <button type="button" class="toggle active" id="tThumbs" aria-pressed="true">Show thumbnails</button>
-          </div>
-        </fieldset>
-      </div>
-
       </div>
     </section>
 
@@ -214,28 +186,28 @@ body_classes: page-tools
     let games = [];
     let queryTags = new Set();
     let bannedTags = new Set();
-    let useTags = true, useGenres = false, useCategories = false, showThumbs = true;
-
+    let showThumbs = true; // view option hook (safe even if not present)
 
     let currentPage = 1;
     let lastResults = [];
     let totalPages = 1;
 
-    // how many of the query tags actually exist in the enabled pools this render
-    let requiredCount = 0;
-
-
-    // always exclude the seed once set
+    let requiredCount = 0; // how many query tags actually exist in data
     let seedExclude = null;
 
-    const idx = { tags: new Map(), genres: new Map(), categories: new Map() };
+    const idx = { tags: new Map() };
     const byAppId = new Map();
     const byName = new Map();
 
-    // ---------- Release-date filter ----------
-    let releaseFilter = { on: false, y: null, m: null, cutoff: null };
+    // Fuzzy index
+    let nameIndex = []; // [{gi, name, n, grams:Set<string>, reviews:number}, ...]
+    let activeSuggestIndex = -1;
+
+    // ---------- Release-date RANGE filter ----------
+    let releaseFilter = { on: false, sy: null, sm: null, ey: null, em: null, start: null, end: null };
     const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const firstOfMonthUTC = (y, m) => Date.UTC(y, m, 1);
+    const lastOfMonthUTC = (y, m) => Date.UTC(y, m + 1, 0, 23, 59, 59, 999);
     const fmtMonYear = ts => { const d = new Date(ts); return `${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
     function parseReleaseTs(raw) {
       if (!raw) return null;
@@ -253,6 +225,7 @@ body_classes: page-tools
     const seedInput = document.getElementById('seedInput');
     const seedBtn = document.getElementById('seedBtn');
     const seedStatus = document.getElementById('seedStatus');
+    const seedSuggest = document.getElementById('seedSuggest');
 
     const tagInput = document.getElementById('tagInput');
     const addBtn = document.getElementById('addBtn');
@@ -267,10 +240,6 @@ body_classes: page-tools
     const resultsEl = document.getElementById('results');
     const scoreModeEls = document.querySelectorAll('input[name="scoreMode"]');
     const requireAllEl = document.getElementById('requireAll');
-    const tTagsBtn = document.getElementById('tTags');
-    const tGenresBtn = document.getElementById('tGenres');
-    const tCategoriesBtn = document.getElementById('tCategories');
-
 
     const priceMinEl = document.getElementById('priceMin');
     const priceMaxEl = document.getElementById('priceMax');
@@ -280,11 +249,13 @@ body_classes: page-tools
     const openScoreHelpBtn = document.getElementById('openScoreHelp');
     const scoreDialog = document.getElementById('scoreDialog');
 
+    // Range controls
+    const releaseRangeOn = document.getElementById('releaseRangeOn');
+    const relStartMonth = document.getElementById('relStartMonth');
+    const relStartYear = document.getElementById('relStartYear');
+    const relEndMonth = document.getElementById('relEndMonth');
+    const relEndYear = document.getElementById('relEndYear');
 
-
-    const releaseFilterOn = document.getElementById('releaseFilterOn');
-    const releaseMonthSel = document.getElementById('releaseMonth');
-    const releaseYearSel = document.getElementById('releaseYear');
     const ignoreUnreleasedEl = document.getElementById('ignoreUnreleased');
 
     const pagerEl = document.getElementById('pager');
@@ -292,47 +263,44 @@ body_classes: page-tools
     const nextBtn = document.getElementById('nextBtn');
     const pageInfoEl = document.getElementById('pageInfo');
 
-    // Force sane defaults on initial load (browsers may restore form/button state)
-    useTags = true;
-    tTagsBtn.classList.add('active');
-    tTagsBtn.setAttribute('aria-pressed', 'true');
-
-
-    // Do NOT hide unreleased by default
-    if (ignoreUnreleasedEl) ignoreUnreleasedEl.checked = false;
-
-    // Date filter OFF by default (critical for unreleased UX)
-    if (releaseFilterOn) {
-      releaseFilterOn.checked = false;  // checkbox state
-      releaseFilter.on = false;         // internal state
-    }
-
-
-
     // ---------- Utils ----------
     const normTag = t => t.trim().toLowerCase();
     const normName = s => (s || '').trim().toLowerCase();
 
-    // Scoring help modal
-    if (openScoreHelpBtn && scoreDialog) {
-      openScoreHelpBtn.addEventListener('click', () => {
-        if (typeof scoreDialog.showModal === 'function') scoreDialog.showModal();
-        else scoreDialog.setAttribute('open', ''); // fallbacks
-      });
-
-      scoreDialog.addEventListener('click', (e) => {
-        // click outside panel closes (backdrop click)
-        const rect = scoreDialog.querySelector('.modal__panel').getBoundingClientRect();
-        const within = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
-        if (!within) scoreDialog.close();
-      });
-
-      scoreDialog.querySelector('.modal__close').addEventListener('click', () => scoreDialog.close());
-      scoreDialog.addEventListener('keydown', (e) => { if (e.key === 'Escape') scoreDialog.close(); });
+    function gramify(s) {
+      const cleaned = (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const grams = new Set();
+      if (cleaned.length === 0) return grams;
+      if (cleaned.length < 3) { grams.add(cleaned); return grams; }
+      for (let i = 0; i + 2 < cleaned.length; i++) grams.add(cleaned.slice(i, i + 3));
+      return grams;
     }
 
+    function jaccard(a, b) {
+      if (!a.size || !b.size) return 0;
+      let inter = 0;
+      const small = a.size < b.size ? a : b;
+      const large = a.size < b.size ? b : a;
+      for (const g of small) if (large.has(g)) inter++;
+      const uni = a.size + b.size - inter;
+      return inter / uni;
+    }
 
-    // price helpers (null price ≠ free)
+    function fuzzyScore(query, item) {
+      const qn = normName(query);
+      const gramsQ = gramify(qn);
+      const base = jaccard(gramsQ, item.grams);
+      const substring = item.n.includes(qn);
+      const prefix = item.n.startsWith(qn);
+      let score = base;
+      if (substring) score += 0.25;
+      if (prefix) score += 0.15;
+      if (base > 0.05 || substring || prefix) {
+        score += Math.min(0.15, ((item.reviews || 0) / 500000) * 0.15);
+      }
+      return { score, base, substring, prefix };
+    }
+
     const isFreeGame = g => (g.is_free === true) || (g.price === 0);
     const formatPrice = p => (p == null) ? '—' : (p === 0 ? 'Free' : `$${Number(p).toFixed(2)}`);
     const estimateSalesUSD = g => {
@@ -360,48 +328,33 @@ body_classes: page-tools
       return Number.isFinite(n) ? n : null;
     };
 
-
     // ---------- Indexing ----------
     function addPosting(map, tag, gi) { if (!map.has(tag)) map.set(tag, []); map.get(tag).push(gi); }
     function buildIndices() {
       for (let gi = 0; gi < games.length; gi++) {
         const g = games[gi];
         (g.tags || []).forEach(t => addPosting(idx.tags, t, gi));
-        (g.genres || []).forEach(t => addPosting(idx.genres, t, gi));
-        (g.categories || []).forEach(t => addPosting(idx.categories, t, gi));
       }
-      for (const map of [idx.tags, idx.genres, idx.categories]) {
-        for (const [k, arr] of map.entries()) arr.sort((a, b) => a - b);
-      }
+      for (const [k, arr] of idx.tags.entries()) arr.sort((a, b) => a - b);
     }
     function buildLookups() {
+      nameIndex = [];
       for (let gi = 0; gi < games.length; gi++) {
         const g = games[gi];
         byAppId.set(String(g.app_id), gi);
         const nm = normName(g.name);
         if (!byName.has(nm)) byName.set(nm, []);
         byName.get(nm).push(gi);
+        nameIndex.push({
+          gi,
+          name: g.name,
+          n: nm,
+          grams: gramify(nm),
+          reviews: g.reviews || 0
+        });
       }
     }
-    function postingsFor(tag, pools) {
-      let out = [];
-      for (const p of pools) {
-        const arr = idx[p].get(tag) || [];
-        if (out.length === 0) { out = out.concat(arr); continue; }
-        let i = 0, j = 0, res = [], a = out, b = arr, last = null;
-        while (i < a.length || j < b.length) {
-          const va = i < a.length ? a[i] : Infinity;
-          const vb = j < b.length ? b[j] : Infinity;
-          let v;
-          if (va < vb) { v = va; i++; }
-          else if (vb < va) { v = vb; j++; }
-          else { v = va; i++; j++; }
-          if (v !== last) { res.push(v); last = v; }
-        }
-        out = res;
-      }
-      return out;
-    }
+    function postingsFor(tag) { return idx.tags.get(tag) || []; }
     function intersectSorted(a, b) {
       const res = []; let i = 0, j = 0;
       while (i < a.length && j < b.length) {
@@ -412,40 +365,32 @@ body_classes: page-tools
     }
 
     // ---------- Scoring ----------
-    function buildTagSetFromPools(g, pools) {
+    function buildTagSet(g) {
       const s = new Set();
-      if (pools.includes('tags')) (g.tags || []).forEach(t => s.add(t));
-      if (pools.includes('genres')) (g.genres || []).forEach(t => s.add(t));
-      if (pools.includes('categories')) (g.categories || []).forEach(t => s.add(t));
+      (g.tags || []).forEach(t => s.add(t));
       return s;
     }
-    function hasAnyBanned(g, pools) {
+    function hasAnyBanned(g) {
       if (bannedTags.size === 0) return false;
-      const s = buildTagSetFromPools(g, pools);
+      const s = buildTagSet(g);
       for (const bt of bannedTags) if (s.has(bt)) return true;
       return false;
     }
-    function similarityScore(g, qSet, mode, pools) {
-      const gSet = buildTagSetFromPools(g, pools);
+    function similarityScore(g, qSet, mode) {
+      const gSet = buildTagSet(g);
       let inter = 0;
       for (const t of qSet) if (gSet.has(t)) inter++;
-
       const containsAll = inter === qSet.size;
       const exactOnly = containsAll && gSet.size === qSet.size;
-
       if (inter === 0) return { score: 0, inter, gSize: gSet.size, containsAll, exactOnly };
-
       const score = (mode === 'containment')
         ? inter / Math.max(1, qSet.size)
         : inter / Math.max(1, new Set([...qSet, ...gSet]).size);
-
       return { score, inter, gSize: gSet.size, containsAll, exactOnly };
     }
 
-
     // ---------- UI ----------
     function renderChips() {
-      // Query chips
       chipsEl.innerHTML = '';
       if (queryTags.size === 0) {
         chipsEl.innerHTML = '<div class="hint">No active tags. Add some to see results.</div>';
@@ -459,7 +404,6 @@ body_classes: page-tools
         }
       }
 
-      // Banned chips
       bannedEl.innerHTML = '';
       for (const t of bannedTags) {
         const chip = document.createElement('span'); chip.className = 'chip'; chip.textContent = t;
@@ -470,19 +414,10 @@ body_classes: page-tools
       }
     }
 
-    function highlightTag(tag, q) {
-      const s = document.createElement('span');
-      s.className = q.has(tag) ? 'tag matched' : 'tag';
-      s.textContent = tag;
-      return s;
-    }
-
     function renderPage() {
       resultsEl.innerHTML = '';
       const start = (currentPage - 1) * PAGE_SIZE;
       const slice = lastResults.slice(start, start + PAGE_SIZE);
-
-      // Keep full query for highlighting matched vs not
       const q = new Set(queryTags);
 
       for (const item of slice) {
@@ -493,9 +428,7 @@ body_classes: page-tools
 
         const card = document.createElement('article');
         card.className = 'card';
-        if (!showThumbs) card.classList.add('minimal');
 
-        // Header
         const header = document.createElement('div'); header.className = 'card-header';
         if (showThumbs && g.header) {
           const img = document.createElement('img'); img.className = 'thumb thumb-inline';
@@ -507,46 +440,32 @@ body_classes: page-tools
         title.appendChild(a); header.appendChild(title);
 
         const pill = document.createElement('span'); pill.className = 'sim-pill';
-        // Use requiredCount (effective query size for current pools) in the tooltip
         pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
         pill.textContent = `${pct}%`; pill.style.borderColor = color; pill.style.color = color;
         header.appendChild(pill);
         card.appendChild(header);
 
-        // Meta row
         const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
         const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
         const estimate = estimateSalesUSD(g);
 
         const meta = document.createElement('div'); meta.className = 'meta-row';
         meta.innerHTML = `
-      <span class="meta">Developer: ${devs}</span>
-      <span class="meta">Publisher: ${pubs}</span>
-      <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
-      <span class="meta">Price: ${formatPrice(g.price)}</span>
-      <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
-      <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
-    `;
+          <span class="meta">Developer: ${devs}</span>
+          <span class="meta">Publisher: ${pubs}</span>
+          <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
+          <span class="meta">Price: ${formatPrice(g.price)}</span>
+          <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
+          <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
+        `;
         card.appendChild(meta);
 
-        // Similarity bar
         const barWrap = document.createElement('div'); barWrap.className = 'bar-wrap';
         const bar = document.createElement('div'); bar.className = 'bar'; bar.style.width = pct + '%'; bar.style.background = color;
         barWrap.appendChild(bar); card.appendChild(barWrap);
 
-        // Tags
         const tagsDiv = document.createElement('div'); tagsDiv.className = 'tags';
-        const pools = [];
-        if (useTags) pools.push('tags');
-        if (useGenres) pools.push('genres');
-        if (useCategories) pools.push('categories');
-
-        const show = [];
-        if (pools.includes('tags')) show.push(...(g.tags || []));
-        if (pools.includes('genres')) show.push(...(g.genres || []));
-        if (pools.includes('categories')) show.push(...(g.categories || []));
-
-        show.forEach(t => {
+        (g.tags || []).forEach(t => {
           const s = document.createElement('span');
           s.className = q.has(t) ? 'tag matched' : 'tag';
           s.textContent = t;
@@ -563,36 +482,21 @@ body_classes: page-tools
       pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
     }
 
-
     function renderQuery() {
       const hideUnreleased = !!(ignoreUnreleasedEl && ignoreUnreleasedEl.checked);
-      const dateOn = !!(releaseFilterOn && releaseFilterOn.checked);
-      releaseFilter.on = dateOn;
 
       const q = new Set(queryTags);
       if (q.size === 0) { resultsEl.innerHTML = ''; pagerEl.style.display = 'none'; return; }
 
-      const pools = [];
-      if (useTags) pools.push('tags');
-      if (useGenres) pools.push('genres');
-      if (useCategories) pools.push('categories');
-
-      if (pools.length === 0) {
-        resultsEl.innerHTML = '<div class="card">Enable at least one pool (Tags / Genres / Categories).</div>';
-        pagerEl.style.display = 'none';
-        return;
-      }
-
       const tags = [...q];
-      const lists = tags.map(t => ({ tag: t, docs: postingsFor(t, pools) }));
+      const lists = tags.map(t => ({ tag: t, docs: postingsFor(t) }));
       const nonEmpty = lists.filter(x => x.docs.length > 0);
 
       if (nonEmpty.length === 0) {
         resultsEl.innerHTML = `
-      <div class="card">
-        None of your query tags exist in the enabled pools (${pools.join(', ') || '—'}).
-        Try enabling a different pool or adjust your tags.
-      </div>`;
+          <div class="card">
+            None of your query tags exist in the data.
+          </div>`;
         pagerEl.style.display = 'none';
         return;
       }
@@ -602,7 +506,6 @@ body_classes: page-tools
 
       const requireAll = !!(requireAllEl && requireAllEl.checked);
 
-      // candidate set (union vs intersection) is just a prefilter; exactness is enforced later
       nonEmpty.sort((a, b) => a.docs.length - b.docs.length);
       let candidates = nonEmpty[0].docs.slice();
 
@@ -636,12 +539,13 @@ body_classes: page-tools
         if (seedExclude && (String(g.app_id) === seedExclude.app_id || normName(g.name) === seedExclude.name)) continue;
         if (hideUnreleased && g.comingSoon) continue;
 
-        if (dateOn && !g.comingSoon) {
+        if (releaseFilter.on && !g.comingSoon) {
           if (!(typeof g.releaseTs === 'number')) continue;
-          if (g.releaseTs < releaseFilter.cutoff) continue;
+          if (g.releaseTs < releaseFilter.start) continue;
+          if (g.releaseTs > releaseFilter.end) continue;
         }
 
-        if (hasAnyBanned(g, pools)) continue;
+        if (hasAnyBanned(g)) continue;
 
         const pMin = readNum(priceMinEl), pMax = readNum(priceMaxEl);
         if (pMin !== null || pMax !== null) {
@@ -659,10 +563,9 @@ body_classes: page-tools
           if (rMax !== null && rev > rMax) continue;
         }
 
-        // --- core fix: "Require all" means EXACT tag set in enabled pools ---
-        const sc = similarityScore(g, qEff, mode, pools);
+        const sc = similarityScore(g, qEff, mode);
         if (requireAll) {
-          if (!sc.exactOnly) continue; // must contain all AND have no extra tags (in enabled pools)
+          if (!sc.exactOnly) continue;
         } else {
           if (sc.score <= 0) continue;
         }
@@ -695,8 +598,6 @@ body_classes: page-tools
       renderPage();
     }
 
-
-
     // ---------- Seed ----------
     function parseSeedToAppId(str) {
       const s = (str || '').trim(); if (!s) return null;
@@ -713,10 +614,7 @@ body_classes: page-tools
       return games[bestGi];
     }
     function injectTagsFromGame(g) {
-      const pools = []; if (useTags) pools.push('tags'); if (useGenres) pools.push('genres'); if (useCategories) pools.push('categories');
-      const incoming = []; if (pools.includes('tags')) incoming.push(...(g.tags || []));
-      if (pools.includes('genres')) incoming.push(...(g.genres || []));
-      if (pools.includes('categories')) incoming.push(...(g.categories || []));
+      const incoming = [...(g.tags || [])];
       let added = 0;
       for (const t of incoming) {
         const nt = normTag(t);
@@ -725,27 +623,140 @@ body_classes: page-tools
       }
       return { added, total: incoming.length };
     }
+    function applySeedGame(g) {
+      if (!g) return;
+      seedExclude = { app_id: String(g.app_id), name: normName(g.name) };
+      const { added, total } = injectTagsFromGame(g);
+      seedStatus.textContent = `Loaded ${added}/${total} tag(s) from “${g.name}”. (Excluded itself from results)`;
+      activeSuggestIndex = -1;
+      hideSuggestions();
+      renderChips(); currentPage = 1; renderQuery();
+    }
     function handleSeed() {
       seedStatus.textContent = '';
       const raw = seedInput.value.trim();
       if (!raw) { seedStatus.textContent = 'Enter a Steam URL, AppID, or exact game name.'; return; }
       const g = findGameBySeed(raw);
       if (!g) { seedStatus.textContent = 'That game isn’t in this list.'; return; }
-      const { added, total } = injectTagsFromGame(g);
-      seedExclude = { app_id: String(g.app_id), name: normName(g.name) }; // always exclude itself
-      seedStatus.textContent = `Loaded ${added}/${total} tag(s) from “${g.name}”. (Excluded itself from results)`;
-      currentPage = 1; renderChips(); renderQuery();
+      applySeedGame(g);
     }
+
+    // ---------- Fuzzy suggestions ----------
+    function shouldFuzzy(s) {
+      if (!s || s.trim().length < 2) return false;
+      if (parseSeedToAppId(s)) return false;
+      if (/store\.steampowered\.com\/app\//i.test(s)) return false;
+      return true;
+    }
+    function showSuggestions(items) {
+      seedSuggest.innerHTML = '';
+      if (!items.length) {
+        seedSuggest.innerHTML = '<div class="seed-suggest-empty">No matches</div>';
+      } else {
+        for (let i = 0; i < items.length; i++) {
+          const it = items[i];
+          const row = document.createElement('div');
+          row.className = 'seed-suggest-item';
+          row.setAttribute('role', 'option');
+          row.dataset.index = String(i);
+          row.innerHTML = `
+            <span class="game-name">${it.name}</span>
+            <span class="meta">#${games[it.gi].app_id} · ${(games[it.gi].reviews || 0).toLocaleString()} reviews</span>
+          `;
+          row.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            seedInput.value = it.name;
+            applySeedGame(games[it.gi]);
+          });
+          seedSuggest.appendChild(row);
+        }
+      }
+      seedSuggest.classList.add('show');
+      seedSuggest.parentElement.classList.add('suggest-open');
+    }
+    function hideSuggestions() {
+      seedSuggest.classList.remove('show');
+      seedSuggest.innerHTML = '';
+      seedSuggest.parentElement.classList.remove('suggest-open');
+    }
+    function updateActive(idx) {
+      const children = [...seedSuggest.querySelectorAll('.seed-suggest-item')];
+      children.forEach(el => el.classList.remove('active'));
+      if (idx >= 0 && idx < children.length) children[idx].classList.add('active');
+    }
+    function runFuzzy(query) {
+      const qn = normName(query);
+      const scored = nameIndex
+        .map(it => {
+          const d = fuzzyScore(qn, it);
+          return { ...it, _score: d.score, _base: d.base, _substring: d.substring, _prefix: d.prefix };
+        })
+        .filter(it => it._base >= 0.05 || it._substring || it._prefix)
+        .sort((a, b) => (b._score - a._score) || ((b.reviews || 0) - (a.reviews || 0)));
+      const top = scored.slice(0, 12);
+      showSuggestions(top);
+      activeSuggestIndex = -1;
+      updateActive(activeSuggestIndex);
+    }
+
+    seedInput.addEventListener('input', () => {
+      const v = seedInput.value;
+      if (shouldFuzzy(v)) runFuzzy(v);
+      else hideSuggestions();
+    });
+
+    seedInput.addEventListener('keydown', (e) => {
+      const open = seedSuggest.classList.contains('show');
+      if (!open) {
+        if (e.key === 'Enter') { e.preventDefault(); handleSeed(); }
+        return;
+      }
+      const items = [...seedSuggest.querySelectorAll('.seed-suggest-item')];
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeSuggestIndex = Math.min(items.length - 1, activeSuggestIndex + 1);
+        updateActive(activeSuggestIndex);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeSuggestIndex = Math.max(-1, activeSuggestIndex - 1);
+        updateActive(activeSuggestIndex);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (activeSuggestIndex >= 0 && items[activeSuggestIndex]) {
+          const idx = Number(items[activeSuggestIndex].dataset.index);
+          const qn = normName(seedInput.value);
+          const scored = nameIndex
+            .map(it => { const d = fuzzyScore(qn, it); return { ...it, _score: d.score }; })
+            .sort((a, b) => (b._score - a._score) || ((b.reviews || 0) - (a.reviews || 0)))
+            .slice(0, 12);
+          const chosen = scored[idx];
+          if (chosen) {
+            seedInput.value = chosen.name;
+            applySeedGame(games[chosen.gi]);
+          } else {
+            hideSuggestions();
+          }
+        } else {
+          handleSeed();
+        }
+      } else if (e.key === 'Escape') {
+        hideSuggestions();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const within = e.target === seedInput || seedSuggest.contains(e.target);
+      if (!within) hideSuggestions();
+    });
 
     // ---------- Events ----------
     function parseFreeformTags(str) {
       const parts = str.split(/,/).map(s => s.trim()).filter(Boolean);
       return parts.map(p => normTag(p.replace(/^["'](.*)["']$/s, '$1')));
     }
-    seedBtn.addEventListener('click', handleSeed);
-    seedInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); handleSeed(); } });
+    if (seedBtn) seedBtn.addEventListener('click', handleSeed);
 
-    tagInput.addEventListener('keydown', e => {
+    if (tagInput) tagInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') {
         e.preventDefault();
         parseFreeformTags(tagInput.value).forEach(t => queryTags.add(t));
@@ -755,7 +766,7 @@ body_classes: page-tools
     addBtn.onclick = () => { parseFreeformTags(tagInput.value).forEach(t => queryTags.add(t)); tagInput.value = ''; currentPage = 1; renderChips(); renderQuery(); };
     clearBtn.onclick = () => { queryTags.clear(); currentPage = 1; renderChips(); renderQuery(); };
 
-    banInput.addEventListener('keydown', e => {
+    if (banInput) banInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') {
         e.preventDefault();
         parseFreeformTags(banInput.value).forEach(t => bannedTags.add(t));
@@ -766,40 +777,7 @@ body_classes: page-tools
     banClearBtn.onclick = () => { bannedTags.clear(); currentPage = 1; renderChips(); renderQuery(); };
 
     [...scoreModeEls].forEach(el => el.addEventListener('change', () => { currentPage = 1; renderQuery(); }));
-    if (requireAllEl) {
-      requireAllEl.addEventListener('change', () => { currentPage = 1; renderQuery(); });
-    }
-
-    const requireAllHint = document.getElementById('requireAllHint');
-    if (requireAllEl && requireAllHint) {
-      requireAllEl.addEventListener('change', () => {
-        requireAllHint.style.display = requireAllEl.checked ? '' : 'none';
-      });
-      // reflect initial state
-      requireAllHint.style.display = requireAllEl.checked ? '' : 'none';
-    }
-
-
-    function toggleButton(btn, setter) {
-      const active = btn.classList.toggle('active');
-      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-      setter(active); currentPage = 1; renderQuery();
-    }
-    tTagsBtn.addEventListener('click', () => toggleButton(tTagsBtn, v => useTags = v));
-    tGenresBtn.addEventListener('click', () => toggleButton(tGenresBtn, v => useGenres = v));
-    tCategoriesBtn.addEventListener('click', () => toggleButton(tCategoriesBtn, v => useCategories = v));
-
-    const tThumbsBtn = document.getElementById('tThumbs');
-    const tCompactBtn = document.getElementById('tCompact'); // NEW
-
-    tThumbsBtn.addEventListener('click', () => toggleButton(tThumbsBtn, v => showThumbs = v));
-    tCompactBtn?.addEventListener('click', () =>
-      toggleButton(tCompactBtn, v => {
-        document.body.classList.toggle('compact-mode', v);
-      })
-    );
-
-
+    if (requireAllEl) requireAllEl.addEventListener('change', () => { currentPage = 1; renderQuery(); });
 
     prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderPage(); } });
     nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; renderPage(); } });
@@ -810,19 +788,16 @@ body_classes: page-tools
       el.addEventListener('change', () => { currentPage = 1; renderQuery(); });
     });
 
-
     // ---------- Load ----------
     (async () => {
       try {
         const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
         if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH}`);
-        const text = await res.text(); // keep only this one
+        const text = await res.text();
 
         function parseRow(line) {
           const j = JSON.parse(line);
           const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
-
-          // Compact schema: {a,n,d,p,u,f,r,y,cs,h,t}
           if (Object.prototype.hasOwnProperty.call(j, 'a')) {
             const y = (typeof j.y === 'number' && j.y > 0) ? j.y : null;
             const relTs = y != null ? Date.UTC(y, 0, 1) : null;
@@ -830,8 +805,6 @@ body_classes: page-tools
               app_id: j.a,
               name: j.n || `App ${j.a}`,
               tags: arr(j.t).map(t => (t ?? '').trim().toLowerCase()),
-              genres: [],
-              categories: [],
               developers: arr(j.d),
               publishers: arr(j.p),
               price: j.u ?? null,
@@ -844,7 +817,6 @@ body_classes: page-tools
             };
           }
 
-          // Verbose fallback
           const cls = j.classification || {};
           const id = j.identity || {};
           const media = j.media || {};
@@ -856,13 +828,10 @@ body_classes: page-tools
             j.meta?.release_date;
 
           const relTs = parseReleaseTs(relRaw);
-
           return {
             app_id: j.app_id,
             name: id.name || `App ${j.app_id}`,
             tags: arr(cls.tags).map(t => (t ?? '').trim().toLowerCase()),
-            genres: arr(cls.genres).map(t => (t ?? '').trim().toLowerCase()),
-            categories: arr(cls.categories).map(t => (t ?? '').trim().toLowerCase()),
             developers: arr(id.developers),
             publishers: arr(id.publishers),
             price: j.pricing ? j.pricing.price_usd : null,
@@ -875,53 +844,79 @@ body_classes: page-tools
           };
         }
 
-        games = text
-          .split(/\r?\n/)
-          .map(l => l.trim())
-          .filter(Boolean)
-          .map(parseRow);
+        games = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(parseRow);
 
         buildIndices();
         buildLookups();
 
+        // Populate release selects (range) — CLAMPED TO TODAY
+        const TODAY = new Date();
+        const CUR_YEAR = TODAY.getUTCFullYear();
+        const CUR_MONTH = TODAY.getUTCMonth();
 
-        // Populate release selects
-        const yearsInData = games.map(g => g.releaseTs).filter(Boolean).map(ts => new Date(ts).getUTCFullYear());
-        const minYear = yearsInData.length ? Math.min(...yearsInData) : 1997;
-        const maxYear = yearsInData.length ? Math.max(...yearsInData) : (new Date()).getUTCFullYear();
+        const yearsInData = games
+          .map(g => g.releaseTs)
+          .filter(Boolean)
+          .map(ts => new Date(ts).getUTCFullYear());
 
-        releaseMonthSel.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
-        let yOpts = ''; for (let y = maxYear; y >= minYear; y--) yOpts += `<option value="${y}">${y}</option>`;
-        releaseYearSel.innerHTML = yOpts;
+        let minYear = yearsInData.length ? Math.min(...yearsInData) : 1997;
+        let dataMax = yearsInData.length ? Math.max(...yearsInData) : CUR_YEAR;
+        const maxYear = Math.min(dataMax, CUR_YEAR); // hard clamp at current year
 
-        releaseMonthSel.value = String((new Date()).getUTCMonth());
-        releaseYearSel.value = String((new Date()).getUTCFullYear());
+        // safety fallback if data is weird/future-only
+        if (!Number.isFinite(minYear) || minYear > maxYear) minYear = Math.max(1997, CUR_YEAR - 30);
 
-        function updateReleaseCutoff() {
-          const y = +releaseYearSel.value, m = +releaseMonthSel.value;
-          releaseFilter.y = y; releaseFilter.m = m; releaseFilter.cutoff = firstOfMonthUTC(y, m);
+        function fillMonth(sel) {
+          sel.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
+        }
+        function fillYear(sel) {
+          let yOpts = '';
+          for (let y = maxYear; y >= minYear; y--) yOpts += `<option value="${y}">${y}</option>`;
+          sel.innerHTML = yOpts;
+        }
+
+        fillMonth(relStartMonth); fillMonth(relEndMonth);
+        fillYear(relStartYear); fillYear(relEndYear);
+
+        // Default: start at earliest year, end at TODAY (clamped)
+        relStartMonth.value = '0';
+        relStartYear.value = String(minYear);
+        relEndMonth.value = String(CUR_MONTH);
+        relEndYear.value = String(CUR_YEAR);
+
+
+        function updateRange() {
+          let sy = +relStartYear.value, sm = +relStartMonth.value;
+          let ey = +relEndYear.value, em = +relEndMonth.value;
+
+          // hard clamp end to <= today
+          if (ey > CUR_YEAR) { ey = CUR_YEAR; relEndYear.value = String(CUR_YEAR); }
+          if (ey === CUR_YEAR && em > CUR_MONTH) { em = CUR_MONTH; relEndMonth.value = String(CUR_MONTH); }
+
+          // keep start within [minYear, ey]
+          if (sy < minYear) { sy = minYear; relStartYear.value = String(minYear); }
+          if (sy > ey) { sy = ey; relStartYear.value = String(ey); }
+          if (sy === ey && sm > em) { sm = em; relStartMonth.value = String(em); }
+
+          releaseFilter.sy = sy; releaseFilter.sm = sm;
+          releaseFilter.ey = ey; releaseFilter.em = em;
+          releaseFilter.start = firstOfMonthUTC(sy, sm);
+          releaseFilter.end = lastOfMonthUTC(ey, em);
+
           currentPage = 1; renderQuery();
         }
 
-        releaseFilterOn.addEventListener('change', () => {
-          // Trust the checkbox; render will re-sync too
-          if (releaseFilterOn.checked) {
-            updateReleaseCutoff();
-          } else {
-            releaseFilter.on = false; // explicit
-            currentPage = 1;
-            renderQuery();
-          }
-        });
 
-        // Only recompute cutoff if the feature is ON
-        releaseMonthSel.addEventListener('change', () => {
-          if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
-        });
-        releaseYearSel.addEventListener('change', () => {
-          if (releaseFilterOn && releaseFilterOn.checked) updateReleaseCutoff();
-        });
+        function toggleRange() {
+          releaseFilter.on = !!releaseRangeOn.checked;
+          currentPage = 1; renderQuery();
+        }
 
+        releaseRangeOn.addEventListener('change', toggleRange);
+        relStartMonth.addEventListener('change', updateRange);
+        relStartYear.addEventListener('change', updateRange);
+        relEndMonth.addEventListener('change', updateRange);
+        relEndYear.addEventListener('change', updateRange);
 
         if (ignoreUnreleasedEl) {
           ignoreUnreleasedEl.addEventListener('change', () => { currentPage = 1; renderQuery(); });
@@ -931,7 +926,7 @@ body_classes: page-tools
         resultsEl.innerHTML = `<div class="card">${err.message}</div>`;
         return;
       }
-      renderChips(); // wait for user query
+      renderChips();
     })();
   </script>
 </body>
