@@ -294,3 +294,11 @@ dialog.org-drawer .org-body,
 
 /* Utility: opt-in no-select anywhere */
 .noselect { pointer-events: auto; }
+
+/* Prevent background scroll when the org drawer/modal is open */
+html.modal-open,
+body.modal-open {
+  overflow: hidden;
+  overscroll-behavior: contain; /* avoids scroll chaining on some browsers */
+}
+

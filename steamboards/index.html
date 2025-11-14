@@ -80,13 +80,9 @@ body_classes: page-tools
         </div>
       </div>
 
-      <!-- ROW 3: compare toggles (left) + filters (right), justified -->
+      <!-- ROW 3: compare (implicit via chips) + filters -->
       <div class="controls-row row-3">
         <div class="group group-left">
-          <label class="check">
-            <input id="enableCompare" type="checkbox" />
-            <span>Compare list only</span>
-          </label>
           <label class="check">
             <input id="relativeRank" type="checkbox" checked />
             <span>Show relative ranks</span>
@@ -109,8 +105,6 @@ body_classes: page-tools
         </div>
       </div>
     </section>
-
-
 
     <!-- Developers -->
     <section id="panel-devs" class="panel" role="tabpanel" aria-labelledby="tab-devs">
@@ -288,13 +282,11 @@ body_classes: page-tools
       const effectiveReviews = Math.max(0, r - deduct);
 
       const year = game.release_year ?? null;
-      // keep SPR logic "as is" (based on original review count + year)
       const spr = salesPerReviewMultiple(year, r);
       const rev = effectiveReviews * spr * (price || 0);
 
       return Number.isFinite(rev) && rev >= 0 ? rev : null;
     }
-
 
     // ---------------- State & DOM ----------------
     const tabDevs = document.getElementById('tab-devs');
@@ -309,7 +301,6 @@ body_classes: page-tools
     const ignoreFreeEl = document.getElementById('ignoreFree');
     const ignoreComingSoonEl = document.getElementById('ignoreComingSoon');
 
-    const enableCompareEl = document.getElementById('enableCompare');
     const relativeRankEl = document.getElementById('relativeRank');
 
     const devTableBody = document.querySelector('#devTable tbody');
@@ -335,7 +326,6 @@ body_classes: page-tools
     const loaderMeta = document.getElementById('loaderMeta');
 
     const hideZeroRevenueEl = document.getElementById('hideZeroRevenue');
-
 
     // Drawer DOM
     const orgDialog = document.getElementById('orgDialog');
@@ -375,16 +365,13 @@ body_classes: page-tools
     function hideLoader() {
       if (!loader) return;
       loader.classList.add('hide');
-      // ensure it fully fades before enabling UI
       setTimeout(() => {
         try { loader.remove(); } catch { }
         if (tabDevs) tabDevs.disabled = false;
         if (tabPubs) tabPubs.disabled = false;
       }, 350);
     }
-    // (optional) also expose on window, in case other modules call it
     window.hideLoader = hideLoader;
-
 
     function setTab(which) {
       currentTab = which;
@@ -410,10 +397,6 @@ body_classes: page-tools
     minCountEl.addEventListener('input', debounce(rebuildViews, 120));
     [ignoreFreeEl, ignoreComingSoonEl].forEach(el => el.addEventListener('change', () => { rebuildViews(); if (orgDialog.open) refreshOpenDrawer(); }));
 
-    enableCompareEl.addEventListener('change', () => {
-      rebuildViews();       // ensures relRank is computed or cleared properly
-    });
-
     relativeRankEl.addEventListener('change', () => {
       if (currentTab === 'devs') renderDevPage(); else renderPubPage();
     });
@@ -430,7 +413,6 @@ body_classes: page-tools
       rebuildViews();
       if (orgDialog.open) refreshOpenDrawer();
     });
-
 
     function debounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
 
@@ -452,21 +434,17 @@ body_classes: page-tools
       const ignoreComingSoon = !!ignoreComingSoonEl.checked;
       const ignoreFree = !!ignoreFreeEl.checked;
 
-      // name -> { name, revs: [], gameCount: 0 }
       const map = new Map();
 
       for (const g of RAW_MIN) {
-        // Respect "Ignore coming soon"
         if (ignoreComingSoon && g.coming_soon) continue;
 
-        // Respect "Ignore free games" for BOTH counts and lists
         const isFreeGame = g.is_free === true || Number(g.price_usd) === 0;
         if (ignoreFree && isFreeGame) continue;
 
         const names = Array.isArray(g[role]) ? g[role] : (g[role] ? [g[role]] : []);
         if (!names.length) continue;
 
-        // Revenue (already respects ignoreFree for calc safety)
         const rev = revenueUSD(g, { ignoreFree });
 
         for (const raw of names) {
@@ -479,9 +457,7 @@ body_classes: page-tools
             map.set(name, bucket);
           }
 
-          // Count only if not filtered out above
           bucket.gameCount += 1;
-
           if (rev !== null) bucket.revs.push(rev);
         }
       }
@@ -496,8 +472,6 @@ body_classes: page-tools
       }
       return rows;
     }
-
-
 
     function summarize(rows) {
       const total = rows.reduce((a, r) => a + r.total, 0);
@@ -549,8 +523,14 @@ body_classes: page-tools
 
     function renderDevPage() {
       const { page, size } = pager.dev;
-      const compareOn = enableCompareEl.checked && (compareNames.length > 0);
-      const { start, end, total } = renderPage(devTableBody, memoDevs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'developers' });
+      const compareOn = compareNames.length > 0;
+      const { start, end, total } = renderPage(
+        devTableBody,
+        memoDevs,
+        page,
+        size,
+        { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'developers' }
+      );
       const pages = Math.max(1, Math.ceil(memoDevs.length / size));
       devPrev.disabled = page <= 1;
       devNext.disabled = page >= pages;
@@ -562,8 +542,14 @@ body_classes: page-tools
     }
     function renderPubPage() {
       const { page, size } = pager.pub;
-      const compareOn = enableCompareEl.checked && (compareNames.length > 0);
-      const { start, end, total } = renderPage(pubTableBody, memoPubs, page, size, { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'publishers' });
+      const compareOn = compareNames.length > 0;
+      const { start, end, total } = renderPage(
+        pubTableBody,
+        memoPubs,
+        page,
+        size,
+        { compareOn, relativeRanks: !!relativeRankEl.checked, role: 'publishers' }
+      );
       const pages = Math.max(1, Math.ceil(memoPubs.length / size));
       pubPrev.disabled = page <= 1;
       pubNext.disabled = page >= pages;
@@ -578,8 +564,8 @@ body_classes: page-tools
       const by = sortByEl.value;
       const minCount = Number(minCountEl.value || 0);
       const { set: cmpSet } = parseCompareSet();
-      const compareOn = enableCompareEl.checked && cmpSet.size > 0;
-      const hideZero = !!hideZeroRevenueEl.checked; // <- NEW
+      const hasChips = cmpSet.size > 0;
+      const hideZero = !!hideZeroRevenueEl.checked;
 
       // Build ALL rows (no minCount yet), sort, annotate global rank
       allDevs = annotateGlobalRank(sortRows(collectOrgStats('developers'), by, desc));
@@ -588,23 +574,22 @@ body_classes: page-tools
       let devRows = allDevs;
       let pubRows = allPubs;
 
-      if (enableCompareEl.checked && cmpSet.size === 0) {
-        devRows = [];
-        pubRows = [];
-      } else if (compareOn) {
-        const hasName = r => cmpSet.has(r.name.toLowerCase());
+      const hasName = r => cmpSet.has(r.name.toLowerCase());
+
+      if (hasChips) {
+        // Compare mode: only show selected orgs, no minCount filter
         devRows = allDevs.filter(hasName);
         pubRows = allPubs.filter(hasName);
         devRows.forEach((r, i) => r.relRank = i + 1);
         pubRows.forEach((r, i) => r.relRank = i + 1);
       } else {
+        // No chips: show full list with filters
         devRows = applyFilters(allDevs, minCount);
         pubRows = applyFilters(allPubs, minCount);
         devRows.forEach(r => r.relRank = undefined);
         pubRows.forEach(r => r.relRank = undefined);
       }
 
-      // ---- NEW: hide $0 revenue orgs
       if (hideZero) {
         devRows = devRows.filter(r => r.total > 0);
         pubRows = pubRows.filter(r => r.total > 0);
@@ -617,7 +602,6 @@ body_classes: page-tools
 
       if (currentTab === 'devs') { renderDevPage(); } else { renderPubPage(); }
     }
-
 
     async function loadJSONLStream(url) {
       const res = await fetch(url, { cache: 'no-store' });
@@ -634,12 +618,9 @@ body_classes: page-tools
       const decoder = new TextDecoder();
       let receivedBytes = 0, buffer = '', parsedCount = 0;
 
-      // --- live estimator for total line count (games) ---
       let estTotalCount = EXPECTED_TOTAL_GAMES_HINT || null;
       let bytesForSamples = 0, linesInSamples = 0;
 
-      // If your first line can be a meta like: {"_meta":{"total":80000}}
-      // we’ll detect it and set an exact denom.
       const tryMetaTotal = (obj) => {
         const t = obj && (obj._meta?.total || obj.total || obj.count || obj.expected_total);
         if (Number.isFinite(t) && t > 0) {
@@ -657,34 +638,29 @@ body_classes: page-tools
         buffer += decoder.decode(value, { stream: true });
 
         let lines = buffer.split(/\r?\n/);
-        buffer = lines.pop() ?? ''; // keep last partial
+        buffer = lines.pop() ?? '';
 
         for (let i = 0; i < lines.length; i++) {
           const raw = lines[i].trim();
           if (!raw) continue;
 
-          // Sample for estimator before JSON parse (length in bytes ~ chars for utf-8 ascii)
-          bytesForSamples += raw.length + 1; // + newline
+          bytesForSamples += raw.length + 1;
           linesInSamples += 1;
 
           try {
             const obj = JSON.parse(raw);
-            // Detect optional meta line and skip pushing it into RAW_MIN
             if (!estTotalCount && tryMetaTotal(obj)) {
-              // skip counting this line as a game row if it's pure meta
               if (obj._meta) continue;
             }
             pushMinimal(obj);
             parsedCount++;
-          } catch { /* ignore bad JSON lines */ }
+          } catch { }
 
           if (parsedCount % 2000 === 0) await idle();
         }
 
-        // Update estimator after chunk
         if (!estTotalCount && totalBytes > 0 && linesInSamples > 0) {
           const avgBytesPerLine = bytesForSamples / linesInSamples;
-          // Guard against tiny sample skew
           if (avgBytesPerLine > 5) {
             estTotalCount = Math.max(parsedCount, Math.floor(totalBytes / avgBytesPerLine));
           }
@@ -699,7 +675,6 @@ body_classes: page-tools
         });
       }
 
-      // Flush last partial line
       if (buffer.trim()) {
         try {
           const obj = JSON.parse(buffer.trim());
@@ -710,7 +685,6 @@ body_classes: page-tools
         } catch { }
       }
 
-      // Final progress before returning (stream done, parsing done)
       updateLoaderProgress({
         receivedBytes: totalBytes || 1,
         totalBytes: totalBytes || 1,
@@ -719,7 +693,6 @@ body_classes: page-tools
         streamDone: true
       });
     }
-
 
     async function parseTextInChunks(text, totalBytes) {
       const lines = text.split(/\r?\n/);
@@ -730,7 +703,6 @@ body_classes: page-tools
         const raw = lines[i].trim(); if (!raw) continue;
         try {
           const obj = JSON.parse(raw);
-          // optional meta detection here too
           if (!(obj && obj._meta)) {
             pushMinimal(obj);
             parsed++;
@@ -757,9 +729,7 @@ body_classes: page-tools
       });
     }
 
-
     function pushMinimal(j) {
-      // Compact schema: {a,n,d,p,u,f,r,y,cs,h,t}
       if (j && Object.prototype.hasOwnProperty.call(j, 'a')) {
         RAW_MIN.push({
           app_id: j.a,
@@ -770,7 +740,7 @@ body_classes: page-tools
           price_usd: j.u ?? null,
           is_free: !!j.f,
           review_count: j.r ?? 0,
-          release_ts: null,                 // compact only keeps year
+          release_ts: null,
           release_year: j.y ?? null,
           coming_soon: !!j.cs,
           tags: (Array.isArray(j.t) ? j.t : []).map(norm).filter(Boolean),
@@ -778,7 +748,6 @@ body_classes: page-tools
         return;
       }
 
-      // Fallback: original verbose schema
       const id = j.identity || {}, rel = j.release || {}, pricing = j.pricing || {},
         reviews = j.reviews || {}, media = j.media || {}, cls = j.classification || {};
       const ts = parseReleaseTs(rel.date_iso ?? rel.date_raw);
@@ -798,30 +767,23 @@ body_classes: page-tools
       });
     }
 
-
-
     function updateLoaderProgress({ receivedBytes = 0, totalBytes = 0, parsedCount = 0, estTotalCount = null, streamDone = false }) {
-      // Choose the best denominator for "games"
       const denom = Number.isFinite(estTotalCount) && estTotalCount > 0
         ? estTotalCount
         : (EXPECTED_TOTAL_GAMES_HINT || null);
 
-      // Game-based % (preferred)
       const pctGames = (denom && denom > 0)
         ? Math.max(0, Math.min(1, parsedCount / denom))
         : null;
 
-      // Byte-based % (fallback)
       const pctBytes = (totalBytes > 0)
         ? Math.max(0, Math.min(1, receivedBytes / totalBytes))
         : null;
 
-      // Blend: use min of available signals so we never overshoot
       let pct = null;
       if (pctGames != null && pctBytes != null) pct = Math.min(pctGames, pctBytes);
       else pct = (pctGames ?? pctBytes ?? 0);
 
-      // If stream is done but we still have parsing to finish, cap at 0.98
       if (streamDone && pct < 0.98 && (denom || pctGames != null)) {
         pct = Math.min(pct, 0.98);
       }
@@ -830,7 +792,6 @@ body_classes: page-tools
       loaderBar.style.width = pctDisplay + '%';
       loaderPct.textContent = pctDisplay + '%';
 
-      // Meta text: prefer "X of Y parsed" when we have a denom
       if (denom) {
         loaderMeta.textContent = `${fmtInt(parsedCount)} of ${fmtInt(denom)} parsed`;
       } else if (totalBytes) {
@@ -840,12 +801,21 @@ body_classes: page-tools
       }
     }
 
+    function lockPageScroll() {
+      document.documentElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
+    }
+
+    function unlockPageScroll() {
+      document.documentElement.classList.remove('modal-open');
+      document.body.classList.remove('modal-open');
+    }
+
 
     function openOrgDetails(role, name) {
       const ignoreComingSoon = !!ignoreComingSoonEl.checked;
       const ignoreFree = !!ignoreFreeEl.checked;
 
-      // Respect BOTH toggles for the drawer list and tag aggregation
       const allMatching = RAW_MIN.filter(g => {
         if (ignoreComingSoon && g.coming_soon) return false;
         if (ignoreFree && (g.is_free === true || Number(g.price_usd) === 0)) return false;
@@ -853,31 +823,24 @@ body_classes: page-tools
         return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
       });
 
-      // Only included games show up in the drawer + count
       const games = allMatching.map(g => {
         const rev = revenueUSD(g, { ignoreFree });
         return { g, rev };
       });
 
-
-
       games.sort((a, b) => {
-        const ra = Number.isFinite(a.rev) ? a.rev : -1; // nulls go last
+        const ra = Number.isFinite(a.rev) ? a.rev : -1;
         const rb = Number.isFinite(b.rev) ? b.rev : -1;
         return (rb - ra) || ((b.g.review_count || 0) - (a.g.review_count || 0));
       });
 
-
       const total = sumStable(games.map(x => Number.isFinite(x.rev) ? x.rev : 0));
       const count = games.length;
-
 
       orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
       orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
 
-      /* ---------- NEW: Top tags aggregation & render ---------- */
-      // Build frequency map (case-insensitive, but preserve first-seen casing for display)
-      const tagMap = new Map(); // lower -> {name, count}
+      const tagMap = new Map();
       for (const g of allMatching) {
         const tags = Array.isArray(g.tags) ? g.tags : [];
         for (const t of tags) {
@@ -893,13 +856,11 @@ body_classes: page-tools
         .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
         .slice(0, 10);
 
-      // Render (reuse .gmeta + .pill styles you already have)
       let tagBar = document.getElementById('orgTags');
       if (!tagBar) {
         tagBar = document.createElement('div');
         tagBar.id = 'orgTags';
         tagBar.className = 'gmeta';
-        // insert above the games list
         gamesList.parentElement.insertBefore(tagBar, gamesList);
       }
       if (topTags.length) {
@@ -907,11 +868,9 @@ body_classes: page-tools
           .map(t => `<span class="pill">${t.name} <span class="num">(${fmtInt(t.count)})</span></span>`)
           .join(' ');
       } else {
-        tagBar.innerHTML = ''; // no tags available
+        tagBar.innerHTML = '';
       }
-      /* ---------- END NEW ---------- */
 
-      // (existing cards render)
       gamesList.innerHTML = '';
       const frag = document.createDocumentFragment();
       for (const { g, rev } of games) {
@@ -948,8 +907,13 @@ body_classes: page-tools
       }
       gamesList.appendChild(frag);
 
-      if (typeof orgDialog.showModal === 'function') orgDialog.showModal();
-      else orgDialog.setAttribute('open', '');
+      if (typeof orgDialog.showModal === 'function') {
+        orgDialog.showModal();
+      } else {
+        orgDialog.setAttribute('open', '');
+      }
+      lockPageScroll();
+
     }
 
     function refreshOpenDrawer() {
@@ -960,16 +924,34 @@ body_classes: page-tools
       openOrgDetails(role, name);
     }
 
-    orgClose.addEventListener('click', () => orgDialog.close());
+    orgClose.addEventListener('click', () => {
+      orgDialog.close();
+    });
+
     orgDialog.addEventListener('click', (e) => {
       const rect = orgDialog.getBoundingClientRect();
-      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+      const outside =
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom;
+      if (outside) {
         orgDialog.close();
       }
     });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && orgDialog.open) orgDialog.close(); });
 
-    // delegate clicks on the small "open" button (Alt+Click to add chip)
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && orgDialog.open) {
+        orgDialog.close();
+      }
+    });
+
+    // Ensure scroll is always unlocked when dialog fully closes
+    orgDialog.addEventListener('close', () => {
+      unlockPageScroll();
+    });
+
+
     function handleOrgButton(e) {
       const btn = e.target.closest('.org-open-btn');
       if (!btn) return;
@@ -1117,7 +1099,6 @@ body_classes: page-tools
 
     chipInput.addEventListener('blur', () => setTimeout(clearAutocomplete, 120));
 
-    // Paste: split by newline/tab only (NOT commas—commas inside names are preserved)
     chipInput.addEventListener('paste', (e) => {
       const txt = (e.clipboardData || window.clipboardData).getData('text');
       if (!txt) return;
@@ -1136,7 +1117,6 @@ body_classes: page-tools
         await loadJSONLStream(JSON_LINES_PATH);
       } catch (err) {
         console.warn(err);
-        // tiny fallback
         RAW_MIN = [
           { app_id: 1, name: 'Alpha', header_image: null, developers: ['Studio One'], publishers: ['Pub X'], price_usd: 19.99, is_free: false, review_count: 1200, release_ts: Date.parse('2022-05-01'), release_year: 2022, coming_soon: false },
           { app_id: 2, name: 'Beta', header_image: null, developers: ['Studio One', 'Studio Two'], publishers: ['Pub Y'], price_usd: 9.99, is_free: false, review_count: 300, release_ts: Date.parse('2021-11-13'), release_year: 2021, coming_soon: false },
