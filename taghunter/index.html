@@ -64,50 +64,108 @@ body_classes: page-tools
             </button>
           </div>
 
-          <dialog id="scoreDialog" class="modal">
-            <form method="dialog" class="modal__panel" aria-labelledby="scoreDlgTitle">
-              <header class="modal__header">
-                <h3 id="scoreDlgTitle">Scoring: Containment vs Jaccard</h3>
-                <button class="modal__close" aria-label="Close scoring help">×</button>
-              </header>
+<dialog id="scoreDialog" class="modal score-modal">
+  <form method="dialog" class="modal__panel" aria-labelledby="scoreDlgTitle">
+    <header class="modal__header">
+      <div>
+        <h3 id="scoreDlgTitle">Scoring: Containment vs Jaccard</h3>
+        <p class="modal__subtitle">
+          Two ways to measure overlap between your query tags and a game’s tags.
+        </p>
+      </div>
+      <button class="modal__close" aria-label="Close scoring help" type="button">×</button>
+    </header>
 
-              <section class="modal__content">
-                <div class="modal__intro">
-                  Two ways to measure overlap between your query tags and a game’s tags:
-                </div>
+    <section class="modal__content">
+      <div class="modal__grid">
+        <article class="modal__card">
+          <div class="modal__cardHead">
+            <span class="badge badge-contain">Default</span>
+            <h4>Containment</h4>
+          </div>
+          <p class="eq">
+            <code>score = overlap ÷ your&nbsp;query&nbsp;size</code>
+          </p>
+          <ul class="use-for">
+            <li>“Did it match the tags I explicitly asked for?”</li>
+            <li>Extra tags on the game <strong>don’t lower</strong> the score.</li>
+            <li>Great when you have a focused shopping list of tags.</li>
+          </ul>
+        </article>
 
-                <div class="modal__grid">
-                  <article class="modal__card">
-                    <div class="modal__cardHead">
-                      <span class="badge badge-contain">Default</span>
-                      <h4>Containment</h4>
-                    </div>
-                    <p class="eq">score = <strong>overlap</strong> ÷ <strong>your query size</strong></p>
-                    <ul class="use-for">
-                      <li>“Did it match the tags I care about?”</li>
-                      <li>Extra tags on the game don’t hurt the score.</li>
-                    </ul>
-                  </article>
+        <article class="modal__card">
+          <div class="modal__cardHead">
+            <span class="badge">Alt</span>
+            <h4>Jaccard</h4>
+          </div>
+          <p class="eq">
+            <code>score = overlap ÷ union</code>
+          </p>
+          <ul class="use-for">
+            <li>Measures overall “vibe similarity.”</li>
+            <li>Unrelated extra tags <strong>do lower</strong> the score.</li>
+            <li>Great when you want games that “feel” like your query.</li>
+          </ul>
+        </article>
+      </div>
 
-                  <article class="modal__card">
-                    <div class="modal__cardHead">
-                      <span class="badge">Alt</span>
-                      <h4>Jaccard</h4>
-                    </div>
-                    <p class="eq">score = <strong>overlap</strong> ÷ <strong>union</strong></p>
-                    <ul class="use-for">
-                      <li>Overall “vibe similarity.”</li>
-                      <li>Unrelated extra tags reduce the score.</li>
-                    </ul>
-                  </article>
-                </div>
-              </section>
+      <!-- Hypothetical tag search example -->
+      <div class="score-example">
+        <h4 class="score-example__title">Example search</h4>
+        <p class="score-example__subtitle">
+          Query tags:
+        </p>
+        <div class="score-example__chips">
+          <span class="chip chip--tiny chip--query">roguelike</span>
+          <span class="chip chip--tiny chip--query">deckbuilder</span>
+          <span class="chip chip--tiny chip--query">turn-based</span>
+        </div>
 
-              <footer class="modal__footer">
-                <button class="btn btn-accent">Got it</button>
-              </footer>
-            </form>
-          </dialog>
+        <div class="score-example__rows">
+          <div class="score-example__game">
+            <div class="score-example__head">
+              <span class="score-example__name">Game A</span>
+              <span class="score-example__pill">Containment: 100% · Jaccard: 60%</span>
+            </div>
+            <div class="score-example__chips">
+              <span class="chip chip--tiny chip--match">roguelike</span>
+              <span class="chip chip--tiny chip--match">deckbuilder</span>
+              <span class="chip chip--tiny chip--match">turn-based</span>
+              <span class="chip chip--tiny chip--extra">indie</span>
+              <span class="chip chip--tiny chip--extra">pixel graphics</span>
+            </div>
+            <p class="score-example__note">
+              Matches <strong>all 3</strong> query tags. Containment is 3/3 = 1.0 (100%).
+              Jaccard is 3 / 5 = 0.6 (extra tags dilute the “vibe” a bit).
+            </p>
+          </div>
+
+          <div class="score-example__game">
+            <div class="score-example__head">
+              <span class="score-example__name">Game B</span>
+              <span class="score-example__pill">Containment: 67% · Jaccard: 67%</span>
+            </div>
+            <div class="score-example__chips">
+              <span class="chip chip--tiny chip--match">roguelike</span>
+              <span class="chip chip--tiny chip--match">deckbuilder</span>
+              <span class="chip chip--tiny chip--miss">real-time</span>
+            </div>
+            <p class="score-example__note">
+              Only <strong>2 of your 3</strong> query tags match.  
+              Containment is 2/3 ≈ 0.67, and there are no unrelated extras, so
+              Jaccard is also 2 / 3 ≈ 0.67.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="modal__footer">
+      <button class="btn btn-accent" type="submit">Got it</button>
+    </footer>
+  </form>
+</dialog>
+
         </fieldset>
 
         <!-- Match & Release (tags-only now) -->
@@ -186,6 +244,7 @@ body_classes: page-tools
     let games = [];
     let queryTags = new Set();
     let bannedTags = new Set();
+    let forcedTags = new Set();  // tags "pinned" by clicking chips
     let showThumbs = true; // view option hook (safe even if not present)
 
     let currentPage = 1;
@@ -266,6 +325,43 @@ body_classes: page-tools
     // ---------- Utils ----------
     const normTag = t => t.trim().toLowerCase();
     const normName = s => (s || '').trim().toLowerCase();
+
+// ---------- Scoring help modal wiring ----------
+if (openScoreHelpBtn && scoreDialog) {
+  // Open on button click
+  openScoreHelpBtn.addEventListener('click', () => {
+    try {
+      scoreDialog.showModal();
+    } catch (e) {
+      // Fallback if <dialog> isn't supported as a modal
+      scoreDialog.setAttribute('open', 'open');
+    }
+  });
+
+  // Close when clicking the ✕ button
+  const closeBtn = scoreDialog.querySelector('.modal__close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      scoreDialog.close?.();
+      scoreDialog.removeAttribute('open');
+    });
+  }
+
+  // Ensure "Got it" / ESC / Enter closes cleanly
+  scoreDialog.addEventListener('close', () => {
+    scoreDialog.removeAttribute('open');
+  });
+
+  // Optional: close if user clicks the backdrop area (outside the panel)
+  scoreDialog.addEventListener('click', (e) => {
+    if (e.target === scoreDialog) {
+      scoreDialog.close?.();
+      scoreDialog.removeAttribute('open');
+    }
+  });
+}
+
 
     function gramify(s) {
       const cleaned = (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -396,89 +492,137 @@ body_classes: page-tools
         chipsEl.innerHTML = '<div class="hint">No active tags. Add some to see results.</div>';
       } else {
         for (const t of queryTags) {
-          const chip = document.createElement('span'); chip.className = 'chip chip-query'; chip.textContent = t;
-          const x = document.createElement('button'); x.className = 'chip-x'; x.type = 'button';
-          x.setAttribute('aria-label', `Remove ${t}`); x.textContent = '×';
-          x.onclick = (e) => { e.stopPropagation(); queryTags.delete(t); currentPage = 1; renderChips(); renderQuery(); };
-          chip.appendChild(x); chipsEl.appendChild(chip);
+          const chip = document.createElement('span');
+          chip.className = 'chip chip-query';
+          if (forcedTags.has(t)) chip.classList.add('chip-forced'); // visually mark forced tags
+          chip.textContent = t;
+          chip.dataset.tag = t;
+
+          const x = document.createElement('button');
+          x.className = 'chip-x';
+          x.type = 'button';
+          x.setAttribute('aria-label', `Remove ${t}`);
+          x.textContent = '×';
+
+          // Click on the X: remove tag (and unforce it)
+          x.onclick = (e) => {
+            e.stopPropagation();
+            queryTags.delete(t);
+            forcedTags.delete(t);
+            currentPage = 1;
+            renderChips();
+            renderQuery();
+          };
+
+          chip.appendChild(x);
+
+          // Click on the chip body: toggle forced state
+          chip.addEventListener('click', (e) => {
+            // if user clicked the X, do nothing here
+            if (e.target === x) return;
+
+            if (forcedTags.has(t)) {
+              forcedTags.delete(t);
+            } else {
+              forcedTags.add(t);
+            }
+            currentPage = 1;
+            renderChips();
+            renderQuery();
+          });
+
+          chipsEl.appendChild(chip);
         }
       }
 
       bannedEl.innerHTML = '';
       for (const t of bannedTags) {
-        const chip = document.createElement('span'); chip.className = 'chip'; chip.textContent = t;
-        const x = document.createElement('button'); x.className = 'chip-x'; x.type = 'button';
-        x.setAttribute('aria-label', `Remove ${t}`); x.textContent = '×';
-        x.onclick = (e) => { e.stopPropagation(); bannedTags.delete(t); currentPage = 1; renderChips(); renderQuery(); };
-        chip.appendChild(x); bannedEl.appendChild(chip);
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = t;
+        const x = document.createElement('button');
+        x.className = 'chip-x';
+        x.type = 'button';
+        x.setAttribute('aria-label', `Remove ${t}`);
+        x.textContent = '×';
+        x.onclick = (e) => {
+          e.stopPropagation();
+          bannedTags.delete(t);
+          currentPage = 1;
+          renderChips();
+          renderQuery();
+        };
+        chip.appendChild(x);
+        bannedEl.appendChild(chip);
       }
     }
 
-function renderPage() {
-  resultsEl.innerHTML = '';
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const slice = lastResults.slice(start, start + PAGE_SIZE);
-  const q = new Set(queryTags);
 
-  for (const item of slice) {
-    const g = games[item.gIdx];
-    const pct = Math.round(item.score * 100);
-    const color = similarityColor(pct);
-    const label = decileLabel(pct);
+    function renderPage() {
+      resultsEl.innerHTML = '';
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const slice = lastResults.slice(start, start + PAGE_SIZE);
+      const q = new Set(queryTags);
 
-    const card = document.createElement('article');
-    card.className = 'card';
+      for (const item of slice) {
+        const g = games[item.gIdx];
+        const pct = Math.round(item.score * 100);
+        const color = similarityColor(pct);
+        const label = decileLabel(pct);
 
-    // --- TOP BAR (moved to top of card) ---
-    const barWrap = document.createElement('div');
-    barWrap.className = 'bar-wrap bar-wrap-top';
-    const bar = document.createElement('div');
-    bar.className = 'bar';
-    bar.style.width = pct + '%';
-    bar.style.background = color;
-    barWrap.appendChild(bar);
-    card.appendChild(barWrap);
-    // ---------------------------------------
+        const card = document.createElement('article');
+        card.className = 'card';
 
-    const header = document.createElement('div');
-    header.className = 'card-header';
-    if (showThumbs && g.header) {
-      const img = document.createElement('img');
-      img.className = 'thumb thumb-inline';
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.alt = `${g.name} header image`;
-      img.src = g.header;
-      header.appendChild(img);
-    }
+        // --- TOP BAR (moved to top of card) ---
+        const barWrap = document.createElement('div');
+        barWrap.className = 'bar-wrap bar-wrap-top';
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.width = pct + '%';
+        bar.style.background = color;
+        barWrap.appendChild(bar);
+        card.appendChild(barWrap);
+        // ---------------------------------------
 
-    const title = document.createElement('h3');
-    title.className = 'title';
-    const a = document.createElement('a');
-    a.href = `https://store.steampowered.com/app/${g.app_id}`;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.textContent = g.name;
-    title.appendChild(a);
-    header.appendChild(title);
+        const header = document.createElement('div');
+        header.className = 'card-header';
+        if (showThumbs && g.header) {
+          const img = document.createElement('img');
+          img.className = 'thumb thumb-inline';
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          img.alt = `${g.name} header image`;
+          img.src = g.header;
+          header.appendChild(img);
+        }
 
-    const pill = document.createElement('span');
-    pill.className = 'sim-pill';
-    pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
-    pill.textContent = `${pct}%`;
-    pill.style.borderColor = color;
-    pill.style.color = color;
-    header.appendChild(pill);
+        const title = document.createElement('h3');
+        title.className = 'title';
+        const a = document.createElement('a');
+        a.href = `https://store.steampowered.com/app/${g.app_id}`;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = g.name;
+        title.appendChild(a);
+        header.appendChild(title);
 
-    card.appendChild(header);
+        const pill = document.createElement('span');
+        pill.className = 'sim-pill';
+        pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
+        pill.textContent = `${pct}%`;
+        pill.style.borderColor = color;
+        pill.style.color = color;
+        header.appendChild(pill);
 
-    const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
-    const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
-    const estimate = estimateSalesUSD(g);
+        card.appendChild(header);
 
-    const meta = document.createElement('div');
-    meta.className = 'meta-row';
-    meta.innerHTML = `
+        const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
+        const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
+        const estimate = estimateSalesUSD(g);
+
+        const meta = document.createElement('div');
+        meta.className = 'meta-row';
+        meta.innerHTML = `
       <span class="meta">Developer: ${devs}</span>
       <span class="meta">Publisher: ${pubs}</span>
       <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
@@ -486,26 +630,26 @@ function renderPage() {
       <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
       <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
     `;
-    card.appendChild(meta);
+        card.appendChild(meta);
 
-    const tagsDiv = document.createElement('div');
-    tagsDiv.className = 'tags';
-    (g.tags || []).forEach(t => {
-      const s = document.createElement('span');
-      s.className = q.has(t) ? 'tag matched' : 'tag';
-      s.textContent = t;
-      tagsDiv.appendChild(s);
-    });
-    card.appendChild(tagsDiv);
+        const tagsDiv = document.createElement('div');
+        tagsDiv.className = 'tags';
+        (g.tags || []).forEach(t => {
+          const s = document.createElement('span');
+          s.className = q.has(t) ? 'tag matched' : 'tag';
+          s.textContent = t;
+          tagsDiv.appendChild(s);
+        });
+        card.appendChild(tagsDiv);
 
-    resultsEl.appendChild(card);
-  }
+        resultsEl.appendChild(card);
+      }
 
-  pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
-  prevBtn.disabled = currentPage <= 1;
-  nextBtn.disabled = currentPage >= totalPages;
-  pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
-}
+      pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+      pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
+    }
 
 
     function renderQuery() {
@@ -573,6 +717,19 @@ function renderPage() {
 
         if (hasAnyBanned(g)) continue;
 
+        // NEW: enforce any "forced" tags selected via chips
+        if (forcedTags.size > 0) {
+          const tagSet = buildTagSet(g);
+          let ok = true;
+          for (const ft of forcedTags) {
+            if (!tagSet.has(ft)) {
+              ok = false;
+              break;
+            }
+          }
+          if (!ok) continue; // skip games missing any forced tag
+        }
+
         const pMin = readNum(priceMinEl), pMax = readNum(priceMaxEl);
         if (pMin !== null || pMax !== null) {
           const price = g.price;
@@ -598,6 +755,7 @@ function renderPage() {
 
         results.push({ gIdx: gi, score: sc.score, interCount: sc.inter });
       }
+
 
       results.sort((a, b) => {
         const ga = games[a.gIdx], gb = games[b.gIdx];
