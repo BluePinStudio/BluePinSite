@@ -414,73 +414,99 @@ body_classes: page-tools
       }
     }
 
-    function renderPage() {
-      resultsEl.innerHTML = '';
-      const start = (currentPage - 1) * PAGE_SIZE;
-      const slice = lastResults.slice(start, start + PAGE_SIZE);
-      const q = new Set(queryTags);
+function renderPage() {
+  resultsEl.innerHTML = '';
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const slice = lastResults.slice(start, start + PAGE_SIZE);
+  const q = new Set(queryTags);
 
-      for (const item of slice) {
-        const g = games[item.gIdx];
-        const pct = Math.round(item.score * 100);
-        const color = similarityColor(pct);
-        const label = decileLabel(pct);
+  for (const item of slice) {
+    const g = games[item.gIdx];
+    const pct = Math.round(item.score * 100);
+    const color = similarityColor(pct);
+    const label = decileLabel(pct);
 
-        const card = document.createElement('article');
-        card.className = 'card';
+    const card = document.createElement('article');
+    card.className = 'card';
 
-        const header = document.createElement('div'); header.className = 'card-header';
-        if (showThumbs && g.header) {
-          const img = document.createElement('img'); img.className = 'thumb thumb-inline';
-          img.loading = 'lazy'; img.decoding = 'async'; img.alt = `${g.name} header image`; img.src = g.header;
-          header.appendChild(img);
-        }
-        const title = document.createElement('h3'); title.className = 'title';
-        const a = document.createElement('a'); a.href = `https://store.steampowered.com/app/${g.app_id}`; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = g.name;
-        title.appendChild(a); header.appendChild(title);
+    // --- TOP BAR (moved to top of card) ---
+    const barWrap = document.createElement('div');
+    barWrap.className = 'bar-wrap bar-wrap-top';
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.width = pct + '%';
+    bar.style.background = color;
+    barWrap.appendChild(bar);
+    card.appendChild(barWrap);
+    // ---------------------------------------
 
-        const pill = document.createElement('span'); pill.className = 'sim-pill';
-        pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
-        pill.textContent = `${pct}%`; pill.style.borderColor = color; pill.style.color = color;
-        header.appendChild(pill);
-        card.appendChild(header);
-
-        const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
-        const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
-        const estimate = estimateSalesUSD(g);
-
-        const meta = document.createElement('div'); meta.className = 'meta-row';
-        meta.innerHTML = `
-          <span class="meta">Developer: ${devs}</span>
-          <span class="meta">Publisher: ${pubs}</span>
-          <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
-          <span class="meta">Price: ${formatPrice(g.price)}</span>
-          <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
-          <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
-        `;
-        card.appendChild(meta);
-
-        const barWrap = document.createElement('div'); barWrap.className = 'bar-wrap';
-        const bar = document.createElement('div'); bar.className = 'bar'; bar.style.width = pct + '%'; bar.style.background = color;
-        barWrap.appendChild(bar); card.appendChild(barWrap);
-
-        const tagsDiv = document.createElement('div'); tagsDiv.className = 'tags';
-        (g.tags || []).forEach(t => {
-          const s = document.createElement('span');
-          s.className = q.has(t) ? 'tag matched' : 'tag';
-          s.textContent = t;
-          tagsDiv.appendChild(s);
-        });
-        card.appendChild(tagsDiv);
-
-        resultsEl.appendChild(card);
-      }
-
-      pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
-      prevBtn.disabled = currentPage <= 1;
-      nextBtn.disabled = currentPage >= totalPages;
-      pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
+    const header = document.createElement('div');
+    header.className = 'card-header';
+    if (showThumbs && g.header) {
+      const img = document.createElement('img');
+      img.className = 'thumb thumb-inline';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.alt = `${g.name} header image`;
+      img.src = g.header;
+      header.appendChild(img);
     }
+
+    const title = document.createElement('h3');
+    title.className = 'title';
+    const a = document.createElement('a');
+    a.href = `https://store.steampowered.com/app/${g.app_id}`;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = g.name;
+    title.appendChild(a);
+    header.appendChild(title);
+
+    const pill = document.createElement('span');
+    pill.className = 'sim-pill';
+    pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
+    pill.textContent = `${pct}%`;
+    pill.style.borderColor = color;
+    pill.style.color = color;
+    header.appendChild(pill);
+
+    card.appendChild(header);
+
+    const devs = (g.developers && g.developers.length) ? g.developers.join(', ') : '—';
+    const pubs = (g.publishers && g.publishers.length) ? g.publishers.join(', ') : '—';
+    const estimate = estimateSalesUSD(g);
+
+    const meta = document.createElement('div');
+    meta.className = 'meta-row';
+    meta.innerHTML = `
+      <span class="meta">Developer: ${devs}</span>
+      <span class="meta">Publisher: ${pubs}</span>
+      <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
+      <span class="meta">Price: ${formatPrice(g.price)}</span>
+      <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
+      <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
+    `;
+    card.appendChild(meta);
+
+    const tagsDiv = document.createElement('div');
+    tagsDiv.className = 'tags';
+    (g.tags || []).forEach(t => {
+      const s = document.createElement('span');
+      s.className = q.has(t) ? 'tag matched' : 'tag';
+      s.textContent = t;
+      tagsDiv.appendChild(s);
+    });
+    card.appendChild(tagsDiv);
+
+    resultsEl.appendChild(card);
+  }
+
+  pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
+  prevBtn.disabled = currentPage <= 1;
+  nextBtn.disabled = currentPage >= totalPages;
+  pagerEl.style.display = totalPages > 1 ? '' : (queryTags.size ? '' : 'none');
+}
+
 
     function renderQuery() {
       const hideUnreleased = !!(ignoreUnreleasedEl && ignoreUnreleasedEl.checked);
