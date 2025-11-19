@@ -1,0 +1,345 @@
+---
+layout: default
+body_classes: page-basic
+---
+
+<div class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div class="title">
+
+          {% if page.title %}
+          <div class="title-heading">
+            <h1>{{ page.title }}</h1>
+          </div>
+          {% endif %}
+
+          {% if page.description %}
+          <div class="title-description">
+            <p>{{ page.description }}</p>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%}
+Game jam carousel — automatically pulls any image in /assets/images/gamejams
+{%- endcomment -%}
+{% assign jam_images = site.static_files
+| where_exp: "file", "file.path contains '/assets/images/gamejams/'"
+| sort: "name" %}
+
+{% if jam_images.size > 0 %}
+<div class="section pt-0">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div class="jam-carousel" aria-label="Game jam screenshots" role="region">
+          <div class="jam-track" id="jamTrack">
+            <canvas id="jamCanvas"></canvas>
+
+            {%- comment -%}
+            Hidden source images; JS grabs these, shuffles them, and draws to canvas.
+            {%- endcomment -%}
+            {% for image in jam_images %}
+            <img class="jam-src" src="{{ image.path | relative_url }}"
+              alt="{{ image.name | split: '.' | first | replace: '-', ' ' | replace: '_', ' ' }}" loading="lazy">
+            {% endfor %}
+          </div>
+
+          {%- comment -%}
+          No-JS fallback: simple static gallery of jam images
+          {%- endcomment -%}
+          <noscript>
+            <div class="jam-noscript-message">
+              There is a fancy carousel of images here, but you have scripts disabled so you can't see it :(
+            </div>
+          </noscript>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% assign page_content = content | strip_newlines %}
+{% if page_content != "" %}
+<div class="section pt-0">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div class="content">{{ content }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<style>
+  /* ===== Game jam carousel with canvas disintegration effect ===== */
+  .jam-carousel {
+    position: relative;
+    margin: 1.5rem 0 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-elevated, #111822);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .jam-track {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    /* 16:9 aspect */
+  }
+
+  #jamCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Hidden sources: just for JS to load from */
+  .jam-src {
+    display: none !important;
+  }
+
+  .jam-noscript-message {
+    padding: 1rem;
+    background: #222b36;
+    color: #c7d0db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-top: 0.75rem;
+  }
+
+  /* No-JS fallback gallery */
+  .jam-noscript-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--bg-elevated, #111822);
+  }
+
+  .jam-noscript-item {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .jam-noscript-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  @media (max-width: 767.98px) {
+    .jam-carousel {
+      margin-inline: -0.75rem;
+      border-radius: 0;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const track = document.getElementById("jamTrack");
+    const canvas = document.getElementById("jamCanvas");
+    if (!track || !canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const srcEls = Array.from(track.querySelectorAll(".jam-src"));
+    if (!srcEls.length || !ctx) return;
+
+    // --- Shuffle sources so order is different each load ---
+    const sources = srcEls.map(img => img.src);
+    for (let i = sources.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [sources[i], sources[j]] = [sources[j], sources[i]];
+    }
+
+    // --- Preload images ---
+    const images = [];
+    let loaded = 0;
+
+    function maybeInit() {
+      if (loaded === sources.length) {
+        initCarousel();
+      }
+    }
+
+    sources.forEach((src, idx) => {
+      const im = new Image();
+      im.src = src;
+      im.onload = function () {
+        images[idx] = im;
+        loaded++;
+        maybeInit();
+      };
+      im.onerror = function () {
+        // skip broken images
+        loaded++;
+        maybeInit();
+      };
+    });
+
+    let width = 0;
+    let height = 0;
+
+    function resizeCanvas() {
+      const rect = track.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      width = rect.width;
+      height = rect.height;
+
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    // Simple debounce
+    let resizeTimer = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        resizeCanvas();
+        if (images[currentIndex]) {
+          drawImageNormal(images[currentIndex]);
+        }
+      }, 120);
+    });
+
+    // Helper: draw image filling canvas with "object-fit: cover" behavior
+    function drawCover(ctx2, img, targetW, targetH) {
+      const imgRatio = img.width / img.height;
+      const canvasRatio = targetW / targetH;
+
+      let drawW, drawH, offsetX, offsetY;
+
+      if (imgRatio > canvasRatio) {
+        // Image is relatively wider: match height, crop sides
+        drawH = targetH;
+        drawW = drawH * imgRatio;
+        offsetX = (targetW - drawW) / 2;
+        offsetY = 0;
+      } else {
+        // Image is relatively taller: match width, crop top/bottom
+        drawW = targetW;
+        drawH = drawW / imgRatio;
+        offsetX = 0;
+        offsetY = (targetH - drawH) / 2;
+      }
+
+      ctx2.drawImage(img, offsetX, offsetY, drawW, drawH);
+    }
+
+    function drawImageNormal(img) {
+      if (!img || !width || !height) return;
+      ctx.clearRect(0, 0, width, height);
+      ctx.imageSmoothingEnabled = true;
+      drawCover(ctx, img, width, height);
+    }
+
+    // Offscreen canvas for pixelation effect
+    const offCanvas = document.createElement("canvas");
+    const offCtx = offCanvas.getContext("2d");
+
+    function drawPixelatedTransition(fromImg, toImg, t) {
+      if (!toImg || !width || !height) return;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Base layer: previous image (solid)
+      if (fromImg) {
+        ctx.imageSmoothingEnabled = true;
+        drawCover(ctx, fromImg, width, height);
+      }
+
+      // Pixelation level: large chunky pixels at start, shrinking over time
+      const maxPixel = 70;
+      const minPixel = 4;
+      const pixelSize = maxPixel * (1 - t) + minPixel * t;
+
+      const pw = Math.max(1, Math.round(width / pixelSize));
+      const ph = Math.max(1, Math.round(height / pixelSize));
+
+      offCanvas.width = pw;
+      offCanvas.height = ph;
+
+      // Draw target image very small
+      offCtx.clearRect(0, 0, pw, ph);
+      offCtx.imageSmoothingEnabled = true;
+      drawCover(offCtx, toImg, pw, ph);
+
+      // Now draw the tiny, blocky version back scaled up, with no smoothing
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      ctx.globalAlpha = Math.min(1, t * 1.05);
+      ctx.drawImage(offCanvas, 0, 0, pw, ph, 0, 0, width, height);
+      ctx.restore();
+    }
+
+    let currentIndex = 0;
+    const DISPLAY_TIME = 2200;   // time to sit on a slide
+    const TRANSITION_TIME = 800; // disintegration duration (ms)
+    let isAnimating = false;
+
+    function initCarousel() {
+      if (!images.length) return;
+      resizeCanvas();
+      drawImageNormal(images[currentIndex]);
+      if (images.length > 1) {
+        setTimeout(runLoop, DISPLAY_TIME);
+      }
+    }
+
+    function transitionTo(nextIndex) {
+      if (isAnimating || nextIndex === currentIndex) return;
+      isAnimating = true;
+
+      const fromImg = images[currentIndex];
+      const toImg = images[nextIndex];
+      const start = performance.now();
+
+      function frame(now) {
+        const elapsed = now - start;
+        const t = Math.min(1, elapsed / TRANSITION_TIME);
+        drawPixelatedTransition(fromImg, toImg, t);
+
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          // Ensure final frame is crisp
+          currentIndex = nextIndex;
+          drawImageNormal(toImg);
+          isAnimating = false;
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function runLoop() {
+      if (images.length <= 1) return;
+      const nextIndex = (currentIndex + 1) % images.length;
+      transitionTo(nextIndex);
+      // Schedule next cycle after this transition plus display time
+      setTimeout(runLoop, DISPLAY_TIME + TRANSITION_TIME);
+    }
+  });
+</script>

@@ -1,10 +1,8 @@
 ---
-layout: basic
+layout: gamejams
 title: "Game Jam Submissions"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/game-jams/"
-description: "Each game jam has a different theme that helps inspire and inform game design. In addition to meeting lots of fantastic developers and artists, we get to experiment with new concepts and genres which is instrumental for creating unique games."
-image: /assets/images/games/jams.jpg
 ---
 
 Outside of our main projects, we also enjoy participating in game jams. Specifically, the [Ludum Dare](https://en.wikipedia.org/wiki/Ludum_Dare) game jam where indie developers from all around the world spend a weekend making a new game from scratch. Each game jam has a different theme that helps inspire and inform game design. In addition to meeting lots of fantastic developers and artists, we get to experiment with new concepts and genres which is instrumental for creating unique games.
