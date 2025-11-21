@@ -1,243 +1,85 @@
 {
-    "c2array": true,
-    "size": [
-        1,
-        77,
-        1
-    ],
-    "data": [
-        [
-            [
-                "Afaur"
-            ],
-            [
-                "Angeecarlate"
-            ],
-            [
-                "Axel"
-            ],
-            [
-                "AxolotlGuy"
-            ],
-            [
-                "CherryCRC"
-            ],
-            [
-                "Construct Game Engine"
-            ],
-            [
-                "Dan Corona"
-            ],
-            [
-                "Dragon Slumber"
-            ],
-            [
-                "Lowmironis"
-            ],
-            [
-                "Manisha"
-            ],
-            [
-                "EvanMMO"
-            ],
-            [
-                "Rujum"
-            ],
-            [
-                "Skymen"
-            ],
-            [
-                "Waroduck"
-            ],
-            [
-                "Xander"
-            ],
-            [
-                "Athano"
-            ],
-            [
-                "Roguematters10"
-            ],
-            [
-                "Abortress PSX"
-            ],
-            [
-                "Spudcats"
-            ],
-            [
-                "Fruloo"
-            ],
-            [
-                "FuturecopLGF"
-            ],
-            [
-                "Ludum Dare"
-            ],
-            [
-                "Newgrounds"
-            ],
-            [
-                "Itch.io"
-            ],
-            [
-                "AngryBit"
-            ],
-            [
-                "BlossomBoop"
-            ],
-            [
-                "Honey Silk Font"
-            ],
-            [
-                "Errynei"
-            ],
-            [
-                "Tyrus Rechs"
-            ],
-            [
-                "CartoonCoffee"
-            ],
-            [
-                "Maruki"
-            ],
-            [
-                "Bapu"
-            ],
-            [
-                "Riley Chartrand"
-            ],
-            [
-                "Bunk Stunkis"
-            ],
-            [
-                "MIIchael"
-            ],
-            [
-                "Pijinguy"
-            ],
-            [
-                "Moreno"
-            ],
-            [
-                "Blocheee"
-            ],
-            [
-                "Okbt"
-            ],
-            [
-                "Aaronlogitec"
-            ],
-            [
-                "Ozcxtr"
-            ],
-            [
-                "Ran"
-            ],
-            [
-                "Yoodiv"
-            ],
-            [
-                "Dreamy Candy"
-            ],
-            [
-                "Shogamad"
-            ],
-            [
-                "TTza0"
-            ],
-            [
-                "Pjbruce2827"
-            ],
-            [
-                "Spagent Floundry"
-            ],
-            [
-                "Osu!Rhythm"
-            ],
-            [
-                "Ayunema"
-            ],
-            [
-                "Annoying Crow"
-            ],
-            [
-                "Seth Funk"
-            ],
-            [
-                "JustinSix"
-            ],
-            [
-                "Bjaksel"
-            ],
-            [
-                "FantasyForest"
-            ],
-            [
-                "Sonicgeoblue"
-            ],
-            [
-                "D(!)ance"
-            ],
-            [
-                "Holo"
-            ],
-            [
-                "Lohitas"
-            ],
-            [
-                "Demokritos018"
-            ],
-            [
-                "Praetorgredior"
-            ],
-            [
-                "Niko"
-            ],
-            [
-                "TX."
-            ],
-            [
-                "Gameperion"
-            ],
-            [
-                "Tomektomekce"
-            ],
-            [
-                "CodeRad"
-            ],
-            [
-                "Beector"
-            ],
-            [
-                "DoReMixD"
-            ],
-            [
-                "Ojo1138"
-            ],
-            [
-                "General Dismas"
-            ],
-            [
-                "High Cross"
-            ],
-            [
-                "Gyroid"
-            ],
-            [
-                "GregorySampson"
-            ],
-            [
-                "KingdomOfKharkiv"
-            ],
-            [
-                "Mfge139"
-            ],
-            [
-                "LieEmperoRu"
-            ],
-            [
-                "Jerboa Queen"
-            ]                                                                                                                             
-        ]
+  "c2array": true,
+  "size": [1, 77, 1],
+  "data": [
+    [
+      ["Afaur"],
+      ["Angeecarlate"],
+      ["Axel"],
+      ["AxolotlGuy"],
+      ["CherryCRC"],
+      ["Construct Game Engine"],
+      ["Dan Corona"],
+      ["Dragon Slumber"],
+      ["Lowmironis"],
+      ["Manisha"],
+      ["EvanMMO"],
+      ["Rujum"],
+      ["Skymen"],
+      ["Waroduck"],
+      ["Xander"],
+      ["Athano"],
+      ["Roguematters10"],
+      ["Abortress PSX"],
+      ["Spudcats"],
+      ["Fruloo"],
+      ["FuturecopLGF"],
+      ["Ludum Dare"],
+      ["Newgrounds"],
+      ["Itch.io"],
+      ["AngryBit"],
+      ["BlossomBoop"],
+      ["Honey Silk Font"],
+      ["Errynei"],
+      ["Tyrus Rechs"],
+      ["CartoonCoffee"],
+      ["Maruki"],
+      ["Bapu"],
+      ["Riley Chartrand"],
+      ["Bunk Stunkis"],
+      ["MIIchael"],
+      ["Pijinguy"],
+      ["Moreno"],
+      ["Blocheee"],
+      ["Okbt"],
+      ["Aaronlogitec"],
+      ["Ozcxtr"],
+      ["Ran"],
+      ["Yoodiv"],
+      ["Dreamy Candy"],
+      ["Shogamad"],
+      ["TTza0"],
+      ["Pjbruce2827"],
+      ["Spagent Floundry"],
+      ["Osu!Rhythm"],
+      ["Ayunema"],
+      ["Annoying Crow"],
+      ["Seth Funk"],
+      ["JustinSix"],
+      ["Bjaksel"],
+      ["FantasyForest"],
+      ["Sonicgeoblue"],
+      ["D(!)ance"],
+      ["Holo"],
+      ["Lohitas"],
+      ["Demokritos018"],
+      ["Praetorgredior"],
+      ["Niko"],
+      ["TX."],
+      ["Gameperion"],
+      ["Tomektomekce"],
+      ["CodeRad"],
+      ["Beector"],
+      ["DoReMixD"],
+      ["Ojo1138"],
+      ["General Dismas"],
+      ["High Cross"],
+      ["Gyroid"],
+      ["GregorySampson"],
+      ["KingdomOfKharkiv"],
+      ["Mfge139"],
+      ["LieEmperoRu"],
+      ["Jerboa Queen"]
     ]
+  ]
 }
