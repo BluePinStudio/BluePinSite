@@ -11,28 +11,43 @@ We have a Google Sheet that contains an exhaustive (and opinionated) list of gam
 
 ### List of Submissions
 
-| **Order**    | **Date**    | **Jam**|   **Placement**   | **Title**    | **Genre**    |
-|1|MAR 2020| Below the Stone Jam       |Top 33%|[Toaster Treasure](https://bluepinstudio.itch.io/toaster-treasure)                |Metroidvania          |
-|2|APR 2020| Ludum Dare 46             |Top 35%|[Keep Dano Alive](https://bluepinstudio.itch.io/keep-dano-alive)                  |Farming Simulator     |
-|3|OCT 2020| Ludum Dare 47             |Top 28%|[Imperial Eggnog Inc](https://bluepinstudio.itch.io/imperial-eggnog-incorporated) |Desk Simulator        |
-|4|APR 2021| Ludum Dare 48             |Top 2% |[Explory Story](https://bluepinstudio.itch.io/explory-story-jam)                  |Walking Simulator     |
-|5|OCT 2021| Ludum Dare 49             |Top 13%|[U49 Meltdown](https://bluepinstudio.itch.io/u-49-meltdown/)                      |Platformer            |
-|6|APR 2022| Ludum Dare 50             |Top 27%|[Quadratorum](https://bluepinstudio.itch.io/quadratorum/)                         |Top-Down Shooter      |
-|7|AUG 2022| Wanna x Yam Game Jam      |Top 28%|[Blend Defend](https://bluepinstudio.itch.io/blend-defend/)                       |Tower Defense         |
-|8|OCT 2022| Ludum Dare 51             |Top 17%|[Panopticon](https://bluepinstudio.itch.io/panopticon/)                           |Top-Down Shooter      |
-|9|JAN 2023| Ludum Dare 52             |Top 14%|[Charles the Bee](https://bluepinstudio.itch.io/charles/)                         |Rhythm                |
-|10|MAY 2023| Ludum Dare 53            |Top 13%|[Devilivery](https://bluepinstudio.itch.io/devilivery/)                           |Sidescroller / Shooter|
-|11|OCT 2023| Ludum Dare 54            |Top 25%|[RAMpage](https://bluepinstudio.itch.io/rampage/)                                 |Auto Battler          |
-|12|DEC 2023| Secret Santa Jam         |N/A    |[Seth's Mysterious Portal](https://bluepinstudio.itch.io/seth-mystery-portal/)    |Quiz                  |
-|13|APR 2024| Ludum Dare 55            |Top 3% |[Sinful Scoops](https://bluepinstudio.itch.io/sinful-scoops/)                     |Puzzle                |
-|14|AUG 2024| Do you WANNA Jam?!       |Top 13%|[Insock Out](https://bluepinstudio.itch.io/insock-out/)<br><a href="/blog/2024-08-25-Insock-Out-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                           |Action                |
-|15|OCT 2024| Ludum Dare 56            |Top 29%|[Save Nebuville](https://bluepinstudio.itch.io/save-nebuville/)<br><a href="/blog/2024-10-27-Save-Nebuville-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                   |Arcade Shooter        |
-|16|DEC 2024| Yogscast Jingle Jam 2024 |<span style="background: linear-gradient(90deg, #4675e1, #ff0000); -webkit-background-clip: text; color: transparent;">**WINNER!**</span>|[Trash Force](https://bluepinstudio.itch.io/trashforce)<br><a href="/blog/2024-12-20-Trash-Force-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                           |Arcade Shooter        |
-|17|DEC 2024| Secret Santa Jam         |N/A    |[Bruugle's Keypad](https://bluepinstudio.itch.io/bruugles-keypad)                 |Quiz                      |
-|18|FEB 2025| Bigmode Game Jam 2025    |Top 18%|[Power of Loveball](https://bluepinstudio.itch.io/power-of-loveball)<br><a href="/blog/2025-02-14-Power-of-Loveball-Post-Mortem/" class="postmortem-link">View Postmortem →</a>              |Platformer / Visual Novel |
-|19|FEB 2025| Alakajam 21              |<span style="background: linear-gradient(90deg, #ff3030, #770000); -webkit-background-clip: text; color: transparent;">**WINNER!**</span>|[Falling Thingies](https://bluepinstudio.itch.io/falling-thingies)<br><a href="/blog/2025-03-15-Falling-Thingies-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                |Arcade Action             |
-|20|APR 2025| Ludum Dare 57            |Top 3%   |[Antz vs Plantz](https://bluepinstudio.itch.io/ants-vs-plantz)<br><a href="/blog/2025-05-15-Antz-vs-Plantz-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                  |Tower Defense             |
-|21|AUG 2025| Do you WANNA Jam?!       |Top 4%    |[Ship Happens](https://bluepinstudio.itch.io/ship-happens)<br><a href="/blog/2025-08-25-Ship-Happens-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                        |Mini-Game Assortment      |
-|22|OCT 2025| Ludum Dare 58       |Top 16%   |[Greg gathers ghosts because thats what he loves the most](https://bluepinstudio.itch.io/greg-gathers-ghosts-because-thats-what-he-loves-the-most)<br><a href="/blog/2025-10-26-Greg-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                                                                                  |Bullet Hell                      |
-|23|NOV 2025| Alakajam 22      |N/A  |[The Yield](https://bluepinstudio.itch.io/the-yield)<br><a href="/blog/2025-11-23-Yield-Post-Mortem/" class="postmortem-link">View Postmortem →</a>                                                                                  |Incremental Action                     |
-{: .table .table-bordered }
+<table class="table table-bordered jam-history-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date</th>
+      <th>Jam</th>
+      <th>Placement</th>
+      <th>Entries</th>
+      <th>Title</th>
+      <th>Genre</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for jam in site.data.jams %}
+    <tr>
+      <td>{{ forloop.index }}</td>
+      <td>{{ jam.date }}</td>
+      <td>{{ jam.jam }}</td>
+      <td>
+        {% if jam.winner %}
+          <span class="jam-winner">WINNER!</span>
+        {% elsif jam.placement %}
+          {{ jam.placement }} <small>({{ jam.percent }}%)</small>
+        {% else %}
+          N/A
+        {% endif %}
+      </td>
+      <td>{{ jam.entries | default: "N/A" }}</td>
+      <td>
+        <a href="{{ jam.url }}">{{ jam.title }}</a>
+        {% if jam.postmortem_url %}
+          <br>
+          <a href="{{ jam.postmortem_url }}" class="postmortem-link">View Postmortem →</a>
+        {% endif %}
+      </td>
+      <td>{{ jam.genre }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

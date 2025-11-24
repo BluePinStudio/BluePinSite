@@ -1,0 +1,217 @@
+- date: "MAR 2020"
+  jam: "Below the Stone Jam"
+  placement: 3
+  percent: 33
+  entries: 10
+  title: "Toaster Treasure"
+  url: "https://bluepinstudio.itch.io/toaster-treasure"
+  genre: "Metroidvania"
+
+- date: "APR 2020"
+  jam: "Ludum Dare 46"
+  placement: 1264
+  percent: 35
+  entries: 3576
+  title: "Keep Dano Alive"
+  url: "https://bluepinstudio.itch.io/keep-dano-alive"
+  genre: "Farming Simulator"
+
+- date: "OCT 2020"
+  jam: "Ludum Dare 47"
+  placement: 596
+  percent: 25
+  entries: 2406
+  title: "Imperial Eggnog Inc"
+  url: "https://bluepinstudio.itch.io/imperial-eggnog-incorporated"
+  genre: "Desk Simulator"
+
+- date: "APR 2021"
+  jam: "Ludum Dare 48"
+  placement: 46
+  percent: 2
+  entries: 2721
+  title: "Explory Story"
+  url: "https://bluepinstudio.itch.io/explory-story-jam"
+  genre: "Walking Simulator"
+
+- date: "OCT 2021"
+  jam: "Ludum Dare 49"
+  placement: 293
+  percent: 13
+  entries: 2204
+  title: "U49 Meltdown"
+  url: "https://bluepinstudio.itch.io/u-49-meltdown/"
+  genre: "Platformer"
+
+- date: "APR 2022"
+  jam: "Ludum Dare 50"
+  placement: 512
+  percent: 27
+  entries: 1922
+  title: "Quadratorum"
+  url: "https://bluepinstudio.itch.io/quadratorum/"
+  genre: "Top-Down Shooter"
+
+- date: "AUG 2022"
+  jam: "Wanna x Yam Game Jam"
+  placement: 21
+  percent: 28
+  entries: 74
+  title: "Blend Defend"
+  url: "https://bluepinstudio.itch.io/blend-defend/"
+  genre: "Tower Defense"
+
+- date: "OCT 2022"
+  jam: "Ludum Dare 51"
+  placement: 286
+  percent: 17
+  entries: 1702
+  title: "Panopticon"
+  url: "https://bluepinstudio.itch.io/panopticon/"
+  genre: "Top-Down Shooter"
+
+- date: "JAN 2023"
+  jam: "Ludum Dare 52"
+  placement: 155
+  percent: 14
+  entries: 1144
+  title: "Charles the Bee"
+  url: "https://bluepinstudio.itch.io/charles/"
+  genre: "Rhythm"
+
+- date: "MAY 2023"
+  jam: "Ludum Dare 53"
+  placement: 226
+  percent: 13
+  entries: 1719
+  title: "Devilivery"
+  url: "https://bluepinstudio.itch.io/devilivery/"
+  genre: "Sidescroller / Shooter"
+
+- date: "OCT 2023"
+  jam: "Ludum Dare 54"
+  placement: 397
+  percent: 25
+  entries: 1596
+  title: "RAMpage"
+  url: "https://bluepinstudio.itch.io/rampage/"
+  genre: "Auto Battler"
+
+- date: "DEC 2023"
+  jam: "Secret Santa Jam"
+  placement: null
+  percent: null
+  entries: null
+  title: "Seth's Mysterious Portal"
+  url: "https://bluepinstudio.itch.io/seth-mystery-portal/"
+  genre: "Quiz"
+
+- date: "APR 2024"
+  jam: "Ludum Dare 55"
+  placement: 56
+  percent: 3
+  entries: 1679
+  title: "Sinful Scoops"
+  url: "https://bluepinstudio.itch.io/sinful-scoops/"
+  genre: "Puzzle"
+
+- date: "AUG 2024"
+  jam: "Do you WANNA Jam?!"
+  placement: 22
+  percent: 15
+  entries: 146
+  title: "Insock Out"
+  url: "https://bluepinstudio.itch.io/insock-out/"
+  genre: "Action"
+  postmortem_url: "/blog/2024-08-25-Insock-Out-Post-Mortem/"
+
+- date: "OCT 2024"
+  jam: "Ludum Dare 56"
+  placement: 423
+  percent: 29
+  entries: 1478
+  title: "Save Nebuville"
+  url: "https://bluepinstudio.itch.io/save-nebuville/"
+  genre: "Arcade Shooter"
+  postmortem_url: "/blog/2024-10-27-Save-Nebuville-Post-Mortem/"
+
+- date: "DEC 2024"
+  jam: "Yogscast Jingle Jam 2024"
+  winner: true
+  placement: null
+  percent: null
+  entries: 111
+  title: "Trash Force"
+  url: "https://bluepinstudio.itch.io/trashforce"
+  genre: "Arcade Shooter"
+  postmortem_url: "/blog/2024-12-20-Trash-Force-Post-Mortem/"
+
+- date: "DEC 2024"
+  jam: "Secret Santa Jam"
+  placement: null
+  percent: null
+  entries: null
+  title: "Bruugle's Keypad"
+  url: "https://bluepinstudio.itch.io/bruugles-keypad"
+  genre: "Quiz"
+
+- date: "FEB 2025"
+  jam: "Bigmode Game Jam 2025"
+  placement: 150
+  percent: 18
+  entries: 821
+  title: "Power of Loveball"
+  url: "https://bluepinstudio.itch.io/power-of-loveball"
+  genre: "Platformer / Visual Novel"
+  postmortem_url: "/blog/2025-02-14-Power-of-Loveball-Post-Mortem/"
+
+- date: "FEB 2025"
+  jam: "Alakajam 21"
+  winner: true
+  placement: null
+  percent: null
+  entries: 45
+  title: "Falling Thingies"
+  url: "https://bluepinstudio.itch.io/falling-thingies"
+  genre: "Arcade Action"
+  postmortem_url: "/blog/2025-03-15-Falling-Thingies-Post-Mortem/"
+
+- date: "APR 2025"
+  jam: "Ludum Dare 57"
+  placement: 33
+  percent: 3
+  entries: 1181
+  title: "Antz vs Plantz"
+  url: "https://bluepinstudio.itch.io/ants-vs-plantz"
+  genre: "Tower Defense"
+  postmortem_url: "/blog/2025-05-15-Antz-vs-Plantz-Post-Mortem/"
+
+- date: "AUG 2025"
+  jam: "Do you WANNA Jam?!"
+  placement: 3
+  percent: 4
+  entries: 68
+  title: "Ship Happens"
+  url: "https://bluepinstudio.itch.io/ship-happens"
+  genre: "Mini-Game Assortment"
+  postmortem_url: "/blog/2025-08-25-Ship-Happens-Post-Mortem/"
+
+- date: "OCT 2025"
+  jam: "Ludum Dare 58"
+  placement: 169
+  percent: 16
+  entries: 1082
+  title: "Greg gathers ghosts because thats what he loves the most"
+  url: "https://bluepinstudio.itch.io/greg-gathers-ghosts-because-thats-what-he-loves-the-most"
+  genre: "Bullet Hell"
+  postmortem_url: "/blog/2025-10-26-Greg-Post-Mortem/"
+
+- date: "NOV 2025"
+  jam: "Alakajam 22"
+  placement: null
+  percent: null
+  entries: 12
+  title: "The Yield"
+  url: "https://bluepinstudio.itch.io/the-yield"
+  genre: "Incremental Action"
+  postmortem_url: "/blog/2025-11-23-Yield-Post-Mortem/"
