@@ -17,18 +17,16 @@ Woah! 2024 is over and 2025 is here! I'm starting another tradition, in addition
 Let's see what we have. These are the key metrics that I would like to track compared to the same metric in the previous calendar year...
 
 
-| Total Net Revenue from All Sources| **$1205 (USD)**|<span style="color:green">**+419%**</span> compared to 2023 |
-| Direct Community Size|**149**|<span style="color:green">**+110%**</span> compared to 2023 |
-| Auxiliary Community Size|**879**|<span style="color:green">**+87%**</span> compared to 2023 |
-| Player Count Estimate|**10,000**|no previous data available |
+| Total Net Revenue from All Sources| **$1541 (USD)**|<span style="color:green">**+564%**</span> compared to 2023 |
+| Discord/Mailing List|**149**|<span style="color:green">**+110%**</span> compared to 2023 |
+| Followers|**879**|<span style="color:green">**+87%**</span> compared to 2023 |
 | Steam Store Impressions|**3,921,616**|<span style="color:green">**+1050%**</span> compared to 2023 |
 | Steam Store Visits|**223,266**|<span style="color:green">**+672%**</span> compared to 2023|
 | Website/Blog Unique Visitors|**2300**|<span style="color:green">**+389%**</span> compared to 2023|
 {: .table .table-sm }
 
 - <small>**Total net revenue** includes all sources such as game sales, merch sales, publisher payments, contest prizes, etc. This is net revenue, not gross profit or net profit. Things like the steam fee, etsy fee, etsy promoted listing fee have been subtracted already.
-- <small>**Direct community size** is the size of the Discord server combined with mailing list. 
-- <small>**Auxiliary community size** is a combination of all the other platform followers such as bluesky, twitter, youtube, steam, itch, newgrounds, twitch, etc. 
+- <small>**Followers** is a combination of all the other platform followers such as bluesky, twitter, youtube, steam, itch, newgrounds, twitch, etc. 
 - <small>**Player count estimate** is my best guess for how many people played all of the games I have on various platforms. With the player estimate, there is some guesswork because not ever platform reports unique users.
 
 
@@ -47,8 +45,8 @@ Since its the first time I'm doing one of these, I would like to include my Tota
 | 2021| **$1067 (USD)**|<span style="color:green">**+248%**</span> |
 | 2022| **$351 (USD)**|<span style="color:red">**-67%**</span> |
 | 2023| **$232 (USD)**|<span style="color:red">**-34%**</span> |
-| 2024| **$1205 (USD)**|<span style="color:green">**+419%**</span> |
-| Total| **$3162 (USD)**| - |  
+| 2024| **$1541 (USD)**|<span style="color:green">**+564%**</span> |
+| Total| **$3498 (USD)**| - |  
 {: .table .table-sm }
 
 ## Musings
