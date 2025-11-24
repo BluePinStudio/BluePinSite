@@ -25,7 +25,7 @@ Let's see what we have. These are the key metrics that I would like to track com
 | Website/Blog Unique Visitors|**2300**|<span style="color:green">**+389%**</span> compared to 2023|
 {: .table .table-sm }
 
-- <small>**Total net revenue** includes all sources such as game sales, merch sales, publisher payments, contest prizes, etc. This is net revenue, not gross profit or net profit. Things like the steam fee, etsy fee, etsy promoted listing fee have been subtracted already.
+- <small>**Total net revenue** includes all sources such as game sales, merch sales, publisher payments, contest prizes, merch, etc. The steam fee has been subtracted from game revenue.
 - <small>**Followers** is a combination of all the other platform followers such as bluesky, twitter, youtube, steam, itch, newgrounds, twitch, etc. 
 - <small>**Player count estimate** is my best guess for how many people played all of the games I have on various platforms. With the player estimate, there is some guesswork because not ever platform reports unique users.
 
