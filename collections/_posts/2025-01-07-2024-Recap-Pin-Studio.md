@@ -27,7 +27,6 @@ Let's see what we have. These are the key metrics that I would like to track com
 
 - <small>**Total net revenue** includes all sources such as game sales, merch sales, publisher payments, contest prizes, merch, etc. The steam fee has been subtracted from game revenue.
 - <small>**Followers** is a combination of all the other platform followers such as bluesky, twitter, youtube, steam, itch, newgrounds, twitch, etc. 
-- <small>**Player count estimate** is my best guess for how many people played all of the games I have on various platforms. With the player estimate, there is some guesswork because not ever platform reports unique users.
 
 
 ## Noteworthy Events
