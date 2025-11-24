@@ -21,7 +21,7 @@ Let's see what we have. These are the key metrics that I would like to track com
 | Discord/Mailing List|**149**|<span style="color:green">**+110%**</span> compared to 2023 |
 | Followers|**879**|<span style="color:green">**+87%**</span> compared to 2023 |
 | Steam Store Impressions|**3,921,616**|<span style="color:green">**+1050%**</span> compared to 2023 |
-| Steam Store Visits|**223,266**|<span style="color:green">**+672%**</span> compared to 2023|
+| Steam Store Visits|**691,764**|<span style="color:green">**+2292%**</span> compared to 2023|
 | Website/Blog Unique Visitors|**2300**|<span style="color:green">**+389%**</span> compared to 2023|
 {: .table .table-sm }
 
