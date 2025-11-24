@@ -368,3 +368,96 @@ body::before {
   background: var(--accent-color, #ffffff);
   color: #000;
 }
+
+/* Game jam pace timeline: fixed-width month pills */
+
+.jam-pace-timeline {
+  margin-top: 1.2rem;
+  padding: 0.5rem 0 0.25rem;
+  border-top: 1px solid var(--border-color, rgba(255,255,255,0.08));
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  font-size: 0.7rem;
+}
+
+.jam-pace-timeline::-webkit-scrollbar {
+  height: 4px;
+}
+
+.jam-pace-timeline::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 999px;
+}
+
+/* Fixed pill size so long names never stretch it */
+.jam-pace-month {
+  width: 52px;
+  min-width: 52px;
+  max-width: 52px;
+  border-radius: 9px;
+  padding: 0.25rem 0.35rem;
+  min-height: 48px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Months with jams */
+.jam-pace-month--jam {
+  background: linear-gradient(
+    135deg,
+    rgba(242, 193, 79, 0.2),
+    rgba(255, 255, 255, 0.04)
+  );
+  border: 1px solid rgba(242, 193, 79, 0.6);
+}
+
+/* Empty months */
+.jam-pace-month--empty {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 0.6;
+}
+
+/* Top label (month + year) */
+.jam-pace-month-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.jam-pace-month-name {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.jam-pace-year {
+  font-size: 0.6em;
+  opacity: 0.6;
+}
+
+/* Tiny count: how many jams in that month */
+.jam-pace-month-count {
+  margin-top: 0.15rem;
+  font-size: 0.65rem;
+  text-align: right;
+  opacity: 0.85;
+}
+
+.jam-pace-timeline.active {
+  cursor: grabbing;
+}
+
+/* Prevent text selection inside the timeline */
+.jam-pace-timeline,
+.jam-pace-timeline * {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+}
+
