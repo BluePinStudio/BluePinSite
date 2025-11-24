@@ -238,3 +238,12 @@
   url: "https://bluepinstudio.itch.io/the-yield"
   genre: "Incremental Action"
   postmortem_url: "/blog/2025-11-23-Yield-Post-Mortem/"
+
+- date: "APR 2026"
+  date_iso: "2026-04-01"
+  jam: "Ludum Dare 59"
+  placement: null
+  percent: null
+  entries: null
+  title: "TBD"
+  genre: "TBD"
