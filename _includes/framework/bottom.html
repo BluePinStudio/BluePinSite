@@ -1,30 +1,32 @@
-<div class="row align-items-center justify-content-between">
+<div class="bottom">
+  <div class="container relative">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-auto">
 
-  <!-- Left side -->
-  <div class="col-auto">
-    <div class="footer-links">
-      <a href="/privacy-policy">Privacy Policy</a>
-      © 2025 Blue Pin Studio
-      {% if site.bottom.show_rss_icon %}
-      &nbsp;<a class="feed" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
-        <i class="fas fa-feed"></i>
-      </a>
+        <div class="footer-links">
+          <a href="/privacy-policy">Privacy Policy</a>
+          © 2025 Blue Pin Studio
+          {% if site.bottom.show_rss_icon %}
+          &nbsp;<a class="feed" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
+            <i class="fas fa-feed"></i>
+          </a>
+          {% endif %}
+          <a href="https://ko-fi.com/bluepinstudio" target="_blank" rel="noopener">
+            <img height="36" style="border:0;height:50px;vertical-align:middle;margin-left:8px;"
+              src="https://storage.ko-fi.com/cdn/kofi3.png?v=3" alt="Support me on Ko-fi">
+          </a>
+        </div>
+
+
+
+
+      </div>
+
+      {% if site.darkmode.enable_dark_mode and site.darkmode.show_dark_mode_toggle_in_bottom %}
+      <div class="col-auto">
+        {% include framework/dark-mode-switcher.html %}
+      </div>
       {% endif %}
     </div>
   </div>
-
-  <!-- Right side: Ko-fi -->
-  <div class="col-auto">
-    <a href="https://ko-fi.com/bluepinstudio" target="_blank" rel="noopener">
-      <img height="36" style="border:0;height:50px;vertical-align:middle;margin-left:8px;"
-        src="https://storage.ko-fi.com/cdn/kofi3.png?v=3" alt="Support me on Ko-fi">
-    </a>
-  </div>
-
-  {% if site.darkmode.enable_dark_mode and site.darkmode.show_dark_mode_toggle_in_bottom %}
-  <div class="col-auto">
-    {% include framework/dark-mode-switcher.html %}
-  </div>
-  {% endif %}
-
 </div>
