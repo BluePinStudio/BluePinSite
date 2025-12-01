@@ -20,8 +20,8 @@ image: /assets/images/games/fallingthingiesscreenshot1.png
 
 ## <ins>The Gist</ins>
 
-- **Release Date:** Summer 2025
-- **Retail Price:** $1.99
+- **Release Date:** January 2026
+- **Retail Price:** $2.99
 - **Platforms:** Desktop Windows, Desktop Linux, Android, Ios
 
 Catch the thingies by moving the paddle. Dodge the thangies by moving the paddle. Can it truly be that simple? Download the game and find out!

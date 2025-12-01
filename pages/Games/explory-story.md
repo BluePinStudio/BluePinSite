@@ -20,7 +20,7 @@ image: /assets/images/games/explory1.jpg
 
 ## <ins>The Gist</ins>
 
-- **Release Date:** Q1 2025
+- **Release Date:** 2026
 - **Retail Price:** To be deteredmined...
 - **Platforms:** Desktop Windows, Desktop Linux
 
