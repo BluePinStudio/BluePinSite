@@ -38,7 +38,7 @@ The youtube video goal has been quite elusive. Will I finally have one ready in 
 
 - [x] Visit the [Toronto Game Expo](https://www.torontogameexpo.ca/)
 - [x] 42hrs of [Twitch Streaming](https://www.twitch.tv/bluepinstudio)
-- [x] Released a suite of gamedev tools (beta)
+- [x] Released a suite of gamedev tools (beta) [test em out here, at your own risk!](/tools/)
 - [x] Blue Pin Studio x EvanMMO x Bonejacq x Manishagamedev Minecraft server!
 
 <figure style="text-align: center;">
