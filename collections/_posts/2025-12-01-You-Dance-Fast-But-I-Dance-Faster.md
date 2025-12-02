@@ -40,6 +40,7 @@ The youtube video goal has been quite elusive. Will I finally have one ready in 
 - [x] 42hrs of [Twitch Streaming](https://www.twitch.tv/bluepinstudio)
 - [x] Released a suite of gamedev tools (beta) [test em out here, at your own risk!](/tools/)
 - [x] Blue Pin Studio x EvanMMO x Bonejacq x Manishagamedev Minecraft server!
+- [x] 1hr interview on IGA twitch stream for Charles the Bee
 
 <figure style="text-align: center;">
 <img src="/assets/images/posts/tools.png" alt="Tool thumbnail for various steam tools">
