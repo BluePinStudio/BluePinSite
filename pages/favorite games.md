@@ -68,7 +68,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] PUBG (Dec 2017)
 - [ ] Far Cry 5 (Mar 2018)  
 - [ ] Kingdom: Two Crowns (Dec 2018) 
-- [ ] Risk of Rain 2 (Mar 2019) 
+- [x] Risk of Rain 2 (Mar 2019) 
 
 - [x] Hades (Sep 2020)  
 - [ ] Pychonauts 2 (Aug 2021)
