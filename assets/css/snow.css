@@ -1,0 +1,57 @@
+.snowfall {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 99998;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10px;
+  color: #fff;
+  opacity: 0.9;
+  font-size: 12px;
+  user-select: none;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-name: snowFallNormal;
+}
+
+/* Blizzard flakes get this extra class */
+.snowflake.blizzard {
+  animation-name: snowFallBlizzard;
+}
+
+/* Normal gentle fall */
+@keyframes snowFallNormal {
+  from {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(0, 110vh, 0) rotate(360deg);
+  }
+}
+
+/* Blizzard: strong sideways drift + faster spin */
+@keyframes snowFallBlizzard {
+  from {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  to {
+    /* --drift is set per-flake in JS (can be left or right) */
+    transform: translate3d(var(--drift, 60vw), 110vh, 0) rotate(720deg);
+  }
+}
+
+.snow-toggle {
+  font-size: 1.3rem;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+

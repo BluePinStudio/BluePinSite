@@ -9,7 +9,8 @@
     {% include framework/og-meta-tags.html %}
     {% include framework/feed.html %}
     {% include framework/favicon.html %}
-
+    
+    <link rel="stylesheet" href="{{ '/assets/css/snow.css' | relative_url }}">
     <link href="{{ '/assets/css/main.css' | relative_url }}" rel="stylesheet">
 
     <!-- Force dark mode always -->
@@ -42,6 +43,7 @@
 {% endif %}
 
 <script type="text/javascript" src="{{ '/assets/js/scripts.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/snow.js' | relative_url }}"></script>
 {% if site.header.fixed %}
   <script type="text/javascript" src="{{ '/assets/js/header.js' | relative_url }}"></script>
 {% endif %}
