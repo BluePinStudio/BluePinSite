@@ -1,6 +1,6 @@
 {
   "c2array": true,
-  "size": [1, 117, 1],
+  "size": [1, 119, 1],
   "data": [
     [
       ["Dragon Slumber"],
@@ -119,7 +119,9 @@
       ["Norah Norman"],
       ["Jerboa Queen"],
       ["Flamingo14"],
-      ["KVKestis"]
+      ["KVKestis"],
+      ["SomeDumbo"],
+      ["Nikotin_End"]
     ]
   ]
 }
