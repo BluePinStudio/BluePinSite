@@ -239,83 +239,7 @@
     }
   }
 }
-.page-post-2 {
-  .post-header {
-    .post-image {
-      margin-top: 0px;
-      img {
-        max-width: 100%;
-        height: auto;
-        border-radius: var(--card-border-radius);
-      }
-    }
-    .post-title {
-      margin-top: 40px;
-      h1 {
-        font-weight: 500;
-        margin-bottom: 20px;
-      }
-    }
-    .post-description {
-      p {
-        color: var(--color-base-text-2);
-        margin-bottom: 20px;
-        font-size: 22px;
-      }
-    }
-    .post-date {
-      display: inline-block;
-      margin-right: 10px;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--color-base-text);
-    }
-    .post-authors {
-      margin-top: 20px;
-    }
-  }
-}
-.page-post-3 {
-  .post-header {
-    .post-image {
-      margin-top: 0;
-      margin-bottom: 40px;
-      @include media-breakpoint-up(lg) {
-        margin-bottom: 0;
-      }
-      img {
-        max-width: 100%;
-        height: auto;
-        border-radius: var(--card-border-radius);
-      }
-    }
-    .post-title {
-      margin-top: 0;
 
-      h1 {
-        font-weight: 500;
-        margin-bottom: 20px;
-      }
-    }
-    .post-description {
-      p {
-        color: var(--color-base-text-2);
-        margin-bottom: 20px;
-        font-size: 22px;
-      }
-    }
-    .post-date {
-      display: inline-block;
-      margin-right: 10px;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--color-base-text);
-    }
-    .post-authors {
-      margin-top: 20px;
-    }
-  }
-}
 
 .page-category {
   .title {
@@ -581,3 +505,4 @@
     }
   }
 }
+

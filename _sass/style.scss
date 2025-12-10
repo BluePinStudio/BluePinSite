@@ -168,7 +168,7 @@ noscript #follower-gif {
   max-width: 800px;
   border: 1px solid var(--outline, #2a3440);
   border-radius: 14px;
-  background: color-mix(in srgb, var(--card, #0e1116) 92%, transparent);
+  background: var(--card, #0e1116);
   box-shadow: var(--shadow-1, 0 6px 20px rgba(0,0,0,.25));
 }
 
@@ -182,8 +182,8 @@ noscript #follower-gif {
   display: inline-block;
   padding: .6rem 1rem;
   border-radius: 10px;
-  border: 1px solid color-mix(in srgb, var(--accent, #64d2ff) 60%, var(--outline, #2a3440));
-  background: color-mix(in srgb, var(--accent, #64d2ff) 12%, transparent);
+  border: 1px solid var(--outline, #2a3440);
+  background: rgba(100, 210, 255, 0.12);
   color: var(--text, #e6eef7);
   text-decoration: none;
   font-weight: 600;
@@ -192,7 +192,7 @@ noscript #follower-gif {
 
 .page-tools .donate .btn:hover {
   transform: translateY(-1px);
-  background: color-mix(in srgb, var(--accent, #64d2ff) 18%, transparent);
+  background: rgba(100, 210, 255, 0.18);
 }
 
 .page-tools .donate .btn:focus-visible {
