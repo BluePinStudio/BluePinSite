@@ -362,3 +362,45 @@ label { display: inline-flex; gap: .5rem; align-items: center; margin: .1rem .75
 /* ---------- Animations ---------- */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pop    { from { opacity: 0; transform: translateY(4px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+/* ---------- Loader (steamboards-style) ---------- */
+.loader {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35));
+  backdrop-filter: blur(2px);
+  z-index: 20;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+.loader.hide { opacity: 0; visibility: hidden; }
+.loader-card {
+  width: min(680px, 92vw);
+  background: var(--bg-elev);
+  border: 1px solid var(--outline);
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+  padding: 1rem;
+}
+.loader-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .5rem;
+}
+.loader .bar {
+  height: 12px;
+  width: 100%;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--card) 88%, transparent);
+  border: 1px solid var(--outline);
+}
+.loader .bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width .12s ease-out;
+}
+.loader-hint { margin-top: .5rem; color: var(--muted); }

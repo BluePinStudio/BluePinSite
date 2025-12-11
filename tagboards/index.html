@@ -214,6 +214,21 @@ body_classes: page-tools
     </div>
   </header>
 
+  <!-- Loader -->
+  <div id="loader" class="loader">
+    <div class="loader-card">
+      <div class="loader-head">
+        <strong>Loading games...</strong>
+        <span id="loaderPct" class="muted">0%</span>
+      </div>
+      <div class="bar">
+        <div id="loaderBar" class="bar-fill"></div>
+      </div>
+      <div id="loaderMeta" class="muted small">0 parsed</div>
+      <div class="loader-hint">Streaming JSONL + chunked parsing keeps the UI responsive.</div>
+    </div>
+  </div>
+
   <main class="container">
     <section class="controls">
       <div class="controls-slim">
@@ -379,6 +394,7 @@ body_classes: page-tools
 
   <script>
     const JSON_LINES_PATH = 'https://bluepinstudio.github.io/sg/games.compact.jsonl';
+    const EXPECTED_TOTAL_GAMES_HINT = 163000;
 
     let games = [];
     const includeTags = new Set();
@@ -421,6 +437,12 @@ body_classes: page-tools
     const matchSort = document.getElementById('matchSort');
     const matchTable = document.getElementById('matchTable').querySelector('tbody');
     const matchMeta = document.getElementById('matchMeta');
+
+    // Loader DOM
+    const loader = document.getElementById('loader');
+    const loaderBar = document.getElementById('loaderBar');
+    const loaderPct = document.getElementById('loaderPct');
+    const loaderMeta = document.getElementById('loaderMeta');
 
     // Tabs
     const tabButtons = document.querySelectorAll('.tab-btn');
@@ -487,7 +509,190 @@ body_classes: page-tools
       if (typeof raw === 'string') { const t = Date.parse(raw); if (!Number.isNaN(t)) return t; }
       return null;
     };
-    const fmtInt = n => Number.isFinite(n) ? n.toLocaleString() : '—';
+    const fmtInt = n => Number.isFinite(n) ? n.toLocaleString() : '-';
+    const idle = () => new Promise(r => setTimeout(r, 0));
+
+    const { hideLoader, loadJSONLStream } = createJSONLLoader(EXPECTED_TOTAL_GAMES_HINT);
+
+    function createJSONLLoader(expectedTotalHint) {
+      const fmtIntLocal = n => Number.isFinite(n) ? n.toLocaleString() : '?';
+
+      function hideLoader() {
+        if (!loader) return;
+        loader.classList.add('hide');
+        setTimeout(() => {
+          try { loader.remove(); } catch { }
+        }, 350);
+      }
+
+      function updateLoaderProgress({
+        receivedBytes = 0,
+        totalBytes = 0,
+        parsedCount = 0,
+        estTotalCount = null,
+        streamDone = false
+      }) {
+        if (!loaderBar || !loaderPct || !loaderMeta) return;
+
+        const denom = Number.isFinite(estTotalCount) && estTotalCount > 0
+          ? estTotalCount
+          : (expectedTotalHint || null);
+
+        const pctGames = (denom && denom > 0)
+          ? Math.max(0, Math.min(1, parsedCount / denom))
+          : null;
+
+        const pctBytes = (totalBytes > 0)
+          ? Math.max(0, Math.min(1, receivedBytes / totalBytes))
+          : null;
+
+        let pct = null;
+        if (pctGames != null && pctBytes != null) {
+          pct = Math.min(pctGames, pctBytes);
+        } else {
+          pct = (pctGames ?? pctBytes ?? 0);
+        }
+
+        if (streamDone && pct < 0.98 && (denom || pctGames != null)) {
+          pct = Math.min(pct, 0.98);
+        }
+
+        const pctDisplay = Math.round(pct * 100);
+        loaderBar.style.width = pctDisplay + '%';
+        loaderPct.textContent = pctDisplay + '%';
+
+        if (denom) {
+          loaderMeta.textContent = `${fmtIntLocal(parsedCount)} of ${fmtIntLocal(denom)} parsed`;
+        } else if (totalBytes) {
+          loaderMeta.textContent =
+            `${fmtIntLocal(parsedCount)} parsed -> ${fmtIntLocal(receivedBytes)} / ${fmtIntLocal(totalBytes)} bytes`;
+        } else {
+          loaderMeta.textContent = `${fmtIntLocal(parsedCount)} parsed`;
+        }
+      }
+
+      async function parseTextInChunks(text, totalBytes, onLine = () => true) {
+        const lines = text.split(/\r?\n/);
+        const estTotalCount = expectedTotalHint || lines.length;
+        let parsedCount = 0;
+        const total = totalBytes || text.length || lines.length;
+
+        for (let i = 0; i < lines.length; i++) {
+          const raw = lines[i].trim();
+          if (!raw) continue;
+
+          let accepted = false;
+          try { accepted = onLine(raw) !== false; } catch { accepted = false; }
+          if (accepted) parsedCount++;
+
+          if (i % 2000 === 0) {
+            updateLoaderProgress({
+              receivedBytes: Math.min(total, i),
+              totalBytes: total,
+              parsedCount,
+              estTotalCount,
+              streamDone: false
+            });
+            await idle();
+          }
+        }
+
+        updateLoaderProgress({
+          receivedBytes: total,
+          totalBytes: total,
+          parsedCount,
+          estTotalCount,
+          streamDone: true
+        });
+
+        return parsedCount;
+      }
+
+      async function loadJSONLStream(url, onLine = () => true) {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Could not load ${url}`);
+
+        const totalBytes = +res.headers.get('content-length') || 0;
+        const reader = res.body && res.body.getReader ? res.body.getReader() : null;
+
+        if (!reader) {
+          const text = await res.text();
+          return parseTextInChunks(text, totalBytes, onLine);
+        }
+
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let parsedCount = 0;
+        let receivedBytes = 0;
+
+        let estTotalCount = expectedTotalHint || null;
+        let bytesForSamples = 0;
+        let linesInSamples = 0;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          receivedBytes += value.byteLength;
+          buffer += decoder.decode(value, { stream: true });
+
+          const parts = buffer.split(/\r?\n/);
+          buffer = parts.pop() ?? '';
+
+          for (const line of parts) {
+            const raw = line.trim();
+            if (!raw) continue;
+
+            bytesForSamples += raw.length + 1;
+            linesInSamples += 1;
+
+            let accepted = false;
+            try { accepted = onLine(raw) !== false; } catch { accepted = false; }
+            if (accepted) parsedCount++;
+
+            if (parsedCount % 2000 === 0) {
+              await idle();
+            }
+          }
+
+          if (!estTotalCount && totalBytes > 0 && linesInSamples > 0) {
+            const avgBytesPerLine = bytesForSamples / linesInSamples;
+            if (avgBytesPerLine > 5) {
+              estTotalCount = Math.max(
+                parsedCount,
+                Math.floor(totalBytes / avgBytesPerLine)
+              );
+            }
+          }
+
+          updateLoaderProgress({
+            receivedBytes,
+            totalBytes,
+            parsedCount,
+            estTotalCount,
+            streamDone: false
+          });
+        }
+
+        if (buffer.trim()) {
+          let accepted = false;
+          try { accepted = onLine(buffer.trim()) !== false; } catch { accepted = false; }
+          if (accepted) parsedCount++;
+        }
+
+        updateLoaderProgress({
+          receivedBytes: totalBytes || 1,
+          totalBytes: totalBytes || 1,
+          parsedCount,
+          estTotalCount,
+          streamDone: true
+        });
+
+        return parsedCount;
+      }
+
+      return { hideLoader, loadJSONLStream, updateLoaderProgress };
+    }
 
     function parseTagsFreeform(str) {
       return str.split(',').map(s => s.trim()).filter(Boolean).map(s => normTag(s.replace(/^['"](.*)['"]$/, '$1')));
@@ -534,86 +739,77 @@ body_classes: page-tools
     }
 
 async function loadGames() {
-  const res = await fetch(JSON_LINES_PATH, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Could not load ${JSON_LINES_PATH} (HTTP ${res.status})`);
-  const text = await res.text();
-  const lines = text.split(/\r?\n/);
-
-  const parsed = [];
+  games = [];
   let badCount = 0;
 
-  const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
-  const normTag = t => (t ?? '').trim().toLowerCase();
-  const fmtMonYear = ts => new Date(ts).toLocaleString(undefined, { month: 'short', year: 'numeric' });
+  const addGame = (j) => {
+    if (!j || j._meta) return false;
 
-  for (let i = 0; i < lines.length; i++) {
-    const raw = lines[i].trim();
-    if (!raw) continue;
-    try {
-      const j = JSON.parse(raw);
+    // Compact schema: { a, n, d, p, u, f, r, y, cs, h, t }
+    if (Object.prototype.hasOwnProperty.call(j, 'a')) {
+      if (j.cs === true) return false;
 
-      // ---------- Compact schema ----------
-      // { a, n, d, p, u, f, r, y, cs, h, t }
-      if (Object.prototype.hasOwnProperty.call(j, 'a')) {
-        // Skip unreleased if you want to keep parity with old behavior:
-        if (j.cs === true) continue;
+      const y = (typeof j.y === 'number' && j.y > 0) ? j.y : null;
+      const relTs = y != null ? Date.UTC(y, 0, 1) : null;
 
-        const y = (typeof j.y === 'number' && j.y > 0) ? j.y : null;
-        const relTs = y != null ? Date.UTC(y, 0, 1) : null; // Jan 1 of year for monthly filters
-
-        parsed.push({
-          app_id: j.a,
-          name: j.n || `App ${j.a}`,
-          tags: arr(j.t).map(normTag),
-          genres: [],         // not provided in compact
-          categories: [],     // not provided in compact
-          price: (j.u ?? null),
-          is_free: !!j.f,
-          reviews: (j.r ?? 0),
-          header: j.h || null,
-          releaseTs: relTs
-        });
-        continue;
-      }
-
-      // ---------- Verbose fallback ----------
-      const id = j.identity || {};
-      const cls = j.classification || {};
-      const media = j.media || {};
-      const relRaw = j.release?.date_iso ?? j.release?.date_raw ?? id.release_date ?? j.release_date ?? j.meta?.release_date;
-      const relTs = (() => {
-        if (!relRaw) return null;
-        if (typeof relRaw === 'number') return relRaw < 1e12 ? relRaw * 1000 : relRaw;
-        const t = Date.parse(relRaw);
-        return Number.isNaN(t) ? null : t;
-      })();
-
-      // Keep ignoring unreleased as before:
-      if (j.release?.coming_soon === true) continue;
-
-      parsed.push({
-        app_id: j.app_id,
-        name: id.name || `App ${j.app_id}`,
-        tags: arr(cls.tags).map(normTag),
-        genres: arr(cls.genres).map(normTag),
-        categories: arr(cls.categories).map(normTag),
-        price: j.pricing ? j.pricing.price_usd : null,
-        is_free: !!(j.pricing && j.pricing.is_free),
-        reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
-        header: media.header_image || null,
+      games.push({
+        app_id: j.a,
+        name: j.n || `App ${j.a}`,
+        tags: arr(j.t).map(normTag),
+        genres: [],
+        categories: [],
+        price: (j.u ?? null),
+        is_free: !!j.f,
+        reviews: (j.r ?? 0),
+        header: j.h || null,
         releaseTs: relTs
       });
-
-    } catch (e) {
-      badCount++;
-      if (badCount === 1) console.warn(`JSONL parse error at line ${i + 1}:`, e, lines[i]);
+      return true;
     }
-  }
 
-  if (!parsed.length) {
+    // Verbose fallback
+    const id = j.identity || {};
+    const cls = j.classification || {};
+    const media = j.media || {};
+    const relRaw = j.release?.date_iso ?? j.release?.date_raw ?? id.release_date ?? j.release_date ?? j.meta?.release_date;
+    const relTs = (() => {
+      if (!relRaw) return null;
+      if (typeof relRaw === 'number') return relRaw < 1e12 ? relRaw * 1000 : relRaw;
+      const t = Date.parse(relRaw);
+      return Number.isNaN(t) ? null : t;
+    })();
+
+    if (j.release?.coming_soon === true) return false;
+
+    games.push({
+      app_id: j.app_id,
+      name: id.name || `App ${j.app_id}`,
+      tags: arr(cls.tags).map(normTag),
+      genres: arr(cls.genres).map(normTag),
+      categories: arr(cls.categories).map(normTag),
+      price: j.pricing ? j.pricing.price_usd : null,
+      is_free: !!(j.pricing && j.pricing.is_free),
+      reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
+      header: media.header_image || null,
+      releaseTs: relTs
+    });
+    return true;
+  };
+
+  await loadJSONLStream(JSON_LINES_PATH, (raw) => {
+    try {
+      const obj = JSON.parse(raw);
+      return addGame(obj);
+    } catch (err) {
+      badCount++;
+      if (badCount === 1) console.warn(`JSONL parse error`, err, raw);
+      return false;
+    }
+  });
+
+  if (!games.length) {
     throw new Error(`Parsed 0 games from ${JSON_LINES_PATH}${badCount ? ` (${badCount} malformed line(s))` : ''}`);
   }
-  games = parsed;
 }
 
 
@@ -867,6 +1063,8 @@ async function loadGames() {
       } catch (err) {
         document.querySelector('main').innerHTML = `<div class="card" style="padding:1rem;">${err.message}</div>`;
         console.error(err);
+      } finally {
+        hideLoader();
       }
     })();
   </script>
