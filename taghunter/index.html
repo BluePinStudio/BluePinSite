@@ -187,7 +187,7 @@ body_classes: page-tools
         <fieldset>
           <legend>Match & Release</legend>
 
-          <label class="require-all"><input type="checkbox" id="requireAll" /> Require all query tags</label>
+          <label class="require-all"><input type="checkbox" id="requireAll" /> Hide games missing any query tag</label>
 
           <div class="toggle-row" style="margin-top:.25rem">
             <label class="require-all"><input type="checkbox" id="ignoreUnreleased" autocomplete="off" /> Hide
@@ -750,13 +750,26 @@ body_classes: page-tools
         return;
       }
 
-      const qEff = new Set(nonEmpty.map(x => x.tag));
-      requiredCount = qEff.size;
-
       const requireAll = !!(requireAllEl && requireAllEl.checked);
 
-      nonEmpty.sort((a, b) => a.docs.length - b.docs.length);
-      let candidates = nonEmpty[0].docs.slice();
+      const missingTags = requireAll ? lists.filter(x => x.docs.length === 0).map(x => x.tag) : [];
+      if (requireAll && missingTags.length > 0) {
+        resultsEl.innerHTML = `
+          <div class="card">
+            No games include every query tag. Missing in data: ${missingTags.join(', ')}
+          </div>`;
+        pagerEl.style.display = 'none';
+        requiredCount = q.size;
+        return;
+      }
+
+      const requiredTags = requireAll ? new Set(tags) : new Set(nonEmpty.map(x => x.tag));
+      requiredCount = requiredTags.size;
+
+      const searchLists = requireAll ? lists : nonEmpty;
+
+      searchLists.sort((a, b) => a.docs.length - b.docs.length);
+      let candidates = searchLists[0].docs.slice();
 
       const union = (a, b) => {
         const out = []; let i = 0, j = 0, last = null;
@@ -772,10 +785,10 @@ body_classes: page-tools
         return out;
       };
 
-      for (let i = 1; i < nonEmpty.length; i++) {
+      for (let i = 1; i < searchLists.length; i++) {
         candidates = requireAll
-          ? intersectSorted(candidates, nonEmpty[i].docs)
-          : union(candidates, nonEmpty[i].docs);
+          ? intersectSorted(candidates, searchLists[i].docs)
+          : union(candidates, searchLists[i].docs);
         if (requireAll && candidates.length === 0) break;
       }
 
@@ -825,9 +838,9 @@ body_classes: page-tools
           if (rMax !== null && rev > rMax) continue;
         }
 
-        const sc = similarityScore(g, qEff, mode);
+        const sc = similarityScore(g, requiredTags, mode);
         if (requireAll) {
-          if (!sc.exactOnly) continue;
+          if (!sc.containsAll) continue;
         } else {
           if (sc.score <= 0) continue;
         }
