@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "You Dance Fast But I Dance Faster"
+title: "Promises to keep and miles to go before I sleep"
 description: Monthly Check-in for December 2025 (Month 69)
 date: 2026-01-01 03:00:00
 categories: [Monthly Check-in]
@@ -15,15 +15,12 @@ published: true
 
 Woweee! November was a bit of a whirlwind. I was tasked (by past-me) to chill out. But I didn't really chill at all. So much stuff done! Let's dive in...
 
-## November 2025 Goals
+## December 2025 Goals
 
-- [ ] One long-form YouTube videos (November 24th?)
-- [x] Pixel Fixel update
-- [x] Charles the Bee Multiplayer Update
-- [x] Visit 2 in-person gamedev meetups (Bonus Stage & Dirty Rectangles in Toronto)
-- [x] Submit a game to [Alakajam 22](https://alakajam.com/)
-- [x] Write a [post-mortem blog post](/blog/2025-11-23-Yield-Post-Mortem/) for Alakajam submission
-- [ ] Take it easy pal, relaaaax
+- [x] Eggnog Incorporated Overhaul Update (due by Dec 17)
+- [x] Falling Thingies incremental slight pivot
+- [x] Prepare "5 years ago I made this game" video for publishing Jan 1
+- [x] Take it easy pal, relaaaax
 
 <figure style="text-align: center;">
 <img src="/assets/images/posts/yieldgems.gif" alt="An image showing all the data structure of the upgrades and mining levels in The Yield">
@@ -69,8 +66,8 @@ The tail end of November has been pretty stressful because of the looming dead o
 
 I know you've probably heard this song a million times if you doom scroll on instagram or tiktok or youtube, but I would be remiss if I didn't include it. It's a certified banger fleeky yeet 6 7.
 
-{% include framework/shortcodes/youtube.html id='JjPtDl6EJ3o' %}
-_MONTAGEM XONADA by MXZI, DJ SAMIR, DJ JAVI26_
+{% include framework/shortcodes/youtube.html id='sJvA9r89VaA' %}
+_finding butterflies by BLISSFOOL_
 
 ## Comments & Reactions
 
