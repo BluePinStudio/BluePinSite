@@ -198,7 +198,21 @@ body_classes: page-tools
     // ---------------- Config ----------------
     const JSON_LINES_PATH = 'https://bluepinstudio.github.io/sg/games.compact.jsonl';
     const CURRENCY = 'USD';
-    const EXPECTED_TOTAL_GAMES_HINT = 163000;
+    const EXPECTED_TOTAL_GAMES_HINT = 173636;
+
+    // --- Compact schema helpers ---
+    const IMG_PREFIX = "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/";
+    const IMG_TOKEN = "~/"; // expands to IMG_PREFIX by convention outside this file
+
+    function expandHeader(h) {
+      if (!h) return null;
+      const s = String(h);
+      if (s.startsWith(IMG_TOKEN)) {
+        // "~/10/header.jpg?t=..." -> "https://.../steam/apps/10/header.jpg?t=..."
+        return IMG_PREFIX + s.slice(IMG_TOKEN.length);
+      }
+      return s;
+    }
 
     // ---------------- Utilities ----------------
     const fmtUSD = n => (Number.isFinite(n) ? n.toLocaleString(undefined, { style: 'currency', currency: CURRENCY, maximumFractionDigits: 0 }) : '—');
@@ -259,7 +273,9 @@ body_classes: page-tools
 
     // Hardened revenue with tiered early-review deduction
     function revenueUSD(game, { ignoreFree = false } = {}) {
-      const reviewsRaw = toPosNum(game.review_count);
+      // Revenue should be based on POSITIVE reviews only (new schema: r[0])
+      const posReviews = Number(game.review_pos);
+      const reviewsRaw = toPosNum(Number.isFinite(posReviews) ? posReviews : game.review_count);
       const rawPrice = Number(game.price_usd);
       const isFree = game.is_free === true || rawPrice === 0;
 
@@ -729,20 +745,46 @@ body_classes: page-tools
     }
 
     function pushMinimal(j) {
+      // ---- NEW compact schema ----
       if (j && Object.prototype.hasOwnProperty.call(j, 'a')) {
+        const appId = j.a;
+
+        const pos = Array.isArray(j.r) ? Number(j.r[0] ?? 0) : 0;
+        const neg = Array.isArray(j.r) ? Number(j.r[1] ?? 0) : 0;
+        const total = (Number.isFinite(pos) ? pos : 0) + (Number.isFinite(neg) ? neg : 0);
+
+        // y is ISO date string (YYYY-MM-DD). Treat missing/invalid as unknown.
+        const ts = (() => {
+          const y = j.y ? String(j.y) : '';
+          const t = y ? Date.parse(y) : NaN;
+          return Number.isNaN(t) ? null : t;
+        })();
+
         RAW_MIN.push({
-          app_id: j.a,
-          name: j.n || `App ${j.a}`,
-          header_image: j.h || null,
+          app_id: appId,
+          name: j.n || `App ${appId}`,
+          header_image: expandHeader(j.h),
+
           developers: Array.isArray(j.d) ? j.d : (j.d ? [j.d] : []),
           publishers: Array.isArray(j.p) ? j.p : (j.p ? [j.p] : []),
+
           price_usd: j.u ?? null,
           is_free: !!j.f,
-          review_count: j.r ?? 0,
-          release_ts: null,
-          release_year: j.y ?? null,
-          coming_soon: !!j.cs,
+
+          // split reviews (pos/neg) + total for existing logic
+          review_pos: Number.isFinite(pos) ? pos : 0,
+          review_neg: Number.isFinite(neg) ? neg : 0,
+          review_count: total,
+
+          release_ts: ts,
+          release_year: ts ? new Date(ts).getFullYear() : null,
+
+          // "coming soon" is now represented by unknown date (y missing/invalid)
+          coming_soon: ts == null,
+
           tags: (Array.isArray(j.t) ? j.t : []).map(norm).filter(Boolean),
+          genres: (Array.isArray(j.g) ? j.g : []).map(norm).filter(Boolean),
+          cats: (Array.isArray(j.c) ? j.c : []).map(norm).filter(Boolean),
         });
         return;
       }
@@ -758,11 +800,15 @@ body_classes: page-tools
         publishers: arr(id.publishers),
         price_usd: pricing.price_usd ?? null,
         is_free: !!pricing.is_free,
+        review_pos: null,
+        review_neg: null,
         review_count: (reviews.review_count) ?? (reviews.total_reviews) ?? 0,
         release_ts: ts,
         release_year: ts ? new Date(ts).getFullYear() : null,
         coming_soon: !!rel.coming_soon,
-        tags: arr(cls.tags).map(norm).filter(Boolean)
+        tags: arr(cls.tags).map(norm).filter(Boolean),
+        genres: [],
+        cats: []
       });
     }
 
@@ -818,6 +864,7 @@ body_classes: page-tools
       const allMatching = RAW_MIN.filter(g => {
         if (ignoreComingSoon && g.coming_soon) return false;
         if (ignoreFree && (g.is_free === true || Number(g.price_usd) === 0)) return false;
+
         const pool = (role === 'developers') ? g.developers : g.publishers;
         return (pool || []).some(n => norm(n).toLowerCase() === norm(name).toLowerCase());
       });
@@ -837,8 +884,39 @@ body_classes: page-tools
       const count = games.length;
 
       orgTitle.textContent = `${name} — ${role === 'developers' ? 'Developer' : 'Publisher'}`;
-      orgMeta.textContent = `${fmtInt(count)} games • ${fmtUSD(total)} total (current settings)`;
 
+      // Overall split badge in header (optional; only shows if we have split data)
+      const posSum = allMatching.reduce((s, g) => s + (Number(g.review_pos) || 0), 0);
+      const negSum = allMatching.reduce((s, g) => s + (Number(g.review_neg) || 0), 0);
+      const totSum = posSum + negSum;
+      const pctSum = totSum > 0 ? Math.round((posSum / totSum) * 100) : null;
+      const poswSum = pctSum == null ? '50%' : `${pctSum}%`;
+      const barSum =
+        pctSum == null ? '#9ca3af' :
+          pctSum >= 70 ? '#22c55e' :
+            pctSum >= 40 ? '#eab308' :
+              '#ef4444';
+
+      orgMeta.innerHTML = `
+    <span class="pill">${fmtInt(count)} games</span>
+    <span class="pill">${fmtUSD(total)} total (current settings)</span>
+    ${pctSum == null ? '' : `
+      <span class="rev-chip" style="--posw:${poswSum}; --bar:${barSum};" title="${pctSum}% positive">
+        <span class="rev-left">
+          <span>Overall</span>
+          <strong>${pctSum}%+</strong>
+        </span>
+        <span class="rev-bar" aria-hidden="true"><span class="rev-fill"></span></span>
+        <span class="rev-sep" aria-hidden="true"></span>
+        <span class="rev-right">
+          <span class="rev-pos">+${fmtInt(posSum)}</span>
+          <span class="rev-neg">−${fmtInt(negSum)}</span>
+        </span>
+      </span>`
+        }
+  `;
+
+      // Top tags bar (same behavior as before)
       const tagMap = new Map();
       for (const g of allMatching) {
         const tags = Array.isArray(g.tags) ? g.tags : [];
@@ -862,6 +940,7 @@ body_classes: page-tools
         tagBar.className = 'gmeta';
         gamesList.parentElement.insertBefore(tagBar, gamesList);
       }
+
       if (topTags.length) {
         tagBar.innerHTML = `<strong>Top 10 tags:</strong> ` + topTags
           .map(t => `<span class="pill">${t.name} <span class="num">(${fmtInt(t.count)})</span></span>`)
@@ -870,22 +949,64 @@ body_classes: page-tools
         tagBar.innerHTML = '';
       }
 
+      // Render cards
       gamesList.innerHTML = '';
       const frag = document.createDocumentFragment();
+
       for (const { g, rev } of games) {
         const card = document.createElement('div');
         card.className = 'gcard';
+
         const left = document.createElement('div');
         if (g.header_image) {
           const img = document.createElement('img');
           img.className = 'gthumb';
-          img.loading = 'lazy'; img.decoding = 'async';
-          img.alt = `${g.name} header`; img.src = g.header_image || '';
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          img.alt = `${g.name} header`;
+          img.src = g.header_image || '';
           left.appendChild(img);
         }
+
         const right = document.createElement('div');
+
+        const pos = Number.isFinite(Number(g.review_pos)) ? Number(g.review_pos) : 0;
+        const neg = Number.isFinite(Number(g.review_neg)) ? Number(g.review_neg) : 0;
+        const hasSplit = (pos + neg) > 0;
+
+        const tot = hasSplit ? (pos + neg) : (Number(g.review_count) || 0);
+        const pct = tot > 0 ? Math.round((pos / tot) * 100) : null;
+        const posw = pct == null ? '50%' : `${pct}%`;
+
+        const barColor =
+          pct == null ? '#9ca3af' :
+            pct >= 70 ? '#22c55e' :
+              pct >= 40 ? '#eab308' :
+                '#ef4444';
+
+        const reviewsHTML = hasSplit
+          ? `
+        <span class="rev-chip" style="--posw:${posw}; --bar:${barColor};" title="${pct == null ? 'No reviews' : `${pct}% positive`}">
+          <span class="rev-left">
+            <span>Reviews</span>
+            <strong>${fmtInt(tot)}</strong>
+            ${pct == null ? '' : `<span>(${pct}%+)</span>`}
+          </span>
+          <span class="rev-bar" aria-hidden="true"><span class="rev-fill"></span></span>
+          <span class="rev-sep" aria-hidden="true"></span>
+          <span class="rev-right">
+            <span class="rev-pos">+${fmtInt(pos)}</span>
+            <span class="rev-neg">−${fmtInt(neg)}</span>
+          </span>
+        </span>
+      `
+          : `<span class="pill">Reviews: <span class="num">${fmtInt(tot)}</span></span>`;
+
         right.innerHTML = `
-      <h4 class="gtitle"><a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a></h4>
+      <h4 class="gtitle">
+        <a href="https://store.steampowered.com/app/${g.app_id}" target="_blank" rel="noopener noreferrer">${g.name}</a>
+      </h4>
+
       <div class="gmeta">
         <span class="pill">${g.coming_soon
             ? 'Coming soon'
@@ -894,241 +1015,253 @@ body_classes: page-tools
               : (g.release_year ? String(g.release_year) : '—'))
           }</span>
 
-        <span class="pill">Reviews: <span class="num">${fmtInt(g.review_count)}</span></span>
-        <span class="pill">Price: ${g.is_free || g.price_usd === 0 ? 'Free' : (g.price_usd == null ? '—' : ('$' + Number(g.price_usd).toFixed(2)))}</span>
+        ${reviewsHTML}
+
+        <span class="pill">Price: ${g.is_free || g.price_usd === 0
+            ? 'Free'
+            : (g.price_usd == null ? '—' : ('$' + Number(g.price_usd).toFixed(2)))
+          }</span>
       </div>
+
       <div class="gnums">
         <span><strong>Estimated revenue:</strong> ${fmtUSD(rev)}</span>
       </div>
     `;
-        card.appendChild(left); card.appendChild(right);
+
+        card.appendChild(left);
+        card.appendChild(right);
         frag.appendChild(card);
       }
+
       gamesList.appendChild(frag);
+
+      orgDialog.scrollTop = 0;
+      gamesList.scrollTop = 0;
 
       if (typeof orgDialog.showModal === 'function') {
         orgDialog.showModal();
       } else {
         orgDialog.setAttribute('open', '');
       }
+
       lockPageScroll();
 
-    }
-
-    function refreshOpenDrawer() {
-      const head = orgTitle.textContent || '';
-      const m = head.match(/^(.*)\s—\s(Developer|Publisher)$/);
-      if (!m) return;
-      const name = m[1]; const role = (m[2] === 'Developer') ? 'developers' : 'publishers';
-      openOrgDetails(role, name);
-    }
-
-    orgClose.addEventListener('click', () => {
-      orgDialog.close();
-    });
-
-    orgDialog.addEventListener('click', (e) => {
-      const rect = orgDialog.getBoundingClientRect();
-      const outside =
-        e.clientX < rect.left ||
-        e.clientX > rect.right ||
-        e.clientY < rect.top ||
-        e.clientY > rect.bottom;
-      if (outside) {
-        orgDialog.close();
-      }
-    });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && orgDialog.open) {
-        orgDialog.close();
-      }
-    });
-
-    // Ensure scroll is always unlocked when dialog fully closes
-    orgDialog.addEventListener('close', () => {
-      unlockPageScroll();
-    });
 
 
-    function handleOrgButton(e) {
-      const btn = e.target.closest('.org-open-btn');
-      if (!btn) return;
-      const role = btn.dataset.role;
-      const name = btn.dataset.name;
-      if (e.altKey) {
-        addChip(name);
-      } else {
+      function refreshOpenDrawer() {
+        const head = orgTitle.textContent || '';
+        const m = head.match(/^(.*)\s—\s(Developer|Publisher)$/);
+        if (!m) return;
+        const name = m[1]; const role = (m[2] === 'Developer') ? 'developers' : 'publishers';
         openOrgDetails(role, name);
       }
-    }
-    devTableBody.addEventListener('click', handleOrgButton);
-    pubTableBody.addEventListener('click', handleOrgButton);
 
-    // ---------- Chips + Autocomplete ----------
-    function renderChips() {
-      chipList.innerHTML = '';
-      const frag = document.createDocumentFragment();
-      for (const name of compareNames) {
-        const li = document.createElement('li');
-        li.className = 'chip';
-        li.innerHTML = `
+      orgClose.addEventListener('click', () => {
+        orgDialog.close();
+      });
+
+      orgDialog.addEventListener('click', (e) => {
+        const rect = orgDialog.getBoundingClientRect();
+        const outside =
+          e.clientX < rect.left ||
+          e.clientX > rect.right ||
+          e.clientY < rect.top ||
+          e.clientY > rect.bottom;
+        if (outside) {
+          orgDialog.close();
+        }
+      });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && orgDialog.open) {
+          orgDialog.close();
+        }
+      });
+
+      // Ensure scroll is always unlocked when dialog fully closes
+      orgDialog.addEventListener('close', () => {
+        unlockPageScroll();
+      });
+
+
+      function handleOrgButton(e) {
+        const btn = e.target.closest('.org-open-btn');
+        if (!btn) return;
+        const role = btn.dataset.role;
+        const name = btn.dataset.name;
+        if (e.altKey) {
+          addChip(name);
+        } else {
+          openOrgDetails(role, name);
+        }
+      }
+      devTableBody.addEventListener('click', handleOrgButton);
+      pubTableBody.addEventListener('click', handleOrgButton);
+
+      // ---------- Chips + Autocomplete ----------
+      function renderChips() {
+        chipList.innerHTML = '';
+        const frag = document.createDocumentFragment();
+        for (const name of compareNames) {
+          const li = document.createElement('li');
+          li.className = 'chip';
+          li.innerHTML = `
           <span class="chip-text">${name}</span>
           <button class="chip-remove" aria-label="Remove ${name}" title="Remove">×</button>
         `;
-        li.querySelector('.chip-remove').addEventListener('click', () => {
-          removeChip(name);
-        });
-        frag.appendChild(li);
+          li.querySelector('.chip-remove').addEventListener('click', () => {
+            removeChip(name);
+          });
+          frag.appendChild(li);
+        }
+        chipList.appendChild(frag);
       }
-      chipList.appendChild(frag);
-    }
 
-    function getCurrentPoolNames() {
-      const rows = (currentTab === 'devs') ? allDevs : allPubs;
-      return rows.map(r => r.name);
-    }
+      function getCurrentPoolNames() {
+        const rows = (currentTab === 'devs') ? allDevs : allPubs;
+        return rows.map(r => r.name);
+      }
 
-    function getCanonicalOrgName(raw) {
-      const q = norm(raw).toLowerCase();
-      if (!q) return null;
-      const pool = getCurrentPoolNames();
-      const exact = pool.find(n => n.toLowerCase() === q);
-      if (exact) return exact;
-      return norm(raw);
-    }
+      function getCanonicalOrgName(raw) {
+        const q = norm(raw).toLowerCase();
+        if (!q) return null;
+        const pool = getCurrentPoolNames();
+        const exact = pool.find(n => n.toLowerCase() === q);
+        if (exact) return exact;
+        return norm(raw);
+      }
 
-    function addChip(name) {
-      const canonical = getCanonicalOrgName(name);
-      if (!canonical) return;
-      const has = compareNames.some(n => n.toLowerCase() === canonical.toLowerCase());
-      if (!has) {
-        compareNames.push(canonical);
+      function addChip(name) {
+        const canonical = getCanonicalOrgName(name);
+        if (!canonical) return;
+        const has = compareNames.some(n => n.toLowerCase() === canonical.toLowerCase());
+        if (!has) {
+          compareNames.push(canonical);
+          renderChips();
+          rebuildViews();
+        }
+      }
+
+      function removeChip(name) {
+        compareNames = compareNames.filter(n => n.toLowerCase() !== name.toLowerCase());
         renderChips();
         rebuildViews();
       }
-    }
 
-    function removeChip(name) {
-      compareNames = compareNames.filter(n => n.toLowerCase() !== name.toLowerCase());
-      renderChips();
-      rebuildViews();
-    }
-
-    function clearAutocomplete() {
-      acList.innerHTML = '';
-      acList.hidden = true;
-    }
-
-    function fuzzySuggest(query, pool, max = 8) {
-      const q = norm(query).toLowerCase();
-      if (!q) return [];
-      const scored = [];
-      for (const name of pool) {
-        const n = name.toLowerCase();
-        const idx = n.indexOf(q);
-        if (idx === -1) continue;
-        const starts = n.startsWith(q) ? 0 : 1;
-        scored.push({ name, score: starts * 100 + idx });
+      function clearAutocomplete() {
+        acList.innerHTML = '';
+        acList.hidden = true;
       }
-      scored.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name));
-      return scored.slice(0, max).map(s => s.name);
-    }
 
-    function renderAutocomplete(list) {
-      if (!list.length) { clearAutocomplete(); return; }
-      acList.innerHTML = '';
-      const frag = document.createDocumentFragment();
-      list.forEach((name, i) => {
-        const div = document.createElement('div');
-        div.className = 'ac-item';
-        div.setAttribute('role', 'option');
-        if (i === 0) div.setAttribute('aria-selected', 'true');
-        div.textContent = name;
-        div.addEventListener('mousedown', (e) => {
+      function fuzzySuggest(query, pool, max = 8) {
+        const q = norm(query).toLowerCase();
+        if (!q) return [];
+        const scored = [];
+        for (const name of pool) {
+          const n = name.toLowerCase();
+          const idx = n.indexOf(q);
+          if (idx === -1) continue;
+          const starts = n.startsWith(q) ? 0 : 1;
+          scored.push({ name, score: starts * 100 + idx });
+        }
+        scored.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name));
+        return scored.slice(0, max).map(s => s.name);
+      }
+
+      function renderAutocomplete(list) {
+        if (!list.length) { clearAutocomplete(); return; }
+        acList.innerHTML = '';
+        const frag = document.createDocumentFragment();
+        list.forEach((name, i) => {
+          const div = document.createElement('div');
+          div.className = 'ac-item';
+          div.setAttribute('role', 'option');
+          if (i === 0) div.setAttribute('aria-selected', 'true');
+          div.textContent = name;
+          div.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            addChip(name);
+            chipInput.value = '';
+            clearAutocomplete();
+            chipInput.focus();
+          });
+          frag.appendChild(div);
+        });
+        acList.appendChild(frag);
+        acList.hidden = false;
+      }
+
+      const updateAutocomplete = debounce(() => {
+        const q = chipInput.value;
+        if (!q) { clearAutocomplete(); return; }
+        const pool = getCurrentPoolNames();
+        const suggestions = fuzzySuggest(q, pool);
+        renderAutocomplete(suggestions);
+      }, 80);
+
+      compareBox.addEventListener('click', () => chipInput.focus());
+      chipInput.addEventListener('input', () => updateAutocomplete());
+
+      chipInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
           e.preventDefault();
-          addChip(name);
+          const first = acList.querySelector('.ac-item');
+          if (first) {
+            addChip(first.textContent);
+          } else {
+            addChip(chipInput.value);
+          }
           chipInput.value = '';
           clearAutocomplete();
-          chipInput.focus();
-        });
-        frag.appendChild(div);
-      });
-      acList.appendChild(frag);
-      acList.hidden = false;
-    }
-
-    const updateAutocomplete = debounce(() => {
-      const q = chipInput.value;
-      if (!q) { clearAutocomplete(); return; }
-      const pool = getCurrentPoolNames();
-      const suggestions = fuzzySuggest(q, pool);
-      renderAutocomplete(suggestions);
-    }, 80);
-
-    compareBox.addEventListener('click', () => chipInput.focus());
-    chipInput.addEventListener('input', () => updateAutocomplete());
-
-    chipInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const first = acList.querySelector('.ac-item');
-        if (first) {
-          addChip(first.textContent);
-        } else {
-          addChip(chipInput.value);
+        } else if (e.key === 'Backspace' && !chipInput.value) {
+          const last = compareNames[compareNames.length - 1];
+          if (last) removeChip(last);
+        } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !acList.hidden) {
+          e.preventDefault();
+          const items = Array.from(acList.querySelectorAll('.ac-item'));
+          if (!items.length) return;
+          let idx = items.findIndex(it => it.getAttribute('aria-selected') === 'true');
+          if (idx < 0) idx = 0;
+          items[idx].removeAttribute('aria-selected');
+          idx = e.key === 'ArrowDown' ? Math.min(idx + 1, items.length - 1) : Math.max(idx - 1, 0);
+          items[idx].setAttribute('aria-selected', 'true');
+          items[idx].scrollIntoView({ block: 'nearest' });
         }
-        chipInput.value = '';
-        clearAutocomplete();
-      } else if (e.key === 'Backspace' && !chipInput.value) {
-        const last = compareNames[compareNames.length - 1];
-        if (last) removeChip(last);
-      } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !acList.hidden) {
-        e.preventDefault();
-        const items = Array.from(acList.querySelectorAll('.ac-item'));
-        if (!items.length) return;
-        let idx = items.findIndex(it => it.getAttribute('aria-selected') === 'true');
-        if (idx < 0) idx = 0;
-        items[idx].removeAttribute('aria-selected');
-        idx = e.key === 'ArrowDown' ? Math.min(idx + 1, items.length - 1) : Math.max(idx - 1, 0);
-        items[idx].setAttribute('aria-selected', 'true');
-        items[idx].scrollIntoView({ block: 'nearest' });
-      }
-    });
+      });
 
-    chipInput.addEventListener('blur', () => setTimeout(clearAutocomplete, 120));
+      chipInput.addEventListener('blur', () => setTimeout(clearAutocomplete, 120));
 
-    chipInput.addEventListener('paste', (e) => {
-      const txt = (e.clipboardData || window.clipboardData).getData('text');
-      if (!txt) return;
-      const parts = txt.split(/[\n\t]+/).map(s => norm(s)).filter(Boolean);
-      if (parts.length > 1) {
-        e.preventDefault();
-        parts.forEach(addChip);
-        chipInput.value = '';
-        clearAutocomplete();
-      }
-    });
+      chipInput.addEventListener('paste', (e) => {
+        const txt = (e.clipboardData || window.clipboardData).getData('text');
+        if (!txt) return;
+        const parts = txt.split(/[\n\t]+/).map(s => norm(s)).filter(Boolean);
+        if (parts.length > 1) {
+          e.preventDefault();
+          parts.forEach(addChip);
+          chipInput.value = '';
+          clearAutocomplete();
+        }
+      });
 
-    // ---------------- Init ----------------
-    (async () => {
-      try {
-        await loadJSONLStream(JSON_LINES_PATH);
-      } catch (err) {
-        console.warn(err);
-        RAW_MIN = [
-          { app_id: 1, name: 'Alpha', header_image: null, developers: ['Studio One'], publishers: ['Pub X'], price_usd: 19.99, is_free: false, review_count: 1200, release_ts: Date.parse('2022-05-01'), release_year: 2022, coming_soon: false },
-          { app_id: 2, name: 'Beta', header_image: null, developers: ['Studio One', 'Studio Two'], publishers: ['Pub Y'], price_usd: 9.99, is_free: false, review_count: 300, release_ts: Date.parse('2021-11-13'), release_year: 2021, coming_soon: false },
-          { app_id: 3, name: 'Gamma', header_image: null, developers: ['Studio Two'], publishers: ['Pub X'], price_usd: 0, is_free: true, review_count: 5000, release_ts: Date.parse('2023-08-18'), release_year: 2023, coming_soon: false },
-          { app_id: 4, name: 'Delta', header_image: null, developers: ['Solo Dev'], publishers: ['Pub Z'], price_usd: 14.99, is_free: false, review_count: 50, release_ts: null, release_year: null, coming_soon: true }
-        ];
-      } finally {
-        hideLoader();
-        rebuildViews();
-        setTab('devs');
-        renderChips();
-      }
-    })();
+      // ---------------- Init ----------------
+      (async () => {
+        try {
+          await loadJSONLStream(JSON_LINES_PATH);
+        } catch (err) {
+          console.warn(err);
+          RAW_MIN = [
+            { app_id: 1, name: 'Alpha', header_image: null, developers: ['Studio One'], publishers: ['Pub X'], price_usd: 19.99, is_free: false, review_count: 1200, release_ts: Date.parse('2022-05-01'), release_year: 2022, coming_soon: false },
+            { app_id: 2, name: 'Beta', header_image: null, developers: ['Studio One', 'Studio Two'], publishers: ['Pub Y'], price_usd: 9.99, is_free: false, review_count: 300, release_ts: Date.parse('2021-11-13'), release_year: 2021, coming_soon: false },
+            { app_id: 3, name: 'Gamma', header_image: null, developers: ['Studio Two'], publishers: ['Pub X'], price_usd: 0, is_free: true, review_count: 5000, release_ts: Date.parse('2023-08-18'), release_year: 2023, coming_soon: false },
+            { app_id: 4, name: 'Delta', header_image: null, developers: ['Solo Dev'], publishers: ['Pub Z'], price_usd: 14.99, is_free: false, review_count: 50, release_ts: null, release_year: null, coming_soon: true }
+          ];
+        } finally {
+          hideLoader();
+          rebuildViews();
+          setTab('devs');
+          renderChips();
+        }
+      })();
   </script>
 </body>
 
