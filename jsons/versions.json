@@ -1,9 +1,9 @@
 {
   "pixel_fixel_android": "1.8.1",
   "pixel_fixel_apple": "1.8.0",
-  "pixel_fixel_sale": 0,
+  "pixel_fixel_sale": 1,
   "charles_android": "1.5.0",
   "charles_apple": "1.5.0",
-  "charles_sale": 0,
-  "charles_merchsale": 0
+  "charles_sale": 1,
+  "charles_merchsale": 1
 }
