@@ -404,3 +404,51 @@ label { display: inline-flex; gap: .5rem; align-items: center; margin: .1rem .75
   transition: width .12s ease-out;
 }
 .loader-hint { margin-top: .5rem; color: var(--muted); }
+
+/* ===== Review chip (single canonical definition) ===== */
+.rev-chip{
+  border: 1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+  border-radius: 999px;
+  padding: .2rem .6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  background: color-mix(in srgb, var(--bg-elev) 88%, transparent);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.rev-chip .rev-left, .rev-chip .rev-right{
+  display: inline-flex;
+  align-items: baseline;
+  gap: .45rem;
+}
+.rev-chip strong{ font-weight: 800; color: var(--text); }
+
+/* Green / red counts */
+.rev-chip .rev-pos{ color: #1ecb5f; font-weight: 700; }
+.rev-chip .rev-neg{ color: #ff4d4d; font-weight: 700; }
+
+.rev-chip .rev-sep{
+  width: 1px;
+  height: 1.05em;
+  background: color-mix(in srgb, var(--outline) 70%, transparent);
+}
+
+/* Ratio bar (positive share) */
+.rev-chip .rev-bar{
+  width: 56px;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--card) 75%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+  display: inline-block;
+  vertical-align: middle;
+}
+.rev-chip .rev-fill{
+  display: block;
+  height: 100%;
+  width: var(--posw, 50%);
+  background: var(--bar, #9ca3af);
+}

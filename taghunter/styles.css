@@ -372,6 +372,28 @@ body {
   align-items: center;
   margin-bottom: 0.4rem;
 }
+
+.card-badges{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:.35rem;
+}
+@media (max-width: 620px){
+  .card-header{
+    grid-template-columns: auto 1fr;
+    grid-auto-rows: auto;
+    align-items: start;
+  }
+  .card-badges{
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: .4rem;
+  }
+}
 .card h3 {
   margin: 0 0 0.35rem;
   font-size: 1.05rem;
@@ -792,3 +814,55 @@ dialog.score-modal {
 /* Loader-specific override (use full width, like Steamboards) */
 .loader .bar{width:100%; height:12px;}
 .loader .bar-fill{width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));}
+
+/* ===== Review chip (single canonical definition) ===== */
+.rev-chip{
+  border: 1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+  border-radius: 999px;
+  padding: .2rem .6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  background: color-mix(in srgb, var(--bg-elev) 88%, transparent);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.rev-chip .rev-left,
+.rev-chip .rev-right{
+  display: inline-flex;
+  align-items: baseline;
+  gap: .45rem;
+}
+.rev-chip strong{
+  font-weight: 800;
+  color: var(--text);
+}
+/* Green / red counts */
+.rev-chip .rev-pos{ color: #1ecb5f; font-weight: 700; }
+.rev-chip .rev-neg{ color: #ff4d4d; font-weight: 700; }
+.rev-chip .rev-sep{
+  width: 1px;
+  height: 1.05em;
+  background: color-mix(in srgb, var(--outline) 70%, transparent);
+}
+/* Ratio bar (positive share) - reuse existing bar-wrap styles */
+.rev-chip .rev-right{ align-items: center; }
+.rev-chip .bar-wrap{
+  width: 56px;
+  height: 8px;
+  margin: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--card) 75%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--outline) 70%, transparent);
+  display: inline-block;
+  vertical-align: middle;
+}
+.rev-chip .bar-wrap .bar{
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: none;
+}
+.rev-chip .rev-left span:last-child{ opacity: .85; }

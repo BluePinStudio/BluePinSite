@@ -393,9 +393,14 @@ body_classes: page-tools
 
   <script>
     const JSON_LINES_PATH = 'https://bluepinstudio.github.io/sg/games.compact.jsonl';
-    const EXPECTED_TOTAL_GAMES_HINT = 163000;
+    const EXPECTED_TOTAL_GAMES_HINT = 173636;
 
-    let games = [];
+    
+
+    // Header image token expansion (compact schema)
+    const IMG_PREFIX = "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/";
+    const IMG_TOKEN = "~/";
+let games = [];
     const includeTags = new Set();
     const bannedTags = new Set();
     let tagStats = new Map();
@@ -494,13 +499,14 @@ body_classes: page-tools
     }
 
     const revenue = (g) => {
-      const r = g.reviews ?? 0;
-      const p = isFree(g) ? 0 : (g.price ?? 0);
-      if (r <= 0 || p <= 0) return 0;
-      const year = g.releaseTs ? new Date(g.releaseTs).getFullYear() : null;
-      const spr = salesPerReviewMultiple(year, r);
-      return r * spr * p;
-    };
+  // IMPORTANT: revenue model uses POSITIVE reviews only (Steam review multiples are calibrated on positives)
+  const pos = Number.isFinite(g.revPos) ? g.revPos : 0;
+  const p = isFree(g) ? 0 : (g.price ?? 0);
+  if (pos <= 0 || p <= 0) return 0;
+  const year = g.releaseTs ? new Date(g.releaseTs).getFullYear() : null;
+  const spr = salesPerReviewMultiple(year, pos);
+  return pos * spr * p;
+};
 
     const parseReleaseTs = raw => {
       if (!raw) return null;
@@ -509,6 +515,31 @@ body_classes: page-tools
       return null;
     };
     const fmtInt = n => Number.isFinite(n) ? n.toLocaleString() : '-';
+
+    function renderRevChip(row) {
+      const total = row.revTotal || 0;
+      if (total <= 0) return '<span class="muted">—</span>';
+
+      const pos = row.revPos || 0;
+      const neg = row.revNeg || 0;
+      const pct = row.revPct != null ? row.revPct : (pos / total);
+      const pctInt = Math.round(pct * 100);
+
+      const bar = pctInt >= 70 ? '#1ecb5f' : (pctInt >= 40 ? '#fbbf24' : '#ff4d4d');
+      const posw = Math.max(0, Math.min(100, pctInt));
+
+      return `
+        <span class="rev-chip" title="${pos.toLocaleString()} positive • ${neg.toLocaleString()} negative • ${pctInt}% positive">
+          <span class="rev-left"><strong>${total.toLocaleString()}</strong><span>${pctInt}%</span></span>
+          <span class="rev-sep" aria-hidden="true"></span>
+          <span class="rev-right">
+            <span class="rev-pos">${pos.toLocaleString()}</span>
+            <span class="rev-neg">${neg.toLocaleString()}</span>
+            <span class="rev-bar" style="--posw:${posw}%; --bar:${bar};"><span class="rev-fill"></span></span>
+          </span>
+        </span>
+      `.trim();
+    }
     const idle = () => new Promise(r => setTimeout(r, 0));
 
     const { hideLoader, loadJSONLStream } = createJSONLLoader(EXPECTED_TOTAL_GAMES_HINT);
@@ -744,28 +775,45 @@ async function loadGames() {
   const addGame = (j) => {
     if (!j || j._meta) return false;
 
-    // Compact schema: { a, n, d, p, u, f, r, y, cs, h, t }
+    
+// Compact schema: { a, n, d, p, f, u, r:[pos,neg], y, h, t, g, c }
     if (Object.prototype.hasOwnProperty.call(j, 'a')) {
+      // Some older builds had `cs` (coming soon). If present and true, treat as unreleased.
       if (j.cs === true) return false;
 
-      const y = (typeof j.y === 'number' && j.y > 0) ? j.y : null;
-      const relTs = y != null ? Date.UTC(y, 0, 1) : null;
+      // Release date can be an ISO string (YYYY-MM-DD) or a non-date string like "To be announced".
+      const relTs = parseReleaseTs(j.y);
+
+      // Reviews are split: [positive, negative]
+      const rp = Array.isArray(j.r) ? (j.r[0] ?? 0) : (Number.isFinite(j.r) ? j.r : 0);
+      const rn = Array.isArray(j.r) ? (j.r[1] ?? 0) : 0;
+      const pos = Number.isFinite(rp) ? rp : 0;
+      const neg = Number.isFinite(rn) ? rn : 0;
+
+      // Header image is tokenized: "~/" expands to IMG_PREFIX
+      let header = j.h || null;
+      if (typeof header === 'string' && header.startsWith(IMG_TOKEN)) {
+        header = IMG_PREFIX + String(j.a) + '/' + header.slice(IMG_TOKEN.length);
+      }
 
       games.push({
         app_id: j.a,
         name: j.n || `App ${j.a}`,
+        devs: arr(j.d),
+        pubs: arr(j.p),
         tags: arr(j.t).map(normTag),
-        genres: [],
-        categories: [],
+        genres: arr(j.g).map(normTag),
+        categories: arr(j.c).map(normTag),
         price: (j.u ?? null),
         is_free: !!j.f,
-        reviews: (j.r ?? 0),
-        header: j.h || null,
+        revPos: pos,
+        revNeg: neg,
+        revTotal: pos + neg,
+        header,
         releaseTs: relTs
       });
       return true;
     }
-
     // Verbose fallback
     const id = j.identity || {};
     const cls = j.classification || {};
@@ -788,8 +836,12 @@ async function loadGames() {
       categories: arr(cls.categories).map(normTag),
       price: j.pricing ? j.pricing.price_usd : null,
       is_free: !!(j.pricing && j.pricing.is_free),
-      reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
-      header: media.header_image || null,
+      // Fallback: attempt to read split reviews when available
+revPos: (j.reviews?.positive) ?? (j.reviews?.pos) ?? (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
+revNeg: (j.reviews?.negative) ?? (j.reviews?.neg) ?? 0,
+revTotal: ((j.reviews?.positive) ?? (j.reviews?.pos) ?? (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0)
+        + ((j.reviews?.negative) ?? (j.reviews?.neg) ?? 0),
+header: media.header_image || null,
       releaseTs: relTs
     });
     return true;
@@ -979,14 +1031,25 @@ async function loadGames() {
       const q = (matchSearch.value || '').trim().toLowerCase();
       const paidOnly = !!onlyPaidEl.checked;
 
-      let rows = matchedGames.map(g => ({
-        g,
-        name: g.name || `App ${g.app_id}`,
-        price: Number.isFinite(g.price) ? g.price : 0,
-        reviews: g.reviews || 0,
-        rev: revenue(g),
-        releaseTs: g.releaseTs || 0,
-      }));
+      
+let rows = matchedGames.map(g => {
+  const pos = Number.isFinite(g.revPos) ? g.revPos : 0;
+  const neg = Number.isFinite(g.revNeg) ? g.revNeg : 0;
+  const total = Number.isFinite(g.revTotal) ? g.revTotal : (pos + neg);
+  const pct = total > 0 ? (pos / total) : null;
+
+  return {
+    g,
+    name: g.name || `App ${g.app_id}`,
+    price: Number.isFinite(g.price) ? g.price : 0,
+    revPos: pos,
+    revNeg: neg,
+    revTotal: total,
+    revPct: pct,
+    rev: revenue(g),
+    releaseTs: g.releaseTs || 0,
+  };
+});
 
       if (q) { rows = rows.filter(r => r.name.toLowerCase().includes(q)); }
       if (paidOnly) { rows = rows.filter(r => !(isFree(r.g) || (r.price ?? 0) === 0)); }
@@ -997,7 +1060,7 @@ async function loadGames() {
         if (mode === 'rev_asc') return (a.rev - b.rev) || a.name.localeCompare(b.name);
         if (mode === 'name_asc') return a.name.localeCompare(b.name);
         if (mode === 'price_desc') return (b.price - a.price) || a.name.localeCompare(b.name);
-        if (mode === 'reviews_desc') return (b.reviews - a.reviews) || a.name.localeCompare(b.name);
+        if (mode === 'reviews_desc') return (b.revTotal - a.revTotal) || a.name.localeCompare(b.name);
         if (mode === 'release_desc') return (b.releaseTs - a.releaseTs) || a.name.localeCompare(b.name);
         return 0;
       });
@@ -1013,7 +1076,7 @@ async function loadGames() {
         tr.innerHTML = `
           <td>${r.name}</td>
           <td class="num">${r.price ? ('$' + r.price.toFixed(2)) : '—'}</td>
-          <td class="num">${fmtInt(r.reviews)}</td>
+          <td class="num">${renderRevChip(r)}</td>
           <td class="num">${usd(r.rev)}</td>
           <td class="tags-cell">${tlist}</td>
         `;

@@ -78,107 +78,107 @@ body_classes: page-tools
             </button>
           </div>
 
-<dialog id="scoreDialog" class="modal score-modal">
-  <form method="dialog" class="modal__panel" aria-labelledby="scoreDlgTitle">
-    <header class="modal__header">
-      <div>
-        <h3 id="scoreDlgTitle">Scoring: Containment vs Jaccard</h3>
-        <p class="modal__subtitle">
-          Two ways to measure overlap between your query tags and a game’s tags.
-        </p>
-      </div>
-      <button class="modal__close" aria-label="Close scoring help" type="button">×</button>
-    </header>
+          <dialog id="scoreDialog" class="modal score-modal">
+            <form method="dialog" class="modal__panel" aria-labelledby="scoreDlgTitle">
+              <header class="modal__header">
+                <div>
+                  <h3 id="scoreDlgTitle">Scoring: Containment vs Jaccard</h3>
+                  <p class="modal__subtitle">
+                    Two ways to measure overlap between your query tags and a game’s tags.
+                  </p>
+                </div>
+                <button class="modal__close" aria-label="Close scoring help" type="button">×</button>
+              </header>
 
-    <section class="modal__content">
-      <div class="modal__grid">
-        <article class="modal__card">
-          <div class="modal__cardHead">
-            <span class="badge badge-contain">Default</span>
-            <h4>Containment</h4>
-          </div>
-          <p class="eq">
-            <code>score = overlap ÷ your&nbsp;query&nbsp;size</code>
-          </p>
-          <ul class="use-for">
-            <li>“Did it match the tags I explicitly asked for?”</li>
-            <li>Extra tags on the game <strong>don’t lower</strong> the score.</li>
-            <li>Great when you have a focused shopping list of tags.</li>
-          </ul>
-        </article>
+              <section class="modal__content">
+                <div class="modal__grid">
+                  <article class="modal__card">
+                    <div class="modal__cardHead">
+                      <span class="badge badge-contain">Default</span>
+                      <h4>Containment</h4>
+                    </div>
+                    <p class="eq">
+                      <code>score = overlap ÷ your&nbsp;query&nbsp;size</code>
+                    </p>
+                    <ul class="use-for">
+                      <li>“Did it match the tags I explicitly asked for?”</li>
+                      <li>Extra tags on the game <strong>don’t lower</strong> the score.</li>
+                      <li>Great when you have a focused shopping list of tags.</li>
+                    </ul>
+                  </article>
 
-        <article class="modal__card">
-          <div class="modal__cardHead">
-            <span class="badge">Alt</span>
-            <h4>Jaccard</h4>
-          </div>
-          <p class="eq">
-            <code>score = overlap ÷ union</code>
-          </p>
-          <ul class="use-for">
-            <li>Measures overall “vibe similarity.”</li>
-            <li>Unrelated extra tags <strong>do lower</strong> the score.</li>
-            <li>Great when you want games that “feel” like your query.</li>
-          </ul>
-        </article>
-      </div>
+                  <article class="modal__card">
+                    <div class="modal__cardHead">
+                      <span class="badge">Alt</span>
+                      <h4>Jaccard</h4>
+                    </div>
+                    <p class="eq">
+                      <code>score = overlap ÷ union</code>
+                    </p>
+                    <ul class="use-for">
+                      <li>Measures overall “vibe similarity.”</li>
+                      <li>Unrelated extra tags <strong>do lower</strong> the score.</li>
+                      <li>Great when you want games that “feel” like your query.</li>
+                    </ul>
+                  </article>
+                </div>
 
-      <!-- Hypothetical tag search example -->
-      <div class="score-example">
-        <h4 class="score-example__title">Example search</h4>
-        <p class="score-example__subtitle">
-          Query tags:
-        </p>
-        <div class="score-example__chips">
-          <span class="chip chip--tiny chip--query">roguelike</span>
-          <span class="chip chip--tiny chip--query">deckbuilder</span>
-          <span class="chip chip--tiny chip--query">turn-based</span>
-        </div>
+                <!-- Hypothetical tag search example -->
+                <div class="score-example">
+                  <h4 class="score-example__title">Example search</h4>
+                  <p class="score-example__subtitle">
+                    Query tags:
+                  </p>
+                  <div class="score-example__chips">
+                    <span class="chip chip--tiny chip--query">roguelike</span>
+                    <span class="chip chip--tiny chip--query">deckbuilder</span>
+                    <span class="chip chip--tiny chip--query">turn-based</span>
+                  </div>
 
-        <div class="score-example__rows">
-          <div class="score-example__game">
-            <div class="score-example__head">
-              <span class="score-example__name">Game A</span>
-              <span class="score-example__pill">Containment: 100% · Jaccard: 60%</span>
-            </div>
-            <div class="score-example__chips">
-              <span class="chip chip--tiny chip--match">roguelike</span>
-              <span class="chip chip--tiny chip--match">deckbuilder</span>
-              <span class="chip chip--tiny chip--match">turn-based</span>
-              <span class="chip chip--tiny chip--extra">indie</span>
-              <span class="chip chip--tiny chip--extra">pixel graphics</span>
-            </div>
-            <p class="score-example__note">
-              Matches <strong>all 3</strong> query tags. Containment is 3/3 = 1.0 (100%).
-              Jaccard is 3 / 5 = 0.6 (extra tags dilute the “vibe” a bit).
-            </p>
-          </div>
+                  <div class="score-example__rows">
+                    <div class="score-example__game">
+                      <div class="score-example__head">
+                        <span class="score-example__name">Game A</span>
+                        <span class="score-example__pill">Containment: 100% · Jaccard: 60%</span>
+                      </div>
+                      <div class="score-example__chips">
+                        <span class="chip chip--tiny chip--match">roguelike</span>
+                        <span class="chip chip--tiny chip--match">deckbuilder</span>
+                        <span class="chip chip--tiny chip--match">turn-based</span>
+                        <span class="chip chip--tiny chip--extra">indie</span>
+                        <span class="chip chip--tiny chip--extra">pixel graphics</span>
+                      </div>
+                      <p class="score-example__note">
+                        Matches <strong>all 3</strong> query tags. Containment is 3/3 = 1.0 (100%).
+                        Jaccard is 3 / 5 = 0.6 (extra tags dilute the “vibe” a bit).
+                      </p>
+                    </div>
 
-          <div class="score-example__game">
-            <div class="score-example__head">
-              <span class="score-example__name">Game B</span>
-              <span class="score-example__pill">Containment: 67% · Jaccard: 67%</span>
-            </div>
-            <div class="score-example__chips">
-              <span class="chip chip--tiny chip--match">roguelike</span>
-              <span class="chip chip--tiny chip--match">deckbuilder</span>
-              <span class="chip chip--tiny chip--miss">real-time</span>
-            </div>
-            <p class="score-example__note">
-              Only <strong>2 of your 3</strong> query tags match.  
-              Containment is 2/3 ≈ 0.67, and there are no unrelated extras, so
-              Jaccard is also 2 / 3 ≈ 0.67.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+                    <div class="score-example__game">
+                      <div class="score-example__head">
+                        <span class="score-example__name">Game B</span>
+                        <span class="score-example__pill">Containment: 67% · Jaccard: 67%</span>
+                      </div>
+                      <div class="score-example__chips">
+                        <span class="chip chip--tiny chip--match">roguelike</span>
+                        <span class="chip chip--tiny chip--match">deckbuilder</span>
+                        <span class="chip chip--tiny chip--miss">real-time</span>
+                      </div>
+                      <p class="score-example__note">
+                        Only <strong>2 of your 3</strong> query tags match.
+                        Containment is 2/3 ≈ 0.67, and there are no unrelated extras, so
+                        Jaccard is also 2 / 3 ≈ 0.67.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
-    <footer class="modal__footer">
-      <button class="btn btn-accent" type="submit">Got it</button>
-    </footer>
-  </form>
-</dialog>
+              <footer class="modal__footer">
+                <button class="btn btn-accent" type="submit">Got it</button>
+              </footer>
+            </form>
+          </dialog>
 
         </fieldset>
 
@@ -236,6 +236,15 @@ body_classes: page-tools
               <input id="revMax" class="range-input" type="number" step="1" min="0" placeholder="max" />
             </div>
           </div>
+
+          <div class="range-row">
+            <label class="range-label">Review % (positive)</label>
+            <div class="range-inputs">
+              <input id="revPctMin" class="range-input" type="number" step="1" min="0" max="100" placeholder="min" />
+              <span class="range-sep">–</span>
+              <input id="revPctMax" class="range-input" type="number" step="1" min="0" max="100" placeholder="max" />
+            </div>
+          </div>
         </fieldset>
       </div>
     </section>
@@ -250,11 +259,37 @@ body_classes: page-tools
   </main>
 
   <script>
+
+
     // ---------- Config ----------
     const JSON_LINES_PATH = 'https://bluepinstudio.github.io/sg/games.compact.jsonl';
     const PAGE_SIZE = 12;
-    const EXPECTED_TOTAL_GAMES_HINT = 163000;
+    const EXPECTED_TOTAL_GAMES_HINT = 173636;
 
+    const IMG_PREFIX = "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/";
+    const IMG_TOKEN = "~/"; // expands to IMG_PREFIX by convention
+
+    const expandHeader = (h, appId) => {
+      if (!h) return null;
+      if (typeof h !== 'string') return null;
+      // New compact form: "~/<appid>/header.jpg?t=..."
+      if (h.startsWith(IMG_TOKEN)) return IMG_PREFIX + h.slice(IMG_TOKEN.length);
+      // Legacy form: raw already contains full URL
+      if (/^https?:\/\//i.test(h)) return h;
+      // Defensive: if we ever get "10/header.jpg" without token
+      if (appId && !h.startsWith('/')) return IMG_PREFIX + String(appId) + "/" + h.replace(/^\//, "");
+      return h;
+    };
+
+    const unpackReviews = (r) => {
+      if (Array.isArray(r)) {
+        const pos = Number(r[0] ?? 0) || 0;
+        const neg = Number(r[1] ?? 0) || 0;
+        return { pos, neg, total: pos + neg };
+      }
+      const total = Number(r ?? 0) || 0;
+      return { pos: total, neg: 0, total };
+    };
     // ---------- State ----------
     let games = [];
     let queryTags = new Set();
@@ -319,6 +354,8 @@ body_classes: page-tools
     const priceMaxEl = document.getElementById('priceMax');
     const revMinEl = document.getElementById('revMin');
     const revMaxEl = document.getElementById('revMax');
+    const revPctMinEl = document.getElementById('revPctMin');
+    const revPctMaxEl = document.getElementById('revPctMax');
 
     const openScoreHelpBtn = document.getElementById('openScoreHelp');
     const scoreDialog = document.getElementById('scoreDialog');
@@ -421,11 +458,36 @@ body_classes: page-tools
     const isFreeGame = g => (g.is_free === true) || (g.price === 0);
     const formatPrice = p => (p == null) ? '—' : (p === 0 ? 'Free' : `$${Number(p).toFixed(2)}`);
     const estimateSalesUSD = g => {
-      const r = g.reviews ?? 0;
+      const r = (g.reviewsPos ?? g.reviews ?? 0);
       const p = isFreeGame(g) ? 0 : (g.price ?? 0);
       return (r > 0 && p > 0) ? r * p * 20 : 0;
     };
     const formatUSD = n => n ? n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) : '—';
+
+
+    function renderReviewChip(g) {
+      const pos = Number(g.reviewsPos ?? 0) || 0;
+      const neg = Number(g.reviewsNeg ?? 0) || 0;
+      const total = Number(g.reviews ?? (pos + neg)) || (pos + neg);
+      const pct = (g.reviewsPct != null ? Number(g.reviewsPct) : (total > 0 ? Math.round((pos / total) * 100) : 0));
+      const posw = `${Math.max(0, Math.min(100, (total > 0 ? (pos / total) * 100 : 0))).toFixed(1)}%`;
+      const fill = pct >= 70 ? '#1ecb5f' : (pct >= 40 ? '#f5c542' : '#ff4d4d');
+      return `
+        <span class="rev-chip" title="Positive/Negative reviews">
+          <span class="rev-left">
+            <span class="rev-pos">+${pos.toLocaleString()}</span>
+            <span class="rev-neg">-${neg.toLocaleString()}</span>
+            <span class="rev-sep" aria-hidden="true"></span>
+            <strong>${total.toLocaleString()}</strong>
+            <span class="meta">(${pct}%)</span>
+          </span>
+          <span class="rev-right">
+            <span class="bar-wrap bar-wrap-top rev-mini" aria-hidden="true">
+              <span class="bar" style="width:${posw};background:${fill}"></span>
+            </span>
+          </span>
+        </span>`;
+    }
 
     function decileLabel(pct) {
       if (pct === 100) return 'exact match';
@@ -504,41 +566,90 @@ body_classes: page-tools
         }
       }
 
-      async function parseTextInChunks(text, totalBytes, onLine = () => true) {
-        const lines = text.split(/\r?\n/);
-        const estTotalCount = expectedTotalHint || lines.length;
+      function parseTextInChunks(text, totalBytes, onLine = () => true) {
+        const total = totalBytes || (text ? text.length : 1) || 1;
         let parsedCount = 0;
-        const total = totalBytes || text.length || lines.length;
+        let emittedChars = 0;
 
-        for (let i = 0; i < lines.length; i++) {
-          const raw = lines[i].trim();
-          if (!raw) continue;
+        consumeJsonObjects(String(text || ''), (objStr) => {
+          const raw = (objStr || '').trim();
+          if (!raw) return;
+
+          emittedChars += objStr.length;
 
           let accepted = false;
           try { accepted = onLine(raw) !== false; } catch { accepted = false; }
           if (accepted) parsedCount++;
 
-          if (i % 2000 === 0) {
+          if (parsedCount % 2000 === 0) {
             updateLoaderProgress({
-              receivedBytes: Math.min(total, i),
+              receivedBytes: Math.min(total, emittedChars),
               totalBytes: total,
               parsedCount,
-              estTotalCount,
+              estTotalCount: expectedTotalHint || parsedCount,
               streamDone: false
             });
-            await idle();
           }
-        }
+        });
 
         updateLoaderProgress({
           receivedBytes: total,
           totalBytes: total,
           parsedCount,
-          estTotalCount,
+          estTotalCount: expectedTotalHint || parsedCount,
           streamDone: true
         });
 
         return parsedCount;
+      }
+
+
+      // ---------- JSON object streaming (supports non-newline-delimited concatenated objects) ----------
+      // Returns the unconsumed remainder (partial JSON) after emitting complete objects to onObj.
+      function consumeJsonObjects(buffer, onObj) {
+        let start = -1;
+        let depth = 0;
+        let inStr = false;
+        let esc = false;
+
+        for (let i = 0; i < buffer.length; i++) {
+          const ch = buffer[i];
+
+          if (inStr) {
+            if (esc) { esc = false; continue; }
+            if (ch === '\\') { esc = true; continue; }
+            if (ch === '"') inStr = false;
+            continue;
+          }
+
+          if (ch === '"') {
+            inStr = true;
+            continue;
+          }
+
+          if (ch === '{') {
+            if (depth === 0) start = i;
+            depth++;
+            continue;
+          }
+
+          if (ch === '}') {
+            if (depth > 0) depth--;
+            if (depth === 0 && start !== -1) {
+              const objStr = buffer.slice(start, i + 1);
+              try { onObj(objStr); } catch { }
+              start = -1;
+            }
+          }
+        }
+
+        // If we're mid-object, keep remainder from its start
+        if (depth > 0 && start !== -1) {
+          return buffer.slice(start);
+        }
+
+        // Otherwise drop everything (fully consumed)
+        return '';
       }
 
       async function loadJSONLStream(url, onLine = () => true) {
@@ -564,17 +675,17 @@ body_classes: page-tools
 
         while (true) {
           const { done, value } = await reader.read();
+
           if (done) break;
 
           receivedBytes += value.byteLength;
           buffer += decoder.decode(value, { stream: true });
 
-          const parts = buffer.split(/\r?\n/);
-          buffer = parts.pop() ?? '';
+          let yieldNeeded = false;
 
-          for (const line of parts) {
-            const raw = line.trim();
-            if (!raw) continue;
+          buffer = consumeJsonObjects(buffer, (objStr) => {
+            const raw = (objStr || '').trim();
+            if (!raw) return;
 
             bytesForSamples += raw.length + 1;
             linesInSamples += 1;
@@ -583,10 +694,10 @@ body_classes: page-tools
             try { accepted = onLine(raw) !== false; } catch { accepted = false; }
             if (accepted) parsedCount++;
 
-            if (parsedCount % 2000 === 0) {
-              await idle();
-            }
-          }
+            if (parsedCount % 2000 === 0) yieldNeeded = true;
+          });
+
+          if (yieldNeeded) await idle();
 
           if (!estTotalCount && totalBytes > 0 && linesInSamples > 0) {
             const avgBytesPerLine = bytesForSamples / linesInSamples;
@@ -629,11 +740,13 @@ body_classes: page-tools
     // ---------- Indexing ----------
     function addPosting(map, tag, gi) { if (!map.has(tag)) map.set(tag, []); map.get(tag).push(gi); }
     function buildIndices() {
+
       for (let gi = 0; gi < games.length; gi++) {
         const g = games[gi];
         (g.tags || []).forEach(t => addPosting(idx.tags, t, gi));
       }
       for (const [k, arr] of idx.tags.entries()) arr.sort((a, b) => a - b);
+
     }
     function buildLookups() {
       nameIndex = [];
@@ -808,13 +921,23 @@ body_classes: page-tools
         title.appendChild(a);
         header.appendChild(title);
 
+        const badges = document.createElement('div');
+        badges.className = 'card-badges';
+
         const pill = document.createElement('span');
         pill.className = 'sim-pill';
         pill.title = `Matched ${item.interCount} of ${requiredCount} required tag(s) • ${label}`;
-        pill.textContent = `${pct}%`;
+        pill.textContent = `Match ${pct}%`;
         pill.style.borderColor = color;
         pill.style.color = color;
-        header.appendChild(pill);
+        badges.appendChild(pill);
+
+        // Reviews (positive/negative + score bar)
+        const revWrap = document.createElement('div');
+        revWrap.innerHTML = renderReviewChip(g);
+        if (revWrap.firstElementChild) badges.appendChild(revWrap.firstElementChild);
+
+        header.appendChild(badges);
 
         card.appendChild(header);
 
@@ -829,8 +952,7 @@ body_classes: page-tools
       <span class="meta">Publisher: ${pubs}</span>
       <span class="meta">Released: ${g.comingSoon ? 'Coming soon' : (g.releaseFmt ?? '—')}</span>
       <span class="meta">Price: ${formatPrice(g.price)}</span>
-      <span class="meta">Reviews: ${(g.reviews || 0).toLocaleString()}</span>
-      <span class="meta" title="Estimated = reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
+      <span class="meta" title="Estimated = positive reviews × price × 20">Estimated Sales: ${formatUSD(estimate)}</span>
     `;
         card.appendChild(meta);
 
@@ -959,6 +1081,20 @@ body_classes: page-tools
           if (!Number.isFinite(rev) || rev <= 0) continue;
           if (rMin !== null && rev < rMin) continue;
           if (rMax !== null && rev > rMax) continue;
+        }
+
+
+        const rpMin = readNum(revPctMinEl), rpMax = readNum(revPctMaxEl);
+        if (rpMin !== null || rpMax !== null) {
+          const pct = (g.reviewsPct != null) ? Number(g.reviewsPct) : (() => {
+            const pos = Number(g.reviewsPos ?? 0) || 0;
+            const neg = Number(g.reviewsNeg ?? 0) || 0;
+            const total = pos + neg;
+            return total > 0 ? (pos / total) * 100 : NaN;
+          })();
+          if (!Number.isFinite(pct)) continue; // unknown % -> exclude when filtering
+          if (rpMin !== null && pct < rpMin) continue;
+          if (rpMax !== null && pct > rpMax) continue;
         }
 
         const sc = similarityScore(g, requiredTags, mode);
@@ -1181,7 +1317,7 @@ body_classes: page-tools
     prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderPage(); } });
     nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; renderPage(); } });
 
-    [priceMinEl, priceMaxEl, revMinEl, revMaxEl].forEach(el => {
+    [priceMinEl, priceMaxEl, revMinEl, revMaxEl, revPctMinEl, revPctMaxEl].forEach(el => {
       if (!el) return;
       el.addEventListener('input', () => { currentPage = 1; renderQuery(); });
       el.addEventListener('change', () => { currentPage = 1; renderQuery(); });
@@ -1194,9 +1330,12 @@ body_classes: page-tools
           const j = JSON.parse(line);
           if (j && j._meta) return null;
           const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
+
+          // New compact schema (single-letter keys)
           if (Object.prototype.hasOwnProperty.call(j, 'a')) {
-            const y = (typeof j.y === 'number' && j.y > 0) ? j.y : null;
-            const relTs = y != null ? Date.UTC(y, 0, 1) : null;
+            const relRaw = (typeof j.y === 'string' && j.y.trim()) ? j.y.trim() : null;
+            const relTs = parseReleaseTs(relRaw);
+            const rv = unpackReviews(j.r);
             return {
               app_id: j.a,
               name: j.n || `App ${j.a}`,
@@ -1205,16 +1344,20 @@ body_classes: page-tools
               publishers: arr(j.p),
               price: j.u ?? null,
               is_free: !!j.f,
-              reviews: j.r ?? 0,
-              header: j.h || null,
+              reviews: rv.total,
+              reviewsPos: rv.pos,
+              reviewsNeg: rv.neg,
+              reviewsPct: (rv.total > 0 ? Math.round((rv.pos / rv.total) * 100) : null),
+              header: expandHeader(j.h || null, j.a),
               releaseTs: relTs,
-              releaseFmt: relTs ? fmtMonYear(relTs) : (y ? String(y) : null),
-              comingSoon: !!j.cs
+              releaseFmt: relRaw || '—',
+              comingSoon: (relTs == null) ? true : (relTs > Date.now())
             };
           }
 
-          const cls = j.classification || {};
+          // Legacy / verbose schema support (back-compat)
           const id = j.identity || {};
+          const cls = j.classification || {};
           const media = j.media || {};
           const relRaw =
             j.release?.date_iso ??
@@ -1224,15 +1367,21 @@ body_classes: page-tools
             j.meta?.release_date;
 
           const relTs = parseReleaseTs(relRaw);
+          const rv = unpackReviews((j.reviews?.positive != null || j.reviews?.negative != null)
+            ? [j.reviews?.positive ?? 0, j.reviews?.negative ?? 0]
+            : ((j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0));
+
           return {
             app_id: j.app_id,
             name: id.name || `App ${j.app_id}`,
             tags: arr(cls.tags).map(t => (t ?? '').trim().toLowerCase()),
             developers: arr(id.developers),
             publishers: arr(id.publishers),
-            price: j.pricing ? j.pricing.price_usd : null,
+            price: (j.pricing && j.pricing.price_usd != null) ? j.pricing.price_usd : null,
             is_free: !!(j.pricing && j.pricing.is_free),
-            reviews: (j.reviews?.review_count) ?? (j.reviews?.total_reviews) ?? 0,
+            reviews: rv.total,
+            reviewsPos: rv.pos,
+            reviewsNeg: rv.neg,
             header: media.header_image || null,
             releaseTs: relTs,
             releaseFmt: relTs ? fmtMonYear(relTs) : null,
@@ -1247,6 +1396,7 @@ body_classes: page-tools
             const row = parseRow(trimmed);
             if (!row) return false;
             games.push(row);
+
             return true;
           } catch {
             return false;
@@ -1268,8 +1418,17 @@ body_classes: page-tools
           .filter(Boolean)
           .map(ts => new Date(ts).getUTCFullYear());
 
-        let minYear = yearsInData.length ? Math.min(...yearsInData) : 1997;
-        let dataMax = yearsInData.length ? Math.max(...yearsInData) : CUR_YEAR;
+        let minYear = 1997;
+        let dataMax = CUR_YEAR;
+        if (yearsInData.length) {
+          minYear = yearsInData[0];
+          dataMax = yearsInData[0];
+          for (let i = 1; i < yearsInData.length; i++) {
+            const y = yearsInData[i];
+            if (y < minYear) minYear = y;
+            if (y > dataMax) dataMax = y;
+          }
+        }
         const maxYear = Math.min(dataMax, CUR_YEAR); // hard clamp at current year
 
         // safety fallback if data is weird/future-only
@@ -1294,7 +1453,10 @@ body_classes: page-tools
         relEndYear.value = String(CUR_YEAR);
 
 
-        function updateRange() {
+
+        // Initialize numeric range values (without rendering)
+        updateRange(false);
+        function updateRange(doRender = true) {
           let sy = +relStartYear.value, sm = +relStartMonth.value;
           let ey = +relEndYear.value, em = +relEndMonth.value;
 
@@ -1312,15 +1474,22 @@ body_classes: page-tools
           releaseFilter.start = firstOfMonthUTC(sy, sm);
           releaseFilter.end = lastOfMonthUTC(ey, em);
 
-          currentPage = 1; renderQuery();
+          if (doRender) { currentPage = 1; renderQuery(); }
         }
 
 
         function toggleRange() {
-          releaseFilter.on = !!releaseRangeOn.checked;
+          const turningOn = !!releaseRangeOn.checked;
+
+          // If the user enables the checkbox without touching the dropdowns,
+          // start/end may still be null (=> everything gets filtered out).
+          if (turningOn && (!Number.isFinite(releaseFilter.start) || !Number.isFinite(releaseFilter.end))) {
+            updateRange(false);
+          }
+
+          releaseFilter.on = turningOn;
           currentPage = 1; renderQuery();
         }
-
         releaseRangeOn.addEventListener('change', toggleRange);
         relStartMonth.addEventListener('change', updateRange);
         relStartYear.addEventListener('change', updateRange);
@@ -1343,6 +1512,3 @@ body_classes: page-tools
 </body>
 
 </html>
-
-
-
