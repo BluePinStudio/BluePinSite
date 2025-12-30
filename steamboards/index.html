@@ -98,9 +98,10 @@ body_classes: page-tools
             <span>Hide $0 revenue orgs</span>
           </label>
           <label class="check">
-            <input id="ignoreComingSoon" type="checkbox" checked />
-            <span>Ignore coming soon</span>
+            <input id="ignoreUnreleased" type="checkbox" checked />
+            <span>Ignore unreleased</span>
           </label>
+
         </div>
       </div>
     </section>
@@ -314,7 +315,7 @@ body_classes: page-tools
     const minCountEl = document.getElementById('minCount');
 
     const ignoreFreeEl = document.getElementById('ignoreFree');
-    const ignoreComingSoonEl = document.getElementById('ignoreComingSoon');
+    const ignoreUnreleasedEl = document.getElementById('ignoreUnreleased');
 
     const relativeRankEl = document.getElementById('relativeRank');
 
@@ -410,7 +411,7 @@ body_classes: page-tools
     sortByEl.addEventListener('change', rebuildViews);
     orderBtn.addEventListener('click', () => { desc = !desc; orderBtn.textContent = desc ? '↓ Desc' : '↑ Asc'; rebuildViews(); });
     minCountEl.addEventListener('input', debounce(rebuildViews, 120));
-    [ignoreFreeEl, ignoreComingSoonEl].forEach(el => el.addEventListener('change', () => { rebuildViews(); if (orgDialog.open) refreshOpenDrawer(); }));
+    [ignoreFreeEl, ignoreUnreleasedEl].forEach(el => el.addEventListener('change', () => { rebuildViews(); if (orgDialog.open) refreshOpenDrawer(); }));
 
     relativeRankEl.addEventListener('change', () => {
       if (currentTab === 'devs') renderDevPage(); else renderPubPage();
@@ -446,13 +447,14 @@ body_classes: page-tools
     }
 
     function collectOrgStats(role) {
-      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+      const ignoreUnreleased = !!ignoreUnreleasedEl.checked;
       const ignoreFree = !!ignoreFreeEl.checked;
+      const nowTs = Date.now();
 
       const map = new Map();
 
       for (const g of RAW_MIN) {
-        if (ignoreComingSoon && g.coming_soon) continue;
+        if (ignoreUnreleased && (g.release_ts == null || g.release_ts > nowTs)) continue;
 
         const isFreeGame = g.is_free === true || Number(g.price_usd) === 0;
         if (ignoreFree && isFreeGame) continue;
@@ -780,7 +782,8 @@ body_classes: page-tools
           release_year: ts ? new Date(ts).getFullYear() : null,
 
           // "coming soon" is now represented by unknown date (y missing/invalid)
-          coming_soon: ts == null,
+          unreleased: ts == null,
+
 
           tags: (Array.isArray(j.t) ? j.t : []).map(norm).filter(Boolean),
           genres: (Array.isArray(j.g) ? j.g : []).map(norm).filter(Boolean),
@@ -805,7 +808,7 @@ body_classes: page-tools
         review_count: (reviews.review_count) ?? (reviews.total_reviews) ?? 0,
         release_ts: ts,
         release_year: ts ? new Date(ts).getFullYear() : null,
-        coming_soon: !!rel.coming_soon,
+        unreleased: ts == null || ts > Date.now(),
         tags: arr(cls.tags).map(norm).filter(Boolean),
         genres: [],
         cats: []
@@ -858,11 +861,12 @@ body_classes: page-tools
 
 
     function openOrgDetails(role, name) {
-      const ignoreComingSoon = !!ignoreComingSoonEl.checked;
+      const ignoreUnreleased = !!ignoreUnreleasedEl.checked;
       const ignoreFree = !!ignoreFreeEl.checked;
+      const nowTs = Date.now();
 
       const allMatching = RAW_MIN.filter(g => {
-        if (ignoreComingSoon && g.coming_soon) return false;
+        if (ignoreUnreleased && (g.release_ts == null || g.release_ts > nowTs)) return false;
         if (ignoreFree && (g.is_free === true || Number(g.price_usd) === 0)) return false;
 
         const pool = (role === 'developers') ? g.developers : g.publishers;
@@ -1008,12 +1012,13 @@ body_classes: page-tools
       </h4>
 
       <div class="gmeta">
-        <span class="pill">${g.coming_soon
-            ? 'Coming soon'
-            : (g.release_ts
-              ? fmtMonYear(g.release_ts)
-              : (g.release_year ? String(g.release_year) : '—'))
+<span class="pill">${g.release_ts == null
+            ? 'Unreleased'
+            : g.release_ts > Date.now()
+              ? `Releases ${fmtMonYear(g.release_ts)}`
+              : fmtMonYear(g.release_ts)
           }</span>
+
 
         ${reviewsHTML}
 
@@ -1048,220 +1053,220 @@ body_classes: page-tools
     }
 
 
-      function refreshOpenDrawer() {
-        const head = orgTitle.textContent || '';
-        const m = head.match(/^(.*)\s—\s(Developer|Publisher)$/);
-        if (!m) return;
-        const name = m[1]; const role = (m[2] === 'Developer') ? 'developers' : 'publishers';
+    function refreshOpenDrawer() {
+      const head = orgTitle.textContent || '';
+      const m = head.match(/^(.*)\s—\s(Developer|Publisher)$/);
+      if (!m) return;
+      const name = m[1]; const role = (m[2] === 'Developer') ? 'developers' : 'publishers';
+      openOrgDetails(role, name);
+    }
+
+    orgClose.addEventListener('click', () => {
+      orgDialog.close();
+    });
+
+    orgDialog.addEventListener('click', (e) => {
+      const rect = orgDialog.getBoundingClientRect();
+      const outside =
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom;
+      if (outside) {
+        orgDialog.close();
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && orgDialog.open) {
+        orgDialog.close();
+      }
+    });
+
+    // Ensure scroll is always unlocked when dialog fully closes
+    orgDialog.addEventListener('close', () => {
+      unlockPageScroll();
+    });
+
+
+    function handleOrgButton(e) {
+      const btn = e.target.closest('.org-open-btn');
+      if (!btn) return;
+      const role = btn.dataset.role;
+      const name = btn.dataset.name;
+      if (e.altKey) {
+        addChip(name);
+      } else {
         openOrgDetails(role, name);
       }
+    }
+    devTableBody.addEventListener('click', handleOrgButton);
+    pubTableBody.addEventListener('click', handleOrgButton);
 
-      orgClose.addEventListener('click', () => {
-        orgDialog.close();
-      });
-
-      orgDialog.addEventListener('click', (e) => {
-        const rect = orgDialog.getBoundingClientRect();
-        const outside =
-          e.clientX < rect.left ||
-          e.clientX > rect.right ||
-          e.clientY < rect.top ||
-          e.clientY > rect.bottom;
-        if (outside) {
-          orgDialog.close();
-        }
-      });
-
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && orgDialog.open) {
-          orgDialog.close();
-        }
-      });
-
-      // Ensure scroll is always unlocked when dialog fully closes
-      orgDialog.addEventListener('close', () => {
-        unlockPageScroll();
-      });
-
-
-      function handleOrgButton(e) {
-        const btn = e.target.closest('.org-open-btn');
-        if (!btn) return;
-        const role = btn.dataset.role;
-        const name = btn.dataset.name;
-        if (e.altKey) {
-          addChip(name);
-        } else {
-          openOrgDetails(role, name);
-        }
-      }
-      devTableBody.addEventListener('click', handleOrgButton);
-      pubTableBody.addEventListener('click', handleOrgButton);
-
-      // ---------- Chips + Autocomplete ----------
-      function renderChips() {
-        chipList.innerHTML = '';
-        const frag = document.createDocumentFragment();
-        for (const name of compareNames) {
-          const li = document.createElement('li');
-          li.className = 'chip';
-          li.innerHTML = `
+    // ---------- Chips + Autocomplete ----------
+    function renderChips() {
+      chipList.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (const name of compareNames) {
+        const li = document.createElement('li');
+        li.className = 'chip';
+        li.innerHTML = `
           <span class="chip-text">${name}</span>
           <button class="chip-remove" aria-label="Remove ${name}" title="Remove">×</button>
         `;
-          li.querySelector('.chip-remove').addEventListener('click', () => {
-            removeChip(name);
-          });
-          frag.appendChild(li);
-        }
-        chipList.appendChild(frag);
+        li.querySelector('.chip-remove').addEventListener('click', () => {
+          removeChip(name);
+        });
+        frag.appendChild(li);
       }
+      chipList.appendChild(frag);
+    }
 
-      function getCurrentPoolNames() {
-        const rows = (currentTab === 'devs') ? allDevs : allPubs;
-        return rows.map(r => r.name);
-      }
+    function getCurrentPoolNames() {
+      const rows = (currentTab === 'devs') ? allDevs : allPubs;
+      return rows.map(r => r.name);
+    }
 
-      function getCanonicalOrgName(raw) {
-        const q = norm(raw).toLowerCase();
-        if (!q) return null;
-        const pool = getCurrentPoolNames();
-        const exact = pool.find(n => n.toLowerCase() === q);
-        if (exact) return exact;
-        return norm(raw);
-      }
+    function getCanonicalOrgName(raw) {
+      const q = norm(raw).toLowerCase();
+      if (!q) return null;
+      const pool = getCurrentPoolNames();
+      const exact = pool.find(n => n.toLowerCase() === q);
+      if (exact) return exact;
+      return norm(raw);
+    }
 
-      function addChip(name) {
-        const canonical = getCanonicalOrgName(name);
-        if (!canonical) return;
-        const has = compareNames.some(n => n.toLowerCase() === canonical.toLowerCase());
-        if (!has) {
-          compareNames.push(canonical);
-          renderChips();
-          rebuildViews();
-        }
-      }
-
-      function removeChip(name) {
-        compareNames = compareNames.filter(n => n.toLowerCase() !== name.toLowerCase());
+    function addChip(name) {
+      const canonical = getCanonicalOrgName(name);
+      if (!canonical) return;
+      const has = compareNames.some(n => n.toLowerCase() === canonical.toLowerCase());
+      if (!has) {
+        compareNames.push(canonical);
         renderChips();
         rebuildViews();
       }
+    }
 
-      function clearAutocomplete() {
-        acList.innerHTML = '';
-        acList.hidden = true;
+    function removeChip(name) {
+      compareNames = compareNames.filter(n => n.toLowerCase() !== name.toLowerCase());
+      renderChips();
+      rebuildViews();
+    }
+
+    function clearAutocomplete() {
+      acList.innerHTML = '';
+      acList.hidden = true;
+    }
+
+    function fuzzySuggest(query, pool, max = 8) {
+      const q = norm(query).toLowerCase();
+      if (!q) return [];
+      const scored = [];
+      for (const name of pool) {
+        const n = name.toLowerCase();
+        const idx = n.indexOf(q);
+        if (idx === -1) continue;
+        const starts = n.startsWith(q) ? 0 : 1;
+        scored.push({ name, score: starts * 100 + idx });
       }
+      scored.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name));
+      return scored.slice(0, max).map(s => s.name);
+    }
 
-      function fuzzySuggest(query, pool, max = 8) {
-        const q = norm(query).toLowerCase();
-        if (!q) return [];
-        const scored = [];
-        for (const name of pool) {
-          const n = name.toLowerCase();
-          const idx = n.indexOf(q);
-          if (idx === -1) continue;
-          const starts = n.startsWith(q) ? 0 : 1;
-          scored.push({ name, score: starts * 100 + idx });
-        }
-        scored.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name));
-        return scored.slice(0, max).map(s => s.name);
-      }
-
-      function renderAutocomplete(list) {
-        if (!list.length) { clearAutocomplete(); return; }
-        acList.innerHTML = '';
-        const frag = document.createDocumentFragment();
-        list.forEach((name, i) => {
-          const div = document.createElement('div');
-          div.className = 'ac-item';
-          div.setAttribute('role', 'option');
-          if (i === 0) div.setAttribute('aria-selected', 'true');
-          div.textContent = name;
-          div.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            addChip(name);
-            chipInput.value = '';
-            clearAutocomplete();
-            chipInput.focus();
-          });
-          frag.appendChild(div);
+    function renderAutocomplete(list) {
+      if (!list.length) { clearAutocomplete(); return; }
+      acList.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      list.forEach((name, i) => {
+        const div = document.createElement('div');
+        div.className = 'ac-item';
+        div.setAttribute('role', 'option');
+        if (i === 0) div.setAttribute('aria-selected', 'true');
+        div.textContent = name;
+        div.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          addChip(name);
+          chipInput.value = '';
+          clearAutocomplete();
+          chipInput.focus();
         });
-        acList.appendChild(frag);
-        acList.hidden = false;
+        frag.appendChild(div);
+      });
+      acList.appendChild(frag);
+      acList.hidden = false;
+    }
+
+    const updateAutocomplete = debounce(() => {
+      const q = chipInput.value;
+      if (!q) { clearAutocomplete(); return; }
+      const pool = getCurrentPoolNames();
+      const suggestions = fuzzySuggest(q, pool);
+      renderAutocomplete(suggestions);
+    }, 80);
+
+    compareBox.addEventListener('click', () => chipInput.focus());
+    chipInput.addEventListener('input', () => updateAutocomplete());
+
+    chipInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const first = acList.querySelector('.ac-item');
+        if (first) {
+          addChip(first.textContent);
+        } else {
+          addChip(chipInput.value);
+        }
+        chipInput.value = '';
+        clearAutocomplete();
+      } else if (e.key === 'Backspace' && !chipInput.value) {
+        const last = compareNames[compareNames.length - 1];
+        if (last) removeChip(last);
+      } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !acList.hidden) {
+        e.preventDefault();
+        const items = Array.from(acList.querySelectorAll('.ac-item'));
+        if (!items.length) return;
+        let idx = items.findIndex(it => it.getAttribute('aria-selected') === 'true');
+        if (idx < 0) idx = 0;
+        items[idx].removeAttribute('aria-selected');
+        idx = e.key === 'ArrowDown' ? Math.min(idx + 1, items.length - 1) : Math.max(idx - 1, 0);
+        items[idx].setAttribute('aria-selected', 'true');
+        items[idx].scrollIntoView({ block: 'nearest' });
       }
+    });
 
-      const updateAutocomplete = debounce(() => {
-        const q = chipInput.value;
-        if (!q) { clearAutocomplete(); return; }
-        const pool = getCurrentPoolNames();
-        const suggestions = fuzzySuggest(q, pool);
-        renderAutocomplete(suggestions);
-      }, 80);
+    chipInput.addEventListener('blur', () => setTimeout(clearAutocomplete, 120));
 
-      compareBox.addEventListener('click', () => chipInput.focus());
-      chipInput.addEventListener('input', () => updateAutocomplete());
+    chipInput.addEventListener('paste', (e) => {
+      const txt = (e.clipboardData || window.clipboardData).getData('text');
+      if (!txt) return;
+      const parts = txt.split(/[\n\t]+/).map(s => norm(s)).filter(Boolean);
+      if (parts.length > 1) {
+        e.preventDefault();
+        parts.forEach(addChip);
+        chipInput.value = '';
+        clearAutocomplete();
+      }
+    });
 
-      chipInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const first = acList.querySelector('.ac-item');
-          if (first) {
-            addChip(first.textContent);
-          } else {
-            addChip(chipInput.value);
-          }
-          chipInput.value = '';
-          clearAutocomplete();
-        } else if (e.key === 'Backspace' && !chipInput.value) {
-          const last = compareNames[compareNames.length - 1];
-          if (last) removeChip(last);
-        } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !acList.hidden) {
-          e.preventDefault();
-          const items = Array.from(acList.querySelectorAll('.ac-item'));
-          if (!items.length) return;
-          let idx = items.findIndex(it => it.getAttribute('aria-selected') === 'true');
-          if (idx < 0) idx = 0;
-          items[idx].removeAttribute('aria-selected');
-          idx = e.key === 'ArrowDown' ? Math.min(idx + 1, items.length - 1) : Math.max(idx - 1, 0);
-          items[idx].setAttribute('aria-selected', 'true');
-          items[idx].scrollIntoView({ block: 'nearest' });
-        }
-      });
-
-      chipInput.addEventListener('blur', () => setTimeout(clearAutocomplete, 120));
-
-      chipInput.addEventListener('paste', (e) => {
-        const txt = (e.clipboardData || window.clipboardData).getData('text');
-        if (!txt) return;
-        const parts = txt.split(/[\n\t]+/).map(s => norm(s)).filter(Boolean);
-        if (parts.length > 1) {
-          e.preventDefault();
-          parts.forEach(addChip);
-          chipInput.value = '';
-          clearAutocomplete();
-        }
-      });
-
-      // ---------------- Init ----------------
-      (async () => {
-        try {
-          await loadJSONLStream(JSON_LINES_PATH);
-        } catch (err) {
-          console.warn(err);
-          RAW_MIN = [
-            { app_id: 1, name: 'Alpha', header_image: null, developers: ['Studio One'], publishers: ['Pub X'], price_usd: 19.99, is_free: false, review_count: 1200, release_ts: Date.parse('2022-05-01'), release_year: 2022, coming_soon: false },
-            { app_id: 2, name: 'Beta', header_image: null, developers: ['Studio One', 'Studio Two'], publishers: ['Pub Y'], price_usd: 9.99, is_free: false, review_count: 300, release_ts: Date.parse('2021-11-13'), release_year: 2021, coming_soon: false },
-            { app_id: 3, name: 'Gamma', header_image: null, developers: ['Studio Two'], publishers: ['Pub X'], price_usd: 0, is_free: true, review_count: 5000, release_ts: Date.parse('2023-08-18'), release_year: 2023, coming_soon: false },
-            { app_id: 4, name: 'Delta', header_image: null, developers: ['Solo Dev'], publishers: ['Pub Z'], price_usd: 14.99, is_free: false, review_count: 50, release_ts: null, release_year: null, coming_soon: true }
-          ];
-        } finally {
-          hideLoader();
-          rebuildViews();
-          setTab('devs');
-          renderChips();
-        }
-      })();
+    // ---------------- Init ----------------
+    (async () => {
+      try {
+        await loadJSONLStream(JSON_LINES_PATH);
+      } catch (err) {
+        console.warn(err);
+        RAW_MIN = [
+          { app_id: 1, name: 'Alpha', header_image: null, developers: ['Studio One'], publishers: ['Pub X'], price_usd: 19.99, is_free: false, review_count: 1200, release_ts: Date.parse('2022-05-01'), release_year: 2022, coming_soon: false },
+          { app_id: 2, name: 'Beta', header_image: null, developers: ['Studio One', 'Studio Two'], publishers: ['Pub Y'], price_usd: 9.99, is_free: false, review_count: 300, release_ts: Date.parse('2021-11-13'), release_year: 2021, coming_soon: false },
+          { app_id: 3, name: 'Gamma', header_image: null, developers: ['Studio Two'], publishers: ['Pub X'], price_usd: 0, is_free: true, review_count: 5000, release_ts: Date.parse('2023-08-18'), release_year: 2023, coming_soon: false },
+          { app_id: 4, name: 'Delta', header_image: null, developers: ['Solo Dev'], publishers: ['Pub Z'], price_usd: 14.99, is_free: false, review_count: 50, release_ts: null, release_year: null, coming_soon: true }
+        ];
+      } finally {
+        hideLoader();
+        rebuildViews();
+        setTab('devs');
+        renderChips();
+      }
+    })();
   </script>
 </body>
 
