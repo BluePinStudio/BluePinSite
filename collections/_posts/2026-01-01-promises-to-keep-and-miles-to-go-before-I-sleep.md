@@ -2,9 +2,9 @@
 layout: post
 title: "Promises to keep and miles to go before I sleep"
 description: Monthly Check-in for December 2025 (Month 69)
-date: 2026-01-01 03:00:00
+date: 2026-01-05 03:00:00
 categories: [Monthly Check-in]
-tags: [game jam, the yield, falling thingies, charles the bee, pixel fixel]
+tags: [trash force, falling thingies, eggnog incorporated, bundle]
 thumbnail: /assets/images/posts/dec2025.png
 image: /assets/images/posts/dec2025.png
 image_caption: "Walter Moras, “Sledding on a Sunny Day”, 1900~"
@@ -13,58 +13,54 @@ published: true
 
 ## Welcome!
 
-Woweee! November was a bit of a whirlwind. I was tasked (by past-me) to chill out. But I didn't really chill at all. So much stuff done! Let's dive in...
-
-## December 2025 Goals
-
-- [x] Eggnog Incorporated Overhaul Update (due by Dec 17)
-- [x] Falling Thingies incremental slight pivot
-- [x] Prepare "5 years ago I made this game" video for publishing Jan 1
-- [x] Take it easy pal, relaaaax
-
-<figure style="text-align: center;">
-<img src="/assets/images/posts/yieldgems.gif" alt="An image showing all the data structure of the upgrades and mining levels in The Yield">
-</figure>
-
-Welp! We did it! Almost. 
-
-The youtube video goal has been quite elusive. Will I finally have one ready in December? Only time will tell. I have moved it for a December 2025 goal. The other list items were accomplished quite nicely and have corresponding blogs on the website or posts in the discord.
-
-
-## Bonus Tasks Completed in November 2025
-
-- [x] Visit the [Toronto Game Expo](https://www.torontogameexpo.ca/)
-- [x] 42hrs of [Twitch Streaming](https://www.twitch.tv/bluepinstudio)
-- [x] Released a suite of gamedev tools (beta) [test em out here, at your own risk!](/tools/)
-- [x] Blue Pin Studio x EvanMMO x Bonejacq x Manishagamedev Minecraft server!
-- [x] 1hr interview on IGA twitch stream for Charles the Bee
-
-<figure style="text-align: center;">
-<img src="/assets/images/posts/tools.png" alt="Tool thumbnail for various steam tools">
-</figure>
-Out of the bonus tasks. Two are the most exciting ones. I made a series of tools you can find in the tool section of this website. They are all pretty game-dev centric, but I aim to expand them and add more to the tool belt. A lot of it is self serving like making a tool to help me find similar games for pre-production research, or tools to help me find random factoids like "90% of steam games make less than $100k" etc.
-
-The other exciting task completed was setting up a public minecraft server! A bunch of my gamedev friends got together and made a minecraft server that we can all use for all our communities. It's tough keeping a minecraft server populated using only one small community. Hopefully since we've combined 4 small communities it would be much more lively :) If that sounds like something you would enjoy, don't hesitate to reach out for an invite. At the moment it's invite-only to keep away the spooky bad actors.
-<figure style="text-align: center;">
-<img src="/assets/images/posts/minecraft.png" alt="Screenshot of a minecraft build.">
-</figure>
+Ho Ho Ho! December has come and gone! Let's see what ol' vik was up to!
 
 ## December 2025 Goals
 
 - [ ] Eggnog Incorporated Overhaul Update (due by Dec 17)
-- [ ] Falling Thingies incremental slight pivot
+- [x] Falling Thingies incremental slight pivot
 - [ ] Prepare "5 years ago I made this game" video for publishing Jan 1
-- [ ] Take it easy pal, relaaaax
+- [x] Take it easy pal, relaaaax
 
-This time we're actually taking it easy! Last month I was crunching to finish those updates and get started on the Eggnog update. This month, half way through we'll deploy the eggnog update and the rest of the month will be relaxing. Finally! Some respite :)
+I think I took the "take it easy pal" task a little bit too seriously haha. The eggnog update got roughly 70% done but then i devolved into simply playing games to soothe the mind. I'm going to put the eggnog update in January 2026's goals, it should be relatively easy to get it out in the first week or so of January. Look forward to that!
 
-I'm sure I'll have a bunch of bonus tasks that I'll report on...
+Regarding YouTube? Man... I've put that task on my to-do many months now. Perhaps I just don't have enough time to do it. I'll reconsider doing YouTube content once Falling Thingies is released...
+
+
+## Bonus Tasks Completed in December 2025
+
+- [x] 16hrs of [Twitch Streaming](https://www.twitch.tv/bluepinstudio)
+- [x] Updated my suite of gamedev tools (beta) [test em out here, at your own risk!](/tools/)
+- [x] Created a new Steam bundle with some new developer friends! [The Corporate Climb Bundle](https://store.steampowered.com/bundle/65464/The_Corporate_Climb/)
+
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/corporateclimb.png" alt="Corporate Climb Steam Bundle Header Capsule">
+</figure>
+
+
+## January 2026 Goals
+
+- [ ] Eggnog Incorporated Overhaul Update
+- [ ] Falling Thingies steam-ready build
+- [ ] Trash Force milestone planning for 2026
+- [ ] 2025 yearly recap post
+
+
+Look at that! Only four  tasks. How hard could it be? Don't mind that one of them is literally making a game :P Place your bets if ol' Vik will be able to do 4 simple tasks in an entire month.
+
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/trashforcecockroach.png" alt="Clyde the Cockroach from Trash Force">
+</figure>
 
 
 ## Musings
-The tail end of November has been pretty stressful because of the looming dead of the eggnog update. I got a lot done on the day job front and went to a lot of gamedev events. It was a professionally enriching month in every way! Updating pixel fixel and charles the bee have been eating away at the back of my mind for a long time. Just like the eggnog update. Let's get that behind us and onto greater things in 2026!
+A much deserved restful December has come and gone... I think I spent more time playing games this month than any other month in the last 2 years. It was a great time! 
 
-I know you've probably heard this song a million times if you doom scroll on instagram or tiktok or youtube, but I would be remiss if I didn't include it. It's a certified banger fleeky yeet 6 7.
+I have so many plans for 2026 so unfortunately we're going to need to pick up the pace in January. See y'all in the 2025 yearly recap to learn more about those plans. I suspect 2026 will be the biggest year for Blue Pin Studio yet! 
+
+As is customary here's a banger I've been listening to lately.
 
 {% include framework/shortcodes/youtube.html id='sJvA9r89VaA' %}
 _finding butterflies by BLISSFOOL_
