@@ -13,7 +13,7 @@ published: true
 
 ## Welcome!
 
-Ho Ho Ho! December has come and gone! Let's see what ol' vik was up to!
+Ho Ho Ho! December has come and gone! Let's see what ol' vik was up to! Happy New Year by the way :)
 
 ## December 2025 Goals
 
