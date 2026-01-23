@@ -7,7 +7,7 @@ tags: [charles the bee, pixel fixel]
 thumbnail: /assets/images/posts/2024recap.png
 image: /assets/images/posts/2024recap.png
 published : true
-sticky: true
+sticky: false
 ---
 
 ## Welcome!
@@ -17,7 +17,7 @@ Woah! 2024 is over and 2025 is here! I'm starting another tradition, in addition
 Let's see what we have. These are the key metrics that I would like to track compared to the same metric in the previous calendar year...
 
 
-| Total Net Revenue from All Sources| **$1541 (USD)**|<span style="color:green">**+564%**</span> compared to 2023 |
+| Total Net Revenue from All Sources| **$1296 (USD)**|<span style="color:green">**+459%**</span> compared to 2023 |
 | Discord/Mailing List|**149**|<span style="color:green">**+110%**</span> compared to 2023 |
 | Followers|**879**|<span style="color:green">**+87%**</span> compared to 2023 |
 | Steam Store Impressions|**3,921,616**|<span style="color:green">**+1050%**</span> compared to 2023 |
@@ -44,7 +44,7 @@ Since its the first time I'm doing one of these, I would like to include my Tota
 | 2021| **$1067 (USD)**|<span style="color:green">**+248%**</span> |
 | 2022| **$351 (USD)**|<span style="color:red">**-67%**</span> |
 | 2023| **$232 (USD)**|<span style="color:red">**-34%**</span> |
-| 2024| **$1541 (USD)**|<span style="color:green">**+564%**</span> |
+| 2024| **$1296 (USD)**|<span style="color:green">**+459%**</span> |
 | Total| **$3498 (USD)**| - |  
 {: .table .table-sm }
 
