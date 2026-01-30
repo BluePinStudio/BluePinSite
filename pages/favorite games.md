@@ -40,7 +40,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Day of Defeat Source (Sep 2005)  
 - [x] Air Rivals (Aug 2006)  
 - [ ] Bloons TD (Aug 2007)
-- [ ] Far Cry Instincts (Sep 2007)  
+- [x] Far Cry Instincts (Sep 2007)  
 - [ ] TF2 (Oct 2007)  
 - [ ] GTA 4 (Apr 2008)  
 - [ ] Castle Crashers (Aug 2008) 
