@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Valentine Card</title>
+
+<style>
+:root {
+  --pink-light: #ffd6e8;
+  --pink-main: #ff8fc4;
+  --pink-dark: #ff5aa5;
+  --card-bg: rgba(255, 245, 250, 0.9);
+}
+
+/* -------- Page Reset -------- */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", "Hiragino Kaku Gothic Pro", "Yu Gothic", sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* -------- Background -------- */
+body {
+  background-image: url("https://wallpaperbat.com/img/8650889-japan-cherry-blossom-wallpaper.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* soft pink overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    rgba(255, 220, 235, 0.4),
+    rgba(255, 200, 225, 0.55)
+  );
+  z-index: 0;
+}
+
+/* -------- Sakura Petals -------- */
+.petal {
+  position: fixed;
+  top: -10%;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 30% 30%, #fff, #ffc1dc 70%);
+  border-radius: 0 70% 0 70%;
+  opacity: 0.8;
+  animation: fall linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateX(var(--drift)) translateY(120vh) rotate(360deg);
+  }
+}
+
+/* -------- Card -------- */
+.card {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+  padding: 40px 30px;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow:
+    0 20px 40px rgba(255, 105, 180, 0.35),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
+
+h1 {
+  margin: 0 0 30px;
+  font-size: 2.2rem;
+  color: var(--pink-dark);
+  letter-spacing: 0.03em;
+}
+
+/* -------- Buttons -------- */
+.buttons {
+  position: relative;
+  height: 140px;
+}
+
+button {
+  border: none;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#yesBtn {
+  background: linear-gradient(135deg, var(--pink-main), var(--pink-dark));
+  color: white;
+  box-shadow: 0 10px 20px rgba(255, 90, 165, 0.4);
+}
+
+#yesBtn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 14px 28px rgba(255, 90, 165, 0.55);
+}
+
+#noBtn {
+  position: absolute;
+  background: white;
+  color: var(--pink-dark);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* -------- Yes Message -------- */
+#message {
+  margin-top: 30px;
+  font-size: 1.4rem;
+  color: var(--pink-dark);
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Will you be my Valentine?</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div id="message">I knew you would say yes</div>
+</div>
+
+<script>
+/* -------- Sakura Generator -------- */
+const PETAL_COUNT = 30;
+
+for (let i = 0; i < PETAL_COUNT; i++) {
+  const petal = document.createElement("div");
+  petal.className = "petal";
+
+  const startX = Math.random() * window.innerWidth;
+  const drift = (Math.random() * 200 - 100) + "px";
+  const duration = 8 + Math.random() * 8;
+  const delay = Math.random() * -20;
+
+  petal.style.left = startX + "px";
+  petal.style.setProperty("--drift", drift);
+  petal.style.animationDuration = duration + "s";
+  petal.style.animationDelay = delay + "s";
+
+  document.body.appendChild(petal);
+}
+
+/* -------- Runaway No Button -------- */
+const noBtn = document.getElementById("noBtn");
+const buttons = document.querySelector(".buttons");
+
+function moveNoButton() {
+  const maxX = buttons.clientWidth - noBtn.offsetWidth;
+  const maxY = buttons.clientHeight - noBtn.offsetHeight;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+moveNoButton();
+
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+/* -------- Yes Button -------- */
+document.getElementById("yesBtn").addEventListener("click", () => {
+  document.getElementById("message").style.display = "block";
+  noBtn.style.display = "none";
+});
+</script>
+
+</body>
+</html>
