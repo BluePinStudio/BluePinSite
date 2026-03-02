@@ -75,7 +75,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Forza Horizon 5 (Nov 2021)  
 - [ ] Dinomight (Dec 2021)  
 - [ ] Dome Keeper (Sep 2022) 
-- [ ] Super Kiwi 64 (Dec 2022)
+- [x] Super Kiwi 64 (Dec 2022)
 - [ ] Thronefall (Aug 2023)
 - [ ] Stellar Initiative (May 2024)
 - [ ] Rocket Rats (Dec 2024)

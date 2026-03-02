@@ -62,7 +62,7 @@ I have so many plans for 2026 so unfortunately we're going to need to pick up th
 
 As is customary here's a banger I've been listening to lately.
 
-{% include framework/shortcodes/youtube.html id='sJvA9r89VaA' %}
+{% include framework/shortcodes/youtube.html id='5hHEg4QCsZ0' %}
 _finding butterflies by BLISSFOOL_
 
 ## Comments & Reactions
