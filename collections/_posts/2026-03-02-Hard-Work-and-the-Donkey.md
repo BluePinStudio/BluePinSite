@@ -2,7 +2,7 @@
 layout: post
 title: "Hard Work and the Donkey"
 description: Monthly Check-in for February 2026 (Month 71)
-date: 2026-03-01 09:00:00
+date: 2026-03-02 09:00:00
 categories: [Monthly Check-in]
 tags: [trash force, falling thingies]
 thumbnail: /assets/images/posts/feb2026.png
