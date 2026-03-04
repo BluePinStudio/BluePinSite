@@ -124,4 +124,3 @@ Have a look at the judge's reaction to our game!
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

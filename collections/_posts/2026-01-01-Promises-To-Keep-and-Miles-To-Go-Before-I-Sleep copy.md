@@ -68,4 +68,4 @@ _finding butterflies by BLISSFOOL_
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}
+

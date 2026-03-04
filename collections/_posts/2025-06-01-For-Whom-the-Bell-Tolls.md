@@ -60,4 +60,3 @@ _Swim Good by Frank Ocean_
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

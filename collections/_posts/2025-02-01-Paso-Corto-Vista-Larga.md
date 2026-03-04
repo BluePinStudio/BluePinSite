@@ -63,4 +63,3 @@ _Roleplay by J'calm_
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

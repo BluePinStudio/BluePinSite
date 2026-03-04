@@ -60,4 +60,3 @@ I'll leave you with this amazing fan art i got as a secret santa gift! It has re
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

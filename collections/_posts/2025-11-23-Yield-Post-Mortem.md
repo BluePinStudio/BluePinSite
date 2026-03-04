@@ -87,4 +87,3 @@ The post-jam version will be posted to Newgrounds in December so stay tuned for 
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

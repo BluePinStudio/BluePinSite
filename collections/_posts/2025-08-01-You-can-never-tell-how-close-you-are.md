@@ -65,4 +65,3 @@ _Bang by Jacob Banks & Tobe Nwigwe_
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

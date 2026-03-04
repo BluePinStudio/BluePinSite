@@ -70,4 +70,3 @@ _Blood // Water by grandson_
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

@@ -121,4 +121,3 @@ Maybe even one day, we will have the opportunity to "make it into a full game." 
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

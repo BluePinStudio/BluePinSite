@@ -20,4 +20,3 @@ posts:
   show_categories: true
 ---
 
-{% include subscribe.html %}

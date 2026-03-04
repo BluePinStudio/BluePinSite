@@ -65,4 +65,3 @@ _High Hopes (Cover) by Gabriela Bee_
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

@@ -59,4 +59,3 @@ _Bye Bye Bye - NSYNC cover by Rain Paris_
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}

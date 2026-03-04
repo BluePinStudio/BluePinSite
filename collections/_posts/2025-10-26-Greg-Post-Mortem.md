@@ -126,4 +126,3 @@ We also managed to score some pretty cool accolades from Newgrounds! We were the
 ## Comments & Reactions
 
 {% include discus.html %}
-{% include subscribe.html %}
