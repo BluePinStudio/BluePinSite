@@ -64,6 +64,7 @@ The ones with the "x" are the ones i already included in a blog post.
 - [x] Stardew Valley (Feb 2016)
 - [ ] Enter the Gungeon (Apr 2016)
 - [ ] Astroneer (Dec 2016)
+- [ ] What Remains of Edith Finch (Apr 2017)
 - [ ] Slay the Spire (Nov 2017)  
 - [ ] PUBG (Dec 2017)
 - [ ] Far Cry 5 (Mar 2018)  
