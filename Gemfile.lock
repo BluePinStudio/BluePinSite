@@ -276,5 +276,8 @@ PLATFORMS
 DEPENDENCIES
   github-pages
 
+RUBY VERSION
+   ruby 3.2.10p266
+
 BUNDLED WITH
    2.7.2

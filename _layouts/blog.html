@@ -101,7 +101,7 @@ body_classes: page-blog
         <div class="row">
           {%- for post in listing_posts -%}
             <div class="col-12 col-lg-4 mb-3">
-              {% include theme/cards/card-post.html
+              {% include_cached theme/cards/card-post.html
                 date=post.date
                 title=post.title
                 description=post.description

@@ -23,7 +23,7 @@ body_classes: page-categories
       {% for category in site.categories %}
         <div class="col-12 col-md-8 mb-2">
           <h3>
-            {% include framework/category-link.html category_name=category.first show_count=true %}
+            {% include_cached framework/category-link.html category_name=category.first show_count=true %}
           </h3>
         </div>
       {% endfor %}

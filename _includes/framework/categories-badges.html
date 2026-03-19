@@ -2,6 +2,6 @@
 
 {% if categories %}
   {% for category in categories %}
-    {% include framework/category-link.html category_name=category show_count=false %}
+    {% include_cached framework/category-link.html category_name=category show_count=false %}
   {% endfor %}
 {% endif %}

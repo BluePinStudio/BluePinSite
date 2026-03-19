@@ -15,13 +15,17 @@ Jekyll Origin is a premium blog theme.
 
 Make sure you have Ruby & Jekyll installed - For a step-by-step guide, read Jekyll docs [installation](https://jekyllrb.com/docs/installation/)
 
+### Ruby version
+
+Use Ruby `3.2.x` for local development. Ruby `3.3.x` is incompatible with the legacy Sass compiler used by the `github-pages` gem and causes SCSS conversion errors.
+
 ### Install Theme
 
 Extract the themes .zip file to your local computer. Navigate to the project root (it contains the README.md)
 
 Run `bundle install` to install gems.
 
-Then run `jekyll serve` or `bundle exec jekyll serve` to start the Jekyll server.
+Then run `bundle exec jekyll serve` to start the Jekyll server.
 
 To build the Jekyll site run `bundle exec jekyll build`
 

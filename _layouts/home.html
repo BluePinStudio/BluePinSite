@@ -71,7 +71,7 @@ body_classes: page-home
         {% endif %}
 
         <div class="col-12 col-md-4 {{ columns }}{% if forloop.first %}mt-0{% endif %} {% if forloop.last %}mb-0{% endif %} mb-3 mb-md-6">
-          {% include theme/cards/card-post.html 
+          {% include_cached theme/cards/card-post.html 
             title=card.title 
             description=card.description
             thumbnail=card.thumbnail

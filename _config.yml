@@ -63,6 +63,7 @@ sass:
 
 # Excludes
 exclude:
+  - _site
   - Gemfile
   - Gemfile.lock
   - README.md
@@ -81,6 +82,9 @@ exclude:
   - yarn.lock
   - .vscode
   - .idea
+  - .jekyll-cache
+  - .jekyll-metadata
+  - build_profile.log
 
 
 # -------------------
