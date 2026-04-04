@@ -7,7 +7,7 @@ permalink: "/favorite-games"
 
 How did you find this page? Well, since you have. I'll let you in on a little secret. This is my incomplete list of games I like. I like each game for different reasons but the overall theme for most of them is nostalgia. I try to embed a character or artwork from one of these games when i make a monthly check-in blog post. 
 
-The ones with the "x" are the ones i already included in a blog post.
+**The ones with the "x" are the ones i already included in a blog post. This is mostly for my own organization :)**
 
 - [ ] Starcraft 1 (Mar 1998)  
 - [ ] Roller Coaster Tycoon (Mar 1999)  
@@ -63,8 +63,9 @@ The ones with the "x" are the ones i already included in a blog post.
 - [ ] Witcher 3 (May 2015)  
 - [x] Stardew Valley (Feb 2016)
 - [ ] Enter the Gungeon (Apr 2016)
+- [ ] Overwatch (May 2016)
 - [ ] Astroneer (Dec 2016)
-- [ ] What Remains of Edith Finch (Apr 2017)
+- [x] What Remains of Edith Finch (Apr 2017)
 - [ ] Slay the Spire (Nov 2017)  
 - [ ] PUBG (Dec 2017)
 - [ ] Far Cry 5 (Mar 2018)  

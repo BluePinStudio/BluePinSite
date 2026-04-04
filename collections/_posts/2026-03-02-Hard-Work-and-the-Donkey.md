@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Hard Work and the Donkey"
+title: "Hard work and the donkey"
 description: Monthly Check-in for February 2026 (Month 71)
 date: 2026-03-02 09:00:00
 categories: [Monthly Check-in]
@@ -15,7 +15,7 @@ published: true
 
 ## Welcome!
 
-Welcome back peeps! Are you ready for the shortest monthly update that I've written since I started writing these in August 2024?
+We're back and we're back! Let's see what old vik did in March 2026. I can't believe the "6" at the end of 2026 sometimes. Where has the time gone?! Time is unrelenting...
 
 ## February 2026 Goals
 
