@@ -33,7 +33,7 @@ I transferred February's goals into March and still didn't finish them in March.
 
 I made this post [The End](/blog/2026-04-01-The-End/) and posted it everywhere. The next 24hrs were honestly amazing. I had so many people reach out expressing their concern, sharing their warmth and compassion. This included people I never expected. But it also didn't include people I expected to reach out. Quite facinating the breakdown of who said and did what. The post I made was mostly genuine. All of the feelings I have for everyone that has helped me and encouraged me are genuine. I feel blessed to have as many people to thank as I do.
 
-Obviously, since you're reading this, I didn't quite game development and I'm carrying on. Carrying on with some new friendships! Thank you everyone who reached out and thank you again for everyone who has supported me along the way. 
+Obviously, since you're reading this, I didn't quit game development and I'm carrying on. Carrying on with some new friendships! Thank you everyone who reached out and thank you again for everyone who has supported me along the way. 
 
 
 <figure style="text-align: center;">
