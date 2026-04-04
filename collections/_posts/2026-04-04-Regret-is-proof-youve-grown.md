@@ -11,7 +11,7 @@ image_caption: "Harald Sohlberg, “Flower Meadow in the North”, 1905"
 published: true
 ---
 
-|Regret is proof youve grown. The fact that you wish you had done better means you are already someone who would.
+|Regret is proof you've grown. The fact that you wish you had done better means you are already someone who would.
 
 ## Welcome!
 
@@ -56,7 +56,7 @@ Well well welllllll. We've arrived at the part where I talk to my future self an
 
 One thing that I think needs to be shared is my last 9 months of struggling with love. I had a long term relationship that ended ([i mentioned it in this post](/blog/2025-01-01-Night-is-Darkest-Before-Dawn/)). After a few months I came to my senses and reached out to try to make it work. Long story short, after 9 months of working hard on repairing the relationship and getting back to the hayday, it didn't work. When we ended it the first time I think i was the one who wasn't able to pull my weight emotionally. This time it was her. Its tricky thing that is ultimately blameless. When the feelings aren't there, nothing can be done.
 
-That's what the little blurb at the beginning of this post is about. "Regret is proof youve grown. The fact that you wish you had done better means you are already someone who would." I regret ending it originally but at least I've become someone who wouldn't do that again. Silver linings!
+That's what the little blurb at the beginning of this post is about. "Regret is proof you've grown. The fact that you wish you had done better means you are already someone who would." I regret ending it originally but at least I've become someone who wouldn't do that again. Silver linings!
 
 Anyway. Onwards and upwards. I want to thank everyone who reached out as a result of my april fools prank again, it was a well needed medication to soothe the soul after such a heartbreaking month...
 
