@@ -15,9 +15,9 @@ published: true
 
 ## Welcome!
 
-We're back and we're back! Let's see what old vik did in March 2026. I can't believe the "6" at the end of 2026 sometimes. Where has the time gone?! Time is unrelenting...
+Welcome back peeps! Are you ready for the shortest monthly update that I've written since I started writing these in August 2024?
 
-## February 2026 Goals
+## March 2026 Goals
 
 - [ ] Trash Force incremental demo (in the new resolution)
 - [ ] Falling Thingies new demo and full back to front feature complete
