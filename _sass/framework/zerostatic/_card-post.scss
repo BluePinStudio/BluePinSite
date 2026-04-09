@@ -30,7 +30,6 @@
     }
   }
   .card-content {
-    padding-top: 30px;
     padding: 15px;
     display: flex;
     flex: 1;
@@ -100,27 +99,21 @@
       margin: 0 4px 0 4px;
     }
   }
-  .card-authors {
-    .author {
-      .author-image {
-        img {
-          height: 26px;
-          width: 26px;
-        }
-      }
-      .author-content {
-        flex-direction: column;
-        .author-name {
-          font-weight: 500;
-          line-height: 1.2;
-          font-size: 12px;
-        }
-        .author-date {
-          font-size: 12px;
-          line-height: 1.2;
-        }
-      }
-    }
+  .card-authors .author .author-image img {
+    height: 26px;
+    width: 26px;
+  }
+  .card-authors .author .author-content {
+    flex-direction: column;
+  }
+  .card-authors .author .author-content .author-name {
+    font-weight: 500;
+    line-height: 1.2;
+    font-size: 12px;
+  }
+  .card-authors .author .author-content .author-date {
+    font-size: 12px;
+    line-height: 1.2;
   }
   .card-readmore {
     margin-top: auto;
@@ -218,9 +211,6 @@
         background-color: var(--color-base-200);
       }
     }
-  }
-  .card-content {
-
   }
   .card-categories {
     margin-top: 20px;

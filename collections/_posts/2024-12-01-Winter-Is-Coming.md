@@ -59,7 +59,7 @@ November was not as bad as October, and I suspect December won't be as bad as No
 
 Here is another song, this time it's brought to you buy a [twitch streamer named Zombiechou](https://www.twitch.tv/zombiechou). He was playing it in his stream (lol) and my mind was blown by the beauty! Let's all have some high high hopes for a living, like Mr. Zombiechou!
 
-{% include framework/shortcodes/youtube.html id='j3_lb_Ui9a4' %}
+{% include framework/shortcodes/youtube.html id='jRzypKx7OmU' %}
 _High Hopes (Cover) by Gabriela Bee_
 
 ## Comments & Reactions
