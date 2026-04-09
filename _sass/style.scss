@@ -18,7 +18,8 @@
   /* Add a fallback border if needed (some browsers ignore hidden checkboxes entirely) */
   border: 1px solid #ccc;
   background-color: transparent;
-  cursor: pointer;
+  cursor: default;
+  pointer-events: none;
 }
 
 /* The "unchecked" icon */
