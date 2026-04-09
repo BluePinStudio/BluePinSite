@@ -1,0 +1,59 @@
+---
+layout: default
+body_classes: page-tag
+---
+
+{% assign tag_count = 0 %}
+{% assign page_tag_lower = page.tag | downcase %}
+{% for post in site.posts %}
+  {% for t in post.tags %}
+    {% assign t_lower = t | downcase %}
+    {% if t_lower == page_tag_lower %}
+      {% assign tag_count = tag_count | plus: 1 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+<div class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        {% include framework/title.html
+          title=page.tag
+          badge="tag"
+        %}
+        <p class="tag-description">This tag appears in {{ tag_count }} post{% if tag_count != 1 %}s{% endif %}.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section pt-0">
+  <div class="container">
+    {% for post in site.posts %}
+      {% assign match = false %}
+      {% for t in post.tags %}
+        {% assign t_lower = t | downcase %}
+        {% if t_lower == page_tag_lower %}
+          {% assign match = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% if match %}
+        <div class="row">
+          <div class="col-12 col-md-8 mb-2">
+            {% include theme/cards/card-post.html 
+              title=post.title
+              date=post.date
+              description=post.description 
+              thumbnail=post.thumbnail 
+              url=post.url 
+              style="list"
+            %}
+          </div>
+        </div>
+      {% endif %} 
+    {% endfor %}
+  </div>
+</div>

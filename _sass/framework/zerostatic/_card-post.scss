@@ -74,14 +74,26 @@
   }
   .card-categories {
     display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
     font-size: 12px;
     font-family: var(--font-family-base);
-    a {
+    .card-category a, .category-link a {
+      color: var(--color-primary-text);
+      padding: 4px 8px;
+      border-radius: var(--button-border-radius);
+      background-color: var(--color-primary-bg);
+      opacity: 0.75;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .card-tag a, .tag-link a {
       color: var(--color-base-text-2);
       padding: 4px 8px;
       border-radius: var(--button-border-radius);
-      margin-right: 10px;
       background-color: var(--color-base-bg-2);
+      text-transform: capitalize;
     }
   }
   .card-image {

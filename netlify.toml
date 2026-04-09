@@ -1,5 +1,5 @@
 [build]
-  command = "jekyll build"
+  command = "ruby generate_tags.rb && jekyll build"
   publish = "_site"
 
 [build.environment]

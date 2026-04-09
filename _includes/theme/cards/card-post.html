@@ -7,6 +7,7 @@
 {% assign date = include.date %}
 {% assign authors = include.authors %}
 {% assign categories = include.categories %}
+{% assign tags = include.tags %}
 {% assign style = include.style | default: "column" %}
 {% assign show_read_more = include.show_read_more %}
 {% assign client = include.client %}
@@ -61,13 +62,22 @@
       </div>
     {% endif %}
 
-    {% if categories %}
+    {% if categories or tags %}
       <div class="card-categories mt-auto">
-        {% for category in categories %}
-          <div class="card-category">
-            {% include_cached framework/category-link.html category_name=category show_count=false %}
-          </div>
-        {% endfor %}
+        {% if categories %}
+          {% for category in categories %}
+            <div class="card-category">
+              {% include_cached framework/category-link.html category_name=category show_count=false %}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% if tags %}
+          {% for tag in tags %}
+            <div class="card-tag">
+              {% include_cached framework/tag-link.html tag_name=tag %}
+            </div>
+          {% endfor %}
+        {% endif %}
       </div>
     {% endif %}
 

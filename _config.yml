@@ -92,6 +92,7 @@ exclude:
 # --------------------
 title: "Blue Pin Studio"
 category_dir: 'category'
+tag_dir: 'tag'
 
 colors:
   #light-mode colors

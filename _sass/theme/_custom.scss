@@ -181,14 +181,27 @@
 .page-post {
   .post-categories {
     display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
     font-size: 12px;
     font-family: var(--font-family-base);
-    a {
+    .category-link a {
+      color: var(--color-primary-text);
+      padding: 4px 8px;
+      border-radius: 3px;
+      background-color: var(--color-primary-bg);
+      opacity: 0.75;
+      &:hover {
+        text-decoration: none;
+        opacity: 1;
+      }
+    }
+    .tag-link a {
       color: var(--color-base-text);
       padding: 4px 8px;
       border-radius: 3px;
-      margin-right: 10px;
       background-color: var(--color-base-bg-2);
+      text-transform: capitalize;
       &:hover {
         text-decoration: none;
         background-color: var(--color-base-bg-3);
