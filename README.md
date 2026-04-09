@@ -1,72 +1,35 @@
-# Jekyll Origin Premium Theme
+# Blue Pin Studio Website
 
-Jekyll Origin is a premium blog theme.
+Welcome to the repository for the Blue Pin Studio website!
 
-* [Online Documention](https://www.zerostatic.io/docs/jekyll-origin)
-* [Live Demo](https://jekyll-origin.netlify.app/)
+## Overview
+This repository contains the source code for the Blue Pin Studio website. We are a Canadian indie developer specializing in 2D games, collaborating with global talent to produce titles we love. The website serves as a hub for our projects, blog, and useful tools.
+
+### What's on the Site
+* **Games:** Information, trailers, and links to our games, including *Falling Thingies*, *Explory Story*, *Charles, the Bee*, *Pixel Fixel*, and *Eggnog Incorporated*.
+* **Game Jams:** A showcase of our creations from various game jams and community events.
+* **Blog:** Regular updates, announcements, and behind-the-scenes looks at our development process.
+* **Tools:** Assorted web-based tools we've built, such as *Productivitree*, *Steamboards*, *Tagboards*, and *Taghunter*.
 
 ---
 
-![Jekyll Origin Theme screenshot](https://www.zerostatic.io/theme/jekyll-origin/jekyll-origin-screenshot.png)
+## Useful Commands
+This site is built using **Jekyll**. Below are some handy commands for local development and deployment.
 
-## Install
-
-### Install Jekll
-
-Make sure you have Ruby & Jekyll installed - For a step-by-step guide, read Jekyll docs [installation](https://jekyllrb.com/docs/installation/)
-
-### Ruby version
-
-Use Ruby `3.2.x` for local development. Ruby `3.3.x` is incompatible with the legacy Sass compiler used by the `github-pages` gem and causes SCSS conversion errors.
-
-### Install Theme
-
-Extract the themes .zip file to your local computer. Navigate to the project root (it contains the README.md)
-
-Run `bundle install` to install gems.
-
-Then run `bundle exec jekyll serve` to start the Jekyll server.
-
-To build the Jekyll site run `bundle exec jekyll build`
-
-## Deploy
-
-### Netlify
-
-We recommend Netlify for hosting Jekyll static sites.  This theme comes with a working `netlify.toml` which will pre-configure your Netlify deployment for Jekyll. The Netlify docs have a great guide to [creating a site with Netlify](https://docs.netlify.com/site-deploys/create-deploys/).
-
-> 💡 If you experience bundle install issues during the Netlify deployment, deleting the Gemfile.lock can sometimes help
-
-### GitHub Pages
-
-This theme works with GitHub Pages. If you are creating a GitHub Pages "Project site" then your site will be in a sub-folder ie `http://username.github.io/repository` You will need to update the `baseurl` in the `_config.yml` for the asset paths to work correctly.
-
-```yaml
-# _config.yml
-# For GitHub pages the baseurl should be the name of your GitHub repo
-# Ensure you use the leading slash; use "/my-repo-name" NOT "my-repo-name"
-baseurl: "/my-repo-name"
+### 1. Setup
+Make sure you have Ruby (preferably `3.2.x`) and Jekyll installed. Then, install the required dependencies:
+```bash
+bundle install
 ```
 
-Github Pages does not support automatic category generation. If you are using Github Pages you will need to manually define your categories in the `category` folder. For example create `category/my-category.md` and use the following frontmatter
-
-```yaml
----
-category: Extra
----
+### 2. Run Locally
+To preview the site on your local machine, start the Jekyll development server:
+```bash
+bundle exec jekyll serve
 ```
 
-
-## Tips
-
-💡 Some people report problems using the baseurl (often with GitHub Pages). This guide covers the correct usage:  [Jekyll’s site.url and baseurl](https://mademistakes.com/mastering-jekyll/site-url-baseurl/)
-
-💡 If you experience bundle install issues during the Netlify deployment, deleting the Gemfile.lock can sometimes help
-
-## Credits
-
-This theme uses open-source libraries and assets.
-
-- **Bootstrap 5** https://unsplash.com/license
-- **Font Awesome 6 Free:** https://fontawesome.com/
-- **Unsplash Images** https://unsplash.com/
+### 3. Build Site
+To generate the static files for production (output to the `_site` directory):
+```bash
+bundle exec jekyll build
+```
