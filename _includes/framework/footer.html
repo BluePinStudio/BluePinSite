@@ -14,10 +14,10 @@
           </div>
 
           {% if site.footer.enable_social_media_icons and site.data.social %}
-            {% include framework/social.html %}
+            {% include_cached framework/social.html %}
           {% endif %}
           {% if site.darkmode.enable_dark_mode and site.darkmode.show_dark_mode_toggle_in_footer %}
-            {% include framework/dark-mode-switcher.html %}
+            {% include_cached framework/dark-mode-switcher.html %}
           {% endif %}
         </div>
 
@@ -30,7 +30,7 @@
                   {%  if site.footer.footer_primary_menu_title %}
                     <h3>{{ site.footer.footer_primary_menu_title }}</h3>
                   {% endif %}
-                  {% include framework/menu-footer.html 
+                  {% include_cached framework/menu-footer.html 
                     menu=site.data.menu.footer_primary
                   %}
                 </div>
@@ -43,7 +43,7 @@
                 {%  if site.footer.footer_secondary_menu_title %}
                   <h3>{{ site.footer.footer_secondary_menu_title }}</h3>
                 {% endif %}
-                {% include framework/menu-footer.html 
+                {% include_cached framework/menu-footer.html 
                   menu=site.data.menu.footer_secondary
                 %}
                 </div>
@@ -56,7 +56,7 @@
                 {%  if site.footer.footer_tertiary_menu_title %}
                   <h3>{{ site.footer.footer_tertiary_menu_title }}</h3>
                 {% endif %}
-                {% include framework/menu-footer.html 
+                {% include_cached framework/menu-footer.html 
                   menu=site.data.menu.footer_tertiary
                 %}
                 </div>

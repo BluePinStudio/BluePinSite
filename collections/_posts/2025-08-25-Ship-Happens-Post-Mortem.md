@@ -130,4 +130,3 @@ Or you can watch Manisha, the host of the jam, play the game.
 
 ## Comments & Reactions
 
-{% include discus.html %}

@@ -65,5 +65,4 @@ _LUNA by JLLY_
 
 ## Comments & Reactions
 
-{% include discus.html %}
 

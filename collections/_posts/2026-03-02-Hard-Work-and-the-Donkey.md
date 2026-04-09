@@ -50,5 +50,4 @@ _Procedural RAM Syntax by Jack Sazonov_
 
 ## Comments & Reactions
 
-{% include discus.html %}
 

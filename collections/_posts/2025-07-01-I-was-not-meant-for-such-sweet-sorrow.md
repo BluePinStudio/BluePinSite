@@ -66,4 +66,3 @@ _A Change is Gonna Come by Sam Cooke_
 
 ## Comments & Reactions
 
-{% include discus.html %}

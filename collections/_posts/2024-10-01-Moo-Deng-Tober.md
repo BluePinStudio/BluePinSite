@@ -51,4 +51,3 @@ _I Keep Failling by Sal Houdini_
 
 ## Comments & Reactions
 
-{% include discus.html %}

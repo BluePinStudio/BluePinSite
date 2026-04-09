@@ -87,4 +87,3 @@ We scored 189th in Fun, which marks the first time Fun was my best category sinc
 
 ## Comments & Reactions
 
-{% include discus.html %}

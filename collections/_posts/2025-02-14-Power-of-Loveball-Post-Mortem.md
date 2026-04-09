@@ -106,4 +106,3 @@ I also think that the flow of the platforming sections is a bit "stop and go", w
 
 ## Comments & Reactions
 
-{% include discus.html %}

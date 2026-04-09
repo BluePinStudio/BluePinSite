@@ -50,4 +50,3 @@ _I Dunno by Tion Wayne, Dutchavelli, Stormzy_
 
 ## Comments & Reactions
 
-{% include discus.html %}

@@ -59,7 +59,10 @@ defaults:
 
 # SCSS
 sass:
-  style: compact
+  style: compressed
+
+# Incremental builds (faster rebuilds during development)
+incremental: true
 
 # Excludes
 exclude:
@@ -74,9 +77,6 @@ exclude:
   - .sass-cache
   - tmp
   - scripts
-  - Gemfile
-  - Gemfile.lock
-  - README.md
   - package.json
   - package-lock.json
   - yarn.lock

@@ -63,4 +63,3 @@ _Don't Rush by Young T and Bugsey_
 
 ## Comments & Reactions
 
-{% include discus.html %}

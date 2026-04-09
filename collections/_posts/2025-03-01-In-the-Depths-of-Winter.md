@@ -58,4 +58,3 @@ _Habibi by Ricky Rich & ARAM Mafia_
 
 ## Comments & Reactions
 
-{% include discus.html %}

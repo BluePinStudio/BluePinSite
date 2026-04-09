@@ -52,4 +52,3 @@ _Maybe by Levar Allen_
 
 ## Comments & Reactions
 
-{% include discus.html %}

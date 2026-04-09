@@ -74,5 +74,4 @@ _MONTAGEM XONADA by MXZI, DJ SAMIR, DJ JAVI26_
 
 ## Comments & Reactions
 
-{% include discus.html %}
 

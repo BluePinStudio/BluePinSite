@@ -58,4 +58,3 @@ _Does She Know? by T-Pain_
 
 ## Comments & Reactions
 
-{% include discus.html %}

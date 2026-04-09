@@ -93,4 +93,3 @@ Based on the reception it has had on Newgrounds and Alakajam, it seems like a go
 
 ## Comments & Reactions
 
-{% include discus.html %}

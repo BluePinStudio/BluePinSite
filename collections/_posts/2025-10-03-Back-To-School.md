@@ -68,4 +68,3 @@ _ego talkin' by Saint Harrison_
 
 ## Comments & Reactions
 
-{% include discus.html %}

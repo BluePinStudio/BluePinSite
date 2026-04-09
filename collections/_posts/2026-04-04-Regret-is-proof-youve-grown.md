@@ -67,5 +67,4 @@ _renaissance man by april27_
 
 ## Comments & Reactions
 
-{% include discus.html %}
 
