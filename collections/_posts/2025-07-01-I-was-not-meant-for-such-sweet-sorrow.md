@@ -4,7 +4,7 @@ title: "I was not meant for such sweet sorrow"
 description: Monthly Check-in for June 2025 (Month 63)
 date: 2025-07-01T01:00:00Z
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, trash force]
+tags: [Trash Force, Falling Thingies, Trash Force]
 thumbnail: /assets/images/posts/june2025.png
 image: /assets/images/posts/june2025.png
 image_caption: "Alexander Nasmyth, “A View of Tantallon Castle with the Bass Rock”, 1816"

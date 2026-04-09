@@ -4,7 +4,7 @@ title: Greg Post Mortem
 description: Post Mortem for my Ludum Dare 58 entry, "Greg gathers ghosts because that's what he loves the most"
 date: 2025-10-26 07:00:00 -0400
 categories: [Jam Post Mortem]
-tags: [Greg gathers ghosts, ludum dare, gamejam]
+tags: [Greg Gathers Ghosts, Ludum Dare, Gamejam]
 thumbnail: /assets/images/posts/greg.png
 image: /assets/images/posts/greg.png
 published : true

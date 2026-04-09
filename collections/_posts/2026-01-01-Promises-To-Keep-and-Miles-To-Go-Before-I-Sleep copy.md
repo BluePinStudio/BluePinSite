@@ -4,7 +4,7 @@ title: "Promises to keep and miles to go before I sleep"
 description: Monthly Check-in for December 2025 (Month 69)
 date: 2026-01-05 03:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, eggnog incorporated, bundle]
+tags: [Trash Force, Falling Thingies, Eggnog Incorporated, Bundle]
 thumbnail: /assets/images/posts/dec2025.png
 image: /assets/images/posts/dec2025.png
 image_caption: "Walter Moras, “Sledding on a Sunny Day”, 1900~"

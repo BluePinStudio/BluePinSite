@@ -3,10 +3,10 @@ layout: default
 body_classes: page-home
 ---
 
-{% if site.show_announcement %}
+{% if site.data.announcement.enabled %}
 <div class="announcement-bar">
-  <small class="announcement-date">Posted on April 4 2026</small>
-  🚨 A new monthly recap <a href="2026-04-04-Regret-is-proof-youve-grown/">has been published!</a> 🚨
+  <small class="announcement-date">Posted on {{ site.data.announcement.date }}</small>
+  {{ site.data.announcement.emoji }} {{ site.data.announcement.message }} <a href="{{ site.data.announcement.link_url }}">{{ site.data.announcement.link_text }}</a> {{ site.data.announcement.emoji }}
 </div>
 {% endif %}
 

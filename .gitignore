@@ -10,7 +10,6 @@ _site
 .jekyll-metadata
 .sass-cache
 .jekyll-cache
-pages/tag/
 
 # Temporary files
 tmp

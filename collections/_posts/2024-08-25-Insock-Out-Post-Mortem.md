@@ -4,7 +4,7 @@ title: Insock Out Post Mortem
 description: Post Mortem for my Wanna Jam game jam entry, "Insock Out"
 date: 2024-08-25 19:00:00 -0400
 categories: [Jam Post Mortem]
-tags: [insock out, post mortem, charles the bee]
+tags: [Insock Out, Post Mortem, Charles The Bee]
 thumbnail: /assets/images/posts/insockout.png
 image: /assets/images/posts/insockout.png
 published : true

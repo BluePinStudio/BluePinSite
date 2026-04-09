@@ -3,7 +3,7 @@ title: 2024 Recap Pin Studio
 description: Yearly recap for all milestones and feats of 2024.
 date: 2025-01-07 01:00:00 -0400
 categories: [Yearly Recap]
-tags: [charles the bee, pixel fixel]
+tags: [Charles The Bee, Pixel Fixel]
 thumbnail: /assets/images/posts/2024recap.png
 image: /assets/images/posts/2024recap.png
 published : true

@@ -4,7 +4,7 @@ title: Trash Force Post Mortem
 description: Post Mortem for my Yogscast Jingle Jam Game Jam entry, "Trash Force"
 date: 2024-12-20 01:00:00 -0400
 categories: [Jam Post Mortem]
-tags: [trash force, post mortem, game jam]
+tags: [Trash Force, Post Mortem, Game Jam]
 thumbnail: /assets/images/posts/trashforce.png
 image: /assets/images/posts/trashforce.png
 published : true

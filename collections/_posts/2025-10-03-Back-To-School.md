@@ -4,7 +4,7 @@ title: "Back to School"
 description: Monthly Check-in for September 2025 (Month 66)
 date: 2025-10-03 03:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, trash force, charles the bee]
+tags: [Trash Force, Falling Thingies, Charles The Bee]
 thumbnail: /assets/images/posts/sept2025.png
 image: /assets/images/posts/sept2025.png
 image_caption: "Robert Spear Dunning, “Apples”, 1869"

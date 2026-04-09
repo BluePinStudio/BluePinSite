@@ -4,7 +4,7 @@ title: One month later... (sort of)
 description: Monthly Check-in for August 2024 (Month 53)
 date: 2024-09-01 20:00:00 -0400
 categories: [Monthly Check-in]
-tags: [charles the bee, pixel fixel, insock out, game jam, marketing]
+tags: [Charles The Bee, Pixel Fixel, Insock Out, Game Jam, Marketing]
 thumbnail: /assets/images/posts/aug2024.png
 image: /assets/images/posts/aug2024.png
 published : true

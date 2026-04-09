@@ -4,7 +4,7 @@ title: Winter is coming...
 description: Monthly Check-in for November 2025 (Month 56)
 date: 2024-12-01 07:00:00 -0400
 categories: [Monthly Check-in]
-tags: [charles the bee, pixel fixel, marketing, project jig]
+tags: [Charles The Bee, Pixel Fixel, Marketing, Project Jig]
 thumbnail: /assets/images/posts/pixelocean.png
 image: /assets/images/posts/pixelocean.png
 image_caption: "Ivan Aivzovsky, “The Ninth Wave”, 1850"

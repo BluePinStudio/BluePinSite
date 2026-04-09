@@ -1,9 +1,8 @@
 {% assign tag_name = include.tag_name %}
 {% assign tag_slug = tag_name | slugify %}
-{% capture tag_url %}{{ site.baseurl }}{{ site.tag_dir }}/{{ tag_slug }}{% endcapture %}
 
 <div class="tag-link">
-<a href="{{ tag_url | strip | relative_url }}">
+<a href="{{ "/tags/" | relative_url }}#{{ tag_slug }}">
   {{ tag_name | capitalize }}
 </a>
 </div>

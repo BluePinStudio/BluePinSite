@@ -4,7 +4,7 @@ title: "Somewhere ages and ages hence"
 description: Monthly Check-in for January 2026 (Month 70)
 date: 2026-02-04 03:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, eggnog incorporated]
+tags: [Trash Force, Falling Thingies, Eggnog Incorporated]
 thumbnail: /assets/images/posts/jan2026.png
 image: /assets/images/posts/jan2026.png
 image_caption: "Peder Mørk Mønsted, “Wood in snow”, 1900~"

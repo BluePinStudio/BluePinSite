@@ -60,25 +60,26 @@ noscript #follower-gif {
 }
 
 .announcement-bar {
-  margin-top: 1rem;
-  padding: 1.25rem 1rem;
+  margin: 0;
+  padding: 1rem 1.5rem;
   background-color: var(--primary_bg_3);
   color: var(--base_text);
   text-align: center;
   font-weight: bold;
   font-size: 1.25rem;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 10;
-  animation: glowColors 6s linear infinite;
+  border-top: 3px solid;
+  border-bottom: 3px solid;
+  border-image: linear-gradient(90deg, #0084ff, #00bfff, #00ffaa, #5c00ff, #0084ff) 1;
+  animation: shiftBorder 6s linear infinite;
+  background-size: 300% 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 [data-theme="dark"] .announcement-bar {
   background-color: var(--base_bg_2_dark);
   color: var(--base_text_dark);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .announcement-bar a {
@@ -116,22 +117,22 @@ noscript #follower-gif {
   color: var(--base_text_2_dark);
 }
 
-/* Glow animation: ONLY animates the shadow, not background-color */
-@keyframes glowColors {
+/* Animated gradient border-bottom that shifts colors */
+@keyframes shiftBorder {
   0% {
-    box-shadow: 0 0 10px #0084ff;
+    border-image: linear-gradient(90deg, #0084ff, #00bfff, #00ffaa, #5c00ff, #0084ff) 1;
   }
   25% {
-    box-shadow: 0 0 15px #00bfff;
+    border-image: linear-gradient(90deg, #00bfff, #00ffaa, #5c00ff, #0084ff, #00bfff) 1;
   }
   50% {
-    box-shadow: 0 0 20px #00ffaa;
+    border-image: linear-gradient(90deg, #00ffaa, #5c00ff, #0084ff, #00bfff, #00ffaa) 1;
   }
   75% {
-    box-shadow: 0 0 15px #5c00ff;
+    border-image: linear-gradient(90deg, #5c00ff, #0084ff, #00bfff, #00ffaa, #5c00ff) 1;
   }
   100% {
-    box-shadow: 0 0 10px #0084ff;
+    border-image: linear-gradient(90deg, #0084ff, #00bfff, #00ffaa, #5c00ff, #0084ff) 1;
   }
 }
 
