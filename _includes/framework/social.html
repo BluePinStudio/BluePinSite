@@ -3,7 +3,11 @@
 <div class="social" id="social">
   {% for social in .site.data.social limit: limit %}
   <a href="{{ social.url }}" target="blank" title="{{ social.title }}">
+    {% if social.icon_image %}
+    <img class="social-icon-img" src="{{ social.icon_image | relative_url }}" alt="{{ social.title }}">
+    {% else %}
     <i class="{{ social.fa_icon }}"></i>
+    {% endif %}
   </a>
   {% endfor %}
 </div>
