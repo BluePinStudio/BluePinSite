@@ -1,6 +1,25 @@
 @import "framework";
 @import "theme";
 
+.post-word-count {
+  font-size: 0.85em;
+  color: #888;
+  align-self: center;
+}
+
+/* Hide bullet points on task list items and remove indent */
+.task-list-item {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.task-list-item > ul,
+ul:has(> .task-list-item) {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 /* Force the actual <input> to be visually hidden, but still present in the DOM */
 .task-list-item-checkbox {
   /* Let’s see it in the layout so we can place our icon */
@@ -15,8 +34,7 @@
   -webkit-appearance: none;
   appearance: none;
 
-  /* Add a fallback border if needed (some browsers ignore hidden checkboxes entirely) */
-  border: 1px solid #ccc;
+  border: none;
   background-color: transparent;
   cursor: default;
   pointer-events: none;

@@ -4,7 +4,7 @@ title: "You Dance Fast But I Dance Faster"
 description: Monthly Check-in for November 2025 (Month 68)
 date: 2025-12-01 03:00:00
 categories: [Monthly Check-in]
-tags: [Game Jam, The Yield, Falling Thingies, Charles The Bee, Pixel Fixel]
+tags: [Game Jam, The Yield, Falling Thingies, Charles The Bee, Pixel Fixel, Eggnog Incorporated]
 thumbnail: /assets/images/posts/nov2025.png
 image: /assets/images/posts/nov2025.png
 image_caption: "Jasper Francis Cropsey, “Autumn - On the Hudson River”, 1860"
