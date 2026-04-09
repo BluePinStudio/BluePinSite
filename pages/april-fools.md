@@ -11,7 +11,7 @@ Did you really think I was calling it quits? After 72 months of check-ins, 6 yea
 
 ## <span style="color:#007bff">A Special Message for You</span>
 
-<video width="100%" height="auto" poster="/assets/images/posts/april2026.png" controls loop>
+<video width="100%" height="auto" poster="/assets/images/posts/aprilfools2026.png" controls loop>
   <source src="/assets/videos/rick.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
