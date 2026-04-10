@@ -4,7 +4,7 @@ title: Death and Taxes
 description: Monthly Check-in for April 2025 (Month 61)
 date: 2025-05-01T01:00:00Z
 categories: [Monthly Check-in]
-tags: [trash force, pixel fixel, charles the bee, ludum dare, game jam]
+tags: [Trash Force, Pixel Fixel, Charles The Bee, Ludum Dare, Game Jam]
 thumbnail: /assets/images/posts/april2025.png
 image: /assets/images/posts/april2025.png
 image_caption: "Mikhail Vrubel, “The Demon Seated”, 1890"
@@ -58,4 +58,3 @@ _Bye Bye Bye - NSYNC cover by Rain Paris_
 
 ## Comments & Reactions
 
-{% include discus.html %}

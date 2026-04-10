@@ -4,7 +4,7 @@ title: For Whom the Bell Tolls
 description: Monthly Check-in for May 2025 (Month 62)
 date: 2025-06-01T01:00:00Z
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, pixel fixel, charles the bee]
+tags: [Trash Force, Falling Thingies, Pixel Fixel, Charles The Bee]
 thumbnail: /assets/images/posts/may2025.png
 image: /assets/images/posts/may2025.png
 image_caption: "Winslow Homer, “Northeaster”, 1895"
@@ -59,4 +59,3 @@ _Swim Good by Frank Ocean_
 
 ## Comments & Reactions
 
-{% include discus.html %}

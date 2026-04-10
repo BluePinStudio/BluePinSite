@@ -4,7 +4,7 @@ title: Power of Loveball Post Mortem
 description: Post Mortem for my BIGMODE Game Jam entry, "Power of Loveball"
 date: 2025-02-17T00:00:00Z
 categories: [Jam Post Mortem]
-tags: [loveball, post mortem, game jam]
+tags: [Loveball, Post Mortem, Game Jam]
 thumbnail: /assets/images/posts/loveball.png
 image: /assets/images/posts/loveball.png
 published : true
@@ -106,4 +106,3 @@ I also think that the flow of the platforming sections is a bit "stop and go", w
 
 ## Comments & Reactions
 
-{% include discus.html %}

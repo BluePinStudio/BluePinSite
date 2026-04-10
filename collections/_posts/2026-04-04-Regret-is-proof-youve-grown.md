@@ -4,7 +4,7 @@ title: "Regret is proof you've grown"
 description: Monthly Check-in for March 2026 (Month 72)
 date: 2026-04-04 09:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies]
+tags: [Trash Force, Falling Thingies]
 thumbnail: /assets/images/posts/mar2026.png
 image: /assets/images/posts/mar2026.png
 image_caption: "Harald Sohlberg, “Flower Meadow in the North”, 1905"
@@ -67,5 +67,4 @@ _renaissance man by april27_
 
 ## Comments & Reactions
 
-{% include discus.html %}
 

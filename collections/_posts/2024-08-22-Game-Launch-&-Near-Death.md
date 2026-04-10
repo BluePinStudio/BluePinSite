@@ -4,7 +4,7 @@ title: Dead Gamedev
 description: Game Launch & Near Death
 date: 2024-08-22 19:00:00 -0400
 categories: [Game Launch]
-tags: [charles the bee, game jam, marketing, irl]
+tags: [Charles The Bee, Game Jam, Marketing, Irl]
 thumbnail: /assets/images/posts/timhortons.png
 image: /assets/images/posts/timhortons.png
 published : true
@@ -52,4 +52,3 @@ _Maybe by Levar Allen_
 
 ## Comments & Reactions
 
-{% include discus.html %}

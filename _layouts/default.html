@@ -8,7 +8,7 @@
     {% include framework/seo-meta-tags.html %}
     {% include framework/og-meta-tags.html %}
     {% include framework/feed.html %}
-    {% include framework/favicon.html %}
+    {% include_cached framework/favicon.html %}
     
     <link href="{{ '/assets/css/main.css' | relative_url }}" rel="stylesheet">
 
@@ -21,8 +21,8 @@
       {% include framework/cookie-consent.html %}
     {% endif %}
 
-    {% include framework/fonts.html %}
-    {% include framework/google-tag-manager.html %}
+    {% include_cached framework/fonts.html %}
+    {% include_cached framework/google-tag-manager.html %}
 
   </head>
 <body class="page {% if page.body_classes %}{{ page.body_classes }}{% elsif layout.body_classes %}{{ layout.body_classes }}{% endif %}{% if site.header.fixed %} has-fixed-header{% else %} has-static-header{% endif %}">

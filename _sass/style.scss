@@ -1,6 +1,25 @@
 @import "framework";
 @import "theme";
 
+.post-word-count {
+  font-size: 0.85em;
+  color: #888;
+  align-self: center;
+}
+
+/* Hide bullet points on task list items and remove indent */
+.task-list-item {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.task-list-item > ul,
+ul:has(> .task-list-item) {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 /* Force the actual <input> to be visually hidden, but still present in the DOM */
 .task-list-item-checkbox {
   /* Let’s see it in the layout so we can place our icon */
@@ -15,10 +34,10 @@
   -webkit-appearance: none;
   appearance: none;
 
-  /* Add a fallback border if needed (some browsers ignore hidden checkboxes entirely) */
-  border: 1px solid #ccc;
+  border: none;
   background-color: transparent;
-  cursor: pointer;
+  cursor: default;
+  pointer-events: none;
 }
 
 /* The "unchecked" icon */
@@ -60,25 +79,26 @@ noscript #follower-gif {
 }
 
 .announcement-bar {
-  margin-top: 1rem;
-  padding: 1.25rem 1rem;
+  margin: 0;
+  padding: 1rem 1.5rem;
   background-color: var(--primary_bg_3);
   color: var(--base_text);
   text-align: center;
   font-weight: bold;
   font-size: 1.25rem;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 10;
-  animation: glowColors 6s linear infinite;
+  border-top: 3px solid;
+  border-bottom: 3px solid;
+  border-image: linear-gradient(90deg, #0084ff, #00bfff, #00ffaa, #5c00ff, #0084ff) 1;
+  animation: shiftBorder 6s linear infinite;
+  background-size: 300% 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 [data-theme="dark"] .announcement-bar {
   background-color: var(--base_bg_2_dark);
   color: var(--base_text_dark);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .announcement-bar a {
@@ -116,22 +136,22 @@ noscript #follower-gif {
   color: var(--base_text_2_dark);
 }
 
-/* Glow animation: ONLY animates the shadow, not background-color */
-@keyframes glowColors {
+/* Animated gradient border-bottom that shifts colors */
+@keyframes shiftBorder {
   0% {
-    box-shadow: 0 0 10px #0084ff;
+    border-image: linear-gradient(90deg, #0084ff, #00bfff, #00ffaa, #5c00ff, #0084ff) 1;
   }
   25% {
-    box-shadow: 0 0 15px #00bfff;
+    border-image: linear-gradient(90deg, #00bfff, #00ffaa, #5c00ff, #0084ff, #00bfff) 1;
   }
   50% {
-    box-shadow: 0 0 20px #00ffaa;
+    border-image: linear-gradient(90deg, #00ffaa, #5c00ff, #0084ff, #00bfff, #00ffaa) 1;
   }
   75% {
-    box-shadow: 0 0 15px #5c00ff;
+    border-image: linear-gradient(90deg, #5c00ff, #0084ff, #00bfff, #00ffaa, #5c00ff) 1;
   }
   100% {
-    box-shadow: 0 0 10px #0084ff;
+    border-image: linear-gradient(90deg, #0084ff, #00bfff, #00ffaa, #5c00ff, #0084ff) 1;
   }
 }
 
@@ -223,54 +243,6 @@ body::before {
   border-radius: 8px;
   color: var(--text, #fff);
   font-size: 1.1rem;
-  padding: 0.25rem 0.5rem;
-  margin-left: 0.75rem;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.follower-toggle:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-.follower-toggle.active {
-  color: var(--accent, #6cf);
-  border-color: var(--accent, #6cf);
-}
-
-.follower-toggle {
-  background: none;
-  border: 1px solid var(--border, rgba(255,255,255,0.2));
-  border-radius: 8px;
-  padding: 0.25rem;
-  margin-left: 0.75rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-.follower-toggle:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-.follower-toggle.active {
-  border-color: var(--accent, #6cf);
-  background: rgba(108, 204, 255, 0.15);
-}
-
-.follower-icon {
-  width: 24px;
-  height: 24px;
-  pointer-events: none;
-  user-select: none;
-}
-
-.follower-toggle {
-  background: none;
-  border: 1px solid var(--border, rgba(255,255,255,0.2));
-  border-radius: 8px;
   padding: 0.25rem;
   margin-left: 0.75rem;
   cursor: pointer;
@@ -285,6 +257,7 @@ body::before {
 }
 
 .follower-toggle.active {
+  color: var(--accent, #6cf);
   border-color: var(--accent, #6cf);
   background: rgba(108, 204, 255, 0.15);
 }

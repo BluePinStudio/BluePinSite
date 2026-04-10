@@ -1,0 +1,8 @@
+{% assign tag_name = include.tag_name %}
+{% assign tag_slug = tag_name | slugify %}
+
+<div class="tag-link">
+<a href="{{ "/tags/" | relative_url }}#{{ tag_slug }}">
+  {{ tag_name | capitalize }}
+</a>
+</div>

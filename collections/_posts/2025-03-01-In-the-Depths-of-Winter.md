@@ -4,7 +4,7 @@ title: In the depths of winter...
 description: Monthly Check-in for February 2025 (Month 59)
 date: 2025-03-01T12:00:00Z
 categories: [Monthly Check-in]
-tags: [trash force, pixel fixel, marketing, alakajam, bigmode]
+tags: [Trash Force, Pixel Fixel, Marketing, Alakajam, Bigmode]
 thumbnail: /assets/images/posts/feb2025.png
 image: /assets/images/posts/feb2025.png
 image_caption: "Ivan Aivazovsky, “The Shipwreck on Northern Sea”, 1865"
@@ -58,4 +58,3 @@ _Habibi by Ricky Rich & ARAM Mafia_
 
 ## Comments & Reactions
 
-{% include discus.html %}

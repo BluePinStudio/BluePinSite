@@ -1,54 +1,56 @@
-.menu-main {
-  display: none;
-  color: var(--color-menu-text);
-  font-family: var(--font-family-base);
-  letter-spacing: 0;
-  @include media-breakpoint-up(md) {
-    display: block;
-  }
-  ul {
-    height: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    li {
-      height: inherit;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      position: relative;
-      &:last-of-type {
-        margin: 0;
-      }
-      > a {
-        height: inherit;
-        font-weight: 400;
-        text-transform: capitalize;
-        display: block;
-        padding: 6px 10px 6px 10px;
-        text-decoration: none;
-        color: inherit;
-        &:hover {
-          text-decoration: underline;
-        }
-        @include media-breakpoint-up(lg) {
-          padding: 6px 10px 6px 10px;
-        }
-        i {
-          font-size: 14px;
-        }
-      }
-    }
-    li.active {
-      a {
-        font-weight: bold;
-      }
-    }
-  }
-}
+// .menu-main base styles are fully overridden by theme/_custom.scss
+// Kept here for reference only.
+// .menu-main {
+//   display: none;
+//   color: var(--color-menu-text);
+//   font-family: var(--font-family-base);
+//   letter-spacing: 0;
+//   @include media-breakpoint-up(md) {
+//     display: block;
+//   }
+//   ul {
+//     height: inherit;
+//     display: flex;
+//     align-items: center;
+//     justify-content: flex-start;
+//     list-style: none;
+//     margin: 0;
+//     padding: 0;
+//     li {
+//       height: inherit;
+//       margin: 0;
+//       padding: 0;
+//       list-style: none;
+//       position: relative;
+//       &:last-of-type {
+//         margin: 0;
+//       }
+//       > a {
+//         height: inherit;
+//         font-weight: 400;
+//         text-transform: capitalize;
+//         display: block;
+//         padding: 6px 10px 6px 10px;
+//         text-decoration: none;
+//         color: inherit;
+//         &:hover {
+//           text-decoration: underline;
+//         }
+//         @include media-breakpoint-up(lg) {
+//           padding: 6px 10px 6px 10px;
+//         }
+//         i {
+//           font-size: 14px;
+//         }
+//       }
+//     }
+//     li.active {
+//       a {
+//         font-weight: bold;
+//       }
+//     }
+//   }
+// }
 .menu-item-dropdown {
   position: relative;
   &:hover {
@@ -90,34 +92,32 @@
       text-decoration: none;
       color: inherit;
     }
-    .dropdown-item-icon {
-      display: block;
-      margin-right: 16px;
-      img {
-        width: 46px;
-        height: 21px;
-      }
+  }
+  .dropdown-item-icon {
+    display: block;
+    margin-right: 16px;
+    img {
+      width: 46px;
+      height: 21px;
+    }
+    html[data-bs-theme="dark"] & {
+      display: none;
+    }
+    &.icon-invert {
+      display: none;
       html[data-bs-theme="dark"] & {
-        display: none;
-      }
-      &.icon-invert {
-        display: none;
-        html[data-bs-theme="dark"] & {
-          display: block;
-        }
+        display: block;
       }
     }
-    .dropdown-item-content {
-      .dropdown-item-name {
-        font-size: 16px;
-        font-weight: 500;
-        color: var(--color-base-text);
-      }
-      .dropdown-item-description {
-        font-size: 16px;
-        font-weight: 400;
-        color: var(--color-base-text-2);
-      }
-    }
+  }
+  .dropdown-item-content .dropdown-item-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-base-text);
+  }
+  .dropdown-item-content .dropdown-item-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-base-text-2);
   }
 }

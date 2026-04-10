@@ -4,7 +4,7 @@ title: Yield Post Mortem
 description: Post Mortem for my Alakajam 22 entry, "The Yield"
 date: 2025-11-23 07:00:00 -0400
 categories: [Jam Post Mortem]
-tags: [The Yield, alakajam, gamejam]
+tags: [The Yield, Alakajam, Gamejam]
 thumbnail: /assets/images/posts/yield.png
 image: /assets/images/posts/yield.png
 published : true
@@ -86,4 +86,3 @@ The post-jam version will be posted to Newgrounds in December so stay tuned for 
 
 ## Comments & Reactions
 
-{% include discus.html %}

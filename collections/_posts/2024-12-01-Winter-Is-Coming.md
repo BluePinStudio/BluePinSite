@@ -4,7 +4,7 @@ title: Winter is coming...
 description: Monthly Check-in for November 2025 (Month 56)
 date: 2024-12-01 07:00:00 -0400
 categories: [Monthly Check-in]
-tags: [charles the bee, pixel fixel, marketing, project jig]
+tags: [Charles The Bee, Pixel Fixel, Marketing, Project Jig]
 thumbnail: /assets/images/posts/pixelocean.png
 image: /assets/images/posts/pixelocean.png
 image_caption: "Ivan Aivzovsky, “The Ninth Wave”, 1850"
@@ -59,9 +59,8 @@ November was not as bad as October, and I suspect December won't be as bad as No
 
 Here is another song, this time it's brought to you buy a [twitch streamer named Zombiechou](https://www.twitch.tv/zombiechou). He was playing it in his stream (lol) and my mind was blown by the beauty! Let's all have some high high hopes for a living, like Mr. Zombiechou!
 
-{% include framework/shortcodes/youtube.html id='j3_lb_Ui9a4' %}
+{% include framework/shortcodes/youtube.html id='jRzypKx7OmU' %}
 _High Hopes (Cover) by Gabriela Bee_
 
 ## Comments & Reactions
 
-{% include discus.html %}

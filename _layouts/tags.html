@@ -1,0 +1,74 @@
+---
+layout: default
+body_classes: page-tags
+---
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-8">
+        {% include framework/title.html
+          title=page.title
+          description=page.description
+        %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section pt-0">
+  <div class="container">
+    <div class="tags-grid">
+      {% assign sorted_tags = site.tags | sort %}
+      {% for tag_pair in sorted_tags %}
+        {% assign tag_name = tag_pair[0] %}
+        {% assign tag_posts = tag_pair[1] %}
+        <details class="tag-group" id="{{ tag_name | slugify }}">
+          <summary class="tag-group-header">
+            <span class="tag-group-title">{{ tag_name }}</span>
+            <span class="tag-count">{{ tag_posts.size }} post{% if tag_posts.size != 1 %}s{% endif %}</span>
+          </summary>
+          <div class="tag-group-posts">
+            {% for post in tag_posts %}
+              <div class="tag-post-item">
+                {% include theme/cards/card-post.html
+                  title=post.title
+                  date=post.date
+                  description=post.description
+                  thumbnail=post.thumbnail
+                  url=post.url
+                  style="list"
+                %}
+              </div>
+            {% endfor %}
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Auto-open the tag if navigated via anchor
+  (function() {
+    var hash = window.location.hash;
+    if (hash) {
+      var el = document.querySelector('details' + hash);
+      if (el) {
+        el.open = true;
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    // Also handle clicks on same-page anchor links
+    window.addEventListener('hashchange', function() {
+      var h = window.location.hash;
+      if (h) {
+        var d = document.querySelector('details' + h);
+        if (d) {
+          d.open = true;
+          d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  })();
+</script>

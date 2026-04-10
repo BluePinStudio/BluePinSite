@@ -4,7 +4,7 @@ title: Antz vs Plantz Post Mortem
 description: Post Mortem for my Ludum Dare 57 entry, "Antz vs Plantz"
 date: 2025-05-07T16:00:00Z
 categories: [Jam Post Mortem]
-tags: [antz vs plantz, post mortem, game jam, ludum dare]
+tags: [Antz Vs Plantz, Post Mortem, Game Jam, Ludum Dare]
 thumbnail: /assets/images/posts/antzvsplantz.png
 image: /assets/images/posts/antzvsplantz.png
 published : true
@@ -120,4 +120,3 @@ Maybe even one day, we will have the opportunity to "make it into a full game." 
 
 ## Comments & Reactions
 
-{% include discus.html %}

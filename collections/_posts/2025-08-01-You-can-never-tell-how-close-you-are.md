@@ -4,7 +4,7 @@ title: "You can never tell how close you are"
 description: Monthly Check-in for July 2025 (Month 64)
 date: 2025-08-01 05:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, trash force, charles the bee]
+tags: [Trash Force, Falling Thingies, Charles The Bee]
 thumbnail: /assets/images/posts/july2025.png
 image: /assets/images/posts/july2025.png
 image_caption: "August Wilhelm Leu, “Sunny Day on a Norwegian Fjord”, 1861"
@@ -64,4 +64,3 @@ _Bang by Jacob Banks & Tobe Nwigwe_
 
 ## Comments & Reactions
 
-{% include discus.html %}

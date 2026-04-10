@@ -4,7 +4,7 @@ title: Night is Darkest Before Dawn
 description: Monthly Check-in for December 2024 (Month 57)
 date: 2025-01-01 06:00:00 -0400
 categories: [Monthly Check-in]
-tags: [charles the bee, pixel fixel, marketing, project jig]
+tags: [Charles The Bee, Pixel Fixel, Marketing, Project Jig]
 thumbnail: /assets/images/posts/december2024.png
 image: /assets/images/posts/december2024.png
 image_caption: "Ivan Aivazovsky, “Battle of Çeşme”, 1856"
@@ -69,4 +69,3 @@ _Blood // Water by grandson_
 
 ## Comments & Reactions
 
-{% include discus.html %}

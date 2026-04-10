@@ -4,7 +4,7 @@ title: "Hot Pin Summer"
 description: Monthly Check-in for August 2025 (Month 65)
 date: 2025-09-03 05:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies, trash force, charles the bee]
+tags: [Trash Force, Falling Thingies, Charles The Bee]
 thumbnail: /assets/images/posts/aug2025.png
 image: /assets/images/posts/aug2025.png
 image_caption: "Paul Signac, “Saint-Tropez, Fontaine des Lices”, 1895"
@@ -67,4 +67,3 @@ _Useless (Without You) by Elmiene_
 
 ## Comments & Reactions
 
-{% include discus.html %}

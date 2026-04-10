@@ -13,4 +13,14 @@
       opacity: 0.8;
     }
   }
+  .social-icon-img {
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+    vertical-align: middle;
+  }
+}
+
+[data-theme="dark"] .social .social-icon-img {
+  filter: invert(1);
 }

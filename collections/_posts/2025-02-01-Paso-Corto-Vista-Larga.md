@@ -4,7 +4,7 @@ title: Paso Corto Vista Larga
 description: Monthly Check-in for January 2025 (Month 58)
 date: 2025-02-01T12:00:00Z
 categories: [Monthly Check-in]
-tags: [trash force, pixel fixel, marketing, alakajam, bigmode]
+tags: [Trash Force, Pixel Fixel, Marketing, Alakajam, Bigmode]
 thumbnail: /assets/images/posts/jan2025.png
 image: /assets/images/posts/jan2025.png
 image_caption: "Ivan Aivazovsky, “Ship at Sea”, 1857"
@@ -62,4 +62,3 @@ _Roleplay by J'calm_
 
 ## Comments & Reactions
 
-{% include discus.html %}

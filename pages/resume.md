@@ -2,6 +2,7 @@
 layout: basic
 title: Resume
 permalink: "/resume"
+sitemap: false
 ---
 
 ## Viktor Zimine, About Me

@@ -49,9 +49,6 @@
     }
     &.hero-text-invert {
       color: var(--color-base);
-      html[data-bs-theme="dark"] & {
-        color: var(--color-base);
-      }
     }
   }
   .hero-flair {

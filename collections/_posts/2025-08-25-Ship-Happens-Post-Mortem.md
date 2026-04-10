@@ -4,7 +4,7 @@ title: Ship Happens Post Mortem
 description: Post Mortem for my Wanna Jam game jam entry, "Ship Happens"
 date: 2025-08-25 07:00:00 -0400
 categories: [Jam Post Mortem]
-tags: [ship happens, post mortem, gamejam]
+tags: [Ship Happens, Post Mortem, Gamejam]
 thumbnail: /assets/images/posts/shiphappens.png
 image: /assets/images/posts/shiphappens.png
 published : true
@@ -130,4 +130,3 @@ Or you can watch Manisha, the host of the jam, play the game.
 
 ## Comments & Reactions
 
-{% include discus.html %}

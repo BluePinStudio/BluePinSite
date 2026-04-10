@@ -4,7 +4,7 @@ title: "Hard work and the donkey"
 description: Monthly Check-in for February 2026 (Month 71)
 date: 2026-03-02 09:00:00
 categories: [Monthly Check-in]
-tags: [trash force, falling thingies]
+tags: [Trash Force, Falling Thingies]
 thumbnail: /assets/images/posts/feb2026.png
 image: /assets/images/posts/feb2026.png
 image_caption: "Walter Moras, “Snowy Stream”, 1900~"
@@ -50,5 +50,4 @@ _Procedural RAM Syntax by Jack Sazonov_
 
 ## Comments & Reactions
 
-{% include discus.html %}
 

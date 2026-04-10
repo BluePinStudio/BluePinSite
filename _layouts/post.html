@@ -11,13 +11,25 @@ body_classes: page-post page-post-1
         {% if page.date %}
         <div class="post-date">{{ page.date | date_to_long_string }}</div>
         {% endif %}
-        {% if page.categories %}
+        {% if page.categories or page.tags %}
         <div class="post-categories">
-          {% include framework/categories-badges.html
-          categories=page.categories
-          %}
+          {% if page.categories %}
+            {% include framework/categories-badges.html
+            categories=page.categories
+            %}
           {% endif %}
+          {% if page.tags %}
+            {% for tag in page.tags %}
+              {% include framework/tag-link.html tag_name=tag %}
+            {% endfor %}
+          {% endif %}
+          {% assign words = content | number_of_words %}
+          {% assign minutes = words | divided_by: 200 %}
+          {% if minutes < 1 %}{% assign minutes = 1 %}{% endif %}
+          <span class="post-word-count">{{ words }} words ({{ minutes }}m read)</span>
         </div>
+        {% endif %}
+
         <div class="post-title">
           <h1>{{ page.title }}</h1>
         </div>
@@ -75,6 +87,7 @@ body_classes: page-post page-post-1
       <div class="col-12 col-lg-8">
         <div class="content">{{ content }}</div>
         {% include framework/comments.html %}
+        {% include_cached discus.html %}
       </div>
     </div>
   </div>

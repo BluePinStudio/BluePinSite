@@ -4,7 +4,7 @@ title: Save Nebuville Post Mortem
 description: Post Mortem for my 11th Ludum Dare entry, "Save Nebuville"
 date: 2024-10-27 15:00:00 -0400
 categories: [Jam Post Mortem]
-tags: [save nebuville, post mortem, game jam]
+tags: [Save Nebuville, Post Mortem, Game Jam]
 thumbnail: /assets/images/posts/nebuville.png
 image: /assets/images/posts/nebuville.png
 published : true
@@ -87,4 +87,3 @@ We scored 189th in Fun, which marks the first time Fun was my best category sinc
 
 ## Comments & Reactions
 
-{% include discus.html %}
