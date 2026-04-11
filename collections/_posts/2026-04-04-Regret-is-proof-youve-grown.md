@@ -5,8 +5,8 @@ description: Monthly Check-in for March 2026 (Month 72)
 date: 2026-04-04 09:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies]
-thumbnail: /assets/images/posts/thumbnails/mar2026.webp
-image: /assets/images/posts/thumbnails/mar2026.webp
+thumbnail: /assets/images/posts/mar2026.png
+image: /assets/images/posts/mar2026.png
 image_caption: "Harald Sohlberg, “Flower Meadow in the North”, 1905"
 published: true
 ---
@@ -37,7 +37,7 @@ Obviously, since you're reading this, I didn't quit game development and I'm car
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/body/sneakpeak.webp" alt="Screenshot from Lego Voyagers">
+<img src="/assets/images/posts/sneakpeak.png" alt="Screenshot from Lego Voyagers">
 <figcaption>Here's a sneak peak at the collab project I'm announcing next month!</figcaption>
 </figure>
 

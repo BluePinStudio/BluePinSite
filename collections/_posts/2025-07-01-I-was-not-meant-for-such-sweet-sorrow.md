@@ -5,8 +5,8 @@ description: Monthly Check-in for June 2025 (Month 63)
 date: 2025-07-01T01:00:00Z
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Trash Force]
-thumbnail: /assets/images/posts/thumbnails/june2025.webp
-image: /assets/images/posts/thumbnails/june2025.webp
+thumbnail: /assets/images/posts/june2025.png
+image: /assets/images/posts/june2025.png
 image_caption: "Alexander Nasmyth, “A View of Tantallon Castle with the Bass Rock”, 1816"
 published : true
 ---
@@ -28,7 +28,7 @@ Welcome back my love. I assume you're an amazing person because you're reading t
 Absolutely smashed last months goals! Here's a link to the aforementioned [Trash Force steam page](https://store.steampowered.com/app/3794650/Trash_Force/) in case you wanted to wishlist it, but you'll be hearing a lot more about that game as we get closer and closer to finishing it :) 
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/thumbnails/trashforce.webp" alt="Trash Force Steam Logo">
+  <img src="/assets/images/posts/trashforce.jpg" alt="Trash Force Steam Logo">
   </figure> 
 
 ## Bonus Tasks Completed in June 2025
@@ -38,7 +38,7 @@ Absolutely smashed last months goals! Here's a link to the aforementioned [Trash
   - [x] Get sick and recover from sickness. Love those types of surprise tasks!
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/body/trashforcelogos.webp" alt="Assorted Logo Ideas">
+  <img src="/assets/images/posts/trashforcelogos.png" alt="Assorted Logo Ideas">
   </figure> 
    
 
@@ -54,7 +54,7 @@ Absolutely smashed last months goals! Here's a link to the aforementioned [Trash
 Good ol' game dev is what's in store for July 2025. Lots of exciting stuff in the pipeline!
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/body/trashforcehub.webp" alt="Trash Force Hub prototype">
+  <img src="/assets/images/posts/trashforcehub.png" alt="Trash Force Hub prototype">
   </figure> 
 
 

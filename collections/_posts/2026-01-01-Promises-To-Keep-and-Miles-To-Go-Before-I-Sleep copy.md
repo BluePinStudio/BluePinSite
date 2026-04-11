@@ -5,8 +5,8 @@ description: Monthly Check-in for December 2025 (Month 69)
 date: 2026-01-05 03:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Eggnog Incorporated, Bundle]
-thumbnail: /assets/images/posts/thumbnails/dec2025.webp
-image: /assets/images/posts/thumbnails/dec2025.webp
+thumbnail: /assets/images/posts/dec2025.png
+image: /assets/images/posts/dec2025.png
 image_caption: "Walter Moras, “Sledding on a Sunny Day”, 1900~"
 published: true
 ---
@@ -35,7 +35,7 @@ Regarding YouTube? Man... I've put that task on my to-do many months now. Perhap
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/body/corporateclimb.webp" alt="Corporate Climb Steam Bundle Header Capsule">
+<img src="/assets/images/posts/corporateclimb.png" alt="Corporate Climb Steam Bundle Header Capsule">
 </figure>
 
 
@@ -51,7 +51,7 @@ Look at that! Only four  tasks. How hard could it be? Don't mind that one of the
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/body/trashforcecockroach.webp" alt="Clyde the Cockroach from Trash Force">
+<img src="/assets/images/posts/trashforcecockroach.png" alt="Clyde the Cockroach from Trash Force">
 </figure>
 
 

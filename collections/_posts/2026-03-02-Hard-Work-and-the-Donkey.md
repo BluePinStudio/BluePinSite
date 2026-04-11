@@ -5,8 +5,8 @@ description: Monthly Check-in for February 2026 (Month 71)
 date: 2026-03-02 09:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies]
-thumbnail: /assets/images/posts/thumbnails/feb2026.webp
-image: /assets/images/posts/thumbnails/feb2026.webp
+thumbnail: /assets/images/posts/feb2026.png
+image: /assets/images/posts/feb2026.png
 image_caption: "Walter Moras, “Snowy Stream”, 1900~"
 published: true
 ---
@@ -26,7 +26,7 @@ Would ya look at that? It has not been a productive month on the game developmen
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/body/legovoyagers.webp" alt="Screenshot from Lego Voyagers">
+<img src="/assets/images/posts/legovoyagers.png" alt="Screenshot from Lego Voyagers">
 <figcaption>Here's a lil screenshot of what I was up to in between all the stress. I highly recommend giving Lego Voyagers a try! It's a very wholesome co-op game.</figcaption>
 </figure>
 

@@ -4,7 +4,7 @@ title: "Eggnog Incorporated"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/eggnog-inc/"
 description: "Enjoy working as an Eggnog Inspector for a shady company. Verify the color, art, and ingredients for batches of eggnog. It's not glamorous but it's an honest living. Who knows what surprises are in store for you..."
-image: /assets/images/games/eggnog1.webp
+image: /assets/images/games/eggnog1.jpg
 ---
 ## <ins>Links</ins>
 
@@ -38,4 +38,4 @@ There are many endings and many different office layouts to explore.
 | Levar Allen      | Eggnog Credits Rap                 | [YouTube](https://www.youtube.com/levarallen)  |
 {: .table .table-bordered }
 
-![Eggnog Incorporated Screenshot](/assets/images/games/eggnog2.webp)
+![Eggnog Incorporated Screenshot](/assets/images/games/eggnog2.jpg)
