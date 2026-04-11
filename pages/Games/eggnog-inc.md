@@ -8,13 +8,15 @@ image: /assets/images/games/eggnog1.webp
 ---
 ## <ins>Links</ins>
 
-<div class="row justify-content-start">
+<div class="social" id="social">
   {% for link in site.data.eggnog_links %}
-    <div class="col-auto">
-      <a href="{{ link.url }}" target="_blank" class="btn btn-light" title="{{ link.title }}">
-        <i class="{{ link.fa_icon }} fa-2x" aria-hidden="true"></i>
-      </a>
-    </div>
+  <a href="{{ link.url }}" target="blank" title="{{ link.title }}">
+    {% if link.icon_image %}
+    <img class="social-icon-img" src="{{ link.icon_image | relative_url }}" alt="{{ link.title }}">
+    {% else %}
+    <i class="{{ link.fa_icon }}"></i>
+    {% endif %}
+  </a>
   {% endfor %}
 </div>
 
