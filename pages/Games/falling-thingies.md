@@ -4,7 +4,7 @@ title: "Falling Thingies"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/falling-thingies/"
 description: "Gameplay you simply won't be able to put down! The thingies keep fallin' and the thangies keep callin'. Uncover limitless difficulty scaling and tons of variety!"
-image: /assets/images/games/fallingthingiesscreenshot1.png
+image: /assets/images/games/fallingthingiesscreenshot1.webp
 ---
 ## <ins>Links</ins>
 
@@ -47,4 +47,4 @@ Mysteries to uncover...
 | SanderFocus      | Key Art                      | [Website](https://sanderfocus.nl/)                                       |
 {: .table .table-bordered }
 
-![Explory Story Screenshot](/assets/images/games/fallingthingiesscreenshot2.png)
+![Explory Story Screenshot](/assets/images/games/fallingthingiesscreenshot2.webp)

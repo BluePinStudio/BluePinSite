@@ -5,8 +5,8 @@ description: Post Mortem for my Wanna Jam game jam entry, "Insock Out"
 date: 2024-08-25 19:00:00 -0400
 categories: [Jam Post Mortem]
 tags: [Insock Out, Post Mortem, Charles The Bee]
-thumbnail: /assets/images/posts/insockout.png
-image: /assets/images/posts/insockout.png
+thumbnail: /assets/images/posts/thumbnails/insockout.webp
+image: /assets/images/posts/thumbnails/insockout.webp
 published : true
 ---
 
@@ -26,7 +26,7 @@ Our goal was to complete the game jam without crunching.
 
 - **Day 3 - 8:** We steadily worked on the game. Over the course of this period we only worked approximately 1-2 hours per day. Most of us have jobs and other commitments, so its tough to find the time.
 
-![Desktop View](/assets/images/posts/insock2.png){: width="972" height="589" }
+![Desktop View](/assets/images/posts/insock2.webp){: width="972" height="589" }
 _Same placeholder art is in! This is what it looked like 3 days into the jam_
 
 - **Final Day:** we had a build deployed to itch.io and began playtesting. As they were playtesting, I was rapidly deploying updates with bug fixes and quality of life changes according to feedback.

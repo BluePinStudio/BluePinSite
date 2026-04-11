@@ -4,7 +4,7 @@ title: "Charles the Bee"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/charles-the-bee/"
 description: "Charles has always dreamed of one day becoming a master dancer. The only thing in his path? The cost! Charles must harvest pollen until he has defeated the three biggest and baddest dancers around town."
-image: /assets/images/games/charles1.jpg
+image: /assets/images/games/charles1.webp
 ---
 ## <ins>Links</ins>
 
@@ -43,4 +43,4 @@ In this game, you play as Charles. Charles has been longing for a chance in the 
 | Levar Allen      | Vocal Performance & Lyrics           | [Spotify](https://open.spotify.com/artist/2yZC1xeeK0UJn7xGz9vI5O)      |
 {: .table .table-bordered }
 
-![Charles the Bee Screenshot](/assets/images/games/charles2.jpg)
+![Charles the Bee Screenshot](/assets/images/games/charles2.webp)

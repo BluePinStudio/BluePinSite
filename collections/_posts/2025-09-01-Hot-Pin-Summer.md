@@ -5,8 +5,8 @@ description: Monthly Check-in for August 2025 (Month 65)
 date: 2025-09-03 05:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Charles The Bee]
-thumbnail: /assets/images/posts/aug2025.png
-image: /assets/images/posts/aug2025.png
+thumbnail: /assets/images/posts/thumbnails/aug2025.webp
+image: /assets/images/posts/thumbnails/aug2025.webp
 image_caption: "Paul Signac, “Saint-Tropez, Fontaine des Lices”, 1895"
 
 
@@ -37,7 +37,7 @@ One silver lining from my attempts at finishing Charles update on time is that I
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/productivitytree.PNG" alt="Calvin at Falling Thingies Booth">
+<img src="/assets/images/posts/body/productivitytree.webp" alt="Calvin at Falling Thingies Booth">
 </figure>   
 
 
@@ -52,7 +52,7 @@ Falling Thingies is still not as highly polished and interesting as I want it to
 On top of that we're going to see the first long form video content idea I had. What I'm going to do is play and comment on a game I made 5 years ago. It will be an on-going series. Hopefully we can do at least four of those per years. I have a big backlog of games to go through!
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/charlesmulti.png" alt="Infernus Falling Thingies Level">
+<img src="/assets/images/posts/body/charlesmulti.webp" alt="Infernus Falling Thingies Level">
 </figure>   
 
 

@@ -4,7 +4,7 @@ title: "Explory Story"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/explory-story/"
 description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
-image: /assets/images/games/explory1.jpg
+image: /assets/images/games/explory1.webp
 ---
 ## <ins>Links</ins>
 
@@ -42,4 +42,4 @@ Watch your step while you try to figure out a way out. This game can be played s
 | Ragchomp         | Act 3 & Act 4 Music                  | [YouTube](https://www.youtube.com/channel/UCTljefNUAIUavdRcGFfrQZg)      |
 {: .table .table-bordered }
 
-![Explory Story Screenshot](/assets/images/games/explory2.jpg)
+![Explory Story Screenshot](/assets/images/games/explory2.webp)

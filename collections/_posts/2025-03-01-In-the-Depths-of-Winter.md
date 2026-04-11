@@ -5,8 +5,8 @@ description: Monthly Check-in for February 2025 (Month 59)
 date: 2025-03-01T12:00:00Z
 categories: [Monthly Check-in]
 tags: [Trash Force, Pixel Fixel, Marketing, Alakajam, Bigmode]
-thumbnail: /assets/images/posts/feb2025.png
-image: /assets/images/posts/feb2025.png
+thumbnail: /assets/images/posts/thumbnails/feb2025.webp
+image: /assets/images/posts/thumbnails/feb2025.webp
 image_caption: "Ivan Aivazovsky, “The Shipwreck on Northern Sea”, 1865"
 published : true
 ---
@@ -35,7 +35,7 @@ I'm also busy deploying the Pixel Fixel anniversary update! A little bit late be
   Besides the regular goals. I managed to do another successsful Pixel Fixel tournament and pitch more publishers for Trash Force! Here is the list of publishers who have responded in red if they said no and yellow if they said maybe. Its tough going out there!
 
   <figure>
-  <img src="/assets/images/posts/publishers.PNG" alt="List of Publishers">
+  <img src="/assets/images/posts/body/publishers.webp" alt="List of Publishers">
   </figure>
 
 ## March 2025 Goals 

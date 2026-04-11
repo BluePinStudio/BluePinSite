@@ -5,8 +5,8 @@ description: Post Mortem for my Ludum Dare 57 entry, "Antz vs Plantz"
 date: 2025-05-07T16:00:00Z
 categories: [Jam Post Mortem]
 tags: [Antz Vs Plantz, Post Mortem, Game Jam, Ludum Dare]
-thumbnail: /assets/images/posts/antzvsplantz.png
-image: /assets/images/posts/antzvsplantz.png
+thumbnail: /assets/images/posts/thumbnails/antzvsplantz.webp
+image: /assets/images/posts/thumbnails/antzvsplantz.webp
 published : true
 toc : true
 ---
@@ -27,7 +27,7 @@ Normally I like to prepare for Ludum Dare by creating a document allowing the te
 As soon as the jam started we got into a voice call. It was night time and most of the time was spent doodling on a shared canvas via Discord Activities. Something that is noteworthy to point out is that the idea we ended up choosing in the end was a plinko/tower defense hybrid. The noteworthy aspect of this is Manisha's reaction to the idea which you can see in this screenshot before i crossed it out. She said "nahhh"
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/AntzManisha.PNG" alt="Manisha wrote nahhh for our idea">
+  <img src="/assets/images/posts/body/AntzManisha.webp" alt="Manisha wrote nahhh for our idea">
   </figure>
 
 Luckily Manisha pivoted quickly and decided to give the idea a shot! That means we were a few hours into the jam and we already had the game design planned. This is crucial for a weekend game jam. We had the benefit of having three full days of actual production...
@@ -42,7 +42,7 @@ Here is what an early build of the game looked like. The process was basically e
 Additionally we spent a bunch of time adding fun decoration to the level such as these two tree mascots. One is nice and helpful, the other one isn't nice or helpful. This is what the game looked like after Day 1 of production was completed!
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/AntzvsPlantzDay1.PNG" alt="Antz vs Plantz Early Screenshot">
+  <img src="/assets/images/posts/body/AntzvsPlantzDay1.webp" alt="Antz vs Plantz Early Screenshot">
   </figure>
 
 Day 2 and Day 2.5 (since Ludum Dare ends at 6pm on Monday) was spent adding new ant types, adding plantz, etc etc. A lot of busy work going back and forth on assets, sounds, music, and iterating as much as possible. This was all done remotely, so no dumplings for us :(
@@ -58,7 +58,7 @@ I think the entire process was smooth! We were able to get an idea agreed upon e
 <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Surprisingly, our brainstorming session was much quicker than I was generally used to and we settled on a game idea through a chaotically fun whiteboarding session the very first night. The team had great synergy, probably because we’ve worked together before and are all laid-back, open to feedback and comfortable sharing opinions when things need change. I personally had a lot of fun finding inspiration from the soundtrack on the song 'The Ants Go Marching' which I felt was perfect for our ant themed game.
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/antzvsplantzfrickyou.png" alt="Antz vs Plantz gameplay gif">
+  <img src="/assets/images/posts/body/antzvsplantzfrickyou.webp" alt="Antz vs Plantz gameplay gif">
   </figure>
 
 ## Challenges
@@ -69,7 +69,7 @@ I came away from this jam having only one major complaint; I wish I had more tim
 <span style="background: linear-gradient(90deg, #38b5ff, #6abe30); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> I only created one audio track this jam since I was a bit rusty after not making music for over a year and I was using GarageBand for the first time. I initially tried LMMS, which I'm more familiar with on PC, but it wasn't cooperating on my Mac. I quickly adjusted and ended up having fun learning a new DAW! Once the inspiration hit, the process flowed smoothly. My approach is mostly intuitive and I let the music take shape naturally, but I know I need more structure to my process. The track is a short loop with very repetitive elements and I wish I had took the time to make it longer with more variety. With the static screen for gameplay, a music shift halfway through or gradually layering the track as the ant hole deepened might have also elevated the experience.
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/AntzvsPlantz.gif" alt="Antz vs Plantz gameplay gif">
+  <video autoplay loop muted playsinline><source src="/assets/images/posts/body/AntzvsPlantz.mp4" type="video/mp4">Antz vs Plantz gameplay gif</video>
   </figure>
 
 ## The Final Product
@@ -85,7 +85,7 @@ Landing 14th place in fun was particularly wild - especially considering some of
 
 ## Reception
   <figure>
-  <img src="/assets/images/posts/fullgameantz.PNG" alt="Quintessential comment on Antz vs Plantz Ludum Dare page">
+  <img src="/assets/images/posts/body/fullgameantz.webp" alt="Quintessential comment on Antz vs Plantz Ludum Dare page">
   </figure>
 
 **Final Game**: We had 90 Ludum Dare participants try it out and leave lots of comments as well. Additionally, we logged 224 scores logged to the database. It's unclear how many unique players we got because we don't have any identifiable data, but it seems like somewhere around 200! A fantastic outcome.

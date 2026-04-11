@@ -5,8 +5,8 @@ description: Monthly Check-in for November 2025 (Month 68)
 date: 2025-12-01 03:00:00
 categories: [Monthly Check-in]
 tags: [Game Jam, The Yield, Falling Thingies, Charles The Bee, Pixel Fixel, Eggnog Incorporated]
-thumbnail: /assets/images/posts/nov2025.png
-image: /assets/images/posts/nov2025.png
+thumbnail: /assets/images/posts/thumbnails/nov2025.webp
+image: /assets/images/posts/thumbnails/nov2025.webp
 image_caption: "Jasper Francis Cropsey, “Autumn - On the Hudson River”, 1860"
 published: true
 ---
@@ -26,7 +26,7 @@ Woweee! November was a bit of a whirlwind. I was tasked (by past-me) to chill ou
 - [ ] Take it easy pal, relaaaax
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/yieldgems.gif" alt="An image showing all the data structure of the upgrades and mining levels in The Yield">
+<video autoplay loop muted playsinline><source src="/assets/images/posts/body/yieldgems.mp4" type="video/mp4">An image showing all the data structure of the upgrades and mining levels in The Yield</video>
 </figure>
 
 Welp! We did it! Almost. 
@@ -43,13 +43,13 @@ The youtube video goal has been quite elusive. Will I finally have one ready in 
 - [x] 1hr interview on IGA twitch stream for Charles the Bee
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/tools.png" alt="Tool thumbnail for various steam tools">
+<img src="/assets/images/posts/body/tools.webp" alt="Tool thumbnail for various steam tools">
 </figure>
 Out of the bonus tasks. Two are the most exciting ones. I made a series of tools you can find in the tool section of this website. They are all pretty game-dev centric, but I aim to expand them and add more to the tool belt. A lot of it is self serving like making a tool to help me find similar games for pre-production research, or tools to help me find random factoids like "90% of steam games make less than $100k" etc.
 
 The other exciting task completed was setting up a public minecraft server! A bunch of my gamedev friends got together and made a minecraft server that we can all use for all our communities. It's tough keeping a minecraft server populated using only one small community. Hopefully since we've combined 4 small communities it would be much more lively :) If that sounds like something you would enjoy, don't hesitate to reach out for an invite. At the moment it's invite-only to keep away the spooky bad actors.
 <figure style="text-align: center;">
-<img src="/assets/images/posts/minecraft.png" alt="Screenshot of a minecraft build.">
+<img src="/assets/images/posts/body/minecraft.webp" alt="Screenshot of a minecraft build.">
 </figure>
 
 ## December 2025 Goals

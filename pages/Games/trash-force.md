@@ -4,7 +4,7 @@ title: "Trash Force"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/trash-force/"
 description: "You have been abducted by a group of magical beings who live inside books in order to help them repair their world. Traverse through various thematic worlds battling bosses, solving puzzles, and trying to find a way back home."
-image: /assets/images/games/trashforcescreenshot2.png
+image: /assets/images/games/trashforcescreenshot2.webp
 ---
 ## <ins>Links</ins>
 
@@ -36,4 +36,4 @@ The earth has fallen. First to trash, and now to aliens! Blast asteroids, get up
 | Felix            | Music and Sound Effects              | -                                                                        |
 {: .table .table-bordered }
 
-![Explory Story Screenshot](/assets/images/games/trashforcescreenshot1.png)
+![Explory Story Screenshot](/assets/images/games/trashforcescreenshot1.webp)

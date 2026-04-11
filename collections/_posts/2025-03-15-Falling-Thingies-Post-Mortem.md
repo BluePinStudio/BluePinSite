@@ -5,8 +5,8 @@ description: Post Mortem for my Alakajam 21 entry, "Falling Thingies"
 date: 2025-03-15T16:00:00Z
 categories: [Jam Post Mortem]
 tags: [Falling Thingies, Post Mortem, Game Jam, Alakajam]
-thumbnail: /assets/images/posts/thingies.png
-image: /assets/images/posts/thingies.png
+thumbnail: /assets/images/posts/thumbnails/thingies.webp
+image: /assets/images/posts/thumbnails/thingies.webp
 published : true
 ---
 
@@ -23,7 +23,7 @@ I was scared when preparing for this jam. I knew I was going to be making all th
 The Pre-Jam period for Alakajam was awesome. I got to submit some themes, I got to vote on other people's themes, and I got to see the top themes before the jam started. I loved the process! Unfortunately the theme that ended up winning (Gravity) put a wrench in my plans to remake one of my favorite Neopets games "Dubloon Disaster" pictured below. But alas! We soldier on!
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/dubloon.png" alt="Neopets Dubloon Disaster">
+  <img src="/assets/images/posts/body/dubloon.webp" alt="Neopets Dubloon Disaster">
   </figure>
 
 ### Jam Begins...
@@ -34,7 +34,7 @@ Over the next few days I worked very hard to get the game to a good state. Not m
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/thingies.gif" alt="First place prize in Alakajam 21">
+<video autoplay loop muted playsinline><source src="/assets/images/posts/body/thingies.mp4" type="video/mp4">First place prize in Alakajam 21</video>
 </figure>
 
 ## What Went Well
@@ -61,7 +61,7 @@ Overall, I am pleased with the final product. Im considering putting a bit more 
 **Final Game**: We had 50 users try it out and leave lots of comments as well. There was even a scoreboard built into Alakajam where a handful of users competed on high scores! It was awesome to see people climb to such high scores and saying such nice things about the game. I was worried that my entry where its mostly me making the graphics wouldn't be received well, but it turned out great. Lots of people showed love for how the game looked and played. 
 
   <figure>
-  <img src="/assets/images/posts/35.png" alt="Crazy high score in Falling Thingies">
+  <img src="/assets/images/posts/body/35.webp" alt="Crazy high score in Falling Thingies">
   </figure>
 
 | **Criteria**    | **Rank**| **Percentile** |
@@ -80,7 +80,7 @@ We ended up winning the jam! (In the Team category). It was a great set of devs 
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/wonalakajam.png" alt="First place prize in Alakajam 21">
+<img src="/assets/images/posts/body/wonalakajam.webp" alt="First place prize in Alakajam 21">
 </figure>
 
 Based on the reception it has had on Newgrounds and Alakajam, it seems like a good candidate to pop onto the mobile stores real quick but there are still some unanswered questions. How does the level end? How does the game progress? What variation can be added in order to have multiple different levels? All of these questions and more! We'll see where the game ends up in the future... I'll keep you posted!

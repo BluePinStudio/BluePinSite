@@ -5,8 +5,8 @@ description: Post Mortem for my BIGMODE Game Jam entry, "Power of Loveball"
 date: 2025-02-17T00:00:00Z
 categories: [Jam Post Mortem]
 tags: [Loveball, Post Mortem, Game Jam]
-thumbnail: /assets/images/posts/loveball.png
-image: /assets/images/posts/loveball.png
+thumbnail: /assets/images/posts/thumbnails/loveball.webp
+image: /assets/images/posts/thumbnails/loveball.webp
 published : true
 ---
 
@@ -35,7 +35,7 @@ Then, I found out that the musician will not be making any of the sound effects 
 Ultimately every teammate ended up contributing a solid amount of effort towards completing the game. Sylvysprit mentioned in an interview after that she spent roughly 8 hours working on the game. Myself and Pijin probably spent approximately 40 hours each and I have no clue how much time Fasla spent, but probably alot because they managed to deliver 5 HD character portraits.
 
 <figure style="width: 100%; margin: 0; text-align: center;">
-  <img src="/assets/images/posts/loveball2.png" alt="Image description" style="width: 100%; height: auto;">
+  <img src="/assets/images/posts/body/loveball2.webp" alt="Image description" style="width: 100%; height: auto;">
   <figcaption>Early prototype for the first platformer level. Praise be!</figcaption>
 </figure>
 
@@ -50,7 +50,7 @@ All things considered; starting the programming 2 days late, making two separate
 <span style="background: linear-gradient(90deg, #FFD12C, #ff7bb5); -webkit-background-clip: text; color: transparent;">**Comment from Fasla (Artist)**:</span>  No comment
 
 <figure style="width: 100%; margin: 0; text-align: center;">
-  <img src="/assets/images/posts/green.gif" alt="Image description" style="width: 100%; height: auto;">
+  <video autoplay loop muted playsinline style="width: 100%; height: auto;"><source src="/assets/images/posts/body/green.mp4" type="video/mp4">Image description</video>
   <figcaption>Early prototype for the shield guys in act 3!</figcaption>
 </figure>
 
@@ -80,7 +80,7 @@ I also think that the flow of the platforming sections is a bit "stop and go", w
 
 
 <figure style="width: 100%; margin: 0; text-align: center;">
-  <img src="/assets/images/posts/loveball.gif" alt="Image description" style="width: 100%; height: auto;">
+  <video autoplay loop muted playsinline style="width: 100%; height: auto;"><source src="/assets/images/posts/body/loveball.mp4" type="video/mp4">Image description</video>
   <figcaption>Finalized attack and death visuals</figcaption>
 </figure>
 

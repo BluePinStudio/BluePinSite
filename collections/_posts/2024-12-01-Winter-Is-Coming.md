@@ -5,8 +5,8 @@ description: Monthly Check-in for November 2025 (Month 56)
 date: 2024-12-01 07:00:00 -0400
 categories: [Monthly Check-in]
 tags: [Charles The Bee, Pixel Fixel, Marketing, Project Jig]
-thumbnail: /assets/images/posts/pixelocean.png
-image: /assets/images/posts/pixelocean.png
+thumbnail: /assets/images/posts/thumbnails/pixelocean.webp
+image: /assets/images/posts/thumbnails/pixelocean.webp
 image_caption: "Ivan Aivzovsky, “The Ninth Wave”, 1850"
 published : true
 ---
@@ -28,12 +28,12 @@ Not bad at all! Finally got the stuff storted with Apple. When people told me th
 
 Despite that, eventually everything was sorted out and the game has been deployed. The game is already getting good traction on apple and android! Partially, I hope, due to my sticker strategy. The other part of the goal related to releasing Pixel Fixel on ios was finally being able to try out a new marketing strategy: putting stickers all over town.
 
-![Stickers all over town gif](/assets/images/posts/stickering.gif){: width="350" height="350" }
+<video autoplay loop muted playsinline style="max-width: 350px; width: 100%; height: auto;"><source src="/assets/images/posts/body/stickering.mp4" type="video/mp4">Your browser does not support the video tag.</video>
 _Stickers being put up all over town. Small picture sample._
 
 At the time of writing this, 40 people have scanned the stickers and have been redirected to google play store or apple app store based on their operating system. Hopefully next month I will be able to report an even higher number, but who knows, it gets cold out here in December.
 
-![Stickers all over town gif](/assets/images/posts/pixelstats.png){: width="700" height="700" }
+![Stickers all over town gif](/assets/images/posts/pixelstats.webp){: width="700" height="700" }
 _Chart showing how many people played Pixel Fixel for the first time in October versus November 2024._
 
 ## Bonus Tasks Completed in November 2024
