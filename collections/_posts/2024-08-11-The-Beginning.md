@@ -5,8 +5,8 @@ description: First Monthly Check-in for July 2024 (Month 52)
 date: 2024-08-11 08:00:00 -0400
 category: [Monthly Check-in]
 tags: [Charles The Bee, Pixel Fixel, Game Jam, Marketing]
-thumbnail: /assets/images/posts/july2024.png
-image: /assets/images/posts/july2024.png
+thumbnail: /assets/images/thumbnails/july2024.webp
+image: /assets/images/thumbnails/july2024.webp
 published : true
 ---
 
@@ -25,7 +25,7 @@ Let's pretend today is **August 1st**, I'll write down some goals and we'll see 
   - [ ] Put stickers up all over town promoting Pixel Fixel
   - [ ] Promote the heck out Charles, achieving 50 reviews by the end of the month.
  
-![Charles the Bee Screenshot](/assets/images/posts/charlesscreenshot.jpg){: width="972" height="589" }
+![Charles the Bee Screenshot](/assets/images/posts/charlesscreenshot.webp){: width="972" height="589" }
 _Charles the Bee Battling Pip tha God!_
 
 It's quite an ambitious month, but I have the utmost confidence all of these tasks will be done and dusted! I have a fantastic team for the game jam, I have a fantastic team for Charles, and the stickers are already in my hands!

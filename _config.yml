@@ -130,10 +130,10 @@ fonts:
 
 logo:
   logo_text: "Blue Pin Studio"
-  logo_image: assets/images/logo/logo.png
-  logo_image_mobile: assets/images/logo/logo.png
-  logo_image_invert: assets/images/logo/logo.png
-  logo_image_invert_mobile: assets/images/logo/logo.png
+  logo_image: assets/images/logo/logo.webp
+  logo_image_mobile: assets/images/logo/logo.webp
+  logo_image_invert: assets/images/logo/logo.webp
+  logo_image_invert_mobile: assets/images/logo/logo.webp
   logo_image_desktop_height: "64px"
   logo_image_desktop_width: "64px"
   logo_image_mobile_height: "64px"

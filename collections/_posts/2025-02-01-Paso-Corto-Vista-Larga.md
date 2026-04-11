@@ -5,8 +5,8 @@ description: Monthly Check-in for January 2025 (Month 58)
 date: 2025-02-01T12:00:00Z
 categories: [Monthly Check-in]
 tags: [Trash Force, Pixel Fixel, Marketing, Alakajam, Bigmode]
-thumbnail: /assets/images/posts/jan2025.png
-image: /assets/images/posts/jan2025.png
+thumbnail: /assets/images/thumbnails/jan2025.webp
+image: /assets/images/thumbnails/jan2025.webp
 image_caption: "Ivan Aivazovsky, “Ship at Sea”, 1857"
 published : true
 ---
@@ -15,7 +15,7 @@ published : true
 Welcome back! First Monthly recap on the new website! This website is a major upgrade in many ways. Now each game has a home alongside the blog and game jam entries. Not to mention, my growing knowledgebase in web dev allowed me to host this entirely for free! I'm saving $30/yr on hosting and I have a better site!
 
   <figure>
-  <img src="/assets/images/posts/oldwebsite.png" alt="Image description">
+  <img src="/assets/images/posts/oldwebsite.webp" alt="Image description">
   <figcaption>Here is what the website used to look like! Yuck!</figcaption>
 </figure>
 
@@ -36,7 +36,7 @@ Welcome back! First Monthly recap on the new website! This website is a major up
   - [x] Pitched Trash Force to a bunch of publishers
 
   <figure>
-  <img src="/assets/images/posts/fanart.png" alt="Image description">
+  <img src="/assets/images/posts/fanart.webp" alt="Image description">
   <figcaption>A young Blue Pin (mostly Charles the Bee) fan was kind enough to make this for me. It will now be immortalized on this site and any future sites forever. Thank you very much Oona!</figcaption>
 </figure>
 

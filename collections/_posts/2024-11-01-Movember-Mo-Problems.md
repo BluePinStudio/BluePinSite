@@ -5,8 +5,8 @@ description: Monthly Check-in for October 2024 (Month 55)
 date: 2024-11-01 07:00:00 -0400
 categories: [Monthly Check-in]
 tags: [Charles The Bee, Pixel Fixel, Explory Story, Marketing, Game Jam, Project Jig]
-thumbnail: /assets/images/posts/gogh.png
-image: /assets/images/posts/gogh.png
+thumbnail: /assets/images/thumbnails/gogh.webp
+image: /assets/images/thumbnails/gogh.webp
 image_caption: "Vincent van Gogh, “Wheat Field with Cypresses”, 1889"
 published : true
 ---

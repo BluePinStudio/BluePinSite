@@ -5,8 +5,8 @@ description: Monthly Check-in for January 2026 (Month 70)
 date: 2026-02-04 03:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Eggnog Incorporated]
-thumbnail: /assets/images/posts/jan2026.png
-image: /assets/images/posts/jan2026.png
+thumbnail: /assets/images/thumbnails/jan2026.webp
+image: /assets/images/thumbnails/jan2026.webp
 image_caption: "Peder Mørk Mønsted, “Wood in snow”, 1900~"
 published: true
 ---
@@ -42,7 +42,7 @@ I had a blast finally seeing a jam with the chicken theme. Getting to play 30+ c
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/constructjam2026.png" alt="Construct Game Jam 2026 Thumbnail">
+<img src="/assets/images/posts/constructjam2026.webp" alt="Construct Game Jam 2026 Thumbnail">
 </figure>
 
 

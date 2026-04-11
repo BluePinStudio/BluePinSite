@@ -5,8 +5,8 @@ description: Monthly Check-in for August 2024 (Month 53)
 date: 2024-09-01 20:00:00 -0400
 categories: [Monthly Check-in]
 tags: [Charles The Bee, Pixel Fixel, Insock Out, Game Jam, Marketing]
-thumbnail: /assets/images/posts/aug2024.png
-image: /assets/images/posts/aug2024.png
+thumbnail: /assets/images/thumbnails/aug2024.webp
+image: /assets/images/thumbnails/aug2024.webp
 published : true
 ---
 
@@ -30,10 +30,10 @@ Regarding promoting the heck out of Charles and releasing Charles on Itch and Ne
 > I almost didn't make it to this month. I talked about that in this post: </blog/2024-08-22-Game-Launch-&-Near-Death>
 {: .prompt-danger } 
 
-![Charles the Bee Screenshot](/assets/images/posts/toronto.jpg){: width="972" height="589" }
+![Charles the Bee Screenshot](/assets/images/posts/toronto.webp){: width="972" height="589" }
 _The Toronto skyline at night, taken from a dinner cruise boat!_
 
-![Charles the Bee Screenshot](/assets/images/posts/toronto2.jpg){: width="972" height="589" }
+![Charles the Bee Screenshot](/assets/images/posts/toronto2.webp){: width="972" height="589" }
 _The majestic Casa Loma castle in Toronto. Was some dude's house before the city bought it._
 
 I should expand on the Staycation I did as well. I went to all sorts of places around Toronto (the city I live in) with my girlfriend! We went to have dinner on a boat cruise, brunch in a castle, checked out the animals at the Zoo, checked out the yearly carnival that comes to town, some great food spots, and generally had an amazing adventure! This was my second time doing a staycation in Toronto and I think im running out of new things to experience. There's probably enough stuff for roughly 1 more of these!

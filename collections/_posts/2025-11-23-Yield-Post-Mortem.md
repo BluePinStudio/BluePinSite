@@ -5,8 +5,8 @@ description: Post Mortem for my Alakajam 22 entry, "The Yield"
 date: 2025-11-23 07:00:00 -0400
 categories: [Jam Post Mortem]
 tags: [The Yield, Alakajam, Gamejam]
-thumbnail: /assets/images/posts/yield.png
-image: /assets/images/posts/yield.png
+thumbnail: /assets/images/thumbnails/yield.webp
+image: /assets/images/thumbnails/yield.webp
 published : true
 ---
 
@@ -23,7 +23,7 @@ The theme was announced at 2pm my local time on a Friday. Unfortunately for me, 
 Below is a screenshot of how the tile generation and upgrade data looks like. Quick and dirty json data. The image on the right is determining the probability tables for different ores. I had 8 different tables like that depending on the height, the one you're seeing there is the one at the absolute bottom tier of tiles.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/yieldupgrades.png" alt="An image showing all the data structure of the upgrades and mining levels in The Yield">
+<img src="/assets/images/posts/yieldupgrades.webp" alt="An image showing all the data structure of the upgrades and mining levels in The Yield">
 </figure>
 
 ### Saturday Day 1
@@ -40,7 +40,7 @@ Fast forward to coming home after work, I boot up the Twitch Stream again and ge
 Welp. I didn't manage to get all of it done, but I did get all these fancy gems in, spawning at different depths and a working upgrade system.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/yieldgems.gif" alt="An image showing all the different tiles in The Yield">
+<video src="/assets/images/posts/yieldgems.mp4" autoplay loop muted playsinline alt="An image showing all the different tiles in The Yield" style="width: 100%; height: auto;"></video>
 </figure>
 
 It was time to submit and I still didn't have solid scene transitions and there were a few bugs and no sound effects. What did I do instead of submitting? I pushed submission back 1 day so I can still participate in the 72hr category. This means my jam submission won't get any ratings. C'est la vie (forgive me for my french).
@@ -51,7 +51,7 @@ I had an extra day! Woweee. The problem? I also had to go to work on that day to
 I also squeezed in secret button commands that let the user cycle between different color palettes. I grabbed the color palettes according to old technology. 16 colors each. Here's a gif of me cycling between them...
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/yieldpalettes.gif" alt="An image showing all the different color palettes in the game such as C64 or Macintosh.">
+<video src="/assets/images/posts/yieldpalettes.mp4" autoplay loop muted playsinline alt="An image showing all the different color palettes in the game such as C64 or Macintosh." style="width: 100%; height: auto;"></video>
 </figure>
 
 
@@ -66,7 +66,7 @@ If it wasn't for making a game and a post-mortem being on my monthly goals for N
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/yielddigging.gif" alt="Gameplay of digging in The Yield">
+<video src="/assets/images/posts/yielddigging.mp4" autoplay loop muted playsinline alt="Gameplay of digging in The Yield" style="width: 100%; height: auto;"></video>
 </figure>
 
 ## The Final Product

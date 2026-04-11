@@ -5,8 +5,8 @@ description: Monthly Check-in for July 2025 (Month 64)
 date: 2025-08-01 05:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Charles The Bee]
-thumbnail: /assets/images/posts/july2025.png
-image: /assets/images/posts/july2025.png
+thumbnail: /assets/images/thumbnails/july2025.webp
+image: /assets/images/thumbnails/july2025.webp
 image_caption: "August Wilhelm Leu, “Sunny Day on a Norwegian Fjord”, 1861"
 published : true
 ---
@@ -34,7 +34,7 @@ Of course the publisher thing is an on-going challenge so it was merely hopeful 
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/albertabeyond.png" alt="Calvin at Falling Thingies Booth">
+<img src="/assets/images/posts/albertabeyond.webp" alt="Calvin at Falling Thingies Booth">
 </figure>   
 
 
@@ -49,7 +49,7 @@ Of course the publisher thing is an on-going challenge so it was merely hopeful 
 That's two big ones! Charles the Bee is turning 1 year old so we have to give it some love! I can't say for sure what will be in the update but we'll try to cram as much new stuff as possible. Likewise for Falling Thingies, have to ensure that the launch works out great!
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/fallingthingies2.png" alt="Infernus Falling Thingies Level">
+<img src="/assets/images/posts/fallingthingies2.webp" alt="Infernus Falling Thingies Level">
 </figure>   
 
 

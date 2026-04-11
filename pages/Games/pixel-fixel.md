@@ -4,7 +4,7 @@ title: "Pixel Fixel"
 date: 2018-11-28T15:15:34+10:00
 permalink: "/pixel-fixel/"
 description: "Pixel Fixel is a soothing game where players match tiles of various colors to form satisfying gradients. Arrange chaos into beautiful mosaics of colors!"
-image: /assets/images/games/pixel1.jpg
+image: /assets/images/games/pixel1.webp
 ---
 ## <ins>Links</ins>
 
@@ -37,4 +37,4 @@ The player is tasked with restoring a mixed-color gradient to its former glory! 
 | Viktor           | Everything!           | -                                                                         |
 {: .table .table-bordered }
 
-![Pixel Fixel Screenshot](/assets/images/games/pixel2.jpg)
+![Pixel Fixel Screenshot](/assets/images/games/pixel2.webp)

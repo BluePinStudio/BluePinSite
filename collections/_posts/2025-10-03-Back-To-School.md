@@ -5,8 +5,8 @@ description: Monthly Check-in for September 2025 (Month 66)
 date: 2025-10-03 03:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Charles The Bee]
-thumbnail: /assets/images/posts/sept2025.png
-image: /assets/images/posts/sept2025.png
+thumbnail: /assets/images/thumbnails/sept2025.webp
+image: /assets/images/thumbnails/sept2025.webp
 image_caption: "Robert Spear Dunning, “Apples”, 1869"
 published : true
 ---
@@ -27,7 +27,7 @@ Also the release of a sequel to one of my favorite games came out, which didn't 
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/hades2.png" alt="Hades 2 Gameplay Card">
+<img src="/assets/images/posts/hades2.webp" alt="Hades 2 Gameplay Card">
 </figure>   
 
 
@@ -54,7 +54,7 @@ I'm not sure why the gamedev meetups weren't included in the main tasks for the 
 Quite a long list, huh? Let's see how we fair. My day job isn't getting less busy, so it will certainly be a challenge to fit all of this and the other secret stuff in. God speed!
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/goop.gif" alt="Falling Thingies Goop">
+<video src="/assets/images/posts/goop.mp4" autoplay loop muted playsinline alt="Falling Thingies Goop" style="width: 100%; height: auto;"></video>
 <figcaption>Falling Thingies Goop</figcaption>
 </figure>   
 

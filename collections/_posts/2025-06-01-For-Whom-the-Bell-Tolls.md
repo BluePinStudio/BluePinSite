@@ -5,8 +5,8 @@ description: Monthly Check-in for May 2025 (Month 62)
 date: 2025-06-01T01:00:00Z
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Pixel Fixel, Charles The Bee]
-thumbnail: /assets/images/posts/may2025.png
-image: /assets/images/posts/may2025.png
+thumbnail: /assets/images/thumbnails/may2025.webp
+image: /assets/images/thumbnails/may2025.webp
 image_caption: "Winslow Homer, “Northeaster”, 1895"
 published : true
 ---
@@ -27,7 +27,7 @@ Ahoy friend or foe. This is what I've been up to in May 2025!
   As far as gamedev productivity goes, it was one of my slowest months. However still lots of forward progress on a few things and half the goals achieved! [The Falling Thingies steam page](https://store.steampowered.com/app/3625530/Falling_Thingies/) is up, you can see an early version of it! It will be improving as time goes on.
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/falling thingies.png" alt="Falling Thingies Steam Logo">
+  <img src="/assets/images/posts/falling thingies.webp" alt="Falling Thingies Steam Logo">
   </figure> 
 
   The lovely [SanderFocus](https://x.com/SanderFocus) made the capsule image.

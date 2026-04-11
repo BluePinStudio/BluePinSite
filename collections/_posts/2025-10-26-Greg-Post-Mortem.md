@@ -5,8 +5,8 @@ description: Post Mortem for my Ludum Dare 58 entry, "Greg gathers ghosts becaus
 date: 2025-10-26 07:00:00 -0400
 categories: [Jam Post Mortem]
 tags: [Greg Gathers Ghosts, Ludum Dare, Gamejam]
-thumbnail: /assets/images/posts/greg.png
-image: /assets/images/posts/greg.png
+thumbnail: /assets/images/thumbnails/greg.webp
+image: /assets/images/thumbnails/greg.webp
 published : true
 ---
 
@@ -25,7 +25,7 @@ Before we started I told the team that I would really like an idle clicker game 
 We knew we wanted to have a million objects on the screen, but it didn't take the form of a clicker game, it took the form of a bullet hell quite quickly. The first day was about getting the core mechanics down so we had basically just a bunch of circles flying around, here's a screenshot of what that looked liked.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/gregearly.png" alt="Greg on Newgrounds">
+<img src="/assets/images/posts/gregearly.webp" alt="Greg on Newgrounds">
 </figure>
 
 ### Day 2
@@ -36,7 +36,7 @@ We knew we wanted to have a million objects on the screen, but it didn't take th
  This allows us to have many levels by simply setting those variables in different ways. Additionally, the runtime could randomize the variables on its own to create whatever patterns.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/gregvariables.png" alt="Greg Variables">
+<img src="/assets/images/posts/gregvariables.webp" alt="Greg Variables">
 </figure>
 
 ### Day 3
@@ -45,7 +45,7 @@ We knew we wanted to have a million objects on the screen, but it didn't take th
  A lot of time goes into making sure the game flows properly from loss and win conditions to npc dialogue to functioning menus and so on... I would estimate 75% of the work of the game jam submission had nothing to do with working on gameplay. 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/gregghosts.png" alt="Greg on Newgrounds">
+<img src="/assets/images/posts/gregghosts.webp" alt="Greg on Newgrounds">
 </figure>
 
 ## What Went Well
@@ -60,7 +60,7 @@ Efficiencies aside, the game is also quite fun and hypnotizing. During developme
 <span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Music)**:</span> I’m starting to get a better feel for the kind of sound I want after seeing the art and asking about the gameplay pacing to get an idea about the tempo. From there, I’ve been getting good at laying down a solid foundation to build on. I also feel like my workflow is improving, I’m getting faster at testing out ideas and knowing what fits or doesn’t fit the vibe. I’m also starting to trust my ear more instead of second-guessing every choice.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/gregearly2.png" alt="Greg on Newgrounds">
+<img src="/assets/images/posts/gregearly2.webp" alt="Greg on Newgrounds">
 </figure>
 
 ## Challenges
@@ -75,7 +75,7 @@ I found myself telling people "I don't know if I want to do 3 day jams anymore" 
 <span style="background: linear-gradient(90deg, #0de076ff, #30deebff); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Music)**:</span> I wasn’t free all weekend and had a massive headache on the last day but I pushed through! Sadly, I couldn’t find the right sounds until just a couple hours before the deadline. Luckily, my sister had some free time and jumped in to help. She actually came up with the second half of the melody line, so props to her for saving me while I was half-dead. After that, I cleaned things up, added a spooky ambience in the background and called it a wrap. It ended up being a bit more chaotic than I’d like, and I really wanted to stream the process, but overall I’m happy with how it turned out. I also didn’t really contribute to the gameplay or brainstorming side of things, so I had a bit of FOMO and didn't feel the team aspect as much as usual, which was totally my choice but I hope no one minded! The team handled that part super well and it all came together nicely in the end.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/gregui.png" alt="Greg on Newgrounds">
+<img src="/assets/images/posts/gregui.webp" alt="Greg on Newgrounds">
 </figure>
 
 ## The Final Product
@@ -109,7 +109,7 @@ We also managed to score some pretty cool accolades from Newgrounds! We were the
 {: .table .table-sm }
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/gregnewgrounds.png" alt="Greg on Newgrounds">
+<img src="/assets/images/posts/gregnewgrounds.webp" alt="Greg on Newgrounds">
 </figure>   
 
 

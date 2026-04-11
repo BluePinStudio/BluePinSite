@@ -5,8 +5,8 @@ description: Monthly Check-in for October 2025 (Month 67)
 date: 2025-11-04 03:00:00
 categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Charles The Bee, Pixel Fixel]
-thumbnail: /assets/images/posts/oct2025.png
-image: /assets/images/posts/oct2025.png
+thumbnail: /assets/images/thumbnails/oct2025.webp
+image: /assets/images/thumbnails/oct2025.webp
 image_caption: "Thomas Moran, “Autumn on the Wissahickon”, 1864"
 published: true
 ---
@@ -39,11 +39,11 @@ On the bright side, I visited Montreal for the first time in my life! It was a q
 Anyway, it was a great time, I enjoyed some Montreal staples like poutine and smoked meat sandwiches, saw the sights and most importantly warded off burn out for one more month ;)
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/montreal1.png" alt="Montreal Nature Photograph">
+<img src="/assets/images/posts/montreal1.webp" alt="Montreal Nature Photograph">
 </figure>
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/montreal2.png" alt="Montreal Nature Photograph">
+<img src="/assets/images/posts/montreal2.webp" alt="Montreal Nature Photograph">
 </figure>
 
 ## November 2025 Goals

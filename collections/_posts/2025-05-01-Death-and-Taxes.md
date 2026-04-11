@@ -5,8 +5,8 @@ description: Monthly Check-in for April 2025 (Month 61)
 date: 2025-05-01T01:00:00Z
 categories: [Monthly Check-in]
 tags: [Trash Force, Pixel Fixel, Charles The Bee, Ludum Dare, Game Jam]
-thumbnail: /assets/images/posts/april2025.png
-image: /assets/images/posts/april2025.png
+thumbnail: /assets/images/thumbnails/april2025.webp
+image: /assets/images/thumbnails/april2025.webp
 image_caption: "Mikhail Vrubel, “The Demon Seated”, 1890"
 published : true
 ---
@@ -33,7 +33,7 @@ Here we are again! Thanks for joining me on the 61th month of this indie adventu
   Like I mentioned in the [post mortem for Falling Thingies](/blog/2025-03-15-Falling-Thingies-Post-Mortem/#:~:text=Based%20on%20the,keep%20you%20posted!) the game will be seeing the spotlight! A steam release and a mobile release! Very exciting...
 
   <figure style="text-align: center;">
-  <img src="/assets/images/posts/pixelfixelfinal.png" alt="Final Update for Pixel Fixel">
+  <img src="/assets/images/posts/pixelfixelfinal.webp" alt="Final Update for Pixel Fixel">
   </figure> 
  
 ## May 2025 Goals 

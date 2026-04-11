@@ -4,8 +4,8 @@ description: Yearly recap for all milestones and feats of 2024.
 date: 2025-01-07 01:00:00 -0400
 categories: [Yearly Recap]
 tags: [Charles The Bee, Pixel Fixel]
-thumbnail: /assets/images/posts/2024recap.png
-image: /assets/images/posts/2024recap.png
+thumbnail: /assets/images/thumbnails/2024recap.webp
+image: /assets/images/thumbnails/2024recap.webp
 published : true
 sticky: false
 ---
@@ -55,7 +55,7 @@ Remember folks, if you're having a hard time, its natural to want to recede into
 
 I'll leave you with this amazing fan art i got as a secret santa gift! It has references to most Blue Pin Studio games in it, very cool! :)
 
-![blue pin studio fan art](/assets/images/posts/fanart.jpg){: width="700" height="700" }
+![blue pin studio fan art](/assets/images/posts/fanart-jpg.webp){: width="700" height="700" }
 
 ## Comments & Reactions
 
