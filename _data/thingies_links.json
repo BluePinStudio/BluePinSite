@@ -6,7 +6,7 @@
   },
   {
     "title": "Newgrounds Demo",
-    "icon_image": "/assets/images/ng_tank.webp",
+    "fa_icon": "fab fa-gamepad",
     "url": "https://www.newgrounds.com/portal/view/972297"
   },
   {
