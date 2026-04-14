@@ -22,7 +22,7 @@ image: /assets/images/games/fallingthingiesscreenshot1.webp
 
 ## <ins>The Gist</ins>
 
-- **Release Date:** January 2026
+- **Release Date:** May 2026
 - **Retail Price:** $2.99
 - **Platforms:** Desktop Windows, Desktop Linux, Android, Ios
 
