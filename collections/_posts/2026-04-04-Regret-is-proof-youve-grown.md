@@ -47,6 +47,7 @@ Obviously, since you're reading this, I didn't quit game development and I'm car
 - [ ] Trash Force incremental demo (in the new resolution)
 - [ ] Falling Thingies new demo and full back to front feature complete
 - [ ] Prepare the Steam page for the new collab project announcement
+- [ ] Participate in Ludum Dare 59
 
 Falling Thingies will be entering the Steam Bullet Fest on Jun 8. So the game will have to be launched and for sale by then. Which means April we're getting it finished. It's about damn time. The Trash Force new demo is almost ready too. I made progress on it, converted most of the systems. Just need to add some of the new upgrades I wanted.
 
