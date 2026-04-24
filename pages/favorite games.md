@@ -7,7 +7,7 @@ permalink: "/favorite-games"
 
 How did you find this page? Well, since you have. I'll let you in on a little secret. This is my incomplete list of games I like. I like each game for different reasons but the overall theme for most of them is nostalgia. I try to embed a character or artwork from one of these games when i make a monthly check-in blog post. 
 
-**The ones with the "x" are the ones i already included in a blog post. This is mostly for my own organization :)**
+**Ignore the X's. Those are for internal purposes only. Only the most clever person could piece together why some games have x's and some don't. It pertains to this website...**
 
 - [ ] Starcraft 1 (Mar 1998)  
 - [ ] Roller Coaster Tycoon (Mar 1999)  
@@ -82,7 +82,7 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Stellar Initiative (May 2024)
 - [ ] Rocket Rats (Dec 2024)
 - [ ] Nubby's Number Factory (Mar 2025)
-- [ ] Lego Voyagers (Sept 2025)
+- [x] Lego Voyagers (Sept 2025)
 - [ ] Megabonk (Sep 2025)
 - [ ] Hades 2 (Sep 2025) 
 - [ ] Shelldiver (Nov 2025)
