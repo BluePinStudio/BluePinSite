@@ -7,7 +7,7 @@ categories: [Monthly Check-in]
 tags: [Trash Force, Falling Thingies, Ludum Dare]
 thumbnail: /assets/images/thumbnails/april2026.webp
 image: /assets/images/thumbnails/april2026.webp
-image_caption: "Wenzel Hablik, “Utopian Buildings”, 1922"
+image_caption: "Harald Sohlberg, “Ripe Fields”, 1898"
 published: true
 ---
 
