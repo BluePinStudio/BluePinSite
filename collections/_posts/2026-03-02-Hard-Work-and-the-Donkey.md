@@ -17,7 +17,7 @@ published: true
 
 Welcome back peeps! Are you ready for the shortest monthly update that I've written since I started writing these in August 2024?
 
-## March 2026 Goals
+## February 2026 Goals
 
 - [ ] Trash Force incremental demo (in the new resolution)
 - [ ] Falling Thingies new demo and full back to front feature complete
@@ -35,6 +35,7 @@ Would ya look at that? It has not been a productive month on the game developmen
 
 - [ ] Trash Force incremental demo (in the new resolution)
 - [ ] Falling Thingies new demo and full back to front feature complete
+- [ ] File taxes
 
 Just sliiiiiiide the previous months tasks into this month and pretend like nothing happened haha.
 

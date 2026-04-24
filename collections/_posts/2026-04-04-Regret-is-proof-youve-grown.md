@@ -21,6 +21,7 @@ We're back and we're back! Let's see what old vik did in March 2026. I can't bel
 
 - [ ] Trash Force incremental demo (in the new resolution)
 - [ ] Falling Thingies new demo and full back to front feature complete
+- [x] File Taxes
 
 I transferred February's goals into March and still didn't finish them in March. Can you imagine that?! I write more about what happened in the "Musings" section down below. It is an outlier for me to not have any planned tasks done 2 months in a row. But such is life, sometimes you have outlier moments.
 
