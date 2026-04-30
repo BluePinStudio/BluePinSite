@@ -177,7 +177,7 @@
       // ==========================================
       // CONFIGURATION
       // ==========================================
-      const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+      const WEBHOOK_URL = "https://discord.com/api/webhooks/1499467073133350995/TV7vY69D2RfoGvFs0WdyuyvOmRqZZUovq4pQhbtTI049Qpr_VpihJupTX0nzYr02pNun";
       
       const MAX_TIME = 300; // 5 minutes in seconds
       let timerInterval;
@@ -278,7 +278,7 @@
       }
 
       async function sendToDiscord() {
-        if (!WEBHOOK_URL || WEBHOOK_URL === "YOUR_DISCORD_WEBHOOK_URL_HERE") {
+        if (!WEBHOOK_URL || WEBHOOK_URL === "https://discord.com/api/webhooks/1499467073133350995/TV7vY69D2RfoGvFs0WdyuyvOmRqZZUovq4pQhbtTI049Qpr_VpihJupTX0nzYr02pNun") {
           alert("Please configure the WEBHOOK_URL variable in the script.");
           return;
         }
