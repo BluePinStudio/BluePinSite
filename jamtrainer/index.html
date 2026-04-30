@@ -1,351 +1,343 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Design Sprint Trainer</title>
-    <style>
-      :root {
-        --bg: #1e1e2e;
-        --surface: #313244;
-        --text: #cdd6f4;
-        --accent: #cba6f7;
-        --border: #45475a;
-        --button-hover: #b4befe;
-      }
 
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--bg);
-        color: var(--text);
-        padding: 20px;
-        max-width: 800px;
-        margin: auto;
-        line-height: 1.6;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Design Sprint Trainer</title>
+  <style>
+    :root {
+      --bg: #1e1e2e;
+      --surface: #313244;
+      --text: #cdd6f4;
+      --accent: #cba6f7;
+      --border: #45475a;
+      --button-hover: #b4befe;
+    }
 
-      h1,
-      h2,
-      h3 {
-        color: var(--accent);
-        margin-top: 0;
-      }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      line-height: 1.6;
+    }
 
-      .panel {
-        background-color: var(--surface);
-        padding: 25px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        border: 1px solid var(--border);
-      }
+    h1,
+    h2,
+    h3 {
+      color: var(--accent);
+      margin-top: 0;
+    }
 
-      input[type="text"],
-      textarea {
-        width: 100%;
-        padding: 12px;
-        margin-top: 5px;
-        margin-bottom: 20px;
-        background-color: var(--bg);
-        color: var(--text);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        box-sizing: border-box;
-        font-family: inherit;
-      }
+    .panel {
+      background-color: var(--surface);
+      padding: 25px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
 
-      button {
-        background-color: var(--accent);
-        color: var(--bg);
-        border: none;
-        padding: 10px 18px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background-color 0.2s ease;
-      }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
 
-      button:hover:not(:disabled) {
-        background-color: var(--button-hover);
-      }
+    button {
+      background-color: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
 
-      button:disabled {
-        background-color: var(--border);
-        cursor: not-allowed;
-      }
+    button:hover:not(:disabled) {
+      background-color: var(--button-hover);
+    }
 
-      .flex-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-      }
+    button:disabled {
+      background-color: var(--border);
+      cursor: not-allowed;
+    }
 
-      .timer-controls {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-      }
+    .flex-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
 
-      #timerDisplay {
-        font-size: 2.2rem;
-        font-weight: bold;
-        font-family: monospace;
-        color: var(--accent);
-        margin-right: 15px;
-      }
+    .timer-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
 
-      .progress-container {
-        width: 100%;
-        height: 12px;
-        background-color: var(--bg);
-        border-radius: 6px;
-        margin-bottom: 20px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-      }
+    #timerDisplay {
+      font-size: 2.2rem;
+      font-weight: bold;
+      font-family: monospace;
+      color: var(--accent);
+      margin-right: 15px;
+    }
 
-      .progress-bar {
-        height: 100%;
-        background-color: var(--accent);
-        width: 100%;
-        transition: width 1s linear;
-      }
+    .progress-container {
+      width: 100%;
+      height: 12px;
+      background-color: var(--bg);
+      border-radius: 6px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
 
-      .prompt-display {
-        font-size: 1.1rem;
-        background: var(--bg);
-        padding: 20px;
-        border-radius: 6px;
-        border: 1px dashed var(--accent);
-        margin-top: 15px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Game Design Sprint Trainer</h1>
+    .progress-bar {
+      height: 100%;
+      background-color: var(--accent);
+      width: 100%;
+      transition: width 1s linear;
+    }
 
-    <div class="panel">
-      <h3>1. Generator</h3>
-      <button id="rollBtn" onclick="generatePrompt()" disabled>Loading Data...</button>
-      <div id="promptArea" class="prompt-display" style="display: none">
-        <strong>Theme (<span id="themeSource"></span>):</strong>
-        <span id="promptTheme"></span><br /><br />
-        <strong>Genre:</strong> <span id="promptGenre"></span><br />
-        <strong>Constraint:</strong> <span id="promptConstraint"></span>
+    .prompt-display {
+      font-size: 1.1rem;
+      background: var(--bg);
+      padding: 20px;
+      border-radius: 6px;
+      border: 1px dashed var(--accent);
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Game Design Sprint Trainer</h1>
+
+  <div class="panel">
+    <h3>1. Generator</h3>
+    <button id="rollBtn" onclick="generatePrompt()" disabled>Loading Data...</button>
+    <div id="promptArea" class="prompt-display" style="display: none">
+      <strong>Theme (<span id="themeSource"></span>):</strong>
+      <span id="promptTheme"></span><br /><br />
+      <strong>Genre:</strong> <span id="promptGenre"></span><br />
+      <strong>Constraint:</strong> <span id="promptConstraint"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="flex-header">
+      <h3>2. Brainstorm Canvas</h3>
+      <div class="timer-controls">
+        <div id="timerDisplay">05:00</div>
+        <button onclick="resetTimer()">Reset Timer</button>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="flex-header">
-        <h3>2. Brainstorm Canvas</h3>
-        <div class="timer-controls">
-          <div id="timerDisplay">05:00</div>
-          <button onclick="resetTimer()">Reset Timer</button>
-        </div>
-      </div>
-      
-      <div class="progress-container">
-        <div id="progressBar" class="progress-bar"></div>
-      </div>
-
-      <label for="gameTitle">Game Title:</label>
-      <input type="text" id="gameTitle" placeholder="Untitled Prototype" />
-
-      <label for="coreLoop">Core Loop (Keep it brief):</label>
-      <textarea
-        id="coreLoop"
-        rows="3"
-        placeholder="What is the primary minute-to-minute interaction?"
-      ></textarea>
-
-      <label for="uniqueHook">Unique Hook:</label>
-      <textarea
-        id="uniqueHook"
-        rows="3"
-        placeholder="What makes this concept stand out from the crowd?"
-      ></textarea>
-
-      <button
-        onclick="sendToDiscord()"
-        style="width: 100%; padding: 15px; font-size: 1.1rem"
-      >
-        Archive to Discord
-      </button>
+    <div class="progress-container">
+      <div id="progressBar" class="progress-bar"></div>
     </div>
 
-    <script>
-      // ==========================================
-      // CONFIGURATION
-      // ==========================================
-      const WEBHOOK_URL = "https://discord.com/api/webhooks/1499467073133350995/TV7vY69D2RfoGvFs0WdyuyvOmRqZZUovq4pQhbtTI049Qpr_VpihJupTX0nzYr02pNun";
-      
-      const MAX_TIME = 300; // 5 minutes in seconds
-      let timerInterval;
-      let timeLeft = MAX_TIME; 
+    <label for="gameTitle">Game Title:</label>
+    <input type="text" id="gameTitle" placeholder="Untitled Prototype" />
 
-      let appData = {
-        ldThemes: [],
-        gmtkThemes: [],
-        ggjThemes: [],
-        genres: [],
-        constraints: []
+    <label for="coreLoop">Core Loop (Keep it brief):</label>
+    <textarea id="coreLoop" rows="3" placeholder="What is the primary minute-to-minute interaction?"></textarea>
+
+    <label for="uniqueHook">Unique Hook:</label>
+    <textarea id="uniqueHook" rows="3" placeholder="What makes this concept stand out from the crowd?"></textarea>
+
+    <button onclick="sendToDiscord()" style="width: 100%; padding: 15px; font-size: 1.1rem">
+      Archive to Discord
+    </button>
+  </div>
+
+  <script>
+    // ==========================================
+    // CONFIGURATION
+    // ==========================================
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1499467073133350995/TV7vY69D2RfoGvFs0WdyuyvOmRqZZUovq4pQhbtTI049Qpr_VpihJupTX0nzYr02pNun";
+
+    const MAX_TIME = 300; // 5 minutes in seconds
+    let timerInterval;
+    let timeLeft = MAX_TIME;
+
+    let appData = {
+      ldThemes: [],
+      gmtkThemes: [],
+      ggjThemes: [],
+      genres: [],
+      constraints: []
+    };
+
+    // Load data from root JSON files on page load
+    async function loadJSONFiles() {
+      try {
+        const [ld, gmtk, ggj, genres, constraints] = await Promise.all([
+          fetch('ldThemes.json').then(r => r.json()),
+          fetch('gmtkThemes.json').then(r => r.json()),
+          fetch('ggjThemes.json').then(r => r.json()),
+          fetch('genres.json').then(r => r.json()),
+          fetch('constraints.json').then(r => r.json())
+        ]);
+
+        appData.ldThemes = ld;
+        appData.gmtkThemes = gmtk;
+        appData.ggjThemes = ggj;
+        appData.genres = genres;
+        appData.constraints = constraints;
+
+        const rollBtn = document.getElementById("rollBtn");
+        rollBtn.disabled = false;
+        rollBtn.innerText = "Roll New Challenge";
+      } catch (error) {
+        console.error("Error loading JSON. Make sure you are running via a local server.", error);
+        document.getElementById("rollBtn").innerText = "Error: Could not load JSON files";
+      }
+    }
+
+    window.onload = loadJSONFiles;
+
+    function getRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generatePrompt() {
+      const sources = [
+        { name: "Ludum Dare", themes: appData.ldThemes },
+        { name: "GMTK Game Jam", themes: appData.gmtkThemes },
+        { name: "Global Game Jam", themes: appData.ggjThemes },
+      ];
+
+      const pickedSource = getRandom(sources);
+      const theme = getRandom(pickedSource.themes);
+      const genre = getRandom(appData.genres);
+      const constraint = getRandom(appData.constraints);
+
+      document.getElementById("themeSource").innerText = pickedSource.name;
+      document.getElementById("promptTheme").innerText = theme;
+      document.getElementById("promptGenre").innerText = genre;
+      document.getElementById("promptConstraint").innerText = constraint;
+      document.getElementById("promptArea").style.display = "block";
+
+      // Auto-start the timer
+      resetTimer();
+      startTimer();
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeLeft / 60)
+        .toString()
+        .padStart(2, "0");
+      const s = (timeLeft % 60).toString().padStart(2, "0");
+      document.getElementById("timerDisplay").innerText = `${m}:${s}`;
+
+      // Update progress bar width
+      const percentage = (timeLeft / MAX_TIME) * 100;
+      document.getElementById("progressBar").style.width = percentage + "%";
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          alert("Time is up! Wrap up your idea.");
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timeLeft = MAX_TIME;
+      updateTimerDisplay();
+    }
+
+    async function sendToDiscord() {
+      if (!WEBHOOK_URL) {
+        alert("Please configure the WEBHOOK_URL variable in the script.");
+        return;
+      }
+
+      const themeSource = document.getElementById("themeSource").innerText;
+      const theme = document.getElementById("promptTheme").innerText;
+      const genre = document.getElementById("promptGenre").innerText;
+      const constraint = document.getElementById("promptConstraint").innerText;
+
+      const title = document.getElementById("gameTitle").value.trim() || "Untitled Concept";
+      const loop = document.getElementById("coreLoop").value.trim() || "No core loop specified.";
+      const hook = document.getElementById("uniqueHook").value.trim() || "No unique hook specified.";
+
+      if (!theme) {
+        alert("Please generate a prompt first before archiving.");
+        return;
+      }
+
+      const payload = {
+        embeds: [
+          {
+            title: `Game Concept: ${title}`,
+            color: 13346551,
+            fields: [
+              {
+                name: "The Prompt",
+                value: `**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}\n**Constraint:** ${constraint}`,
+                inline: false,
+              },
+              {
+                name: "Core Loop",
+                value: loop,
+                inline: false,
+              },
+              {
+                name: "Unique Hook",
+                value: hook,
+                inline: false,
+              },
+            ],
+            footer: { text: "Generated via Game Design Sprint Trainer" },
+            timestamp: new Date().toISOString(),
+          },
+        ],
       };
 
-      // Load data from root JSON files on page load
-      async function loadJSONFiles() {
-        try {
-          const [ld, gmtk, ggj, genres, constraints] = await Promise.all([
-            fetch('ldThemes.json').then(r => r.json()),
-            fetch('gmtkThemes.json').then(r => r.json()),
-            fetch('ggjThemes.json').then(r => r.json()),
-            fetch('genres.json').then(r => r.json()),
-            fetch('constraints.json').then(r => r.json())
-          ]);
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
 
-          appData.ldThemes = ld;
-          appData.gmtkThemes = gmtk;
-          appData.ggjThemes = ggj;
-          appData.genres = genres;
-          appData.constraints = constraints;
-
-          const rollBtn = document.getElementById("rollBtn");
-          rollBtn.disabled = false;
-          rollBtn.innerText = "Roll New Challenge";
-        } catch (error) {
-          console.error("Error loading JSON. Make sure you are running via a local server.", error);
-          document.getElementById("rollBtn").innerText = "Error: Could not load JSON files";
+        if (response.ok) {
+          alert("Successfully archived to Discord!");
+          document.getElementById("gameTitle").value = "";
+          document.getElementById("coreLoop").value = "";
+          document.getElementById("uniqueHook").value = "";
+          resetTimer();
+        } else {
+          alert("Failed to send webhook. Verify the URL is correct and active.");
         }
+      } catch (error) {
+        console.error("Webhook Error:", error);
+        alert("Network error sending webhook.");
       }
+    }
+  </script>
+</body>
 
-      window.onload = loadJSONFiles;
-
-      function getRandom(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-      }
-
-      function generatePrompt() {
-        const sources = [
-          { name: "Ludum Dare", themes: appData.ldThemes },
-          { name: "GMTK Game Jam", themes: appData.gmtkThemes },
-          { name: "Global Game Jam", themes: appData.ggjThemes },
-        ];
-
-        const pickedSource = getRandom(sources);
-        const theme = getRandom(pickedSource.themes);
-        const genre = getRandom(appData.genres);
-        const constraint = getRandom(appData.constraints);
-
-        document.getElementById("themeSource").innerText = pickedSource.name;
-        document.getElementById("promptTheme").innerText = theme;
-        document.getElementById("promptGenre").innerText = genre;
-        document.getElementById("promptConstraint").innerText = constraint;
-        document.getElementById("promptArea").style.display = "block";
-
-        // Auto-start the timer
-        resetTimer();
-        startTimer();
-      }
-
-      function updateTimerDisplay() {
-        const m = Math.floor(timeLeft / 60)
-          .toString()
-          .padStart(2, "0");
-        const s = (timeLeft % 60).toString().padStart(2, "0");
-        document.getElementById("timerDisplay").innerText = `${m}:${s}`;
-
-        // Update progress bar width
-        const percentage = (timeLeft / MAX_TIME) * 100;
-        document.getElementById("progressBar").style.width = percentage + "%";
-      }
-
-      function startTimer() {
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-          if (timeLeft > 0) {
-            timeLeft--;
-            updateTimerDisplay();
-          } else {
-            clearInterval(timerInterval);
-            alert("Time is up! Wrap up your idea.");
-          }
-        }, 1000);
-      }
-
-      function resetTimer() {
-        clearInterval(timerInterval);
-        timeLeft = MAX_TIME;
-        updateTimerDisplay();
-      }
-
-      async function sendToDiscord() {
-        if (!WEBHOOK_URL || WEBHOOK_URL === "https://discord.com/api/webhooks/1499467073133350995/TV7vY69D2RfoGvFs0WdyuyvOmRqZZUovq4pQhbtTI049Qpr_VpihJupTX0nzYr02pNun") {
-          alert("Please configure the WEBHOOK_URL variable in the script.");
-          return;
-        }
-
-        const themeSource = document.getElementById("themeSource").innerText;
-        const theme = document.getElementById("promptTheme").innerText;
-        const genre = document.getElementById("promptGenre").innerText;
-        const constraint = document.getElementById("promptConstraint").innerText;
-
-        const title = document.getElementById("gameTitle").value.trim() || "Untitled Concept";
-        const loop = document.getElementById("coreLoop").value.trim() || "No core loop specified.";
-        const hook = document.getElementById("uniqueHook").value.trim() || "No unique hook specified.";
-
-        if (!theme) {
-          alert("Please generate a prompt first before archiving.");
-          return;
-        }
-
-        const payload = {
-          embeds: [
-            {
-              title: `Game Concept: ${title}`,
-              color: 13346551,
-              fields: [
-                {
-                  name: "The Prompt",
-                  value: `**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}\n**Constraint:** ${constraint}`,
-                  inline: false,
-                },
-                {
-                  name: "Core Loop",
-                  value: loop,
-                  inline: false,
-                },
-                {
-                  name: "Unique Hook",
-                  value: hook,
-                  inline: false,
-                },
-              ],
-              footer: { text: "Generated via Game Design Sprint Trainer" },
-              timestamp: new Date().toISOString(),
-            },
-          ],
-        };
-
-        try {
-          const response = await fetch(WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-
-          if (response.ok) {
-            alert("Successfully archived to Discord!");
-            document.getElementById("gameTitle").value = "";
-            document.getElementById("coreLoop").value = "";
-            document.getElementById("uniqueHook").value = "";
-            resetTimer();
-          } else {
-            alert("Failed to send webhook. Verify the URL is correct and active.");
-          }
-        } catch (error) {
-          console.error("Webhook Error:", error);
-          alert("Network error sending webhook.");
-        }
-      }
-    </script>
-  </body>
 </html>
