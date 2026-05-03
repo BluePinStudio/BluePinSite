@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Your ideas are your gifts"
-description: Monthly Check-in for April  2026 (Month 73)
+description: Monthly Check-in for April 2026 (Month 73)
 date: 2026-05-03 09:00:00
 categories: [Monthly Check-in]
-tags: [Trash Force, Falling Thingies, Ludum Dare]
+tags: [Trash Force, Falling Thingies, Ludum Dare, Game Jam, Salazar]
 thumbnail: /assets/images/thumbnails/april2026.webp
 image: /assets/images/thumbnails/april2026.webp
 image_caption: "Harald Sohlberg, “Ripe Fields”, 1898"
@@ -24,6 +24,15 @@ April 2026 has come and gone! Welcome to May ladies and folks... Let's see what 
 
 Wouldya look at that?! We actually managed to pull off all of the month's goals! Well, they were goals I had in progress from last month, but still. Good timing too because I'm going to need all the free time I have to focus on the Falling Thingies launch. The Steam page for the collab project is ready but hasn't been deployed publicly yet while we refine the screenshots and prepare a trailer. The hard part is done though, getting a 7-way revenue share agreement squared away and deciding on a name and logo for the project.
 
+For Trash Force, the new demo build internally supports a new higher resolution, new menus and lots of game changes. For example, you don't take damage from running into regular asteroids now which was a change a lot of people wanted.
+
+We're still not entirely an incremental game, more work needs to be done on that front. That will have to wait until Falling Thingies is released... In the meantime I can show you the differences between the old and new version of the in-game scenes. Lots more room for activities!
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/morepixels.webp" alt="Screenshot from Trash Force">
+<figcaption>I guess it's harder to depict like this, but trust me there's way more room!</figcaption>
+</figure>
+
 ## Bonus Tasks Completed in April 2026
 - [x] Publish the Ludum Dare entry to Newgrounds
 - [x] Purchase Salazar
@@ -34,23 +43,23 @@ More importantly, in the second week of April I went down to the largest artisan
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/salazar1.webp" alt="Screenshot from Lego Voyagers">
+<img src="/assets/images/posts/salazar1.webp" alt="Salazar the Rock">
 <figcaption>Introducing...Salazar the rock!</figcaption>
 </figure>
 
 ## May  2026 Goals
 
 - [ ] Birthday partyyyy!
-- [ ] Pixel Fixel launch candidate build
+- [ ] Falling Thingies launch candidate build
 - [ ] Make the new collab project public
 
-Go go go! Busy Month. Pixel Fixel has to do fairly well for all the time I've put into it. What I'm hoping to do is launch the game right as the Bullet Hell fest starts. This will overlap my launch discount with a steam-wide festival. Hopefully that nets me a least a few hundred bucks extra, but obviously only a few hundred wouldn't excite me that much. What I would like is to generate $3000~ from this project so I could get a decent return for the time spent on it.
+Go go go! Busy Month. Falling Thingies has to do fairly well for all the time I've put into it. What I'm hoping to do is launch the game right as the Bullet Hell fest starts. This will overlap my launch discount with a steam-wide festival. Hopefully that nets me a least a few hundred bucks extra, but obviously only a few hundred wouldn't excite me that much. What I would like is to generate $3000~ from this project so I could get a decent return for the time spent on it.
 
 We'll learn more about how that went once the launch happens and I can do a monthly update for June. 
 
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/salazar2.webp" alt="Screenshot from Lego Voyagers">
+<img src="/assets/images/posts/salazar2.webp" alt="Salazar the Rock">
 <figcaption>Salazar watching the sun rise over a grateful city</figcaption>
 </figure>
 
