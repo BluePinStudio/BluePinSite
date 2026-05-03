@@ -9,13 +9,14 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 
 **Ignore the X's. Those are for internal purposes only. Only the most clever person could piece together why some games have x's and some don't. It pertains to this website...**
 
+## 90's Games (6)
 - [ ] Starcraft 1 (Mar 1998)  
 - [ ] Roller Coaster Tycoon (Mar 1999)  
 - [ ] Little Fighter 2 (Jul 1999)  
 - [x] Xenimus (Dec 1999)  
 - [ ] Neopets (Nov 1999)
 - [ ] Lego Rock Raiders (Nov 1999)  
-
+## 2000's Games (36)
 - [ ] Emperors New Groove (Nov 2000)  
 - [ ] Aladdin Nasira's Revenge (Nov 2000)
 - [ ] Lego Island 2 (Mar 2001)
@@ -52,7 +53,7 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Castle Crashers (Aug 2008) 
 - [ ] Left for Dead (Nov 2008) 
 - [ ] Plantz vs Zombies (May 2009)
-
+## 2010's Games (24)
 - [ ] Starcraft 2 (Jul 2010)  
 - [ ] Civ 5 (Sep 2010)  
 - [ ] Rift (Mar 2011)  
@@ -77,7 +78,7 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Far Cry 5 (Mar 2018)  
 - [ ] Kingdom: Two Crowns (Dec 2018) 
 - [x] Risk of Rain 2 (Mar 2019) 
-
+## 2020's Games (14)
 - [x] Hades (Sep 2020)  
 - [ ] Pychonauts 2 (Aug 2021)
 - [ ] Forza Horizon 5 (Nov 2021)  
