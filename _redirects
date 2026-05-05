@@ -1,0 +1,25 @@
+# Blog month redirects - redirect YYYY-MM to specific posts
+# Each month redirects to the main monthly post
+
+/blog/2024-08* /blog/2024-08-11-The-Beginning/ 301
+/blog/2024-09* /blog/2024-09-01-One-Month-Later/ 301
+/blog/2024-10* /blog/2024-10-01-Moo-Deng-Tober/ 301
+/blog/2024-11* /blog/2024-11-01-Movember-Mo-Problems/ 301
+/blog/2024-12* /blog/2024-12-01-Winter-Is-Coming/ 301
+/blog/2025-01* /blog/2025-01-01-Night-is-Darkest-Before-Dawn/ 301
+/blog/2025-02* /blog/2025-02-01-Paso-Corto-Vista-Larga/ 301
+/blog/2025-03* /blog/2025-03-01-In-the-Depths-of-Winter/ 301
+/blog/2025-04* /blog/2025-04-10-Nowruz/ 301
+/blog/2025-05* /blog/2025-05-01-Death-and-Taxes/ 301
+/blog/2025-06* /blog/2025-06-01-For-Whom-the-Bell-Tolls/ 301
+/blog/2025-07* /blog/2025-07-01-I-was-not-meant-for-such-sweet-sorrow/ 301
+/blog/2025-08* /blog/2025-08-01-You-can-never-tell-how-close-you-are/ 301
+/blog/2025-09* /blog/2025-09-01-Hot-Pin-Summer/ 301
+/blog/2025-10* /blog/2025-10-03-Back-To-School/ 301
+/blog/2025-11* /blog/2025-11-05-Pumpking-Pie/ 301
+/blog/2025-12* /blog/2025-12-01-You-Dance-Fast-But-I-Dance-Faster/ 301
+/blog/2026-01* /blog/2026-01-01-Promises-To-Keep-and-Miles-To-Go-Before-I-Sleep-copy/ 301
+/blog/2026-02* /blog/2026-02-04-Somehwere-ages-and-ages-hence/ 301
+/blog/2026-03* /blog/2026-03-02-Hard-Work-and-the-Donkey/ 301
+/blog/2026-04* /blog/2026-04-01-The-End/ 301
+/blog/2026-05* /blog/2026-05-03-Your-ideas-are-your-gifts/ 301
