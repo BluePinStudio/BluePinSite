@@ -14,6 +14,7 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-include-cache
+  - jekyll-redirect-from
 
 watch_exclude:
 - node_modules
