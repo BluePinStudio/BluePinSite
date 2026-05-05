@@ -38,6 +38,7 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Azurik Rise of Perathia (November 25 2001)
 - [ ] Morrowind (May 1 2002)
 - [ ] Warcraft 3 (July 3 2002)
+- [ ] Shrek: Hassle at the Castle (October 8 2002)
 - [x] Age of Mythology (October 31 2002)
 - [ ] Grand Theft Auto Vice City (October 29 2002)
 - [ ] Coke Music (January 1 2002)
