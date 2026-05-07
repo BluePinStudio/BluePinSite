@@ -208,9 +208,9 @@
       // ==========================================
       // CONFIGURATION
       // ==========================================
-      const WEBHOOK_URL = "https://discord.com/api/webhooks/1499467073133350995/TV7vY69D2RfoGvFs0WdyuyvOmRqZZUovq4pQhbtTI049Qpr_VpihJupTX0nzYr02pNun"; // PASTE YOUR DISCORD WEBHOOK HERE
+      const WEBHOOK_URL = "https://discord.com/api/webhooks/1499467073133350995/TV7vY69D2RfoGvFs0WdyuyvOmRqZZUovq4pQhbtTI049Qpr_VpihJupTX0nzYr02pNun"; 
       
-      const MAX_TIME = 300; // 5 minutes in seconds
+      const MAX_TIME = 300; // in seconds
       let timerInterval;
       let timeLeft = MAX_TIME; 
 
@@ -343,30 +343,28 @@
           embeds: [
             {
               title: `🕹️ Concept Archive: ${title}`,
-              color: 8959226, 
+              color: 0xe74c3c, // Red for constraints
               fields: [
-                {
-                  name: "The Constraints",
-                  value: `**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}\n**Constraint:** ${constraint}`,
-                  inline: false,
-                },
-                {
-                  name: "Elevator Pitch",
-                  value: pitch,
-                  inline: false,
-                },
-                {
-                  name: "30-Second Snackable Loop",
-                  value: loop,
-                  inline: false,
-                },
-                {
-                  name: "Aesthetic & Vibe",
-                  value: vibe,
-                  inline: false,
-                },
+                { name: "Theme", value: `${themeSource}: ${theme}`, inline: true },
+                { name: "Genre", value: genre, inline: true },
+                { name: "Constraint", value: constraint, inline: true },
               ],
               timestamp: new Date().toISOString(),
+            },
+            {
+              title: "Elevator Pitch",
+              color: 0x2ecc71, // Green
+              description: pitch,
+            },
+            {
+              title: "30-Second Snackable Loop",
+              color: 0xf1c40f, // Yellow
+              description: loop,
+            },
+            {
+              title: "Aesthetic & Vibe",
+              color: 0x9b59b6, // Purple
+              description: vibe,
             },
           ],
         };
