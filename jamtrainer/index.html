@@ -339,12 +339,17 @@
           return;
         }
 
+        const elapsed = MAX_TIME - timeLeft;
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        const timeStr = `${minutes}m ${seconds}s of thinking`;
+
         const payload = {
           embeds: [
             {
               title: `Game Concept: ${title}`,
               color: 0x3498db,
-              description: `**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}\n**Constraint:** ${constraint}\n\n**Elevator Pitch**\n${pitch}\n\n**Main Gameplay Loop**\n${loop}\n\n**Aesthetic & Vibe**\n${vibe}`,
+              description: `**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}\n**Constraint:** ${constraint}\n\n**Elevator Pitch**\n${pitch}\n\n**Main Gameplay Loop**\n${loop}\n\n**Aesthetic & Vibe**\n${vibe}\n\n*${timeStr}*`,
               timestamp: new Date().toISOString(),
             },
           ],
