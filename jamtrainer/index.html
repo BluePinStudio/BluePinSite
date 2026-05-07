@@ -342,29 +342,10 @@
         const payload = {
           embeds: [
             {
-              title: `🕹️ Concept Archive: ${title}`,
-              color: 0xe74c3c, // Red for constraints
-              fields: [
-                { name: "Theme", value: `${themeSource}: ${theme}`, inline: true },
-                { name: "Genre", value: genre, inline: true },
-                { name: "Constraint", value: constraint, inline: true },
-              ],
+              title: `Concept Archive: ${title}`,
+              color: 0x3498db,
+              description: `**The Constraints**\n\n**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}\n**Constraint:** ${constraint}\n\n**Elevator Pitch**\n${pitch}\n\n**30-Second Snackable Loop**\n${loop}\n\n**Aesthetic & Vibe**\n${vibe}`,
               timestamp: new Date().toISOString(),
-            },
-            {
-              title: "Elevator Pitch",
-              color: 0x2ecc71, // Green
-              description: pitch,
-            },
-            {
-              title: "30-Second Snackable Loop",
-              color: 0xf1c40f, // Yellow
-              description: loop,
-            },
-            {
-              title: "Aesthetic & Vibe",
-              color: 0x9b59b6, // Purple
-              description: vibe,
             },
           ],
         };
