@@ -152,7 +152,7 @@
       </div>
       
       <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-        <input type="checkbox" id="generateConstraintToggle" checked />
+        <input type="checkbox" id="generateConstraintToggle" checked onchange="updateConstraintVisibility()" />
         Generate constraint when rolling a challenge
       </label>
       
@@ -160,7 +160,9 @@
         <strong>Theme <span class="tag" id="themeSource"></span> :</strong>
         <span id="promptTheme" style="color: var(--success); font-weight: bold;"></span><br /><br />
         <strong>Genre:</strong> <span id="promptGenre"></span><br /><br />
-        <strong>Constraint:</strong> <span id="promptConstraint"></span>
+        <div id="constraintRow">
+          <strong>Constraint:</strong> <span id="promptConstraint"></span>
+        </div>
       </div>
     </div>
 
@@ -266,6 +268,12 @@
         document.getElementById("gameVibe").value = "";
       }
 
+      function updateConstraintVisibility() {
+        const includeConstraint = document.getElementById("generateConstraintToggle").checked;
+        const constraintRow = document.getElementById("constraintRow");
+        constraintRow.style.display = includeConstraint ? "block" : "none";
+      }
+
       function generatePrompt() {
         const sources = [
           { name: "Ludum Dare", themes: appData.ldThemes },
@@ -281,9 +289,10 @@
         document.getElementById("promptGenre").innerText = getRandom(appData.genres);
         document.getElementById("promptConstraint").innerText = includeConstraint
           ? getRandom(appData.constraints)
-          : "Constraint generation disabled";
+          : "";
         
         document.getElementById("promptArea").style.display = "block";
+        updateConstraintVisibility();
         clearConceptFields();
         resetTimer();
         startTimer();
@@ -343,6 +352,7 @@
         const theme = document.getElementById("promptTheme").innerText;
         const genre = document.getElementById("promptGenre").innerText;
         const constraint = document.getElementById("promptConstraint").innerText;
+        const includeConstraint = document.getElementById("generateConstraintToggle").checked;
 
         const title = document.getElementById("gameTitle").value.trim() || "Untitled Concept";
         const pitch = document.getElementById("elevatorPitch").value.trim() || "No pitch provided.";
@@ -361,12 +371,20 @@
         const seconds = elapsed % 60;
         const timeStr = `${minutes}m ${seconds}s of thinking`;
 
+        let description = `[${timeStr}]\n\n**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}`;
+
+        if (includeConstraint && constraint) {
+          description += `\n**Constraint:** ${constraint}`;
+        }
+
+        description += `\n\n**Elevator Pitch**\n${pitch}\n\n**Main Gameplay Loop**\n${loop}\n\n**Aesthetic & Vibe**\n${vibe}`;
+
         const payload = {
           embeds: [
             {
               title: `🕹️ Game Concept: ${title}`,
               color: 0x3498db,
-              description: `[${timeStr}]\n\n**Theme (${themeSource}):** ${theme}\n**Genre:** ${genre}\n**Constraint:** ${constraint}\n\n**Elevator Pitch**\n${pitch}\n\n**Main Gameplay Loop**\n${loop}\n\n**Aesthetic & Vibe**\n${vibe}`,
+              description,
               timestamp: new Date().toISOString(),
             },
           ],
