@@ -151,6 +151,11 @@
         <button id="rollBtn" onclick="generatePrompt()" disabled>Loading Data...</button>
       </div>
       
+      <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+        <input type="checkbox" id="generateConstraintToggle" checked />
+        Generate constraint when rolling a challenge
+      </label>
+      
       <div id="promptArea" class="prompt-display" style="display: none">
         <strong>Theme <span class="tag" id="themeSource"></span> :</strong>
         <span id="promptTheme" style="color: var(--success); font-weight: bold;"></span><br /><br />
@@ -254,6 +259,13 @@
         return arr[Math.floor(Math.random() * arr.length)];
       }
 
+      function clearConceptFields() {
+        document.getElementById("gameTitle").value = "";
+        document.getElementById("elevatorPitch").value = "";
+        document.getElementById("snackableLoop").value = "";
+        document.getElementById("gameVibe").value = "";
+      }
+
       function generatePrompt() {
         const sources = [
           { name: "Ludum Dare", themes: appData.ldThemes },
@@ -262,14 +274,17 @@
         ];
 
         const pickedSource = getRandom(sources);
+        const includeConstraint = document.getElementById("generateConstraintToggle").checked;
         
         document.getElementById("themeSource").innerText = pickedSource.name;
         document.getElementById("promptTheme").innerText = getRandom(pickedSource.themes);
         document.getElementById("promptGenre").innerText = getRandom(appData.genres);
-        document.getElementById("promptConstraint").innerText = getRandom(appData.constraints);
+        document.getElementById("promptConstraint").innerText = includeConstraint
+          ? getRandom(appData.constraints)
+          : "Constraint generation disabled";
         
         document.getElementById("promptArea").style.display = "block";
-
+        clearConceptFields();
         resetTimer();
         startTimer();
       }
@@ -339,6 +354,8 @@
           return;
         }
 
+        clearInterval(timerInterval);
+
         const elapsed = MAX_TIME - timeLeft;
         const minutes = Math.floor(elapsed / 60);
         const seconds = elapsed % 60;
@@ -364,10 +381,7 @@
 
           if (response.ok) {
             alert("Concept archived to Discord!");
-            document.getElementById("gameTitle").value = "";
-            document.getElementById("elevatorPitch").value = "";
-            document.getElementById("snackableLoop").value = "";
-            document.getElementById("gameVibe").value = "";
+            clearConceptFields();
             resetTimer();
           } else {
             alert("Failed to send webhook. Verify the URL is correct.");
