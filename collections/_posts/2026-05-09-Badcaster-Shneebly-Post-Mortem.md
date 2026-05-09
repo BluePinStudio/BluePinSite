@@ -25,14 +25,17 @@ blank
 ### Jam Begins...
 blank
 
-  <figure style="text-align: center;">
-  <img src="/assets/images/posts/AntzManisha.webp" alt="Manisha wrote nahhh for our idea">
-  </figure>
+
 
 Luckily Manisha pivoted quickly and decided to give the idea a shot! That means we were a few hours into the jam and we already had the game design planned. This is crucial for a weekend game jam. We had the benefit of having three full days of actual production...
 
 ### The Development
 blank
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/schneeblysketch.webp" alt="Early sketch of the city layout">
+<figcaption>Early sketch of the city layout</figcaption>
+</figure>
 
 
 ## What Went Well
@@ -43,6 +46,11 @@ blank
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Keely (Art & Design)**:</span> The game visuals and music turned out pretty good.
 
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> I think the process of audio development went pretty well, and looking back at my progress clips over the course of the jam helped me realize that. I was able to put together a basic drum beat and some potential sounds pretty quickly, and I feel like I’m getting more efficient with GarageBand. By the end of day one, we had already settled on a clear idea, which helped us get to work the next day. I also had time to record voice lines for Shneebly, which I think added a little more personality to the character and vibe of the game. Setting the game in Toronto made it feel more personal since our whole team is based here.
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/earlyschneeb.webp" alt="Reference for Schneebly. Drawn by the infinitely talented Batsyhead.">
+<figcaption>Reference we found for Schneebly. Drawn by the infinitely talented Batsyhead.</figcaption>
+</figure>
 
 ## Challenges
 blank
@@ -55,7 +63,9 @@ blank
 
 
 ## The Final Product
-blank
+I felt really bad about the final product. It ended up being too confusing and esoteric. Given a few more days we could've polished up this relatively uncommon game design and make it more easy to understand but such is the nature of weekend game jams. Not enough time! 
+
+I think we could've done a lot better when scoping this game and organizing what needs to be done and what can be avoided. Keely did great work showing first-timer Prav where he can cut corners and save time while I was too busy on day-job and programming tasks to handle management.
 
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Prav (Art)**:</span> Definitely happy with the outcome, maybe next time i'll do a better job of planning things before execution and probably use a software that i'm familiar with to save time!
 
@@ -63,27 +73,36 @@ blank
 
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Overall, I like the concept of the game and think Shneebly is a really fun and memorable villain. The idea of him messing with people’s TVs is genuinely funny and fits the signal theme well. I do wish we leaned further into the comedic side and refined the level design more, since the user experience felt a bit confusing at times. That said, I think the game has a lot of potential, and I really enjoyed contributing to the audio and helping shape the overall feel of the project.
 
-
+<figure style="text-align: center;">
+<img src="/assets/images/posts/schneeblyscreenshot.webp" alt="A screenshot of what the final game ended up looking like.">
+<figcaption>A screenshot of what the final game ended up looking like.</figcaption>
+</figure>
 
 ## Reception
-  <figure>
-  <img src="/assets/images/posts/fullgameantz.webp" alt="Quintessential comment on Antz vs Plantz Ludum Dare page">
-  </figure>
 
-**Final Game**: We had 90 Ludum Dare participants try it out and leave lots of comments as well. .
+**Final Game**: We had 98 Browser plays for the game over the Ludum Dare rating period. Lots of comments and feedback as well, thank you everyone for checking it out! Here are the scores:
 
 **There were 1213 other entries**
 
 | **Criteria**    | **Rank**| **Percentile** |
-|Overall       | 350th |  Top 10% | 
-|Fun           | 320th |  Top 10% |
-|Innovation    | 180th |  Top 10% |
-|Theme         | 120th |  Top 10% |
-|Graphics      | 120th |  Top 10% |
-|Audio         | 200th |  Top 10% | 
-|Humor         | 100th |  Top 10% | 
-|Mood          | 200th |  Top 10% | 
+|Overall       | 620th |  Top 51% | 
+|Fun           | 680th |  Top 56% |
+|Innovation    | 387th |  Top 32% |
+|Theme         | 165th |  Top 14% |
+|Graphics      | 324th |  Top 27% |
+|Audio         | 255th |  Top 21% | 
+|Humor         | 179th |  Top 15% | 
+|Mood          | 482th |  Top 40% | 
 {: .table .table-sm }
+
+Just to add a little bit more commentary now that you've seen the scores... Isn't that facinating? After 6 years of doing Ludum Dare, I ended up making one of my worst-reviewed games. The chart looks like this:
+
+<figure style="text-align: center;">
+<img src="/assets/images/posts/schneeblyscore.webp" alt="Previous Ludum Dare Scores going back 6 years.">
+<figcaption>Previous Ludum Dare Scores going back 6 years.</figcaption>
+</figure>
+
+Makes me doubt if I'm improving, or at least improving faster than the standards for a good game are changing... Time will tell I suppose!
 
 ## Links
 
