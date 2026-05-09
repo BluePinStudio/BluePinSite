@@ -4,7 +4,7 @@ title: Badcaster Shneebly Post Mortem
 description: Post Mortem for my Ludum Dare 59 entry, "Badcaster Shneebly"
 date: 2026-05-09 07:00:00 -0400
 categories: [Jam Post Mortem]
-tags: [Schneebly,Ludum Dare, Gamejam]
+tags: [Shneebly,Ludum Dare, Gamejam]
 thumbnail: /assets/images/thumbnails/shneebly.webp
 image: /assets/images/thumbnails/shneebly.webp
 published : true
@@ -19,27 +19,34 @@ We contemplated meeting up in person to work on the game but our schedules didn'
 
 ## Timeline
 
-### Pre-Jam
-blank
+### Pre-Jam 
+We formed the team relatively early, a few weeks out. So we had the luxury of chatting for a bit, and since Me and Keely and Manisha have already worked on three seperate jams, the workflow and roles were already pre-defined and locked in.
+
+There was a bit of trepedation surrounding what Keely would be up to since we had Prav doing art. Luckily once we got going that wasn't an issue. There was plenty of stuff for Keely to do. He ended up spending as much time as me!
 
 ### Jam Begins...
-blank
+We got into a call as soon as the theme was dropped and ended up deciding before the call ended on the game we were going to make. I had lots of ambitions around the voice-over component of Shneebly and perhaps even sneaking into people's game sessions but all of that ended up being scrapped for time. I didn't even get to voice Shneebly in the end.
 
-
-
-Luckily Manisha pivoted quickly and decided to give the idea a shot! That means we were a few hours into the jam and we already had the game design planned. This is crucial for a weekend game jam. We had the benefit of having three full days of actual production...
+Some of the ideas we had that we discarded are:
+- the Fairy Bubble Pop game from Neopets
+- Switching an old school wire switchboard
+- something with trombone champ that i dont remember
 
 ### The Development
-blank
+Development went ok. I was able to deploy builds periodically as I was developing the features. The game doesn't really resemble anything I've played before from a gameplay perspective so I didn't have much to lean on for UI/UX. 
+
+During development myself, manisha, prav and I think also Keely were busy doing other real life stuff. I was working, Prav had plans, etc. We didn't no-life this jam and work to the fullest. 
+
+More details about what went right and what went wrong are below...
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/schneeblysketch.webp" alt="Early sketch of the city layout">
+<img src="/assets/images/posts/shneeblysketch.webp" alt="Early sketch of the city layout">
 <figcaption>Early sketch of the city layout</figcaption>
 </figure>
 
 
 ## What Went Well
-blank
+As per usual with Keely on board, we get a really funny mascot and premise. That went well, and I think the graphics overall look nice. Given more time, we could've really made this city pop, but even in a day or two, it looks really nice!
 
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Prav (Art)**:</span> The art style came out pretty much close to what i envisioned in my mind, and this being my first jam i think it all went pretty well overall, considering the tight deadline
 
@@ -48,12 +55,23 @@ blank
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> I think the process of audio development went pretty well, and looking back at my progress clips over the course of the jam helped me realize that. I was able to put together a basic drum beat and some potential sounds pretty quickly, and I feel like I’m getting more efficient with GarageBand. By the end of day one, we had already settled on a clear idea, which helped us get to work the next day. I also had time to record voice lines for Shneebly, which I think added a little more personality to the character and vibe of the game. Setting the game in Toronto made it feel more personal since our whole team is based here.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/earlyschneeb.webp" alt="Reference for Schneebly. Drawn by the infinitely talented Batsyhead.">
-<figcaption>Reference we found for Schneebly. Drawn by the infinitely talented Batsyhead.</figcaption>
+<img src="/assets/images/posts/earlyshneeb.webp" alt="Reference for Shneebly. Drawn by the infinitely talented Batsyhead.">
+<figcaption>Reference we found for Shneebly. Drawn by the infinitely talented Batsyhead.</figcaption>
 </figure>
 
 ## Challenges
-blank
+Boy oh boy! In addition to the usual challenges of making a game in 3 days while working a day-job there came some relatively new ones!
+
+Our artist Prav was using software (Procreate) that he never used before, and wasn't communicating as much as we would like. Roughly half of the jam was spent without any game-ready asset completed. And on top of that, even when we got near the end, the jam assets weren't prioritized properly. We had **29!** different tree assets! 
+
+Thank god for Keely taking over as a middle man between me and Prav because if it wasn't for him, we would've had no time for anything. Prav only send the psd files, not individual pngs for us to use. So Keely had to go in and separate out every layer. This was done on multiple occasions and it would've taken up a ton of my time.
+
+Also, here's an exchange that would help color the experience I had for you:
+
+- ***Viktor:*** You went a whole day (yesterday) without sending anything, its scary
+- ***Prav:*** Yeah cause i was learning procreate. Life is a gamble when you work with me. People realize way too late.
+- ***Viktor:*** You should've told me before we started.
+- ***Prav:*** I believe in practical lessons. Life doesn't come with a manual. Anyway goodnight see you tomorrow.
 
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Prav (Art)**:</span> I wasn't able to finish the whole city so we ended up duplicating assets, but i'm still happy with the way it turned out. Definitely could practice more art using Procreate.
 
@@ -74,7 +92,7 @@ I think we could've done a lot better when scoping this game and organizing what
 <span style="background: linear-gradient(90deg, #ff38ac, #5e13c0); -webkit-background-clip: text; color: transparent;">**Comment from Manisha (Audio)**:</span> Overall, I like the concept of the game and think Shneebly is a really fun and memorable villain. The idea of him messing with people’s TVs is genuinely funny and fits the signal theme well. I do wish we leaned further into the comedic side and refined the level design more, since the user experience felt a bit confusing at times. That said, I think the game has a lot of potential, and I really enjoyed contributing to the audio and helping shape the overall feel of the project.
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/schneeblyscreenshot.webp" alt="A screenshot of what the final game ended up looking like.">
+<img src="/assets/images/posts/shneeblyscreenshot.webp" alt="A screenshot of what the final game ended up looking like.">
 <figcaption>A screenshot of what the final game ended up looking like.</figcaption>
 </figure>
 
@@ -98,7 +116,7 @@ I think we could've done a lot better when scoping this game and organizing what
 Just to add a little bit more commentary now that you've seen the scores... Isn't that facinating? After 6 years of doing Ludum Dare, I ended up making one of my worst-reviewed games. The chart looks like this:
 
 <figure style="text-align: center;">
-<img src="/assets/images/posts/schneeblyscore.webp" alt="Previous Ludum Dare Scores going back 6 years.">
+<img src="/assets/images/posts/shneeblyscore.webp" alt="Previous Ludum Dare Scores going back 6 years.">
 <figcaption>Previous Ludum Dare Scores going back 6 years.</figcaption>
 </figure>
 
