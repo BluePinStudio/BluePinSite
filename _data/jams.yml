@@ -242,8 +242,8 @@
 - date: "APR 2026"
   date_iso: "2026-04-20"
   jam: "Ludum Dare 59"
-  placement: "TBD"
-  percent: null
+  placement: 620
+  percent: 51
   entries: 1213
   title: "Badcaster Shneebly"
   url: "https://bluepinstudio.itch.io/badcaster-shneebly"
