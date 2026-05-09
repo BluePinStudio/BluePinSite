@@ -24,6 +24,11 @@ We formed the team relatively early, a few weeks out. So we had the luxury of ch
 
 There was a bit of trepedation surrounding what Keely would be up to since we had Prav doing art. Luckily once we got going that wasn't an issue. There was plenty of stuff for Keely to do. He ended up spending as much time as me!
 
+<figure style="text-align: center;">
+<img src="/assets/images/posts/shneeblyconcept.webp" alt="Early sketch of the game design">
+<figcaption>The first sketch that was a precursor to the game we ended up making. This was drawn roughly 3hrs after the theme was announced.</figcaption>
+</figure>
+
 ### Jam Begins...
 We got into a call as soon as the theme was dropped and ended up deciding before the call ended on the game we were going to make. I had lots of ambitions around the voice-over component of Shneebly and perhaps even sneaking into people's game sessions but all of that ended up being scrapped for time. I didn't even get to voice Shneebly in the end.
 
