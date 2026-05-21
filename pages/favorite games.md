@@ -118,3 +118,4 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Megabonk (September 18 2025)
 - [ ] Hades 2 (September 25 2025)
 - [ ] Shelldiver (November 16 2025)
+- [ ] Forza Horizon 6 (May 18 2026)
