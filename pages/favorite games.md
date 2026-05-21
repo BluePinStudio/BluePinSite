@@ -103,7 +103,7 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Far Cry 5 (March 27 2018)
 - [ ] Kingdom: Two Crowns (December 11 2018)
 - [x] Risk of Rain 2 (March 1 2019)
-## 2020's Games (14)
+## 2020's Games (15)
 - [x] Hades (September 17 2020)
 - [ ] Pychonauts 2 (August 25 2021)
 - [ ] Forza Horizon 5 (November 9 2021)
