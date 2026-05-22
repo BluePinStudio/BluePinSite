@@ -321,6 +321,33 @@
 }
 
 // Card post overrides (only values differing from framework _card-post.scss)
+.card-post.card-sticky {
+  overflow: hidden;
+}
+.card-post.card-sticky .card-thumbnail {
+  position: relative;
+}
+.card-post.card-sticky .card-thumbnail-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  transform: rotate(12deg);
+  transform-origin: right top;
+}
+.card-post.card-sticky .card-thumbnail-badge .badge {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  background: #0d6efd;
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(13, 110, 253, 0.25);
+}
+.card-post.card-sticky .card-thumbnail img {
+  display: block;
+}
 .card-post .card-categories a {
   border-radius: 3px;
 }

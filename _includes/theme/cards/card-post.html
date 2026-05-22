@@ -13,15 +13,24 @@
 {% assign client = include.client %}
 {% assign thumbnail_size = include.thumbnail_size %}
 
-<div class="card card-post card-{{ style }} {% if thumbnail %}card-has-thumbnail{% endif %} {% if icon or fa_icon %}card-has-icon{% endif %}">
+{% assign badge_text = include.badge %}
+{% if badge_text == true %}{% assign badge_text = "Sticky" %}{% endif %}
+
+<div class="card card-post card-{{ style }} {% if thumbnail %}card-has-thumbnail{% endif %} {% if icon or fa_icon %}card-has-icon{% endif %}{% if badge_text %} card-sticky{% endif %}">
 
   {% if thumbnail %}
     <div class="card-thumbnail {% if thumbnail_size %}card-thumbnail-{{ thumbnail_size }}{% endif %}">
+      {% if badge_text %}
+        <div class="card-thumbnail-badge"><span class="badge">{{ badge_text }}</span></div>
+      {% endif %}
       <a href="{{ url | relative_url }}"><img alt="{{ title }}" src="{{ thumbnail | relative_url }}"/></a>
     </div>
   {% endif %}
 
   <div class="card-content">
+    {% if badge_text and thumbnail == nil %}
+      <div class="card-badge mb-2"><span class="badge">{{ badge_text }}</span></div>
+    {% endif %}
     {% if authors or date %}
     <div class="card-meta">
 

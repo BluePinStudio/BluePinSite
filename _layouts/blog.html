@@ -84,13 +84,10 @@ body_classes: page-blog
         {%- if paginator -%}{% assign posts = paginator.posts %}{% endif %}
 
         {%- comment -%}
-          Exclude the sticky post from the grid when it’s shown on this page.
-          If paginator is on a later page, the sticky post can appear in normal flow there.
+          Keep the sticky post in the grid even when it is shown as the featured hero.
+          This preserves the page count and continuity by showing the sticky post as a thumbnail with a badge.
         {%- endcomment -%}
         {%- assign listing_posts = posts -%}
-        {%- if sticky_post and show_sticky -%}
-          {%- assign listing_posts = posts | where_exp: "p", "p.url != sticky_post.url" -%}
-        {%- endif -%}
 
         {%- if paginator -%}
           <div class="col-12 mb-2">
@@ -111,6 +108,7 @@ body_classes: page-blog
                 categories=post.categories
                 tags=post.tags
                 show_read_more=false
+                badge=post.sticky
               %}
             </div>
           {%- endfor -%}
@@ -166,7 +164,7 @@ body_classes: page-blog
 .sticky-post__eyebrow .badge {
   font-size: .72rem; letter-spacing: .02em;
   padding: .2rem .5rem; border-radius: 999px;
-  background: #ffd166; color: #222; font-weight: 600;
+  background: #0d6efd; color: #fff; font-weight: 600;
 }
 .sticky-post__title {
   margin: .2rem 0 .4rem; line-height: 1.15; font-size: clamp(1.25rem, 2.2vw, 2rem);
