@@ -71,7 +71,7 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Left for Dead (November 18 2008)
 - [ ] Plantz vs Zombies (May 5 2009)
 - [ ] League of Legends (October 27 2009)
-## 2010's Games (31)
+## 2010's Games (32)
 - [ ] Starcraft 2 (July 27 2010)
 - [ ] Halo Reach (September 14 2010)
 - [ ] Civ 5 (September 21 2010)
@@ -87,6 +87,7 @@ How did you find this page? Well, since you have. I'll let you in on a little se
 - [ ] Halo 4 (November 6 2012)
 - [ ] Little Inferno (November 18 2012)
 - [ ] Farcry 3 (November 29 2012)
+- [ ] Game Dev Tycoon
 - [x] Papers Please (August 8 2013)
 - [ ] Witcher 3 (May 19 2015)
 - [ ] Heroes of the Storm (June 2 2015)
