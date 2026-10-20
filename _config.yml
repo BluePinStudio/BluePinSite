@@ -62,7 +62,7 @@ sass:
   style: compressed
 
 # Incremental builds (faster rebuilds during development)
-incremental: true
+incremental: false
 
 # Excludes
 exclude:

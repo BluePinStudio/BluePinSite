@@ -47,7 +47,7 @@ More importantly, in the second week of April I went down to the largest artisan
 <figcaption>Introducing...Salazar the rock!</figcaption>
 </figure>
 
-## May  2026 Goals
+## May 2026 Goals
 
 - [ ] Birthday partyyyy!
 - [ ] Falling Thingies launch candidate build

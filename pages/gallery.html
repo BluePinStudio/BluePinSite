@@ -1,0 +1,214 @@
+---
+layout: default
+title: "Drawing Gallery"
+---
+
+<div class="gallery-container">
+  <h1>Drawing Gallery</h1>
+  <div id="levels-container">Loading drawings...</div>
+</div>
+
+<!-- Include Firebase App and Realtime Database scripts -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+  // Your Firebase configuration provided
+  const firebaseConfig = {
+    apiKey: "AIzaSyDcayYZ6WXChGlgxPLF8zg0DjGdhGbuToM",
+    authDomain: "megaprint-23fd4.firebaseapp.com",
+    databaseURL: "https://megaprint-23fd4-default-rtdb.firebaseio.com",
+    projectId: "megaprint-23fd4",
+    storageBucket: "megaprint-23fd4.firebasestorage.app",
+    messagingSenderId: "1033107310230",
+    appId: "1:1033107310230:web:623ed9dff8fb839eaf64b7"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  const container = document.getElementById('levels-container');
+
+  // Reference to the 'levels' node in your database
+  const levelsRef = db.ref('levels');
+
+  // onValue listens for real-time changes
+  levelsRef.on('value', (snapshot) => {
+    const levelsData = snapshot.val();
+    
+    if (!levelsData) {
+      container.innerHTML = '<p>No data found in the database.</p>';
+      return;
+    }
+
+    // Clear the loading message
+    container.innerHTML = '';
+
+    // Loop through the levels array (levels[1] to levels[25])
+    levelsData.forEach((levelData, levelIndex) => {
+      // Skip null indexes if any exist in the array
+      if (!levelData) return;
+
+      // Create a section for each level
+      const levelSection = document.createElement('div');
+      levelSection.className = 'level-section';
+      levelSection.innerHTML = `<h2>Level ${levelIndex}</h2>`;
+
+      const grid = document.createElement('div');
+      grid.className = 'drawings-grid';
+
+      // levelData is an object where keys are userIds and values are image strings (e.g., base64 or URLs)
+      for (const [userId, imageStr] of Object.entries(levelData)) {
+        const card = document.createElement('div');
+        card.className = 'win95-window';
+
+        // Check if the image string is raw base64 or a data URI. 
+        // If it starts with 'iVBOR' (common PNG base64 header from your sample), prepend 'data:image/png;base64,'
+        let imageSource = imageStr;
+        if (!imageStr.startsWith('data:image') && imageStr.startsWith('iVBOR')) {
+          imageSource = `data:image/png;base64,${imageStr}`;
+        }
+
+        // Window structure with a retro title bar and sunken image well
+        card.innerHTML = `
+          <div class="win95-title-bar">
+            <span>drawing_${userId.substring(0, 6)}.png</span>
+            <div class="win95-buttons">
+              <button>_</button>
+              <button>□</button>
+              <button>X</button>
+            </div>
+          </div>
+          <div class="win95-body">
+            <div class="win95-sunken-well">
+              <img src="${imageSource}" alt="Drawing" loading="lazy" />
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+
+      levelSection.appendChild(grid);
+      container.appendChild(levelSection);
+    });
+  }, (error) => {
+    console.error(error);
+    container.innerHTML = '<p>Error loading data from Firebase.</p>';
+  });
+</script>
+
+<style>
+  .gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: "MS Sans Serif", Tahoma, sans-serif;
+    background-color: #c0c0c0;
+    color: #000;
+    border: 2px solid #dfdfdf;
+  }
+
+  .gallery-container h1 {
+    font-size: 1.5rem;
+    background: #000080;
+    color: #fff;
+    padding: 6px 10px;
+    margin-top: 0;
+    font-weight: bold;
+  }
+
+  .level-section {
+    margin-bottom: 30px;
+    background: #c0c0c0;
+    border: 2px groove #fff;
+    padding: 15px;
+  }
+
+  .level-section h2 {
+    font-size: 1.1rem;
+    margin-top: 0;
+    border-bottom: 2px solid #808080;
+    padding-bottom: 5px;
+    color: #000080;
+  }
+
+  .drawings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  /* Win95 Window Frame */
+  .win95-window {
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #404040;
+    border-bottom: 2px solid #404040;
+    box-shadow: 1px 1px 0px 0px #000000;
+    padding: 2px;
+  }
+
+  /* Win95 Title Bar */
+  .win95-title-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 3px 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .win95-buttons button {
+    background: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #404040;
+    border-bottom: 1px solid #404040;
+    font-size: 0.6rem;
+    width: 14px;
+    height: 14px;
+    line-height: 10px;
+    text-align: center;
+    padding: 0;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .win95-buttons button:active {
+    border-top: 1px solid #404040;
+    border-left: 1px solid #404040;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+  }
+
+  /* Win95 Body Panel */
+  .win95-body {
+    padding: 6px;
+  }
+
+  /* Sunken Inset Container for Image */
+  .win95-sunken-well {
+    background: #ffffff;
+    border-top: 2px solid #404040;
+    border-left: 2px solid #404040;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    padding: 4px;
+    text-align: center;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .win95-sunken-well img {
+    max-width: 100%;
+    height: auto;
+    image-rendering: pixelated; /* Keeps pixel art looking crisp */
+  }
+</style>
