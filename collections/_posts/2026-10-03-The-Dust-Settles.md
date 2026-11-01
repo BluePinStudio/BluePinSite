@@ -2,7 +2,7 @@
 layout: post
 title: "The Dust Settles"
 description: Monthly Check-in for September 2026 (Month 77)
-date: 2026-11-14 09:00:00
+date: 2026-10-14 09:00:00
 categories: [Monthly Check-in]
 tags: []
 thumbnail: /assets/images/thumbnails/sept2026.webp
